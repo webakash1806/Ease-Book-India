@@ -35,10 +35,10 @@ const register = async (req, res, next) => {
 
     try {
         // Extracting user input from request body
-        const { userName, fullName, email, password, confirmPassword } = req.body
+        const { userName, fullName, email, password, confirmPassword, phoneNumber } = req.body
 
         // Validating required fields
-        if (!userName || !fullName || !email || !password || !confirmPassword) {
+        if (!userName || !fullName || !phoneNumber || !email || !password || !confirmPassword) {
             return next(new AppError('All Fields are required', 400))
         }
 
@@ -54,11 +54,18 @@ const register = async (req, res, next) => {
             return next(new AppError('Email is already registered', 400))
         }
 
+        const uniquePhoneNumber = await User.findOne({ phoneNumber })
+
+        if (uniquePhoneNumber) {
+            return next(new AppError('Phone number is already registered', 400))
+        }
+
         // Creating a new user in the database
         const user = await User.create({
             userName,
             fullName,
             email,
+            phoneNumber,
             password,
             confirmPassword,
             avatar: {
@@ -401,7 +408,7 @@ const changePassword = async (req, res, next) => {
 const updateProfile = async (req, res, next) => {
     try {
         // Extracting full name and user ID from the request body and user
-        const { fullName } = req.body
+        const { fullName, phoneNumber } = req.body
         const { id } = req.user
 
         // Finding the user by ID
@@ -415,6 +422,10 @@ const updateProfile = async (req, res, next) => {
         // Updating user's full name if provided
         if (fullName) {
             user.fullName = await fullName
+        }
+
+        if (phoneNumber) {
+            user.phoneNumber = await phoneNumber
         }
 
         // Handling avatar upload using cloudinary if a file is present in the request
