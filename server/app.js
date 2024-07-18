@@ -3,7 +3,8 @@ import { config } from "dotenv";
 import express from 'express'
 import cors from 'cors'
 import morgan from "morgan";
-
+import errorMiddleware from "./middlewares/error.middleware.js";
+import userRoutes from './routes/user.routes.js'
 config()
 
 const app = express()
@@ -26,11 +27,13 @@ app.use('/ping', function (req, res) {
     res.send('/pong')
 })
 
-// app.use('/api/v1/user')
+app.use('/api/v1/user', userRoutes)
 
 
 app.all('*', (req, res) => {
     res.status(404).send('OOPS! 404 Page not found')
 })
+
+app.use(errorMiddleware)
 
 export default app
