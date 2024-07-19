@@ -63,12 +63,12 @@ const RegisterPage = () => {
 
     const mainDiv = 'flex flex-col gap-[0.1px]'
     const labelStyle = "text-[0.83rem] tracking-wide text-[#000] font-[500] ml-[0.5px]"
-    const inputStyle = ' min-w-[18rem] max-w-[21rem] w-[87vw] sm:w-[24rem] rounded-[3px] h-full  px-2 p-[5.5px]  outline-none  text-[0.95rem] tracking-wide resize-none bg-white text-black'
+    const inputStyle = ' min-w-[18rem] max-w-[20.5rem] w-[87vw] sm:w-[24rem] rounded-[3px] h-full  px-2 p-[5.5px]  outline-none  text-[0.95rem] tracking-wide resize-none bg-white text-black'
 
     return (
         <div className='min-h-[90vh] min-w-full flex items-start justify-center bg-[#1EC28B]'>
             <div className='text-black flex items-center justify-center gap-4 mt-6 md:mt-10 lg:mt-12 bg-[#d5f6ea] rounded-lg w-fit'>
-                <div className='hidden md:block'>Left</div>
+                {/* <div className='hidden md:block'>Left</div> */}
                 <form noValidate onSubmit={handleFormInput} className='p-4 flex flex-col items-start justify-center gap-1'>
                     <div className=' mb-3'>
                         <h1 className=' text-[1.4rem] font-semibold'>Create an account</h1>
