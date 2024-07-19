@@ -54,8 +54,8 @@ const CategorySection = () => {
 
 
     return (
-        <div className='w-full h-fit py-24  bg-gradient-to-b from-[#161d1b] from-[0%] via-[#86f8d7] via-[5%] to-[#E2FAF3] flex items-center justify-center overflow-hidden'>
-            <div className='rounded-xl overflow-hidden '>
+        <div className='w-full h-fit py-24  bg-gradient-to-b from-[#161d1b] from-[-1%] via-[#86f8d7] via-[2%] to-[50%] lg:to-[65%] to-white flex flex-col items-center justify-center overflow-hidden'>
+            <div className='rounded-[2rem] overflow-hidden '>
                 <div className='grid grid-cols-3 md:grid-cols-6 items-center justify-center w-fit'>
                     <div onClick={() => setActive(1)} className={`w-[6rem] md:w-[7rem] lg:w-[10rem] lg:p-2 flex flex-col p-1 items-center justify-center ${active === 1 ? 'bg-[#FF8900]' : 'bg-white'}`}>
                         <img className='w-[3.5rem]' src={hotelImg} alt="" />
@@ -106,6 +106,30 @@ const CategorySection = () => {
                         />
                     </div>
                     <button className='bg-[#1EC28B] my-6 p-2 px-8 rounded-full font-semibold'>See more...</button>
+                </div>
+            </div>
+            <div className='text-black flex flex-col items-center justify-center gap-5 my-20 py-10 lg:w-[70vw]'>
+                <div className='md:w-full md:text-start text-center'>
+                    <h4 className='text-[#FF8900] font-bold lg:text-[1.6rem] text-[1.35rem]'>WHAT WE SERVE</h4>
+                    <h2 className='text-[1.75rem] md:text-[3rem] lg:text-[3.5rem] md:ml-24 font-bold md:text-end w-fit'>TOP VALUES <br className='md:block hidden ' /> FOR YOU!</h2>
+                </div>
+                <div className='flex items-center justify-center flex-wrap gap-5 md:gap-8 lg:gap-10'>
+                    <div className='w-[17rem] transition-all duration-700 flex flex-col items-center hover:from-[#96F1D4] hover:to-white bg-gradient-to-b justify-center  text-center p-4 to-[#fff] from-[#e3faf4] gap-2 py-12 rounded-lg'>
+                        <img className='w-[5rem]' src={hotelImg} alt="" />
+                        <h3 className='text-[1.4rem] font-semibold'>Lot of choices</h3>
+                        <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Fugiat animi ut minima odio, nesciunt voluptates consequatur eos !</p>
+                    </div>
+                    <div className='w-[17rem] transition-all duration-700 flex flex-col items-center hover:from-[#96F1D4] hover:to-white bg-gradient-to-b justify-center  text-center p-4 to-[#fff] from-[#e3faf4] gap-2 py-12 rounded-lg lg:mt-16'>
+                        <img className='w-[5rem]' src={hotelImg} alt="" />
+                        <h3 className='text-[1.4rem] font-semibold'>Lot of choices</h3>
+                        <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Fugiat animi ut minima odio, nesciunt voluptates consequatur eos !</p>
+                    </div>
+                    <div className='w-[17rem] transition-all duration-700 flex flex-col items-center hover:from-[#96F1D4] hover:to-white bg-gradient-to-b justify-center  text-center p-4 to-[#fff] from-[#e3faf4] gap-2 py-12 rounded-lg lg:mt-32'>
+                        <img className='w-[5rem]' src={hotelImg} alt="" />
+                        <h3 className='text-[1.4rem] font-semibold'>Lot of choices</h3>
+                        <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Fugiat animi ut minima odio, nesciunt voluptates consequatur eos !</p>
+                    </div>
+
                 </div>
             </div>
         </div>
