@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom'
 
 // import Footer from '../Components/Footer'
 import { logout } from '../Redux/Slices/AuthSlice'
+import Footer from '../Components/Footer'
 
 const HomeLayout = ({ children }) => {
     const dispatch = useDispatch()
@@ -114,7 +115,7 @@ const HomeLayout = ({ children }) => {
                         </ul>
                     </div>
                 </div>
-                {/* <Footer /> */}
+                <Footer />
             </div>
         </>
     )
