@@ -4,6 +4,7 @@ import cruiseImg from '../assets/Images/cruise.png'
 import priestImg from '../assets/Images/priest.png'
 import guiderImg from '../assets/Images/guider.png'
 import hotelImg from '../assets/Images/hotel.png'
+import hero2Img from '../assets/Images/hero2.jpeg'
 import AliceCarousel, { Link } from 'react-alice-carousel'
 import 'react-alice-carousel/lib/alice-carousel.css';
 const CategorySection = () => {
@@ -26,16 +27,16 @@ const CategorySection = () => {
 
     }
 
-    const trendingList = [{ 'image': cruiseImg, 'name': "Cruise", 'price': '100', 'link': '/' },
-    { 'image': cruiseImg, 'name': "Cruise", 'price': '100', 'link': '/' },
-    { 'image': cruiseImg, 'name': "Cruise", 'price': '100', 'link': '/' },
-    { 'image': cruiseImg, 'name': "Cruise", 'price': '100', 'link': '/' }
+    const trendingList = [{ 'image': hero2Img, 'name': "Cruise", 'price': '100', 'link': '/' },
+    { 'image': hero2Img, 'name': "Cruise", 'price': '100', 'link': '/' },
+    { 'image': hero2Img, 'name': "Cruise", 'price': '100', 'link': '/' },
+    { 'image': hero2Img, 'name': "Cruise", 'price': '100', 'link': '/' }
     ]
 
     const item = trendingList.map((val) => {
         return <>
             <Link className='flex flex-col items-start bg-white text-black pb-3 w-[12rem] rounded-md  text-[15px] md:text-[16px] lg:text-[17px] '>
-                < img src={val.image} alt="" className='w-full h-[6.5rem]  mb-2 lg:mb-4 object-cover' />
+                < img src={hero2Img} alt="" className='w-full h-[6.5rem]  mb-2 lg:mb-4 object-cover' />
                 <div className='p-2'>
                     <div className='flex items-start  flex-col justify-between w-full'>
                         <h3 className='font-bold w-[8.8rem] truncate'>{val.name}</h3>

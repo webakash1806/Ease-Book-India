@@ -1,3 +1,11 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.explore {
+    background-image: linear-gradient(#010101d3, #171717d6), url('./assets/Images/exploreImg.jpeg');
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    /* background-color: #0f0d31; */
+}
