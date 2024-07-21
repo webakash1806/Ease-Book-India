@@ -5,6 +5,7 @@ import HomePage from './Pages/HomePage'
 import RegisterPage from './Pages/RegisterPage'
 import LoginPage from './Pages/LoginPage'
 import Places from './Pages/Places'
+import Cars from './Pages/Cars'
 
 const App = () => {
   return (
@@ -14,6 +15,7 @@ const App = () => {
         <Route path='/register' element={<RegisterPage />} />
         <Route path='/login' element={<LoginPage />} />
         <Route path='/places' element={<Places />} />
+        <Route path='/car' element={<Cars />} />
       </Routes>
     </HomeLayout>
   )
