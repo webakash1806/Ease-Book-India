@@ -43,7 +43,7 @@ const ExploreSection = () => {
                 </div>
                 <h2 className='text-center w-full text-[1.1rem] text-white mt-3 rounded-t-md py-2 bg-[#07a772] font-semibold tracking-wide'>Kashi Vishwanath Temple</h2>
 
-                < img src={val.image} alt="" className='sm:w-[24rem] w-[85vw] sm:h-[22rem] h-[18rem]  object-cover' />
+                < img src={val.image} alt="" className='sm:w-[24rem] w-[85vw] sm:h-[22rem] h-[85vw]  object-cover' />
 
 
             </ Link>

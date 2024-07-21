@@ -16,7 +16,7 @@ const CategorySection = () => {
             items: 1,
         },
         640: {
-            items: 3
+            items: 1
         },
         768: {
             items: 3
@@ -93,7 +93,7 @@ const CategorySection = () => {
                     </div>
                 </div>
                 <div className='bg-[#96f1d4] shadow-md pt-5 flex flex-col  w-full items-center justify-center'>
-                    <div className='w-[12.5rem]   sm:w-[20rem] md:w-[37.8rem] flex items-center justify-center '>
+                    <div className='w-[12.5rem]   sm:w-[15rem] md:w-[37.8rem] flex items-center justify-center '>
                         <AliceCarousel
                             mouseTracking
                             autoPlayInterval={2500}

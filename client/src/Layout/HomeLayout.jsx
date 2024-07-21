@@ -40,8 +40,13 @@ const HomeLayout = ({ children }) => {
                                 <ul className="menu menu-horizontal">
                                     {/* Navbar menu content here */}
                                     <li><Link to='/'>Home</Link></li>
+                                    <li><Link to='/places'>Popular places</Link></li>
+                                    <li><Link to='/car'>Rent car</Link></li>
 
-                                    <li><Link to='/course'>Course</Link></li>
+                                    <li><Link to='/boat'>Book boat</Link></li>
+                                    <li><Link to='/guide'>Book guider</Link></li>
+                                    <li><Link to='/priest'>Book priest</Link></li>
+                                    <li><Link to='/hotels'>Book hotels</Link></li>
                                     <li><Link to='/about'>About</Link></li>
                                     <li><Link to='/contact'>Contact</Link></li>
 
@@ -77,15 +82,20 @@ const HomeLayout = ({ children }) => {
                         {children}
 
                     </div>
-                    <div className="drawer-side">
+                    <div className="drawer-side z-[10000]">
                         <label htmlFor="my-drawer-3" aria-label="close sidebar" className="drawer-overlay"></label>
                         <ul className="justify-between min-h-screen p-4 menu sm:w-[14rem] w-[14rem] bg-white text-black">
                             {/* Sidebar content here */}
                             <div>
                                 <Link to={'/'} className="m-[0_auto] border-b mb-6 pb-2 flex items-center justify-around border-slate-500"><img className='w-full' src="" alt="" />LOGO</Link>
                                 <li><Link to='/'>Home</Link></li>
+                                <li><Link to='/places'>Popular places</Link></li>
+                                <li><Link to='/car'>Rent car</Link></li>
 
-                                <li><Link to='/course'>Course</Link></li>
+                                <li><Link to='/boat'>Book boat</Link></li>
+                                <li><Link to='/guide'>Book guider</Link></li>
+                                <li><Link to='/priest'>Book priest</Link></li>
+                                <li><Link to='/hotels'>Hotels</Link></li>
                                 <li><Link to='/about'>About</Link></li>
                                 <li><Link to='/contact'>Contact</Link></li>
                             </div>
