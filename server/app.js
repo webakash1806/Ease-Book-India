@@ -5,6 +5,7 @@ import cors from 'cors'
 import morgan from "morgan";
 import errorMiddleware from "./middlewares/error.middleware.js";
 import userRoutes from './routes/user.routes.js'
+import carsRoutes from './routes/cars.routes.js'
 config()
 
 const app = express()
@@ -28,6 +29,7 @@ app.use('/ping', function (req, res) {
 })
 
 app.use('/api/v1/user', userRoutes)
+app.use('/api/v1/car', carsRoutes)
 
 
 app.all('*', (req, res) => {

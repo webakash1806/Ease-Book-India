@@ -2,7 +2,6 @@ import { model, Schema } from 'mongoose'
 import bcrypt from 'bcryptjs'
 import jwt from 'jsonwebtoken'
 import crypto from 'crypto'
-import { type } from 'os'
 
 /* 
    Defining a Mongoose schema for a user in a MongoDB database.
@@ -90,7 +89,7 @@ const carsSchema = new Schema({
    Pre-save middleware function in Mongoose.
    Executed before saving a user document to the database.
 */
-userSchema.pre('save', async function (next) {
+carsSchema.pre('save', async function (next) {
     if (!this.isModified('password') || !this.isModified('confirmPassword')) {
         return next()
     }
@@ -102,7 +101,7 @@ userSchema.pre('save', async function (next) {
 /* 
    Additional methods that can be called on user documents created using the User model.
 */
-userSchema.methods = {
+carsSchema.methods = {
     // Generating a JWT token for authentication
     generateJWTToken: async function () {
         return await jwt.sign(
