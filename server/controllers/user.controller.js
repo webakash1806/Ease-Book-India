@@ -215,7 +215,7 @@ const logout = (req, res) => {
  * @returns a JSON response with the user details if the operation is successful. If there is an error,
  * it is returning an error message with a status code of 500.
  */
-const profile = async (req, res) => {
+const profile = async (req, res, next) => {
     try {
         // Extracting user ID from the request
         const userId = req.user.id

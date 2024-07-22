@@ -151,29 +151,29 @@ const login = async (req, res, next) => {
         }
 
         // Finding the user with the provided email and selecting the password field
-        const user = await User.findOne({
+        const cars = await Cars.findOne({
             email
         }).select('+password')
 
         // Handling scenarios where the user is not found or the password is incorrect
-        if (!user) {
+        if (!cars) {
             return next(new AppError('Email is not registered', 401))
         }
 
-        const passwordCheck = await user.comparePassword(password)
+        const passwordCheck = await cars.comparePassword(password)
         if (!passwordCheck) {
             return next(new AppError('Password is wrong', 400))
         }
 
         // Generating JWT token and setting it as a cookie
-        const token = await user.generateJWTToken()
+        const token = await cars.generateJWTToken()
         res.cookie('token', token, cookieOption)
 
         // Sending success response to the client
         res.status(200).json({
             success: true,
             message: 'Login Successfull!',
-            user
+            cars
         })
 
     }
@@ -218,19 +218,19 @@ const logout = (req, res) => {
  * @returns a JSON response with the user details if the operation is successful. If there is an error,
  * it is returning an error message with a status code of 500.
  */
-const profile = async (req, res) => {
+const profile = async (req, res, next) => {
     try {
         // Extracting user ID from the request
         const userId = req.user.id
 
         // Finding the user by ID
-        const user = await User.findById(userId)
+        const cars = await Cars.findById(userId)
 
         // Sending user details as a JSON response
         res.status(200).json({
             success: true,
             message: "User Details",
-            user
+            cars
         })
     }
     catch (err) {
@@ -252,16 +252,16 @@ const forgotPassword = async (req, res, next) => {
     }
 
     // Finding the user with the provided email
-    const user = await User.findOne({ email })
+    const cars = await Cars.findOne({ email })
 
     // Handling scenarios where the user is not found
-    if (!user) {
+    if (!cars) {
         return next(new AppError("Email is not registered", 400))
     }
 
     // Generating a password reset token and saving it in the user document
-    const resetToken = await user.generatePasswordResetToken()
-    await user.save()
+    const resetToken = await cars.generatePasswordResetToken()
+    await cars.save()
 
     // Constructing the reset password URL and sending an email with the reset link
     const resetPasswordURL = `${process.env.FRONTEND_URL}/reset-password/${resetToken}`
@@ -281,10 +281,10 @@ const forgotPassword = async (req, res, next) => {
 
     } catch (e) {
         // Handling errors and cleaning up the user document in case of failure
-        user.forgetPasswordExpiry = undefined
-        user.forgetPasswordToken = undefined
+        cars.forgetPasswordExpiry = undefined
+        cars.forgetPasswordToken = undefined
 
-        await user.save()
+        await cars.save()
         return next(new AppError(e.message, 500))
     }
 
@@ -309,13 +309,13 @@ const resetPassword = async (req, res, next) => {
             .digest('hex');
 
         // Finding the user by the hashed reset token and ensuring the token hasn't expired
-        const user = await User.findOne({
+        const cars = await Cars.findOne({
             forgetPasswordToken,
             forgetPasswordExpiry: { $gt: Date.now() }
         })
 
         // Handling scenarios where the user is not found or the token is invalid/expired
-        if (!user) {
+        if (!cars) {
             return next(new AppError('Token is Invalid or expired! please resend it', 400))
         }
 
@@ -325,12 +325,12 @@ const resetPassword = async (req, res, next) => {
         }
 
         // Updating user's password, clearing reset token, and expiry
-        user.password = await bcrypt.hash(password, 10)
-        user.forgetPasswordToken = undefined
-        user.forgetPasswordExpiry = undefined
+        cars.password = await bcrypt.hash(password, 10)
+        cars.forgetPasswordToken = undefined
+        cars.forgetPasswordExpiry = undefined
 
         // Saving the updated user document
-        await user.save()
+        await cars.save()
 
         // Sending success response to the client
         res.status(200).json({
@@ -367,15 +367,15 @@ const changePassword = async (req, res, next) => {
         }
 
         // Finding the user by ID and selecting the password field
-        const user = await User.findById(id).select('+password')
+        const cars = await Cars.findById(id).select('+password')
 
         // Handling scenarios where the user is not found
-        if (!user) {
+        if (!cars) {
             return next(new AppError('User does not exist', 400))
         }
 
         // Validating the old password
-        const passwordValid = await user.comparePassword(oldPassword)
+        const passwordValid = await cars.comparePassword(oldPassword)
 
         // Handling scenarios where the old password is incorrect
         if (!passwordValid) {
@@ -383,11 +383,11 @@ const changePassword = async (req, res, next) => {
         }
 
         // Updating user's password and saving the updated user document
-        user.password = await bcrypt.hash(newPassword, 10)
-        await user.save()
+        cars.password = await bcrypt.hash(newPassword, 10)
+        await cars.save()
 
         // Removing sensitive information before sending the response
-        user.password = undefined
+        cars.password = undefined
 
         // Sending success response to the client
         res.status(200).json({
@@ -415,52 +415,24 @@ const updateProfile = async (req, res, next) => {
         const { id } = req.user
 
         // Finding the user by ID
-        const user = await User.findById(id)
+        const cars = await Cars.findById(id)
 
         // Handling scenarios where the user is not found
-        if (!user) {
+        if (!cars) {
             return next(new AppError('User does not exist', 400))
         }
 
         // Updating user's full name if provided
         if (fullName) {
-            user.fullName = await fullName
+            cars.fullName = await fullName
         }
 
         if (phoneNumber) {
-            user.phoneNumber = await phoneNumber
-        }
-
-        // Handling avatar upload using cloudinary if a file is present in the request
-        if (req.file) {
-            // Destroying the previous avatar in cloudinary
-            await cloudinary.v2.uploader.destroy(user.avatar.publicId)
-            try {
-                // Uploading the new avatar to cloudinary
-                const result = await cloudinary.v2.uploader.upload(req.file.path, {
-                    folder: 'lms',
-                    width: 250,
-                    height: 250,
-                    gravity: 'faces',
-                    crop: 'fill',
-                })
-                // Updating user's avatar information
-                if (result) {
-                    user.avatar.publicId = result.public_id
-                    user.avatar.secure_url = result.secure_url
-
-                    // Removing the temporary file after avatar upload
-                    fs.rm(`uploads/${req.file.filename}`)
-                }
-            }
-            catch (err) {
-                // Handling errors during avatar upload
-                return next(new AppError('File can not get uploaded', 500))
-            }
+            cars.phoneNumber = await phoneNumber
         }
 
         // Saving the updated user document
-        await user.save()
+        await cars.save()
 
         // Sending success response to the client
         res.status(200).json({
