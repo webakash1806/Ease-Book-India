@@ -58,15 +58,23 @@ const carsSchema = new Schema({
         trim: true,
         select: false
     },
-    // User's avatar information
-    avatar: {
-        publicId: {
-            type: 'String',
-        },
-        secure_url: {
-            type: 'String',
-        }
+    experience: {
+        type: String,
+        required: true
     },
+    age: {
+        type: Number,
+        required: true
+    },
+    status: {
+        type: String,
+        enum: ['VERIFIED', 'PENDING', 'REJECTED']
+    },
+    // User's avatar information
+    proofFiles: [{
+        fileName: String,
+        fileUrl: String
+    }],
     // Token and expiry for password reset
     forgetPasswordToken: 'String',
     forgetPasswordExpiry: Date,
