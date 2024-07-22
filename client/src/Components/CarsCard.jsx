@@ -3,7 +3,7 @@ import car1 from '../assets/Images/car1.jpeg'
 import { FaRegUserCircle } from "react-icons/fa";
 const CarsCard = () => {
     return (
-        <div className='bg-white text-black max-w-[20rem] w-[90vw] hover:from-[#d0f7e6] bg-gradient-to-b  hover:to-[#f7fffb] rounded-xl shadow-[0px_0px_5px_#808080] overflow-hidden'>
+        <div className='bg-white text-black max-w-[20rem] w-[90vw] hover:from-[#d0f7e6] transition-all duration-300 hover:bg-gradient-to-b  hover:to-[#f7fffb] rounded-xl shadow-[0px_0px_5px_#808080] overflow-hidden'>
             <img src={car1} alt="" className='h-[14rem] w-full object-cover' />
             <div className='p-3'>
                 <h2 className='text-[1.1rem] font-semibold'>Vehicle Name</h2>

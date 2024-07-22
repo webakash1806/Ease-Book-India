@@ -3,7 +3,7 @@ import img from '../assets/Images/hero1.jpeg'
 import { IoTimerOutline } from "react-icons/io5";
 const PlaceCard = () => {
     return (
-        <div className='bg-white text-black w-[92vw] max-w-[24rem] rounded-xl overflow-hidden hover:from-[#d0f7e6] bg-gradient-to-b shadow-[0px_0px_8px_#808080] hover:to-[#f7fffb]'>
+        <div className='bg-white text-black w-[92vw] max-w-[24rem] rounded-xl overflow-hidden hover:from-[#d0f7e6] hover:bg-gradient-to-b shadow-[0px_0px_8px_#808080] hover:to-[#f7fffb]'>
             <div className='relative'>
                 <img src={img} alt="" className='w-[full] h-[17rem] object-cover' />
                 <div className='flex items-center justify-center gap-2 font-semibold bg-[#f5faf5] w-fit p-2 px-6 rounded-full absolute left-[22%] bottom-[-19.5px]'>
