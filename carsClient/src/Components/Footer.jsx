@@ -17,8 +17,8 @@ import { FaLocationDot } from 'react-icons/fa6';
 
 const Footer = () => {
 
-    const listStyle = "text-[0.95rem] hover:pl-2 flex items-center gap-1 hover:bg-clip-text hover:text-transparent hover:bg-[linear-gradient(to_right,#16BB84,#FF8900)] font-semibold  text-black transition-all duration-300 ease-in-out"
-    const contactStyle = "text-[0.95rem] flex items-start sm:items-center lg:items-start gap-1 hover:bg-clip-text hover:text-transparent hover:bg-[linear-gradient(to_right,#16BB84,#FF8900)] font-semibold  text-black "
+    const listStyle = "text-[0.95rem] hover:pl-2 flex items-center gap-1 hover:bg-clip-text hover:text-white hover:bg-[linear-gradient(to_right,#16BB84,#FF8900)] font-semibold  text-[#CFCCE4] transition-all duration-300 ease-in-out"
+    const contactStyle = "text-[0.95rem] flex items-start sm:items-center lg:items-start gap-1 hover:bg-clip-text hover:text-white hover:bg-[linear-gradient(to_right,#16BB84,#FF8900)] font-semibold  text-[#CFCCE4] "
 
     const year = new Date().getFullYear()
 
@@ -29,7 +29,7 @@ const Footer = () => {
 
 
     return (
-        <footer className='text-black bg-gradient-to-b from-[#B2F3DE] to-white'>
+        <footer className='text-white bg-gradient-to-b from-[#2F3349] to-[#2F3349]'>
             {/* <img src={footerImg} alt="" className='absolute h-full w-[100vw]' /> */}
             <div className='flex  relative flex-col xl:flex-row p-[2.5rem_1rem] md:p-[2.5_5rem] gap-8 xl:justify-around'>
                 <div className='flex flex-col gap-2'>

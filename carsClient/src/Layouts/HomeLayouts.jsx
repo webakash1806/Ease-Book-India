@@ -29,7 +29,7 @@ const HomeLayout = ({ children }) => {
                     <input id="my-drawer-3" type="checkbox" className="drawer-toggle" />
                     <div className="flex flex-col drawer-content ">
                         {/* Navbar */}
-                        <div className="w-full text-black bg-white navbar">
+                        <div className="w-full text-white bg-[#2F3349] navbar">
                             <div className="flex-none lg:hidden ">
                                 <label htmlFor="my-drawer-3" aria-label="open sidebar" className="btn btn-square btn-ghost">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="inline-block w-6 h-6 stroke-current"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
@@ -48,11 +48,11 @@ const HomeLayout = ({ children }) => {
                                         {!isLoggedIn ?
                                             <div className='flex items-center justify-center gap-2 '>
                                                 <Link to='/login'
-                                                    className='btn bg-[#19b56f] transition-all duration-700 hover:bg-[#FF8900] border-none text-white btn-sm rounded-sm px-6 font-normal text-[1.02rem] tracking-wide'>
+                                                    className='btn bg-[#685FD5] transition-all duration-700  border-none text-white btn-sm rounded-sm px-6 font-normal text-[1.02rem] tracking-wide'>
                                                     Login
                                                 </Link>
                                                 <Link to='/register'
-                                                    className='btn bg-[#FF8900] transition-all duration-700 hover:bg-[#19b56f] border-none text-white btn-sm rounded-sm px-6 font-normal text-[1.02rem] tracking-wide'>
+                                                    className='btn bg-[#FF4C51] transition-all duration-700 border-none text-white btn-sm rounded-sm px-6 font-normal text-[1.02rem] tracking-wide'>
                                                     Register
                                                 </Link>
                                             </div>
@@ -62,7 +62,7 @@ const HomeLayout = ({ children }) => {
                                                     <img src={avatar?.secure_url} alt={`${fullName} img`} className='w-[2.1rem] h-[2.1rem] rounded-full object-cover shadow-[0px_0px_5px_#7479FF]' />
                                                 </Link>
                                                 <Link to='/logout' onClick={handleLogout}
-                                                    className='btn bg-[#FF8900] transition-all duration-700 hover:bg-[#19b56f] border-none text-white btn-sm rounded-sm px-6 font-normal text-[1.02rem] tracking-wide'>
+                                                    className='btn bg-[#FF4C51] transition-all duration-700 hover:bg-[#685ED4] border-none text-white btn-sm rounded-sm px-6 font-normal text-[1.02rem] tracking-wide'>
                                                     Logout
                                                 </Link>
                                             </div>
@@ -78,7 +78,7 @@ const HomeLayout = ({ children }) => {
                     </div>
                     <div className="drawer-side z-[10000]">
                         <label htmlFor="my-drawer-3" aria-label="close sidebar" className="drawer-overlay"></label>
-                        <ul className="justify-between min-h-screen p-4 menu sm:w-[14rem] w-[14rem] bg-white text-black">
+                        <ul className="justify-between min-h-screen p-4 menu sm:w-[14rem] w-[14rem] text-white bg-[#2F3349]">
                             {/* Sidebar content here */}
                             <div>
                                 <Link to={'/'} className="m-[0_auto] border-b mb-6 pb-2 flex items-center justify-around border-slate-500"><img className='w-full' src="" alt="" />LOGO</Link>
@@ -91,11 +91,11 @@ const HomeLayout = ({ children }) => {
                                 {!isLoggedIn ?
                                     <div className='flex flex-col items-center justify-center gap-2 '>
                                         <Link to='/login'
-                                            className='btn bg-[#19b56f] transition-all duration-700 hover:bg-[#FF8900] border-none text-white btn-sm rounded-sm w-[97%] font-normal text-[1.02rem] tracking-wide'>
+                                            className='btn bg-[#FF4C51] transition-all duration-700  border-none text-white btn-sm rounded-sm w-[97%] font-normal text-[1.02rem] tracking-wide'>
                                             Login
                                         </Link>
                                         <Link to='/register'
-                                            className='btn bg-[#FF8900] transition-all duration-700 hover:bg-[#19b56f] border-none text-white btn-sm rounded-sm w-[97%] font-normal text-[1.02rem] tracking-wide'>
+                                            className='btn bg-[#685ED4] transition-all duration-700 border-none text-white btn-sm rounded-sm w-[97%] font-normal text-[1.02rem] tracking-wide'>
                                             Register
                                         </Link>
                                     </div>
@@ -105,7 +105,7 @@ const HomeLayout = ({ children }) => {
                                             <img src={avatar?.secure_url} alt={`${fullName} img`} className='w-[2.3rem] h-[2.3rem] rounded-full object-cover shadow-[0px_0px_6px_#808080] ml-1' />
                                             <p className='text-[0.95rem] w-[7.5rem] truncate text-white capitalize'>{fullName}</p>
                                         </Link>
-                                        <Link to='/logout' onClick={handleLogout} className='btn bg-[#FF8900] transition-all duration-700 hover:bg-[#19b56f] border-none text-white btn-sm rounded-sm w-[99%] font-normal text-[1.02rem] tracking-wide'>
+                                        <Link to='/logout' onClick={handleLogout} className='btn bg-[#685ED4] transition-all duration-700 hover:bg-[#FF4C51] border-none text-white btn-sm rounded-sm w-[99%] font-normal text-[1.02rem] tracking-wide'>
                                             Logout
                                         </Link>
                                     </div>}
