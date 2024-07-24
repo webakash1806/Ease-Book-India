@@ -33,7 +33,7 @@ export const createAccount = createAsyncThunk('/cars/register', async (data) => 
 
 })
 
-export const loginAccount = createAsyncThunk('/user/login', async (data) => {
+export const loginAccount = createAsyncThunk('/cars/login', async (data) => {
     try {
         let res = axiosInstance.post('login', data)
         toast.promise(res, {
@@ -52,7 +52,7 @@ export const loginAccount = createAsyncThunk('/user/login', async (data) => {
 
 })
 
-export const logout = createAsyncThunk('/user/logout', async () => {
+export const logout = createAsyncThunk('/cars/logout', async () => {
     try {
         let res = axiosInstance.get('logout')
         toast.promise(res, {
@@ -71,7 +71,7 @@ export const logout = createAsyncThunk('/user/logout', async () => {
 
 })
 
-export const userProfile = createAsyncThunk('/user/details', async () => {
+export const userProfile = createAsyncThunk('/cars/details', async () => {
     try {
         const res = axiosInstance.get("me")
         return (await res).data
@@ -80,7 +80,7 @@ export const userProfile = createAsyncThunk('/user/details', async () => {
     }
 })
 
-export const editProfile = createAsyncThunk('user/update-profile', async (data) => {
+export const editProfile = createAsyncThunk('cars/update-profile', async (data) => {
     try {
         let res = axiosInstance.put(`update-profile/${data[0]}`, data[1])
         toast.promise(res, {
@@ -97,7 +97,7 @@ export const editProfile = createAsyncThunk('user/update-profile', async (data) 
     }
 })
 
-export const changePassword = createAsyncThunk('user/update-password', async (data) => {
+export const changePassword = createAsyncThunk('cars/update-password', async (data) => {
     try {
         let res = axiosInstance.post(`change-password`, data)
         toast.promise(res, {
@@ -114,7 +114,7 @@ export const changePassword = createAsyncThunk('user/update-password', async (da
     }
 })
 
-export const forgotPassword = createAsyncThunk('user/forgot-password', async (data) => {
+export const forgotPassword = createAsyncThunk('cars/forgot-password', async (data) => {
     try {
         let res = axiosInstance.post(`forgot-password`, data)
         toast.promise(res, {
@@ -131,7 +131,7 @@ export const forgotPassword = createAsyncThunk('user/forgot-password', async (da
     }
 })
 
-export const resetPasswords = createAsyncThunk('user/reset-password', async (data) => {
+export const resetPasswords = createAsyncThunk('cars/reset-password', async (data) => {
     try {
         let res = axiosInstance.post(`reset-password/${data[0]}`, data[1])
         toast.promise(res, {
@@ -154,19 +154,19 @@ const authSlice = createSlice({
     reducers: {},
     extraReducers: (builder) => {
         builder.addCase(loginAccount.fulfilled, (state, action) => {
-            localStorage.setItem('data', JSON.stringify(action?.payload?.user))
+            localStorage.setItem('data', JSON.stringify(action?.payload?.cars))
             localStorage.setItem('isLoggedIn', true)
-            localStorage.setItem('role', action?.payload?.user?.role)
+            localStorage.setItem('role', action?.payload?.cars?.role)
             state.isLoggedIn = true
-            state.data = action?.payload?.user
-            state.role = action?.payload?.user?.role
+            state.data = action?.payload?.cars
+            state.role = action?.payload?.cars?.role
         }).addCase(createAccount.fulfilled, (state, action) => {
-            localStorage.setItem('data', JSON.stringify(action?.payload?.user))
+            localStorage.setItem('data', JSON.stringify(action?.payload?.cars))
             localStorage.setItem('isLoggedIn', true)
-            localStorage.setItem('role', action?.payload?.user?.role)
+            localStorage.setItem('role', action?.payload?.cars?.role)
             state.isLoggedIn = true
-            state.data = action?.payload?.user
-            state.role = action?.payload?.user?.role
+            state.data = action?.payload?.cars
+            state.role = action?.payload?.cars?.role
         }).addCase(logout.fulfilled, (state) => {
             localStorage.clear()
             state.data = {}
@@ -174,12 +174,12 @@ const authSlice = createSlice({
             state.role = ""
         }).addCase(userProfile.fulfilled, (state, action) => {
             console.log(action)
-            localStorage.setItem('data', JSON.stringify(action?.payload?.user))
+            localStorage.setItem('data', JSON.stringify(action?.payload?.cars))
             localStorage.setItem('isLoggedIn', true)
-            localStorage.setItem('role', action?.payload?.user?.role)
+            localStorage.setItem('role', action?.payload?.cars?.role)
             state.isLoggedIn = true
-            state.data = action?.payload?.user
-            state.role = action?.payload?.user?.role
+            state.data = action?.payload?.cars
+            state.role = action?.payload?.cars?.role
         })
     }
 })
