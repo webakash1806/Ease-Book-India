@@ -1,10 +1,12 @@
-import React from 'react'
-import HomeLayout from '../Layouts/HomeLayouts'
+import React, { useState } from 'react'
+import CalendarCom from '../Components/CalendarCom'
+
 
 const Home = () => {
+
     return (
-        <div className=''>
-            hello
+        <div className='mt-4 text-black'>
+            <CalendarCom />
         </div>
     )
 }

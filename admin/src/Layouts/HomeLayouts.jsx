@@ -33,6 +33,28 @@ const HomeLayout = ({ children }) => {
             navigate('/')
         }
     }
+    const [time, setTime] = useState('');
+
+    useEffect(() => {
+        const updateTime = () => {
+            const now = new Date();
+            const istTime = new Date(now.toLocaleString('en-US', { timeZone: 'Asia/Kolkata' }));
+            const hours = istTime.getHours();
+            const minutes = istTime.getMinutes();
+            const seconds = istTime.getSeconds();
+            const ampm = hours >= 12 ? 'PM' : 'AM';
+            const formattedHours = hours % 12 || 12; // Convert 24 hour format to 12 hour format
+            const formattedMinutes = minutes < 10 ? '0' + minutes : minutes;
+            const formattedTime = `${formattedHours}:${formattedMinutes} ${ampm}`;
+            setTime(formattedTime);
+        };
+
+        updateTime();
+        const intervalId = setInterval(updateTime, 1000); // Update time every second
+
+        return () => clearInterval(intervalId); // Cleanup interval on component unmount
+    }, []);
+
 
 
     const listStyle = 'flex items-center justify-start gap-2 pl-4 p-2 m-[0.4rem] ml-0 mr-3 md:mr-4 rounded-r bg-[#3D4056] hover:bg-[#655CCE] hover:text-white transition-all duration-300 text-[#CBC8E0] font-semibold tracking-wide text-[1.02rem]'
@@ -40,9 +62,11 @@ const HomeLayout = ({ children }) => {
     return (
         <>
             <div className='items-start md:flex md:flex-row-reverse'>
-                <div className='m-3 md:w-full md:m-4 md:mx-6 '>
-                    <header className='flex items-center justify-between  px-3  bg-white rounded-md p-2 md:w-full shadow-[0px_0px_10px_#808080]'>
+                <div className='p-3 md:w-full md:p-4 md:px-6 '>
+                    <header className='flex items-center justify-between  px-3 bg-white rounded-md p-2 md:w-full text-black shadow-[0px_0px_15px_#8080807e]'>
                         <div className='p-2 cursor-pointer md:hidden' onClick={() => setActive(true)}><RxHamburgerMenu className='text-[#535162fa] text-[1.5rem]' /></div>
+                        <div className='hidden md:block'></div>
+                        <p className=''>{time}</p>
                         <Link to={'/me'} className='size-[2.6rem] rounded-full overflow-hidden pt-1 bg-[#b0aaf7fa] border-[0.15rem] border-[#8e85f3a3]'>
                             <img src={avatar?.proofFiles[2]?.fileUrl} className='w-[2.6rem]' alt="" />
                         </Link>

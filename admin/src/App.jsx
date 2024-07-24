@@ -6,13 +6,13 @@ import Footer from '../../carsClient/src/Components/Footer'
 
 const App = () => {
   return (
-    <>
+    <div className='bg-white min-h-[100vh]'>
       <HomeLayout>
         <Routes>
           <Route path='/' element={<Home />} />
         </Routes>
       </HomeLayout>
-    </>
+    </div>
   )
 }
 
