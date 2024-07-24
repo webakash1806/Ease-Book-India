@@ -9,9 +9,12 @@ const initialState = {
     data: localStorage.getItem('data') !== "undefined" ? JSON.parse(localStorage.getItem('data')) : {}
 }
 
-export const createAccount = createAsyncThunk('/user/register', async (data) => {
+export const createAccount = createAsyncThunk('/cars/register', async (data) => {
     try {
+        console.log(1)
         let res = axiosInstance.post('register', data)
+        console.log(2)
+
         toast.promise(res, {
             loading: 'Creating Account',
             success: (data) => {
@@ -21,8 +24,10 @@ export const createAccount = createAsyncThunk('/user/register', async (data) => 
         })
         // getting response resolved here
         res = await res;
+        console.log(3)
         return res.data;
     } catch (e) {
+        console.log(4)
         return toast.error(e?.response?.data?.message)
     }
 

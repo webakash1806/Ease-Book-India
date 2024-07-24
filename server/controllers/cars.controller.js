@@ -33,8 +33,11 @@ const cookieOption = {
  * process, it returns an error message.
  */
 const register = async (req, res, next) => {
-
+    console.log(4)
     try {
+
+        console.log('test')
+
         // Extracting Cars input from request body
         const { carName, fullName, email, password, confirmPassword, phoneNumber, experience, age, carNumber } = req.body
 
@@ -47,6 +50,7 @@ const register = async (req, res, next) => {
         if (uniqueUser) {
             return next(new AppError('Car number already exists', 400))
         }
+
 
         // Checking if the email is already registered
         const uniqueEmail = await Cars.findOne({ email })
