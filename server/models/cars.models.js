@@ -65,7 +65,8 @@ const carsSchema = new Schema({
     },
     status: {
         type: String,
-        enum: ['VERIFIED', 'PENDING', 'REJECTED']
+        enum: ['VERIFIED', 'PENDING', 'REJECTED'],
+        default: 'PENDING'
     },
     // User's avatar information
     proofFiles: [{
