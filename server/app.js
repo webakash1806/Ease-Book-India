@@ -6,6 +6,7 @@ import morgan from "morgan";
 import errorMiddleware from "./middlewares/error.middleware.js";
 import userRoutes from './routes/user.routes.js'
 import carsRoutes from './routes/cars.routes.js'
+import adminRoutes from './routes/admin.routes.js'
 config()
 
 const app = express()
@@ -29,8 +30,10 @@ app.use('/ping', function (req, res) {
 })
 
 app.use('/api/v1/user', userRoutes)
+
 app.use('/api/v1/car', carsRoutes)
 
+app.use('/api/v1/admin', adminRoutes)
 
 app.all('*', (req, res) => {
     res.status(404).send('OOPS! 404 Page not found')
