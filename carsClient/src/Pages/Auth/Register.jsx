@@ -10,13 +10,14 @@ const Register = () => {
         confirmPassword: "",
         age: "",
         experience: "",
-        carNumber: ""
+        carNumber: "",
+        carName: ""
     })
 
     const mainDiv = 'flex flex-col gap-[0.1px]'
 
     const labelStyle = "text-[0.83rem] tracking-wide text-[#CFCCE4] font-[400] ml-[0.5px]"
-    const inputStyle = 'border border-[#685ED4] min-w-[18rem] max-w-[20.5rem] w-[87vw] sm:w-[24rem] rounded-[3px] h-full  px-2 p-[5.5px]  outline-none  text-[0.95rem] tracking-wide resize-none bg-[#3D4056] text-white'
+    const inputStyle = 'border border-[#685ED4] min-w-[18rem] md:max-w-[20.5rem] max-w-[25.5rem] w-[87vw] sm:w-[24rem] rounded-[3px] h-full  px-2 p-[5.5px]  outline-none  text-[0.95rem] tracking-wide resize-none bg-[#3D4056] text-white'
     return (
         <div className='flex items-center justify-center  bg-[#f8f6fc]'>
             <form action="" className='sm:p-10 p-6  bg-[#2F3349] text-white rounded-md shadow-[0px_0px_20px_#3D4056] my-12 flex md:items-end md:flex-row flex-col w-fit md:gap-10'>
@@ -63,7 +64,7 @@ const Register = () => {
                 </div>
 
                 <div className='flex flex-col gap-2 mt-2 md:mt-20'>
-                    <div className='flex  min-w-[18rem] max-w-[20.5rem] w-[87vw] sm:w-[24rem] justify-between'>
+                    <div className='flex  min-w-[18rem] md:max-w-[20.5rem] max-w-[25.5rem] w-[87vw] sm:w-[24rem] justify-between'>
 
                         <div className={`${mainDiv} w-[48%]`}>
                             <label className={labelStyle} htmlFor="">Age</label>
@@ -75,7 +76,7 @@ const Register = () => {
                         </div>
 
                     </div>
-                    <div className='flex  min-w-[18rem] max-w-[20.5rem] w-[87vw] sm:w-[24rem] justify-between'>
+                    <div className='flex  min-w-[18rem] md:max-w-[20.5rem] max-w-[25.5rem] w-[87vw] sm:w-[24rem] justify-between'>
 
                         <div className={`${mainDiv} w-[48%]`}>
                             <label className={labelStyle} htmlFor="">Aadhar Card</label>

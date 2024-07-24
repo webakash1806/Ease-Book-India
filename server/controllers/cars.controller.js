@@ -36,17 +36,16 @@ const register = async (req, res, next) => {
 
     try {
         // Extracting Cars input from request body
-        const { userName, fullName, email, password, confirmPassword, phoneNumber, experience, age, carNumber } = req.body
+        const { carName, fullName, email, password, confirmPassword, phoneNumber, experience, age, carNumber } = req.body
 
         // Validating required fields
-        if (!userName || !fullName || !phoneNumber || !email || !password || !confirmPassword || !experience || !age || !carNumber) {
+        if (!carName || !fullName || !phoneNumber || !email || !password || !confirmPassword || !experience || !age || !carNumber) {
             return next(new AppError('All Fields are required', 400))
         }
-        console.log("test")
         // Checking if the username is already taken
-        const uniqueUser = await Cars.findOne({ userName })
+        const uniqueUser = await Cars.findOne({ carNumber })
         if (uniqueUser) {
-            return next(new AppError('UserName already exists', 400))
+            return next(new AppError('Car number already exists', 400))
         }
 
         // Checking if the email is already registered
@@ -63,7 +62,7 @@ const register = async (req, res, next) => {
 
         // Creating a new Cars in the database
         const cars = await Cars.create({
-            userName,
+            carName,
             fullName,
             email,
             carNumber,

@@ -13,13 +13,7 @@ const carsSchema = new Schema({
         enum: ['USER', 'ADMIN', 'BOATMAN', 'GUIDER', 'PRIEST', 'WRITER', 'RIDER', 'SHOPKEEPER'],
         default: 'RIDER'
     },
-    // User's username (unique and case-insensitive)
-    userName: {
-        type: String,
-        unique: true,
-        lowercase: true,
-        required: true,
-    },
+
     // User's full name with length constraints
     fullName: {
         type: 'String',
@@ -32,6 +26,10 @@ const carsSchema = new Schema({
         type: Number,
         required: true,
         unique: true
+    },
+    carName: {
+        type: String,
+        required: true
     },
     carNumber: {
         type: String,
