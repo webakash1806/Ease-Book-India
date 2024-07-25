@@ -9,7 +9,7 @@ import CarsList from './Pages/CarsList'
 
 const App = () => {
   return (
-    <div className='bg-white min-h-[100vh]'>
+    <div className='bg-[#F2F2F7] min-h-[100vh]'>
       <Routes>
         <Route path='/login' element={<Login />} />
         <Route element={<RequireAuth allowedRoles={['ADMIN']} />} >

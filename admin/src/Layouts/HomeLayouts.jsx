@@ -25,7 +25,6 @@ const HomeLayout = ({ children }) => {
     const isLoggedIn = useSelector((state) => state?.auth?.isLoggedIn)
     const avatar = useSelector((state) => state?.auth?.data)
     const fullName = useSelector((state) => state?.auth?.data?.fullName)
-    console.log(avatar)
     const handleLogout = async () => {
         const response = await dispatch(logout())
 
@@ -41,18 +40,16 @@ const HomeLayout = ({ children }) => {
             const istTime = new Date(now.toLocaleString('en-US', { timeZone: 'Asia/Kolkata' }));
             const hours = istTime.getHours();
             const minutes = istTime.getMinutes();
-            const seconds = istTime.getSeconds();
             const ampm = hours >= 12 ? 'PM' : 'AM';
-            const formattedHours = hours % 12 || 12; // Convert 24 hour format to 12 hour format
+            const formattedHours = hours % 12 || 12;
             const formattedMinutes = minutes < 10 ? '0' + minutes : minutes;
             const formattedTime = `${formattedHours}:${formattedMinutes} ${ampm}`;
             setTime(formattedTime);
         };
 
         updateTime();
-        const intervalId = setInterval(updateTime, 1000); // Update time every second
-
-        return () => clearInterval(intervalId); // Cleanup interval on component unmount
+        const intervalId = setInterval(updateTime, 1000);
+        return () => clearInterval(intervalId)
     }, []);
 
 
