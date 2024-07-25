@@ -1,4 +1,5 @@
 import Admin from "../models/admin.model.js"
+import Cars from "../models/cars.models.js"
 import AppError from "../utils/error.utils.js"
 import cloudinary from 'cloudinary'
 import fs from 'fs/promises'
@@ -123,6 +124,7 @@ const login = async (req, res, next) => {
         if (!passwordCheck) {
             return next(new AppError('Password is wrong', 400))
         }
+
 
         // Generating JWT token and setting it as a cookie
         const token = await admin.generateJWTToken()
@@ -434,6 +436,21 @@ const updateProfile = async (req, res, next) => {
 
 }
 
+
+const carDriverList = async (req, res, next) => {
+    try {
+        const list = await Cars.find()
+
+        res.status(200).json({
+            status: 'success',
+            message: 'Driver list',
+            list
+        })
+    } catch (e) {
+        return next(new AppError(e.message, 500))
+    }
+}
+
 /* The below code is exporting a set of functions related to admin authentication and profile
 management. These functions include: */
 export {
@@ -444,5 +461,6 @@ export {
     forgotPassword,
     resetPassword,
     changePassword,
-    updateProfile
+    updateProfile,
+    carDriverList
 }

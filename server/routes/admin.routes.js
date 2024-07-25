@@ -10,7 +10,8 @@ import {
     forgotPassword,
     resetPassword,
     changePassword,
-    updateProfile
+    updateProfile,
+    carDriverList
 } from "../controllers/admin.controller.js";
 
 import { isLoggedIn } from "../middlewares/auth.middleware.js";
@@ -43,6 +44,9 @@ router.post('/change-password', isLoggedIn, changePassword)
 
 // Route for updating user profile information with optional avatar upload
 router.put('/update-profile/:id', isLoggedIn, upload.single("avatar"), updateProfile)
+
+
+router.get('/car/list', isLoggedIn, carDriverList)
 
 // Exporting the router instance to be used in the main application
 export default router
