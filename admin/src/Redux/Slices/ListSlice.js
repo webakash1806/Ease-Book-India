@@ -24,6 +24,25 @@ export const getDriverList = createAsyncThunk('/admin/car/list', async () => {
     }
 })
 
+export const updateDriverStatus = createAsyncThunk('/admin/car/status-update', async (data) => {
+    try {
+        let res = axiosInstance.put('/car/update-status', data)
+        toast.promise(res, {
+            loading: 'Loading data',
+            success: (data) => {
+                return data?.data.message
+            },
+            error: "failed to load"
+        })
+
+        res = await res
+        return res.data
+
+    } catch (e) {
+        return toast.error(e?.response?.data?.message)
+    }
+})
+
 
 const listSlice = createSlice({
     name: 'list',
