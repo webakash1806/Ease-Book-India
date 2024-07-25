@@ -33,32 +33,29 @@ const CarsList = () => {
 
     return (
         <HomeLayout>
-            <div className='mt-2 overflow-x-scroll border border-red-500'>
-                <div className='flex flex-col items-center min-w-[46.5rem] justify-center gap-[2.5px] '>
-                    <div className='flex items-center justify-between w-full gap-3 bg-[#353a51] rounded-t text-white px-3 py-4 lg:px-6 font-semibold   mb-[0.5px]'>
-                        <p className='min-w-[3rem]  text-center'>S.no</p>
-                        <div className=' min-w-[14.5rem]  lg:min-w-[17rem] line-clamp-1'>
+            <div className='mt-2 overflow-x-scroll border border-red-500 md:w-custom'>
+                <div className='flex flex-col items-center justify-center gap-[2.5px] min-w-[46.5rem]'>
+                    <div className='flex items-center justify-between w-full gap-3 bg-[#353a51] rounded-t text-white px-3 py-4 lg:px-6 font-semibold mb-[0.5px]'>
+                        <p className='min-w-[3rem] text-center'>S.no</p>
+                        <div className='min-w-[14.5rem] lg:min-w-[17rem] line-clamp-1'>
                             <p>Name</p>
                         </div>
-                        <div className=' w-[14.5rem]  lg:w-[17rem] truncate line-clamp-1'>
+                        <div className='min-w-[14.5rem] lg:min-w-[17rem] truncate line-clamp-1'>
                             <p>Email</p>
                         </div>
-                        <p className='min-w-[6.8rem]  text-center'>Status</p>
-
-                        <p className='min-w-[3.3rem]  text-center'>Action</p>
-
+                        <p className='min-w-[6.8rem] text-center'>Status</p>
+                        <p className='min-w-[3.3rem] text-center'>Action</p>
                     </div>
                     {list.map((data, index) => (
-                        <div key={data?._id} className='flex text-[0.98rem] lg:px-6 items-center justify-between w-full gap-3 px-3 py-3 text-black bg-white'>
-                            <p className='min-w-[3rem]  text-center'>{index + 1}.</p>
-
-                            <div className=' min-w-[14.5rem] lg:min-w-[17rem] line-clamp-1'>
+                        <div key={data?._id} className='flex items-center justify-between w-full gap-3 px-3 py-3 text-black bg-white'>
+                            <p className='min-w-[3rem] text-center'>{index + 1}.</p>
+                            <div className='min-w-[14.5rem] lg:min-w-[17rem] line-clamp-1'>
                                 <p>{data?.fullName}</p>
                             </div>
-                            <div className=' min-w-[14.5rem] lg:min-w-[17rem] truncate line-clamp-1'>
+                            <div className='min-w-[14.5rem] lg:min-w-[17rem] truncate line-clamp-1'>
                                 <p>{data?.email}</p>
                             </div>
-                            <div className='flex items-center gap-2  min-w-[6.8rem]'>
+                            <div className='flex items-center gap-2 min-w-[6.8rem]'>
                                 <div className='flex items-center justify-center gap-[0.1rem]'>
                                     <label htmlFor='' className='font-semibold text-yellow-500'>P:</label>
                                     <input
@@ -93,7 +90,7 @@ const CarsList = () => {
                                     />
                                 </div>
                             </div>
-                            <div className=' min-w-[3.3rem] flex items-center justify-center'>
+                            <div className='min-w-[3.3rem] flex items-center justify-center'>
                                 <FaEye className='text-[1.45rem] cursor-pointer' />
                             </div>
                         </div>

@@ -25,6 +25,7 @@ const HomeLayout = ({ children }) => {
     const isLoggedIn = useSelector((state) => state?.auth?.isLoggedIn)
     const avatar = useSelector((state) => state?.auth?.data)
     const fullName = useSelector((state) => state?.auth?.data?.fullName)
+    console.log(avatar)
     const handleLogout = async () => {
         const response = await dispatch(logout())
 
@@ -40,16 +41,18 @@ const HomeLayout = ({ children }) => {
             const istTime = new Date(now.toLocaleString('en-US', { timeZone: 'Asia/Kolkata' }));
             const hours = istTime.getHours();
             const minutes = istTime.getMinutes();
+            const seconds = istTime.getSeconds();
             const ampm = hours >= 12 ? 'PM' : 'AM';
-            const formattedHours = hours % 12 || 12;
+            const formattedHours = hours % 12 || 12; // Convert 24 hour format to 12 hour format
             const formattedMinutes = minutes < 10 ? '0' + minutes : minutes;
             const formattedTime = `${formattedHours}:${formattedMinutes} ${ampm}`;
             setTime(formattedTime);
         };
 
         updateTime();
-        const intervalId = setInterval(updateTime, 1000);
-        return () => clearInterval(intervalId)
+        const intervalId = setInterval(updateTime, 1000); // Update time every second
+
+        return () => clearInterval(intervalId); // Cleanup interval on component unmount
     }, []);
 
 
@@ -65,14 +68,14 @@ const HomeLayout = ({ children }) => {
                         <div className='hidden md:block'></div>
                         <p className=''>{time}</p>
                         <Link to={'/me'} className='size-[2.6rem] rounded-full overflow-hidden pt-1 bg-[#b0aaf7fa] border-[0.15rem] border-[#8e85f3a3]'>
-                            <img src={''} className='w-[2.6rem]' alt="" />
+                            <img src="" className='w-[2.6rem]' alt="" />
                         </Link>
                     </header>
                     {
                         children
                     }
                 </div>
-                <NavLink className={`min-h-[100vh] max-w-[15rem] min-w-[15rem] md:max-w-[16rem] md:min-w-[15.9rem] bg-[#2F3349] absolute md:static top-0 ${active ? 'left-0' : 'left-[-25rem]'} transition-all duration-500`}>
+                <NavLink className={`min-h-[100vh] max-w-[15rem] min-w-[15rem] md:max-w-[16rem] md:min-w-[15.9rem] bg-[#2F3349] absolute md:static top-0 ${active ? 'left-0' : 'left-[-35rem]'} transition-all duration-500`}>
                     <ul>
                         <li className='flex items-center justify-between p-3 border-b border-[#4f47a9a3] text-[#CBC8E0]'>
                             <Link to={'/'}>LOGO</Link>
