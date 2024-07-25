@@ -1,17 +1,29 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useCallback } from 'react';
+import { debounce } from 'lodash';
+import Skeleton from 'react-loading-skeleton';
+import 'react-loading-skeleton/dist/skeleton.css';
 import HomeLayout from '../Layouts/HomeLayouts';
 import { useDispatch, useSelector } from 'react-redux';
 import { getDriverList, updateDriverStatus } from '../Redux/Slices/ListSlice';
-import CarsListCard from '../Components/Cards/CarsListCard';
 import { FaEye } from 'react-icons/fa';
+import { toast } from 'react-toastify';
+import { GrFormNext, GrFormPrevious } from "react-icons/gr";
 
 const CarsList = () => {
     const dispatch = useDispatch();
     const list = useSelector((state) => state?.list?.driverList);
     const [statusUpdated, setStatusUpdated] = useState(false);
+    const [searchQuery, setSearchQuery] = useState('');
+    const [statusFilter, setStatusFilter] = useState('');
+    const [filteredDrivers, setFilteredDrivers] = useState([]);
+
+    const [currentPage, setCurrentPage] = useState(1);
+    const [itemsPerPage, setItemsPerPage] = useState(10);
+    const [loading, setLoading] = useState(false);
 
     const loadData = () => {
-        dispatch(getDriverList());
+        setLoading(true);
+        dispatch(getDriverList()).finally(() => setLoading(false));
     };
 
     useEffect(() => {
@@ -21,19 +33,90 @@ const CarsList = () => {
     useEffect(() => {
         if (statusUpdated) {
             loadData();
-            setStatusUpdated(false); // Reset the flag
+            setStatusUpdated(false);
         }
     }, [statusUpdated]);
 
-    const handleStatusChange = (id, status) => {
-        dispatch(updateDriverStatus({ id: id, status: status }))
+    const handleStatusChange = async (id, status) => {
+        const res = await dispatch(updateDriverStatus({ id: id, status: status }))
             .unwrap()
-            .then(() => setStatusUpdated(true)); // Trigger data reload
+            .then(() => {
+                setStatusUpdated(true);
+                return toast.success("Status updated!");
+            });
+
+        console.log(res);
     };
+
+    const handleSearch = useCallback(
+        debounce((query, status) => {
+            if (list) {
+                const filtered = list.filter(driver => {
+                    const matchesName = driver?.fullName.toLowerCase().includes(query.toLowerCase());
+                    const matchesStatus = status ? driver?.status === status : true;
+                    return matchesName && matchesStatus;
+                });
+                setFilteredDrivers(filtered);
+                setCurrentPage(1);
+            }
+        }, 300),
+        [list]
+    );
+
+    useEffect(() => {
+        handleSearch(searchQuery, statusFilter);
+    }, [searchQuery, statusFilter, handleSearch]);
+
+    const handleItemsPerPageChange = (e) => {
+        setItemsPerPage(Number(e.target.value));
+        setCurrentPage(1);
+    };
+
+    const currentDrivers = filteredDrivers.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
+    const totalPages = Math.ceil(filteredDrivers.length / itemsPerPage);
 
     return (
         <HomeLayout>
-            <div className='mt-2 overflow-x-scroll border border-red-500 md:w-custom'>
+            <div className='flex flex-col lg:flex-row items-center justify-between gap-4 p-3 mt-4 bg-white rounded shadow-[0px_0px_10px_#8080807e]'>
+                <input
+                    type="text"
+                    placeholder="Search by name..."
+                    value={searchQuery}
+                    onChange={(e) => setSearchQuery(e.target.value)}
+                    className="bg-white shadow-[0px_0px_15px_#95959577_inset] outline-none text-black rounded p-2 lg:w-[20rem] w-full"
+                />
+                <div className='flex items-center justify-between w-full lg:w-fit lg:gap-2 xl:gap-10'>
+                    <div>
+                        <label htmlFor="" className='text-black text-[1.1rem] mr-2'>Status:</label>
+                        <select
+                            value={statusFilter}
+                            onChange={(e) => setStatusFilter(e.target.value)}
+                            className="bg-[#fff] shadow-[0px_0px_15px_#95959577_inset] outline-none text-black rounded p-2 sm:w-[9rem] w-[5.6rem]"
+
+                        >
+                            <option value="">All</option>
+                            <option value="PENDING">Pending</option>
+                            <option value="ACCEPTED">Accepted</option>
+                            <option value="REJECTED">Rejected</option>
+                        </select>
+                    </div>
+                    <div>
+                        <label htmlFor="" className='text-black text-[1.1rem] mr-2'>Show:</label>
+
+                        <select
+                            value={itemsPerPage}
+                            onChange={handleItemsPerPageChange}
+                            className="bg-white shadow-[0px_0px_15px_#95959577_inset] outline-none text-black rounded p-2 sm:w-[6rem] w-[4rem]"
+
+                        >
+                            <option value={10}>10</option>
+                            <option value={50}>50</option>
+                            <option value={100}>100</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div className='mt-2 overflow-x-scroll scrollbar  scrollbar-track-rounded-full scrollbar-thumb-rounded-full scrollbar-track-gray-50 scrollbar-thumb-gray-200 scrollbar-thin md:w-custom shadow-[0px_0px_10px_#8080807e]'>
                 <div className='flex flex-col items-center justify-center gap-[2.5px] min-w-[46.5rem]'>
                     <div className='flex items-center justify-between w-full gap-3 bg-[#353a51] rounded-t text-white px-3 py-4 lg:px-6 font-semibold mb-[0.5px]'>
                         <p className='min-w-[3rem] text-center'>S.no</p>
@@ -46,56 +129,90 @@ const CarsList = () => {
                         <p className='min-w-[6.8rem] text-center'>Status</p>
                         <p className='min-w-[3.3rem] text-center'>Action</p>
                     </div>
-                    {list.map((data, index) => (
-                        <div key={data?._id} className='flex items-center justify-between w-full gap-3 px-3 py-3 text-black bg-white'>
-                            <p className='min-w-[3rem] text-center'>{index + 1}.</p>
-                            <div className='min-w-[14.5rem] lg:min-w-[17rem] line-clamp-1'>
-                                <p>{data?.fullName}</p>
-                            </div>
-                            <div className='min-w-[14.5rem] lg:min-w-[17rem] truncate line-clamp-1'>
-                                <p>{data?.email}</p>
-                            </div>
-                            <div className='flex items-center gap-2 min-w-[6.8rem]'>
-                                <div className='flex items-center justify-center gap-[0.1rem]'>
-                                    <label htmlFor='' className='font-semibold text-yellow-500'>P:</label>
-                                    <input
-                                        type='radio'
-                                        name={`status${index}`}
-                                        checked={data?.status === 'PENDING'}
-                                        onChange={() => handleStatusChange(data?._id, 'PENDING')}
-                                        value='PENDING'
-                                        className='size-[15px] accent-yellow-400'
-                                    />
+                    {loading ? (
+                        Array.from({ length: itemsPerPage }).map((_, index) => (
+                            <div key={index} className='flex items-center justify-between w-full gap-3 px-3 py-3 text-black bg-white'>
+                                <p className='min-w-[3rem] text-center'><Skeleton /></p>
+                                <div className='min-w-[14.5rem] lg:min-w-[17rem] line-clamp-1'>
+                                    <p><Skeleton /></p>
                                 </div>
-                                <div className='flex items-center justify-center gap-[0.1rem]'>
-                                    <label htmlFor='' className='font-semibold text-green-600'>A:</label>
-                                    <input
-                                        type='radio'
-                                        name={`status${index}`}
-                                        checked={data?.status === 'ACCEPTED'}
-                                        onChange={() => handleStatusChange(data?._id, 'ACCEPTED')}
-                                        value='ACCEPTED'
-                                        className='size-[15px] accent-green-400'
-                                    />
+                                <div className='min-w-[14.5rem] lg:min-w-[17rem] truncate line-clamp-1'>
+                                    <p><Skeleton /></p>
                                 </div>
-                                <div className='flex items-center justify-center gap-[0.1rem]'>
-                                    <label htmlFor='' className='font-semibold text-red-500'>R:</label>
-                                    <input
-                                        type='radio'
-                                        name={`status${index}`}
-                                        checked={data?.status === 'REJECTED'}
-                                        onChange={() => handleStatusChange(data?._id, 'REJECTED')}
-                                        value='REJECTED'
-                                        className='size-[15px] accent-red-500'
-                                    />
+                                <div className='flex items-center gap-2 min-w-[6.8rem]'>
+                                    <Skeleton width={70} />
+                                </div>
+                                <div className='min-w-[3.3rem] flex items-center justify-center'>
+                                    <Skeleton width={24} height={24} />
                                 </div>
                             </div>
-                            <div className='min-w-[3.3rem] flex items-center justify-center'>
-                                <FaEye className='text-[1.45rem] cursor-pointer' />
+                        ))
+                    ) : (
+                        currentDrivers.map((data, index) => (
+                            <div key={data?._id} className='flex items-center justify-between w-full gap-3 px-3 py-3 text-black bg-white'>
+                                <p className='min-w-[3rem] text-center'>{(currentPage - 1) * itemsPerPage + index + 1}.</p>
+                                <div className='min-w-[14.5rem] lg:min-w-[17rem] line-clamp-1'>
+                                    <p>{data?.fullName}</p>
+                                </div>
+                                <div className='min-w-[14.5rem] lg:min-w-[17rem] truncate line-clamp-1'>
+                                    <p>{data?.email}</p>
+                                </div>
+                                <div className='flex items-center gap-2 min-w-[6.8rem]'>
+                                    <div className='flex items-center justify-center gap-[0.1rem]'>
+                                        <label htmlFor='' className='font-semibold text-yellow-500'>P:</label>
+                                        <input
+                                            type='radio'
+                                            name={`status${index}`}
+                                            checked={data?.status === 'PENDING'}
+                                            onChange={() => handleStatusChange(data?._id, 'PENDING')}
+                                            value='PENDING'
+                                            className='size-[15px] accent-yellow-400'
+                                        />
+                                    </div>
+                                    <div className='flex items-center justify-center gap-[0.1rem]'>
+                                        <label htmlFor='' className='font-semibold text-green-600'>A:</label>
+                                        <input
+                                            type='radio'
+                                            name={`status${index}`}
+                                            checked={data?.status === 'ACCEPTED'}
+                                            onChange={() => handleStatusChange(data?._id, 'ACCEPTED')}
+                                            value='ACCEPTED'
+                                            className='size-[15px] accent-green-400'
+                                        />
+                                    </div>
+                                    <div className='flex items-center justify-center gap-[0.1rem]'>
+                                        <label htmlFor='' className='font-semibold text-red-500'>R:</label>
+                                        <input
+                                            type='radio'
+                                            name={`status${index}`}
+                                            checked={data?.status === 'REJECTED'}
+                                            onChange={() => handleStatusChange(data?._id, 'REJECTED')}
+                                            value='REJECTED'
+                                            className='size-[15px] accent-red-400'
+                                        />
+                                    </div>
+                                </div>
+                                <div className='min-w-[3.3rem] flex items-center justify-center'>
+                                    <FaEye className='text-[1.45rem] cursor-pointer' />
+                                </div>
                             </div>
-                        </div>
-                    ))}
+                        ))
+                    )}
                 </div>
+            </div>
+            <div className="flex items-center justify-between mt-2 bg-[#353a51] text-white rounded overflow-hidden shadow-[0px_6px_10px_#8080807e]">
+                <button
+                    className='flex items-center justify-center bg-[#7367F0] p-3'
+                    onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))} disabled={currentPage === 1}>
+                    <GrFormPrevious className='text-[1.4rem] mt-1' /> Previous
+                </button>
+                <span className='font-semibold '>Page {currentPage} of {totalPages}</span>
+                <button
+                    className='flex items-center justify-center bg-[#7367F0] p-3'
+
+                    onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))} disabled={currentPage === totalPages}>
+                    Next <GrFormNext className='text-[1.4rem] mt-1' />
+                </button>
             </div>
         </HomeLayout>
     );

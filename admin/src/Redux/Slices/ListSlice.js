@@ -4,7 +4,7 @@ import axiosInstance from "../../Helper/axiosInstance"
 
 
 const initialState = {
-    driverList: localStorage.getItem('driverList') !== "undefined" ? JSON.parse(localStorage.getItem('driverList')) : {}
+    driverList: localStorage.getItem('driverList') !== "undefined" ? JSON.parse(localStorage.getItem('driverList')) : [{}]
 }
 
 export const getDriverList = createAsyncThunk('/admin/car/list', async () => {

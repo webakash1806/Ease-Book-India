@@ -7,7 +7,7 @@ import { CgLogOut } from "react-icons/cg";
 // import Footer from '../Components/Footer'
 import { logout } from '../Redux/Slices/AuthSlice'
 import Footer from '../Components/Footer'
-import { MdContentPaste, MdOutlinePermContactCalendar, MdOutlineSettings } from 'react-icons/md';
+import { MdContentPaste, MdOutlineSettings } from 'react-icons/md';
 import { RxHamburgerMenu } from "react-icons/rx";
 import { MdOutlineDashboard } from "react-icons/md";
 import { RiGalleryFill, RiUserLocationFill } from "react-icons/ri";
@@ -25,7 +25,7 @@ const HomeLayout = ({ children }) => {
     const isLoggedIn = useSelector((state) => state?.auth?.isLoggedIn)
     const avatar = useSelector((state) => state?.auth?.data)
     const fullName = useSelector((state) => state?.auth?.data?.fullName)
-    console.log(avatar)
+    console.log(fullName)
     const handleLogout = async () => {
         const response = await dispatch(logout())
 
