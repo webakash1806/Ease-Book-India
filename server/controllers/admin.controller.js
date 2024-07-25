@@ -454,14 +454,14 @@ const carDriverList = async (req, res, next) => {
 const updateDriverStatus = async (req, res, next) => {
     try {
         const { id, status } = req.body
-
+        console.log(req.body)
         const driver = await Cars.findById(id)
 
         if (status) {
             driver.status = await status
         }
 
-        driver.save()
+        await driver.save()
 
         res.status(200).json({
             message: "Status updated",

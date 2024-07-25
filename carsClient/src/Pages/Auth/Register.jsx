@@ -4,6 +4,7 @@ import { Link, useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
 import { createAccount } from '../../Redux/Slices/AuthSlice'
 const Register = () => {
+    const [loaderActive, setLoaderActive] = useState(false)
 
     const [file, setFile] = useState('')
     const dispatch = useDispatch()
@@ -70,6 +71,8 @@ const Register = () => {
 
 
         if (!fullName || !email || !password || !confirmPassword || !phoneNumber || !carName || !carNumber || !age || !experience) {
+            setLoaderActive(false)
+
             return toast.error('All fields are required', 400)
         }
 
@@ -93,6 +96,8 @@ const Register = () => {
         const response = await dispatch(createAccount(formData))
 
         if (response?.payload?.success) {
+            setLoaderActive(false)
+
             navigate(-1)
         }
 
@@ -199,7 +204,7 @@ const Register = () => {
                             onChange={(e) => handleFileChange(e, 4)} />
                     </div>
 
-                    <button className='bg-[#685ED4] hover:bg-[#FF4C51] text-white transition-all duration-700 w-full rounded-md p-[6.9px] font-semibold mt-[12px] mb-1'>Sign Up</button>
+                    <button onClick={() => setLoaderActive(true)} className='bg-[#685ED4] hover:bg-[#FF4C51] text-white flex items-center justify-center transition-all duration-700 w-full rounded-md p-[6.9px] font-semibold mt-[12px] mb-1'>Sign Up {loaderActive && <div className='ml-4 ease-in-out mt-1 size-[1.25rem] border-[2.4px] border-t-[#46454546] animate-spin rounded-full bottom-0 '></div>}</button>
 
                     <div className='w-full text-center'>
                         <p>Already have an account? <Link to={"/login"} className='text-[#FF4C51] font-semibold underline '>Login</Link></p>

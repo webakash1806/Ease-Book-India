@@ -62,7 +62,7 @@ const HomeLayout = ({ children }) => {
                                             :
                                             <div className='flex items-center justify-center gap-4'>
                                                 <Link to='/me' >
-                                                    <img src={avatar?.proofFiles[2]?.fileUrl} alt={`${fullName} img`} className='w-[2.1rem] h-[2.1rem] rounded-full object-cover shadow-[0px_0px_5px_#7479FF]' />
+                                                    <img src='' alt={`${fullName} img`} className='w-[2.1rem] h-[2.1rem] rounded-full object-cover shadow-[0px_0px_5px_#7479FF]' />
                                                 </Link>
                                                 <Link to='/logout' onClick={handleLogout}
                                                     className='btn bg-[#FF4C51] transition-all duration-700 hover:bg-[#685ED4] border-none text-white btn-sm rounded-sm px-6 font-normal text-[1.02rem] tracking-wide'>
@@ -105,7 +105,7 @@ const HomeLayout = ({ children }) => {
                                     :
                                     <div className='flex flex-col gap-2'>
                                         <Link to='/me' className='flex items-center justify-between p-2 gap-4 rounded-md  w-[99%] cursor-pointer bg-[#3D4056] hover:bg-[#0d011c] duration-300'>
-                                            <img src={avatar?.proofFiles[2]?.fileUrl} alt={`${fullName} img`} className='w-[2.3rem] h-[2.3rem] rounded-full object-cover shadow-[0px_0px_6px_#808080] ml-1' />
+                                            <img src='' alt={`${fullName} img`} className='w-[2.3rem] h-[2.3rem] rounded-full object-cover shadow-[0px_0px_6px_#808080] ml-1' />
                                             <p className='text-[0.95rem] w-[7.5rem] truncate text-white capitalize'>{fullName}</p>
                                         </Link>
                                         <Link to='/logout' onClick={handleLogout} className='btn  bg-[#FF4C51] transition-all duration-700 hover:bg-[#685ED4] border-none text-white btn-sm rounded-sm w-[99%] font-normal text-[1.02rem] tracking-wide'>
