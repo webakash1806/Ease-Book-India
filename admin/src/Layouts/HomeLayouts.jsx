@@ -68,7 +68,7 @@ const HomeLayout = ({ children }) => {
                         <div className='hidden md:block'></div>
                         <p className=''>{time}</p>
                         <Link to={'/me'} className='size-[2.6rem] rounded-full overflow-hidden pt-1 bg-[#b0aaf7fa] border-[0.15rem] border-[#8e85f3a3]'>
-                            <img src={avatar?.proofFiles[2]?.fileUrl} className='w-[2.6rem]' alt="" />
+                            <img src={''} className='w-[2.6rem]' alt="" />
                         </Link>
                     </header>
                     {
@@ -108,7 +108,7 @@ const HomeLayout = ({ children }) => {
                             </Link>
                         </li>
                         <li>
-                            <Link to={'/'} className={listStyle}>
+                            <Link to={'/car-list'} className={listStyle}>
                                 <FaCar />
                                 Car drivers
                             </Link>
