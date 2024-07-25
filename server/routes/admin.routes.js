@@ -11,7 +11,8 @@ import {
     resetPassword,
     changePassword,
     updateProfile,
-    carDriverList
+    carDriverList,
+    updateDriverStatus
 } from "../controllers/admin.controller.js";
 
 import { isLoggedIn } from "../middlewares/auth.middleware.js";
@@ -47,6 +48,8 @@ router.put('/update-profile/:id', isLoggedIn, upload.single("avatar"), updatePro
 
 
 router.get('/car/list', isLoggedIn, carDriverList)
+
+router.put('/car/update-status', isLoggedIn, updateDriverStatus)
 
 // Exporting the router instance to be used in the main application
 export default router
