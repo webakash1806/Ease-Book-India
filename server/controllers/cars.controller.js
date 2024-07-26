@@ -476,6 +476,7 @@ const addService = async (req, res, next) => {
         await user.save()
 
         res.status(200).json({
+            success: true,
             message: "Services updated",
             user
         })

@@ -71,11 +71,13 @@ const carsSchema = new Schema({
     servicesData: {
         seatingCap: {
             type: String,
-            required: true
+            required: true,
+            default: ""
         },
         serviceArea: {
             type: String,
-            required: true
+            required: true,
+            default: ""
         },
         availability: {
             type: String,
@@ -84,11 +86,13 @@ const carsSchema = new Schema({
         },
         kmFare: {
             type: String,
-            required: true
+            required: true,
+            default: ""
         },
         hrFare: {
             type: String,
-            required: true
+            required: true,
+            default: ""
         }
     },
     // User's avatar information

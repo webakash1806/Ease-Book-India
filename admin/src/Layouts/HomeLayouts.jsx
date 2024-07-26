@@ -77,7 +77,7 @@ const HomeLayout = ({ children }) => {
                         }
                     </div>
                 </div>
-                <NavLink className={`min-h-[100vh] max-w-[15rem] min-w-[15rem] md:max-w-[16rem] md:min-w-[15.9rem] bg-[#2F3349] absolute md:static top-0 ${active ? 'left-0' : 'left-[-35rem]'} transition-all duration-500`}>
+                <NavLink className={`min-h-[100vh] z-[100000000] max-w-[15rem] min-w-[15rem] md:max-w-[16rem] md:min-w-[15.9rem] bg-[#2F3349] absolute md:static top-0 ${active ? 'left-0' : 'left-[-35rem]'} transition-all duration-500`}>
                     <ul>
                         <li className='flex items-center justify-between p-3 border-b border-[#4f47a9a3] text-[#CBC8E0]'>
                             <Link to={'/'}>LOGO</Link>

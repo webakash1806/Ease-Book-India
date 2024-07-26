@@ -46,7 +46,8 @@ export const updateDriverStatus = createAsyncThunk('/admin/car/status-update', a
 
 export const getDriverDetail = createAsyncThunk('/admin/car/detail', async (data) => {
     try {
-        let res = axiosInstance.get(`/car/detail/${data.id}`)
+        console.log(`/car/detail/${data}`)
+        let res = axiosInstance.get(`/car/detail/${data}`)
         toast.promise(res, {
             loading: 'Loading data',
             success: (data) => {
