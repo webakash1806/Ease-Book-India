@@ -473,6 +473,22 @@ const updateDriverStatus = async (req, res, next) => {
     }
 }
 
+const getDriverData = async (req, res, next) => {
+    try {
+        console.log(req.params)
+        const { id } = req.params
+        console.log(id)
+        const detail = await Cars.findById(id)
+
+        res.status(200).json({
+            message: 'Driver data',
+            detail
+        })
+    } catch (e) {
+        return next(new AppError(e.message, 500))
+    }
+}
+
 /* The below code is exporting a set of functions related to admin authentication and profile
 management. These functions include: */
 export {
@@ -485,5 +501,6 @@ export {
     changePassword,
     updateProfile,
     carDriverList,
-    updateDriverStatus
+    updateDriverStatus,
+    getDriverData
 }

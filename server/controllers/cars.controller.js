@@ -450,6 +450,7 @@ const updateProfile = async (req, res, next) => {
 
 }
 
+
 /* The below code is exporting a set of functions related to user authentication and profile
 management. These functions include: */
 export {
