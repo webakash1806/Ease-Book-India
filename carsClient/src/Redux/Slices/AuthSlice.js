@@ -148,6 +148,23 @@ export const resetPasswords = createAsyncThunk('cars/reset-password', async (dat
     }
 })
 
+export const updateServices = createAsyncThunk('/cars/update-services', async (data) => {
+    try {
+        let res = axiosInstance.put(`/update-services`, data)
+        toast.promise(res, {
+            loading: "Updating!",
+            success: (data) => {
+                return data?.data.message
+            },
+            error: "Failed to update"
+        })
+        res = await res;
+        return res.data;
+    } catch (e) {
+        return toast.error(e?.response?.data?.message)
+    }
+})
+
 const authSlice = createSlice({
     name: 'auth',
     initialState,

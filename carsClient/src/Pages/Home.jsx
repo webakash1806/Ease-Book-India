@@ -2,6 +2,8 @@ import React from 'react'
 import { useSelector } from 'react-redux'
 import Pending from '../Components/Approval/Pending'
 import Rejected from '../Components/Approval/Rejected'
+import Accepted from '../Components/Approval/Accepted'
+import UpdateServices from '../Components/UpdateServices'
 
 const Home = () => {
 
@@ -14,6 +16,13 @@ const Home = () => {
                     <Pending />}
                 {approval === 'REJECTED' &&
                     <Rejected />}
+
+                {approval === 'ACCEPTED' &&
+                    <div>
+                        <Accepted />
+                        <UpdateServices />
+                    </div>
+                }
             </div>
         </>
     )
