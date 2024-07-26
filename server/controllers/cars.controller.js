@@ -75,7 +75,14 @@ const register = async (req, res, next) => {
             phoneNumber,
             password,
             confirmPassword,
-            proofFiles: {}
+            proofFiles: {},
+            servicesData: {
+                seatingCap: "",
+                serviceArea: "",
+                availability: "",
+                kmFare: "",
+                hrFare: ""
+            }
         })
 
 
@@ -450,6 +457,34 @@ const updateProfile = async (req, res, next) => {
 
 }
 
+const addService = async (req, res, next) => {
+    try {
+        const { seatingCap, serviceArea, availability, kmFare, hrFare } = req.body
+        const id = req.user.id
+        console.log(id)
+        const user = await Cars.findById(id)
+        if (!seatingCap || !serviceArea || !availability || !kmFare || !hrFare) {
+            return next(new AppError('All fields are required', 400))
+        }
+
+        user.servicesData.seatingCap = await seatingCap
+        user.servicesData.serviceArea = await serviceArea
+        user.servicesData.availability = await availability
+        user.servicesData.kmFare = await kmFare
+        user.servicesData.hrFare = await hrFare
+
+        await user.save()
+
+        res.status(200).json({
+            message: "Services updated",
+            user
+        })
+
+    } catch (e) {
+        return next(new AppError(e.message, 500))
+    }
+}
+
 
 /* The below code is exporting a set of functions related to user authentication and profile
 management. These functions include: */
@@ -461,5 +496,6 @@ export {
     forgotPassword,
     resetPassword,
     changePassword,
-    updateProfile
+    updateProfile,
+    addService
 }

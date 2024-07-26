@@ -68,6 +68,29 @@ const carsSchema = new Schema({
         enum: ['ACCEPTED', 'PENDING', 'REJECTED'],
         default: 'PENDING'
     },
+    servicesData: {
+        seatingCap: {
+            type: String,
+            required: true
+        },
+        serviceArea: {
+            type: String,
+            required: true
+        },
+        availability: {
+            type: String,
+            enum: ['AVAILABLE', 'BREAK', 'MAINTENANCE'],
+            default: 'BREAK'
+        },
+        kmFare: {
+            type: String,
+            required: true
+        },
+        hrFare: {
+            type: String,
+            required: true
+        }
+    },
     // User's avatar information
     proofFiles: [{
         fileName: String,
