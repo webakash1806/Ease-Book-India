@@ -66,7 +66,14 @@ const CarDetail = () => {
     return (
         <HomeLayout>
             <div className='flex items-center justify-center'>
-                <form className='p-6 bg-[#2F3349] text-white rounded-md shadow-[0px_0px_20px_#3D4056] my-12 flex flex-col lg:flex-row gap-4 w-fit max-w-[100%] md:max-w-[80%] lg:max-w-[100%]'>
+                <form className='p-6 bg-[#2F3349] text-white relative rounded-md shadow-[0px_0px_20px_#3D4056] overflow-hidden my-12 flex flex-col lg:flex-row gap-4 w-fit max-w-[100%] md:max-w-[80%] lg:max-w-[100%]'>
+                    <div className='absolute flex items-center justify-center bg-[#685ED4] rounded-full animate-ping right-[-6px] size-8 top-[-6px]'>
+                        <div className='bg-[#FF4C51] rounded-full size-4 flex items-center  justify-center'>
+                            <div className='size-2 bg-[#2F3349] rounded-full '>
+
+                            </div>
+                        </div>
+                    </div>
                     <div className='w-full flex flex-col gap-2'>
                         <div className='mb-4'>
                             <h2 className='text-[1.8rem] font-semibold tracking-wide'>Driver detail</h2>

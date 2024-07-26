@@ -63,7 +63,7 @@ const HomeLayout = ({ children }) => {
         <>
             <div className='items-start md:flex md:flex-row-reverse'>
                 <div className='p-3 md:w-full md:p-4 md:px-6 '>
-                    <header className='flex items-center justify-between  px-3 bg-white rounded-md p-2 md:w-full text-black shadow-[0px_0px_15px_#8080807e]'>
+                    <header className='flex items-center justify-between relative z-[1000]  px-3 bg-white rounded-md p-2 md:w-full text-black shadow-[0px_0px_15px_#8080807e]'>
                         <div className='p-2 cursor-pointer md:hidden' onClick={() => setActive(true)}><RxHamburgerMenu className='text-[#535162fa] text-[1.5rem]' /></div>
                         <div className='hidden md:block'></div>
                         <p className=''>{time}</p>
@@ -71,9 +71,11 @@ const HomeLayout = ({ children }) => {
                             <img src="" className='w-[2.6rem]' alt="" />
                         </Link>
                     </header>
-                    {
-                        children
-                    }
+                    <div className='h-[87vh]   bg-[#F2F2F7] scrollbar scrollbar-none overflow-y-scroll'>
+                        {
+                            children
+                        }
+                    </div>
                 </div>
                 <NavLink className={`min-h-[100vh] max-w-[15rem] min-w-[15rem] md:max-w-[16rem] md:min-w-[15.9rem] bg-[#2F3349] absolute md:static top-0 ${active ? 'left-0' : 'left-[-35rem]'} transition-all duration-500`}>
                     <ul>

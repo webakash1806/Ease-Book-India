@@ -8,11 +8,11 @@ import { getDriverList, updateDriverStatus } from '../../Redux/Slices/ListSlice'
 import { FaEye } from 'react-icons/fa';
 import { toast } from 'react-toastify';
 import { GrFormNext, GrFormPrevious } from "react-icons/gr";
-import { Navigate, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 
 const CarsList = () => {
     const dispatch = useDispatch();
-    const navigate = useNavigate()
+    const navigate = useNavigate();
     const list = useSelector((state) => state?.list?.driverList);
     const [statusUpdated, setStatusUpdated] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
@@ -23,9 +23,15 @@ const CarsList = () => {
     const [itemsPerPage, setItemsPerPage] = useState(10);
     const [loading, setLoading] = useState(false);
 
-    const loadData = () => {
+    const loadData = async () => {
         setLoading(true);
-        dispatch(getDriverList()).finally(() => setLoading(false));
+        try {
+            await dispatch(getDriverList()).unwrap();
+        } catch (error) {
+            toast.error("No internet connection. Please try again.");
+        } finally {
+            setLoading(false);
+        }
     };
 
     useEffect(() => {
@@ -40,7 +46,7 @@ const CarsList = () => {
     }, [statusUpdated]);
 
     const handleStatusChange = async (id, status) => {
-        const res = await dispatch(updateDriverStatus({ id: id, status: status }))
+        const res = await dispatch(updateDriverStatus({ id, status }))
             .unwrap()
             .then(() => {
                 setStatusUpdated(true);
