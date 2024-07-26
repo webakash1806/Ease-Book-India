@@ -5,7 +5,8 @@ import Home from './Pages/Home'
 import Footer from '../../carsClient/src/Components/Footer'
 import Login from './Pages/Auth/Login'
 import RequireAuth from './Components/Auth/RequireAuth'
-import CarsList from './Pages/CarsList'
+import CarsList from './Pages/CarsPages/CarsList'
+import CarDetail from './Pages/CarsPages/CarDetail'
 
 const App = () => {
   return (
@@ -15,6 +16,7 @@ const App = () => {
         <Route element={<RequireAuth allowedRoles={['ADMIN']} />} >
           <Route path='/' element={<Home />} />
           <Route path='/car-list' element={<CarsList />} />
+          <Route path='/driver/:id' element={<CarDetail />} />
         </Route>
       </Routes>
     </div>

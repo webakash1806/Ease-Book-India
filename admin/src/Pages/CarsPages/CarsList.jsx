@@ -2,15 +2,17 @@ import React, { useEffect, useState, useCallback } from 'react';
 import { debounce } from 'lodash';
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
-import HomeLayout from '../Layouts/HomeLayouts';
+import HomeLayout from '../../Layouts/HomeLayouts';
 import { useDispatch, useSelector } from 'react-redux';
-import { getDriverList, updateDriverStatus } from '../Redux/Slices/ListSlice';
+import { getDriverList, updateDriverStatus } from '../../Redux/Slices/ListSlice';
 import { FaEye } from 'react-icons/fa';
 import { toast } from 'react-toastify';
 import { GrFormNext, GrFormPrevious } from "react-icons/gr";
+import { Navigate, useNavigate } from 'react-router-dom';
 
 const CarsList = () => {
     const dispatch = useDispatch();
+    const navigate = useNavigate()
     const list = useSelector((state) => state?.list?.driverList);
     const [statusUpdated, setStatusUpdated] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
@@ -117,8 +119,8 @@ const CarsList = () => {
                 </div>
             </div>
             <div className='mt-2 overflow-x-scroll scrollbar  scrollbar-track-rounded-full scrollbar-thumb-rounded-full scrollbar-track-gray-50 scrollbar-thumb-gray-200 scrollbar-thin md:w-custom shadow-[0px_0px_10px_#8080807e]'>
-                <div className='flex flex-col items-center justify-center gap-[2.5px] min-w-[46.5rem]'>
-                    <div className='flex items-center justify-between w-full gap-3 bg-[#353a51] rounded-t text-white px-3 py-4 lg:px-6 font-semibold mb-[0.5px]'>
+                <div className='flex flex-col items-center justify-center gap-[2.5px] min-w-[55.5rem]'>
+                    <div className='flex items-center relative   justify-between w-full gap-3 bg-[#353a51] rounded-t text-white px-3 py-4 lg:px-6 font-semibold mb-[0.5px]'>
                         <p className='min-w-[3rem] text-center'>S.no</p>
                         <div className='min-w-[14.5rem] lg:min-w-[17rem] line-clamp-1'>
                             <p>Name</p>
@@ -127,7 +129,7 @@ const CarsList = () => {
                             <p>Email</p>
                         </div>
                         <p className='min-w-[6.8rem] text-center'>Status</p>
-                        <p className='min-w-[3.3rem] text-center'>Action</p>
+                        <p className='min-w-[3.3rem] sticky px-2 right-0 bg-[#353a51]  text-center'>Action</p>
                     </div>
                     {loading ? (
                         Array.from({ length: itemsPerPage }).map((_, index) => (
@@ -149,7 +151,7 @@ const CarsList = () => {
                         ))
                     ) : (
                         currentDrivers.map((data, index) => (
-                            <div key={data?._id} className='flex items-center justify-between w-full gap-3 px-3 py-3 text-black bg-white'>
+                            <div key={data?._id} className='flex relative   items-center justify-between w-full gap-3 px-3 py-3 text-black bg-white'>
                                 <p className='min-w-[3rem] text-center'>{(currentPage - 1) * itemsPerPage + index + 1}.</p>
                                 <div className='min-w-[14.5rem] lg:min-w-[17rem] line-clamp-1'>
                                     <p>{data?.fullName}</p>
@@ -192,7 +194,7 @@ const CarsList = () => {
                                         />
                                     </div>
                                 </div>
-                                <div className='min-w-[3.3rem] flex items-center justify-center'>
+                                <div onClick={() => navigate(`/driver/${data?._id}`, { state: { ...data } })} className='min-w-[3.3rem] sticky px-5 right-0 bg-[white] flex items-center justify-center'>
                                     <FaEye className='text-[1.45rem] cursor-pointer' />
                                 </div>
                             </div>
