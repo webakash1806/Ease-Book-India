@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import adminMan from '../assets/adminMan.png'
+import adminMan from '../../assets/adminMan.png'
 import { useSelector } from 'react-redux'
 const Approval = () => {
 
