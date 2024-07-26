@@ -1,19 +1,55 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import HomeLayout from '../../Layouts/HomeLayouts';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useParams } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { getDriverDetail, updateDriverStatus } from '../../Redux/Slices/ListSlice';
+import { toast } from 'react-toastify';
 
 const CarDetail = () => {
     const [loaderActive, setLoaderActive] = useState(false);
     const [viewingImage, setViewingImage] = useState(null);
-    const { state } = useLocation();
-    const { fullName, email, phoneNumber, proofFiles, carName, carNumber, age, experience } = state;
+    const [statusUpdated, setStatusUpdated] = useState(false);
 
-    const mainDiv = 'flex flex-col gap-[0.1px]';
+    const driverData = useSelector((state) => state?.list?.driverDetail)
+    const { fullName, email, phoneNumber, proofFiles, carName, status, carNumber, age, experience } = driverData;
+    const dispatch = useDispatch()
+
+    const loadData = () => {
+        dispatch(getDriverDetail(id))
+
+    }
+
+    const id = useParams()
+    useEffect(() => {
+        loadData();
+    }, [])
+
+    useEffect(() => {
+        if (statusUpdated) {
+            loadData();
+
+            setStatusUpdated(false);
+        }
+    }, [statusUpdated]);
+
+    const handleStatusChange = async (id, status) => {
+        const res = await dispatch(updateDriverStatus({ id: id, status: status }))
+            .unwrap()
+            .then(() => {
+                setStatusUpdated(true);
+                return toast.success("Status updated!");
+            });
+
+        console.log(res);
+    };
+
+
+    const mainDiv = 'flex flex-col gap-[0.5px]';
     const labelStyle = "text-[0.83rem] tracking-wide text-[#CFCCE4] font-[400] ml-[0.5px]";
-    const inputStyle = 'border border-[#685ED4] w-full rounded-[3px] h-full px-2 p-[5.5px] outline-none text-[0.95rem] tracking-wide resize-none bg-[#3D4056] text-white';
+    const inputStyle = 'border border-[#685ED4] w-full rounded-[3px] h-full px-2 p-[7px] outline-none text-[0.95rem] tracking-wide resize-none bg-[#3D4056] text-white';
 
     const renderImageButton = (label, fileUrl, key) => (
-        <div className={'grid grid-cols-2 gap-4'} key={key}>
+        <div className='flex flex-col gap-1' key={key}>
             <button
                 type="button"
                 className='bg-[#685ED4] hover:bg-[#FF4C51] text-white flex items-center justify-center transition-all duration-700 w-full rounded-md p-[6.9px] font-semibold'
@@ -23,6 +59,9 @@ const CarDetail = () => {
             </button>
         </div>
     );
+
+    const vehicleImageFile = proofFiles.find(file => file.fileName === 'vehicleImage');
+    const otherFiles = proofFiles.filter(file => file.fileName !== 'vehicleImage');
 
     return (
         <HomeLayout>
@@ -45,20 +84,24 @@ const CarDetail = () => {
                             <label className={labelStyle} htmlFor="email">Email</label>
                             <input readOnly className={inputStyle} type="email" name='email' value={email} id='email' />
                         </div>
-                        <div className={mainDiv}>
-                            <label className={labelStyle} htmlFor="phoneNumber">Phone Number</label>
-                            <input readOnly className={inputStyle} type="number" name='phoneNumber' value={phoneNumber} id='phoneNumber' />
-                        </div>
+
+
                         <div className={mainDiv}>
                             <label className={labelStyle} htmlFor="carName">Car Name</label>
                             <input readOnly className={inputStyle} type="text" name='carName' value={carName} id='carName' />
                         </div>
-                        <div className={mainDiv}>
-                            <label className={labelStyle} htmlFor="carNumber">Car Number</label>
-                            <input readOnly className={inputStyle} type="text" name='carNumber' value={carNumber} id='carNumber' />
+                        <div className='flex justify-between gap-2'>
+                            <div className={`${mainDiv} w-[48%]`}>
+                                <label className={labelStyle} htmlFor="carNumber">Car Number</label>
+                                <input readOnly className={inputStyle} type="text" name='carNumber' value={carNumber} id='carNumber' />
+                            </div>
+                            <div className={`${mainDiv} w-[48%]`}>
+                                <label className={labelStyle} htmlFor="phoneNumber">Phone Number</label>
+                                <input readOnly className={inputStyle} type="number" name='phoneNumber' value={phoneNumber} id='phoneNumber' />
+                            </div>
                         </div>
                     </div>
-                    <div className='w-full flex flex-col gap-2 mt-2'>
+                    <div className='w-full flex flex-col gap-2 lg:mt-[5rem]'>
                         <div className='flex justify-between gap-2'>
                             <div className={`${mainDiv} w-[48%]`}>
                                 <label className={labelStyle} htmlFor="age">Age</label>
@@ -69,15 +112,54 @@ const CarDetail = () => {
                                 <input readOnly className={inputStyle} type="number" name='experience' value={experience} id='experience' />
                             </div>
                         </div>
-                        {proofFiles.map((file, index) => renderImageButton(file.fileName, file.fileUrl, index))}
-                        <button
-                            onClick={() => setLoaderActive(true)}
-                            type="button"
-                            className='bg-[#685ED4] hover:bg-[#FF4C51] text-white flex items-center justify-center transition-all duration-700 w-full rounded-md p-[6.9px] font-semibold mt-[12px] mb-1'
-                        >
-                            Sign Up
-                            {loaderActive && <div className='ml-4 ease-in-out mt-1 size-[1.25rem] border-[2.4px] border-t-[#46454546] animate-spin rounded-full'></div>}
-                        </button>
+                        <div className='w-full flex flex-col mt-1'>
+                            {/* Vehicle Image Button in Single Row */}
+                            {vehicleImageFile && (
+                                <div className='w-full mb-2'>
+                                    {renderImageButton('Vehicle Image', vehicleImageFile.fileUrl, 'vehicleImage')}
+                                </div>
+                            )}
+                            {/* Other Files in 2-column Grid */}
+                            <div className='grid grid-cols-2 gap-2'>
+                                {otherFiles.map((file, index) => renderImageButton(file.fileName, file.fileUrl, index))}
+                            </div>
+                        </div>
+                        <div className='flex items-center gap-4 min-w-[6.8rem] justify-center bg-white shadow-[0px_0px_12px_#808080_inset] mt-1 p-2 rounded text-black'>
+                            <label htmlFor="" className='font-semibold'>Status:</label>
+                            <div className='flex items-center justify-center gap-[0.1rem]'>
+                                <label htmlFor='' className='font-semibold text-yellow-600'>P:</label>
+                                <input
+                                    type='radio'
+                                    name={`status`}
+                                    checked={status === 'PENDING'}
+                                    onChange={() => handleStatusChange(driverData?._id, 'PENDING')}
+                                    value='PENDING'
+                                    className='size-[15px] accent-yellow-400'
+                                />
+                            </div>
+                            <div className='flex items-center justify-center gap-[0.1rem]'>
+                                <label htmlFor='' className='font-semibold text-green-600'>A:</label>
+                                <input
+                                    type='radio'
+                                    name={`status`}
+                                    checked={status === 'ACCEPTED'}
+                                    onChange={() => handleStatusChange(driverData?._id, 'ACCEPTED')}
+                                    value='ACCEPTED'
+                                    className='size-[15px] accent-green-400'
+                                />
+                            </div>
+                            <div className='flex items-center justify-center gap-[0.1rem]'>
+                                <label htmlFor='' className='font-semibold text-red-500'>R:</label>
+                                <input
+                                    type='radio'
+                                    name={`status`}
+                                    checked={status === 'REJECTED'}
+                                    onChange={() => handleStatusChange(driverData?._id, 'REJECTED')}
+                                    value='REJECTED'
+                                    className='size-[15px] accent-red-400'
+                                />
+                            </div>
+                        </div>
                     </div>
                 </form>
                 {viewingImage && (
