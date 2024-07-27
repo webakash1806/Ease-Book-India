@@ -16,6 +16,7 @@ import {
 import { isLoggedIn } from "../middlewares/auth.middleware.js";
 import { loginAuth } from "../middlewares/login.middleware.js";
 import upload from '../middlewares/multer.middleware.js'
+import { getDriverWithService } from "../controllers/cars.controller.js";
 
 // Creating an instance of the Express Router
 const router = Router()
@@ -44,5 +45,7 @@ router.post('/change-password', isLoggedIn, changePassword)
 // Route for updating user profile information with optional avatar upload
 router.put('/update-profile/:id', isLoggedIn, upload.single("avatar"), updateProfile)
 
+
+router.get('/cars-list', getDriverWithService)
 // Exporting the router instance to be used in the main application
 export default router

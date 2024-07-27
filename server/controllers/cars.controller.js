@@ -487,6 +487,23 @@ const addService = async (req, res, next) => {
 }
 
 
+const getDriverWithService = async (req, res, next) => {
+    try {
+
+        const allDriver = await Cars.find()
+
+        const filteredDrivers = allDriver.filter(driver => driver.servicesData.seatingCap !== "")
+
+        res.status(200).json({
+            success: true,
+            filteredDrivers
+        })
+
+    } catch (e) {
+        return next(new AppError(e.message, 500))
+    }
+}
+
 /* The below code is exporting a set of functions related to user authentication and profile
 management. These functions include: */
 export {
@@ -498,5 +515,6 @@ export {
     resetPassword,
     changePassword,
     updateProfile,
-    addService
+    addService,
+    getDriverWithService
 }
