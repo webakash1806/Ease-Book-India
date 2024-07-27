@@ -59,7 +59,7 @@ const CarsList = () => {
     const handleSearch = useCallback(
         debounce((query, status) => {
             if (list) {
-                const filtered = list.filter(driver => {
+                const filtered = list.slice().reverse().filter(driver => {
                     const matchesName = driver?.fullName.toLowerCase().includes(query.toLowerCase());
                     const matchesStatus = status ? driver?.status === status : true;
                     return matchesName && matchesStatus;
@@ -157,7 +157,7 @@ const CarsList = () => {
                         ))
                     ) : (
                         currentDrivers.map((data, index) => (
-                            <div key={data?._id} className='flex relative   items-center justify-between w-full gap-3 px-3 py-3 text-black bg-white'>
+                            <div key={data?._id} className='relative flex items-center justify-between w-full gap-3 px-3 py-3 text-black bg-white'>
                                 <p className='min-w-[3rem] text-center'>{(currentPage - 1) * itemsPerPage + index + 1}.</p>
                                 <div className='min-w-[14.5rem] lg:min-w-[17rem] line-clamp-1'>
                                     <p>{data?.fullName}</p>
