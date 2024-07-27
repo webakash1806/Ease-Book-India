@@ -6,6 +6,7 @@ import RegisterPage from './Pages/RegisterPage'
 import LoginPage from './Pages/LoginPage'
 import Places from './Pages/Places'
 import Cars from './Pages/Cars'
+import OrderCar from './Pages/Orders/OrderCar'
 
 const App = () => {
   return (
@@ -16,6 +17,7 @@ const App = () => {
         <Route path='/login' element={<LoginPage />} />
         <Route path='/places' element={<Places />} />
         <Route path='/car' element={<Cars />} />
+        <Route path='/car-book/:id' element={<OrderCar />} />
       </Routes>
     </HomeLayout>
   )
