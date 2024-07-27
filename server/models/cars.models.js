@@ -71,27 +71,23 @@ const carsSchema = new Schema({
     servicesData: {
         seatingCap: {
             type: String,
-            required: true,
             default: ""
         },
         serviceArea: {
             type: String,
-            required: true,
             default: ""
         },
         availability: {
             type: String,
-            enum: ['AVAILABLE', 'BREAK', 'MAINTENANCE'],
+            enum: ['AVAILABLE', 'BREAK', 'MAINTENANCE', 'ON SERVICE'],
             default: 'BREAK'
         },
         kmFare: {
             type: String,
-            required: true,
             default: ""
         },
         hrFare: {
             type: String,
-            required: true,
             default: ""
         }
     },

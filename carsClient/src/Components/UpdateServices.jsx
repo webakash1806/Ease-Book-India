@@ -30,7 +30,7 @@ const UpdateServices = () => {
 
     const seatNum = [1, 2, 3, 4, 5, 6, 7]
 
-    const avail = ['AVAILABLE', 'BREAK', 'MAINTENANCE']
+    const avail = ['AVAILABLE', 'BREAK', 'MAINTENANCE', 'ON SERVICE']
 
     const handleForm = async (e) => {
         e.preventDefault()
@@ -48,6 +48,7 @@ const UpdateServices = () => {
 
         if (res?.payload?.success) {
             await dispatch(userProfile())
+            toast.success('Updated!')
             setLoaderActive(false)
         }
     }

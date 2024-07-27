@@ -29,14 +29,14 @@ const HomeLayout = ({ children }) => {
                     <input id="my-drawer-3" type="checkbox" className="drawer-toggle" />
                     <div className="flex flex-col drawer-content ">
                         {/* Navbar */}
-                        <div className="w-full navbar bg-white text-black">
-                            <div className="flex-none lg:hidden ">
+                        <div className="w-full text-black bg-white navbar">
+                            <div className="flex-none xl:hidden ">
                                 <label htmlFor="my-drawer-3" aria-label="open sidebar" className="btn btn-square btn-ghost">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="inline-block w-6 h-6 stroke-current"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>
                                 </label>
                             </div>
-                            <div className="flex-1 absolute right-6 lg:static lg:ml-16"><img className='w-[9rem]' src="" alt="" />LOGO</div>
-                            <div className="flex-none hidden lg:block">
+                            <div className="absolute flex-1 right-6 xl:static "><img className='w-[9rem]' src="" alt="" />LOGO</div>
+                            <div className="flex-none hidden xl:block">
                                 <ul className="menu menu-horizontal">
                                     {/* Navbar menu content here */}
                                     <li><Link to='/'>Home</Link></li>
@@ -101,7 +101,7 @@ const HomeLayout = ({ children }) => {
                             </div>
                             <div className='mb-6'>
                                 {!isLoggedIn ?
-                                    <div className='flex items-center justify-center flex-col gap-2 '>
+                                    <div className='flex flex-col items-center justify-center gap-2 '>
                                         <Link to='/login'
                                             className='btn bg-[#19b56f] transition-all duration-700 hover:bg-[#FF8900] border-none text-white btn-sm rounded-sm w-[97%] font-normal text-[1.02rem] tracking-wide'>
                                             Login

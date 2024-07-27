@@ -98,7 +98,14 @@ const Register = () => {
         if (response?.payload?.success) {
             setLoaderActive(false)
 
-            navigate(-1)
+            if (navigate(-1) === '/login' || navigate(-1) === '/register' || navigate(-1) === '/logout') {
+                navigate('/')
+            } else {
+                navigate(-1)
+            }
+        } else {
+            setLoaderActive(false)
+
         }
 
     }

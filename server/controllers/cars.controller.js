@@ -79,7 +79,7 @@ const register = async (req, res, next) => {
             servicesData: {
                 seatingCap: "",
                 serviceArea: "",
-                availability: "",
+                availability: "BREAK",
                 kmFare: "",
                 hrFare: ""
             }
@@ -492,7 +492,7 @@ const getDriverWithService = async (req, res, next) => {
 
         const allDriver = await Cars.find()
 
-        const filteredDrivers = allDriver.filter(driver => driver.servicesData.seatingCap !== "")
+        const filteredDrivers = allDriver.filter(driver => driver.servicesData.seatingCap !== "" && driver.status !== "REJECTED")
 
         res.status(200).json({
             success: true,
