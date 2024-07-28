@@ -18,6 +18,8 @@ const OrderCar = () => {
     const userData = useSelector((state) => state?.auth?.data);
     const driverData = useSelector((state) => state?.service?.driverData) || [];
 
+    console.log(driverData)
+
     const userId = userData?._id;
     const driverId = driverData?._id;
 
@@ -144,6 +146,26 @@ const OrderCar = () => {
         ) {
             setLoaderActive(false);
             return toast.error("All fields are required");
+        }
+
+        if (numberOfChildren === 0 && numberOfMales === 0 && numberOfFemales === 0) {
+            setLoaderActive(false);
+
+            return toast.error("Please fill no. of passengers")
+        }
+
+        if (Number(numberOfChildren) + Number(numberOfFemales) + Number(numberOfMales) > driverData?.servicesData?.seatingCap) {
+            if (Number(numberOfChildren) + Number(numberOfFemales) + Number(numberOfMales) === Number(driverData?.servicesData?.seatingCap) + 1) {
+                if (Number(numberOfChildren) > 2) {
+                    setLoaderActive(false);
+
+                    return toast.error(`Seating capacity is only ${driverData?.servicesData?.seatingCap}`)
+                }
+            } else if (Number(numberOfChildren) + Number(numberOfFemales) + Number(numberOfMales) >= driverData?.servicesData?.seatingCap) {
+                setLoaderActive(false);
+
+                return toast.error(`Seating capacity is only ${driverData?.servicesData?.seatingCap}`)
+            }
         }
 
         if (!order_id) {

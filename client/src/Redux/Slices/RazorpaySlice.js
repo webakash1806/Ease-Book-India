@@ -26,7 +26,7 @@ export const order = createAsyncThunk('/razorpay/purchase', async (data) => {
         const response = await axiosInstance.post('/payment/checkout', (data))
         return response.data
     } catch (e) {
-        return toast.error(e?.response?.data?.message)
+        return
     }
 })
 
