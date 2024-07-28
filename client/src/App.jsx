@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import HomeLayout from './Layout/HomeLayout'
 import { Route, Routes } from 'react-router-dom'
 import HomePage from './Pages/HomePage'
@@ -9,6 +9,14 @@ import Cars from './Pages/Cars'
 import OrderCar from './Pages/Orders/OrderCar'
 
 const App = () => {
+  // In your component
+  useEffect(() => {
+    const script = document.createElement("script");
+    script.src = "https://checkout.razorpay.com/v1/checkout.js";
+    script.async = true;
+    document.body.appendChild(script);
+  }, []);
+
   return (
     <HomeLayout>
       <Routes>

@@ -1,18 +1,26 @@
-import React, { useEffect, useState } from 'react'
-import { useParams } from 'react-router-dom'
-import { useDispatch, useSelector } from 'react-redux'
-import { getDriverData } from '../../Redux/Slices/ServiceSlice'
-import { FaLocationDot } from 'react-icons/fa6'
-import { FaCar, FaRegUserCircle } from 'react-icons/fa'
-import { MdOutlineAirlineSeatReclineExtra } from 'react-icons/md'
+import React, { useEffect, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import { getDriverData } from '../../Redux/Slices/ServiceSlice';
+import { FaLocationDot } from 'react-icons/fa6';
+import { FaCar, FaRegUserCircle } from 'react-icons/fa';
+import { MdOutlineAirlineSeatReclineExtra } from 'react-icons/md';
+import { bookCar } from '../../Redux/Slices/OrderSlice';
+import { toast } from 'react-toastify';
+import { getRazorpayId, order, verifyPayment } from '../../Redux/Slices/RazorpaySlice';
 
 const OrderCar = () => {
-    const [loaderActive, setLoaderActive] = useState(false)
-    const { id } = useParams()
-    const dispatch = useDispatch()
+    const [loaderActive, setLoaderActive] = useState(false);
+    const { id } = useParams();
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
 
-    const userData = useSelector((state) => state?.auth?.data)
-    const driverData = useSelector((state) => state?.service?.driverData) || []
+    const userData = useSelector((state) => state?.auth?.data);
+    const driverData = useSelector((state) => state?.service?.driverData) || [];
+
+    const userId = userData?._id;
+    const driverId = driverData?._id;
+
     const [formData, setFormData] = useState({
         pickLocation: '',
         dropLocation: '',
@@ -20,70 +28,174 @@ const OrderCar = () => {
         fullName: userData?.fullName,
         phoneNumber: userData?.phoneNumber,
         alternateNumber: '',
-        numberOfMales: '',
-        numberOfFemales: '',
-        numberOfChildren: '',
+        numberOfMales: 0,
+        numberOfFemales: 0,
+        numberOfChildren: 0,
         fareType: 'km',
         totalPrice: 0,
         originalPrice: 0,
-    })
+    });
 
     const loadData = async () => {
-        await dispatch(getDriverData(id))
-    }
+        await dispatch(getDriverData(id));
+    };
 
     useEffect(() => {
-        loadData()
-    }, [])
+        loadData();
+    }, []);
 
     useEffect(() => {
-        // Calculate total price whenever fareType or number of kms changes
         const calculateTotalPrice = () => {
-            const kmFare = driverData?.servicesData?.kmFare || 0
-            const hrFare = driverData?.servicesData?.hrFare || 0
-            let originalPrice = 0
-            let discountedPrice = 0
-            const numberOfKms = 1
-            const numberOfHours = 1
+            const kmFare = driverData?.servicesData?.kmFare || 0;
+            const hrFare = driverData?.servicesData?.hrFare || 0;
+            let originalPrice = 0;
+            let discountedPrice = 0;
+            const numberOfKms = 1;
+            const numberOfHours = 1;
 
             if (formData.fareType === 'km') {
-                originalPrice = numberOfKms * kmFare
-                discountedPrice = originalPrice - originalPrice * 0.05 // 5% discount
+                originalPrice = numberOfKms * kmFare;
+                discountedPrice = originalPrice - originalPrice * 0.05; // 5% discount
             } else {
-                originalPrice = numberOfHours * hrFare
-                discountedPrice = originalPrice - originalPrice * 0.10 // 10% discount
+                originalPrice = numberOfHours * hrFare;
+                discountedPrice = originalPrice - originalPrice * 0.10; // 10% discount
             }
 
             if (formData.returnTrip) {
-                originalPrice *= 2
-                discountedPrice *= 2
+                originalPrice *= 2;
+                discountedPrice *= 2;
             }
 
             setFormData(prevState => ({
                 ...prevState,
                 originalPrice: originalPrice,
                 totalPrice: discountedPrice
-            }))
-        }
+            }));
+        };
 
-        calculateTotalPrice()
-    }, [formData.fareType, formData.pickLocation, formData.numberOfHours, formData.returnTrip])
+        calculateTotalPrice();
+    }, [formData.fareType, formData.pickLocation, formData.numberOfHours, formData.returnTrip]);
 
     const handleChange = (e) => {
-        const { name, value, type, checked } = e.target
+        const { name, value, type, checked } = e.target;
         setFormData(prevState => ({
             ...prevState,
             [name]: type === 'checkbox' ? checked : value
-        }))
-    }
+        }));
+    };
 
-    const handleSubmit = (e) => {
-        e.preventDefault()
-        console.log(formData)
-        // Process the form data here
-    }
+    const razorpayKey = useSelector((state) => state?.razorpay?.key);
+    const order_id = useSelector((state) => state?.razorpay?.orderId);
 
-    const proofFileUrl = driverData?.proofFiles?.[3]?.fileUrl
+    const paymentDetails = {
+        razorpay_payment_id: "",
+        razorpay_order_id: "",
+        razorpay_signature: ""
+    };
+
+    const fetchOrderId = async () => {
+        await dispatch(order({ amount: formData.totalPrice }));
+    };
+
+    useEffect(() => {
+        if (!order_id) {
+            fetchOrderId();
+        }
+    }, [order_id]);
+
+    const handleSubmit = async (e) => {
+        e.preventDefault();
+
+        if (driverData.servicesData.availability !== "AVAILABLE") {
+            navigate('/car')
+            return toast.error("Driver is busy Try another")
+        }
+
+        const date = new Date().getDate();
+        const today = new Date();
+        const month = today.toLocaleString('default', { month: 'short' });
+        const year = new Date().getFullYear();
+
+        const orderDate = `${date} ${month},${year}`;
+
+        const now = new Date();
+        const istTime = new Date(now.toLocaleString('en-US', { timeZone: 'Asia/Kolkata' }));
+        const hours = istTime.getHours();
+        const minutes = istTime.getMinutes();
+        const ampm = hours >= 12 ? 'PM' : 'AM';
+        const formattedHours = hours % 12 || 12; // Convert 24 hour format to 12 hour format
+        const formattedMinutes = minutes < 10 ? '0' + minutes : minutes;
+        const orderTime = `${formattedHours}:${formattedMinutes} ${ampm}`;
+
+        const { originalPrice, totalPrice, pickLocation, dropLocation, phoneNumber, alternateNumber, fareType, fullName, returnTrip, numberOfChildren, numberOfFemales, numberOfMales } = formData;
+
+        if (
+            !originalPrice ||
+            !totalPrice ||
+            !pickLocation ||
+            !dropLocation ||
+            !phoneNumber ||
+            !alternateNumber ||
+            !fareType ||
+            !fullName ||
+            numberOfChildren === null ||
+            numberOfFemales === null ||
+            numberOfMales === null
+        ) {
+            setLoaderActive(false);
+            return toast.error("All fields are required");
+        }
+
+        if (!order_id) {
+            setLoaderActive(false);
+            return toast.error("Unable to get order ID. Please try again.");
+        }
+
+        const options = {
+            key: razorpayKey, // Enter the Key ID generated from the Dashboard
+            amount: totalPrice * 100, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+            currency: "INR",
+            name: "....", //your business name
+            description: "",
+            image: "",
+            order_id: order_id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+            handler: async function (res) {
+                paymentDetails.razorpay_payment_id = res.razorpay_payment_id;
+                paymentDetails.razorpay_order_id = res.razorpay_order_id;
+                paymentDetails.razorpay_signature = res.razorpay_signature;
+                console.log(paymentDetails);
+                const response = await dispatch(verifyPayment(paymentDetails));
+                if (response?.payload?.success) {
+                    const res = await dispatch(bookCar({ originalPrice, totalPrice, pickLocation, dropLocation, phoneNumber, alternateNumber, fareType, fullName, returnTrip, numberOfChildren, numberOfFemales, numberOfMales, orderDate, orderTime, userId, driverId }));
+                    if (res.payload.success) {
+                        setLoaderActive(false);
+                        toast.success("Order Placed!");
+                    }
+                    navigate('/order')
+                } else {
+                    navigate('/order/fail')
+                    setLoaderActive(false);
+                }
+            },
+            prefill: {
+                "name": userData?.fullName, //your customer's name
+                "email": userData?.email,
+                "contact": userData?.phoneNumber  //Provide the customer's phone number for better conversion rates 
+            },
+            notes: {
+                "address": "Office"
+            },
+            theme: {
+                "color": "#FC683E"
+            }
+        };
+
+        const razor = new window.Razorpay(options);
+        razor.open();
+    };
+
+    const proofFileUrl = driverData?.proofFiles?.[3]?.fileUrl;
+
 
     const mainDiv = 'flex flex-col gap-[0.1px]'
     const labelStyle = "text-[0.83rem] tracking-wide text-[#000] font-[500] ml-[0.5px]"
