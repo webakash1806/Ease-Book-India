@@ -12,6 +12,9 @@ const orderSchema = new Schema({
     orderDate: {
         type: String,
     },
+    fullName: {
+        type: String,
+    },
     orderTime: {
         type: String
     },
@@ -63,7 +66,7 @@ const orderSchema = new Schema({
     status: {
         type: String,
         required: true,
-        enum: ["On the way", "Picked up", "Dropped"],
+        enum: ["On the way", "Picked up", "Dropped", "Cancelled"],
         default: "On the way"
     }
 }, {

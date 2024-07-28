@@ -22,13 +22,8 @@ export const checkout = async (req, res, next) => {
     try {
 
         const { amount } = req.body
-        console.log(amount)
-        if (!amount) {
-            return next(new AppError('No amount provided', 400))
-        }
 
         const razorAmount = await Number(amount) * 100
-        console.log(razorAmount)
         const options = {
             amount: razorAmount,
             currency: "INR"
@@ -36,13 +31,14 @@ export const checkout = async (req, res, next) => {
 
         const order = await razorpay.orders.create(options)
 
-
+        console.log(order)
         res.status(200).json({
             success: true,
             order
         })
 
     } catch (e) {
+        console.log(e.message)
         return next(new AppError(e.message, 500))
 
     }
