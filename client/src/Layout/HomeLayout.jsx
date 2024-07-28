@@ -12,6 +12,9 @@ const HomeLayout = ({ children }) => {
     const isLoggedIn = useSelector((state) => state?.auth?.isLoggedIn);
     const avatar = useSelector((state) => state?.auth?.data?.avatar);
     const fullName = useSelector((state) => state?.auth?.data?.fullName);
+    const userId = useSelector((state) => state?.auth?.data?._id);
+
+    console.log(userId)
 
     const handleLogout = async () => {
         const response = await dispatch(logout());
@@ -75,7 +78,7 @@ const HomeLayout = ({ children }) => {
                                             </span>
                                             {orderDropdownOpen && (
                                                 <ul className="absolute z-10 flex-col w-[10rem] mt-1 bg-white border rounded shadow-lg top-full">
-                                                    <li><Link to='/order/car-book' className="px-4 py-2 hover:bg-gray-100">Car Book</Link></li>
+                                                    <li><Link to={`/order/car-book/${userId}`} className="px-4 py-2 hover:bg-gray-100">Car Book</Link></li>
                                                     <li><Link to='/order/hotels-book' className="px-4 py-2 hover:bg-gray-100">Hotel Book</Link></li>
                                                 </ul>
                                             )}
@@ -135,7 +138,7 @@ const HomeLayout = ({ children }) => {
                                         </span>
                                         {orderDropdownOpen && (
                                             <ul className="absolute z-10 flex-col w-[10rem] mt-1 bg-white border rounded shadow-lg top-full">
-                                                <li><Link to='/car-book' className="px-4 py-2 hover:bg-gray-100">Car Book</Link></li>
+                                                <li><Link to={`/order/car-book/${userId}`} className="px-4 py-2 hover:bg-gray-100">Car Book</Link></li>
                                                 <li><Link to='/hotels-book' className="px-4 py-2 hover:bg-gray-100">Hotel Book</Link></li>
                                             </ul>
                                         )}

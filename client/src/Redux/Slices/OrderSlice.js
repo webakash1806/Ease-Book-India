@@ -27,6 +27,7 @@ export const bookCar = createAsyncThunk('/user/book-car', async (data) => {
 
 export const getOrders = createAsyncThunk('/user/get-car-order/:id', async (data) => {
     try {
+        console.log(data)
         let res = axiosInstance.get(`user/get-car-order/${data}`)
         toast.promise(res, {
             loading: 'Loading',

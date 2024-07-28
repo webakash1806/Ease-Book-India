@@ -7,6 +7,7 @@ import LoginPage from './Pages/LoginPage'
 import Places from './Pages/Places'
 import Cars from './Pages/Cars'
 import OrderCar from './Pages/Orders/OrderCar'
+import PastCarOrders from './Pages/Orders/PastCarOrders'
 
 const App = () => {
   // In your component
@@ -26,6 +27,7 @@ const App = () => {
         <Route path='/places' element={<Places />} />
         <Route path='/car' element={<Cars />} />
         <Route path='/car-book/:id' element={<OrderCar />} />
+        <Route path='/order/car-book/:id' element={<PastCarOrders />} />
       </Routes>
     </HomeLayout>
   )
