@@ -33,9 +33,9 @@ const PastOrder = () => {
     }, []);
 
     return (
-        <div className='flex flex-col items-center py-4 text-black bg-white'>
+        <div className='flex flex-col items-center gap-4 py-4 text-black bg-white'>
             {orderData && orderData.length > 0 ? (
-                orderData.map((data) => (
+                orderData.slice().reverse().map((data) => (
                     <div key={data?._id} className='flex cursor-pointer rounded-sm sm:justify-between sm:min-w-[38rem] sm:flex-row shadow-[0px_0px_5px_#808080] overflow-hidden flex-col items-start sm:w-[65vw] w-[90vw] md:w-[63vw] lg:w-[58vw] xl:w-[50rem] min-w-[19.7rem]'>
                         <div className='flex items-center gap-2 md:gap-3 lg:gap-4'>
                             <div>
@@ -67,7 +67,7 @@ const PastOrder = () => {
                             )}
                             {data?.status === "On the way" && (
                                 <div className='flex items-center justify-between w-full p-1 border-t'>
-                                    <h3 className='flex items-center gap-2'>
+                                    <h3 className='flex items-center gap-2 text-[0.92rem]'>
                                         Pickup OTP
                                         <OtpInput
                                             value={otp}

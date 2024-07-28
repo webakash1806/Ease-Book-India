@@ -5,6 +5,9 @@ const orderSchema = new Schema({
         type: String,
         required: true
     },
+    driverData: {
+        type: Object
+    },
     driverId: {
         type: String,
         required: true

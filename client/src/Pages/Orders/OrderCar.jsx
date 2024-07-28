@@ -193,7 +193,7 @@ const OrderCar = () => {
                         setLoaderActive(false);
                         toast.success("Order Placed!");
                     }
-                    navigate('/order')
+                    navigate(`/order/car-book/${userData?._id}`)
                 } else {
                     navigate('/order/fail')
                     setLoaderActive(false);

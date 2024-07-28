@@ -44,6 +44,25 @@ export const getOrders = createAsyncThunk('/user/get-car-order/:id', async (data
     }
 })
 
+export const updateDrop = createAsyncThunk('/user/update-drop', async (data) => {
+    try {
+        console.log(data)
+        let res = axiosInstance.put(`user/update-drop`, data)
+        toast.promise(res, {
+            loading: 'Verifying',
+            success: (data) => {
+                return data?.data.message
+            },
+            error: "Failed to get verified"
+        })
+        // getting response resolved here
+        res = await res;
+        return res.data;
+    } catch (e) {
+        return toast.error(e?.response?.data?.message)
+    }
+})
+
 const orderSlice = createSlice({
     name: 'order',
     initialState,

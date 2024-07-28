@@ -22,15 +22,18 @@ const createCarOrder = async (req, res, next) => {
 
         console.log(dropOTP)
 
-        if (!originalPrice || !totalPrice || !pickLocation || !dropLocation || !phoneNumber || !alternateNumber || !fareType || !fullName || !returnTrip || !numberOfChildren || !numberOfFemales || !numberOfMales) {
-            return next(new AppError('All fields are required', 400))
-        }
+        // if (!originalPrice || !totalPrice || !pickLocation || !dropLocation || !phoneNumber || !alternateNumber || !fareType || !fullName || !returnTrip || !numberOfChildren || !numberOfFemales || !numberOfMales) {
+        //     return next(new AppError('All fields are required', 400))
+        // }
 
         if (!userId || !driverId || !orderDate || !orderTime || !startOTP || !dropOTP) {
             return next(new AppError('Something went wrong!', 400))
         }
 
+        const driverData = await Cars.findOne({ _id: driverId })
+
         const order = await Order.create({
+            driverData,
             userId,
             driverId,
             orderDate,
@@ -86,8 +89,8 @@ const getCarOrderData = async (req, res, next) => {
 
 const getDriverCarOrder = async (req, res, next) => {
     try {
-        const id = req.params
-        console.log(id)
+        const { id } = req.params
+
         const order = await Order.find({ driverId: id })
 
         res.status(200).json({
@@ -102,7 +105,8 @@ const getDriverCarOrder = async (req, res, next) => {
 
 const getUserCarOrder = async (req, res, next) => {
     try {
-        const id = req.params
+        const { id } = req.params
+        console.log(id)
         const order = await Order.find({ userId: id })
 
         res.status(200).json({
@@ -131,12 +135,11 @@ const allCarOrder = async (req, res, next) => {
 
 const pickupUpdate = async (req, res, next) => {
     try {
-        const { startOTP } = req.body
-        const { id } = req.params
-
+        const { startOTP, id } = req.body
+        console.log(startOTP, id)
         const order = await Order.findById(id)
-
-        if (order.startOTP === startOTP) {
+        console.log(order)
+        if (order.startOTP == startOTP) {
             order.status = "Picked up"
         } else {
             return next(new AppError("OTP is wrong!", 400))
@@ -157,13 +160,19 @@ const pickupUpdate = async (req, res, next) => {
 
 const dropUpdate = async (req, res, next) => {
     try {
-        const { dropOTP } = req.body
-        const { id } = req.params
+        const { dropOTP, id } = req.body
 
         const order = await Order.findById(id)
 
-        if (order.dropOTP === dropOTP) {
+        const driverId = order.driverId
+
+        const driver = await Cars.findOne({ _id: driverId })
+
+        if (order.dropOTP == dropOTP) {
             order.status = "Dropped"
+            driver.servicesData.availability = "AVAILABLE"
+
+            await driver.save()
         } else {
             return next(new AppError("OTP is wrong!", 400))
         }
