@@ -5,6 +5,7 @@ import Home from './Pages/Home'
 import Login from './Pages/Auth/Login'
 import Register from './Pages/Auth/Register'
 import RequireAuth from './Components/Auth/RequireAuth'
+import PastOrder from './Pages/Order/PastOrder'
 
 const App = () => {
   return (
@@ -12,6 +13,7 @@ const App = () => {
       <Routes>
         <Route element={<RequireAuth allowedRoles={['RIDER']} />}>
           <Route path='/' element={<Home />} />
+          <Route path='/order/:id' element={<PastOrder />} />
         </Route>
         <Route path='/login' element={<Login />} />
         <Route path='/register' element={<Register />} />

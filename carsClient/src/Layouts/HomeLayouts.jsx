@@ -16,6 +16,7 @@ const HomeLayout = ({ children }) => {
     const isLoggedIn = useSelector((state) => state?.auth?.isLoggedIn)
     const avatar = useSelector((state) => state?.auth?.data)
     const fullName = useSelector((state) => state?.auth?.data?.fullName)
+    const driverId = useSelector((state) => state?.auth?.data?._id)
 
     const handleLogout = async () => {
         const response = await dispatch(logout())
@@ -44,6 +45,7 @@ const HomeLayout = ({ children }) => {
                                     {/* Navbar menu content here */}
                                     <li><Link to='/'><FaHome />Home</Link></li>
 
+                                    <li><Link to={`/order/${driverId}`}><HiMiniInformationCircle /> Order</Link></li>
                                     <li><Link to='/about'><HiMiniInformationCircle /> About</Link></li>
                                     <li><Link to='/contact'><MdOutlinePermContactCalendar /> Contact</Link></li>
 
@@ -86,6 +88,8 @@ const HomeLayout = ({ children }) => {
                             <div>
                                 <Link to={'/'} className="m-[0_auto] border-b mb-6 pb-2 flex items-center justify-around border-slate-500"><img className='w-full' src="" alt="" />LOGO</Link>
                                 <li><Link to='/'><FaHome />Home</Link></li>
+                                <li><Link to={`/order/${driverId}`}><HiMiniInformationCircle /> Order</Link></li>
+
 
                                 <li><Link to='/about'><HiMiniInformationCircle /> About</Link></li>
                                 <li><Link to='/contact'><MdOutlinePermContactCalendar /> Contact</Link></li>
