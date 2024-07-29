@@ -121,14 +121,25 @@ const CarOrders = () => {
 
     return (
         <HomeLayout>
-            <div className='flex flex-col items-center justify-center gap-4 p-4 bg-white shadow-md'>
-                <div className='flex flex-col w-full gap-4 md:flex-row'>
-                    <div className='flex flex-col w-full'>
-                        <label className='mb-1 text-black'>Filter by Status</label>
+
+            <div className='flex flex-col xl:flex-row items-center justify-between gap-4 sm:p-3 p-1 py-3 mt-4 bg-white rounded shadow-[0px_0px_10px_#8080807e]'>
+                <div className='flex flex-col w-full'>
+                    <label className='mb-1 text-black'>Search by Name</label>
+                    <input
+                        type='text'
+                        value={searchTerm}
+                        onChange={(e) => setSearchTerm(e.target.value)}
+                        className='bg-white shadow-[0px_0px_15px_#95959577_inset] outline-none text-black rounded p-2 xl:w-[20rem] w-full'
+                        placeholder='Search by name'
+                    />
+                </div>
+                <div className='flex justify-between w-full '>
+                    <div className='flex flex-col '>
+                        <label className='mb-1 text-black'>Status</label>
                         <select
                             value={filterStatus}
                             onChange={(e) => setFilterStatus(e.target.value)}
-                            className='p-2 text-black bg-white border border-gray-300 rounded'
+                            className='bg-[#fff] shadow-[0px_0px_15px_#95959577_inset] outline-none text-black rounded p-2 sm:w-[12rem] w-[7rem]'
                         >
                             <option value="All">All</option>
                             <option value="On the way">On the way</option>
@@ -137,12 +148,24 @@ const CarOrders = () => {
                             <option value="Cancelled">Cancelled</option>
                         </select>
                     </div>
-                    <div className='flex flex-col w-full'>
-                        <label className='mb-1 text-black'>Filter by Time</label>
+                    <div className='flex flex-col '>
+                        <label className='mb-1 text-black'>Show:</label>
+                        <select
+                            value={itemsPerPage}
+                            onChange={(e) => setItemsPerPage(Number(e.target.value))}
+                            className='bg-white shadow-[0px_0px_15px_#95959577_inset] outline-none text-black rounded p-2 sm:w-[5rem] w-[3.95rem]'
+                        >
+                            <option value={10}>10</option>
+                            <option value={50}>50</option>
+                            <option value={100}>100</option>
+                        </select>
+                    </div>
+                    <div className='flex flex-col '>
+                        <label className='mb-1 text-black'>Time</label>
                         <select
                             value={filterTime}
                             onChange={(e) => setFilterTime(e.target.value)}
-                            className='p-2 text-black bg-white border border-gray-300 rounded'
+                            className='bg-[#fff] shadow-[0px_0px_15px_#95959577_inset] outline-none text-black rounded p-2 sm:w-[12rem] w-[7.4rem]'
                         >
                             <option value="All">All</option>
                             <option value="Last Week">Last Week</option>
@@ -152,38 +175,18 @@ const CarOrders = () => {
                             <option value="Last Year">Last Year</option>
                         </select>
                     </div>
-                    <div className='flex flex-col w-full'>
-                        <label className='mb-1 text-black'>Search by Name</label>
-                        <input
-                            type='text'
-                            value={searchTerm}
-                            onChange={(e) => setSearchTerm(e.target.value)}
-                            className='p-2 text-black bg-white border border-gray-300 rounded'
-                            placeholder='Search by name'
-                        />
-                    </div>
-                    <div className='flex flex-col w-full'>
-                        <label className='mb-1 text-black'>Items per Page</label>
-                        <select
-                            value={itemsPerPage}
-                            onChange={(e) => setItemsPerPage(Number(e.target.value))}
-                            className='p-2 text-black bg-white border border-gray-300 rounded'
-                        >
-                            <option value={10}>10</option>
-                            <option value={50}>50</option>
-                            <option value={100}>100</option>
-                        </select>
-                    </div>
+
+
                 </div>
             </div>
-            <div className='flex flex-col items-center w-full gap-4 px-4 mt-4'>
+            <div className='flex flex-col items-center gap-4 mt-4 '>
                 {loading ? (
                     <SkeletonLoader />
                 ) : paginatedData && paginatedData.length > 0 ? (
                     paginatedData.map((data) => (
                         <div
                             key={data?._id}
-                            className='flex cursor-pointer rounded-sm sm:justify-between sm:min-w-[38rem] sm:flex-row shadow-[0px_0px_5px_#808080] overflow-hidden flex-col items-start sm:w-[65vw] w-[90vw] md:w-[63vw] lg:w-[58vw] xl:w-[50rem] min-w-[19.7rem]'
+                            className='flex cursor-pointer rounded-sm lg:justify-between lg:min-w-[38rem] lg:flex-row shadow-[0px_0px_5px_#808080] overflow-hidden flex-col items-start md:w-[50vw] sm:w-[65vw] w-[90vw]  lg:w-[50vw] xl:w-[50rem] min-w-[18rem] '
                             onClick={(e) => {
                                 if (e.target.closest('.otp-container')) return;
                                 navigate(`/book-detail/${data?._id}`);
@@ -201,7 +204,7 @@ const CarOrders = () => {
                                     </h3>
                                 </div>
                             </div>
-                            <div className='w-full text-[0.95rem] text-black sm:w-[17.5rem] md:w-[18.5rem] xl:w-[23rem] sm:pr-2'>
+                            <div className='w-full text-[0.95rem] text-black sm:w-full lg:w-[18rem] md:w-full xl:w-[23rem] sm:pr-2'>
                                 <div className='flex items-center justify-between w-full p-1 border-t'>
                                     <h3>{data?.pickLocation}</h3>
                                     {data?.returnTrip ? <FaArrowRightArrowLeft /> : <FaArrowRight />}
@@ -217,7 +220,7 @@ const CarOrders = () => {
                 ) : (
                     <div>No orders found.</div>
                 )}
-                <div className="flex sm:w-[65vw] w-[90vw] md:w-[63vw] lg:w-[58vw] sm:min-w-[38rem] xl:w-[50rem] min-w-[19.7rem] items-center justify-between mt-2 bg-[#353a51] text-white rounded overflow-hidden shadow-[0px_6px_10px_#8080807e]">
+                <div className="flex sm:w-[65vw] w-[90vw] md:w-[50vw] lg:w-[58vw]  xl:w-[50rem] min-w-[19.7rem] items-center justify-between mt-2 bg-[#353a51] text-white rounded overflow-hidden shadow-[0px_6px_10px_#8080807e]">
                     <button
                         className='flex items-center justify-center bg-[#7367F0] p-3'
                         onClick={() => setCurrentPage(prev => Math.max(prev - 1, 1))} disabled={currentPage === 1}>
