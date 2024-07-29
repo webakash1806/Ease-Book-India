@@ -5,6 +5,8 @@ import axiosInstance from "../../Helper/axiosInstance"
 
 const initialState = {
     driverList: localStorage.getItem('driverList') !== "undefined" ? JSON.parse(localStorage.getItem('driverList')) : [{}],
+    carsBooking: localStorage.getItem('carsBooking') !== "undefined" ? JSON.parse(localStorage.getItem('carsBooking')) : [{}],
+    userList: localStorage.getItem('userList') !== "undefined" ? JSON.parse(localStorage.getItem('userList')) : [{}],
     driverDetail: localStorage.getItem('driverDetail') !== "undefined" ? JSON.parse(localStorage.getItem('driverDetail')) : {}
 }
 
@@ -65,6 +67,40 @@ export const getDriverDetail = createAsyncThunk('/admin/car/detail', async (data
 
 })
 
+export const getUsersList = createAsyncThunk('/admin/user/list', async () => {
+    try {
+        let res = axiosInstance.get('/user/list')
+        toast.promise(res, {
+            loading: 'Loading data',
+            success: (data) => {
+                return data?.data.message
+            },
+            error: "failed to load"
+        })
+        res = await res
+        return res.data
+    } catch (e) {
+        return toast.error(e?.response?.data?.message)
+    }
+})
+
+export const getCarBookings = createAsyncThunk('/admin/car/booking', async () => {
+    try {
+        let res = axiosInstance.get('/car-orders')
+        toast.promise(res, {
+            loading: 'Loading data',
+            success: (data) => {
+                return data?.data.message
+            },
+            error: "failed to load"
+        })
+        res = await res
+        return res.data
+    } catch (e) {
+        return toast.error(e?.response?.data?.message)
+    }
+})
+
 
 const listSlice = createSlice({
     name: 'list',
@@ -77,6 +113,12 @@ const listSlice = createSlice({
         }).addCase(getDriverDetail.fulfilled, (state, action) => {
             localStorage.setItem('driverDetail', JSON.stringify(action?.payload?.detail))
             state.driverDetail = action?.payload?.detail
+        }).addCase(getUsersList.fulfilled, (state, action) => {
+            localStorage.setItem('userList', JSON.stringify(action?.payload?.list))
+            state.userList = action?.payload?.list
+        }).addCase(getCarBookings.fulfilled, (state, action) => {
+            localStorage.setItem('carsBooking', JSON.stringify(action?.payload?.order))
+            state.carsBooking = action?.payload?.order
         })
     }
 })

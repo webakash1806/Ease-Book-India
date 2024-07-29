@@ -7,6 +7,8 @@ import Login from './Pages/Auth/Login'
 import RequireAuth from './Components/Auth/RequireAuth'
 import CarsList from './Pages/CarsPages/CarsList'
 import CarDetail from './Pages/CarsPages/CarDetail'
+import UsersList from './Pages/UserPages/UsersList'
+import CarOrders from './Pages/CarsPages/CarOrders'
 
 const App = () => {
   return (
@@ -17,6 +19,8 @@ const App = () => {
           <Route path='/' element={<Home />} />
           <Route path='/car-list' element={<CarsList />} />
           <Route path='/driver/:id' element={<CarDetail />} />
+          <Route path='/users-list' element={<UsersList />} />
+          <Route path='/car-booking' element={<CarOrders />} />
         </Route>
       </Routes>
     </div>
