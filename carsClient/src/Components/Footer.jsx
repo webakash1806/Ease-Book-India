@@ -29,7 +29,7 @@ const Footer = () => {
 
 
     return (
-        <footer className='text-white bg-gradient-to-b from-[#2F3349] to-[#2F3349]'>
+        <footer className='text-white bg-gradient-to-b from-[#2F3349] to-[#2F3349] relative z-[1000000]'>
             {/* <img src={footerImg} alt="" className='absolute h-full w-[100vw]' /> */}
             <div className='flex  relative flex-col xl:flex-row p-[2.5rem_1rem] md:p-[2.5_5rem] gap-8 xl:justify-around'>
                 <div className='flex flex-col gap-2'>
