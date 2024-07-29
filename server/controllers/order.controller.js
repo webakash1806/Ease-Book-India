@@ -73,8 +73,8 @@ const createCarOrder = async (req, res, next) => {
 
 const getCarOrderData = async (req, res, next) => {
     try {
-        const id = req.params
-
+        const { id } = req.params
+        console.log(id)
         const order = await Order.findById(id)
 
         res.status(200).json({
@@ -190,6 +190,36 @@ const dropUpdate = async (req, res, next) => {
     }
 }
 
+const cancelCarBook = async (req, res, next) => {
+    try {
+        const { id } = req.params
+
+        const order = await Order.findById(id)
+
+        console.log(order)
+
+
+
+        const driverId = order.driverId
+
+        const driver = await Cars.findOne({ _id: driverId })
+
+        order.status = "Cancelled"
+        driver.servicesData.availability = "AVAILABLE"
+
+        await driver.save()
+        await order.save()
+
+        res.status(200).json({
+            success: true,
+            message: "Booking cancelled"
+        })
+
+    } catch (e) {
+        return next(new AppError(e.message, 500))
+    }
+}
+
 export {
     createCarOrder,
     getDriverCarOrder,
@@ -197,5 +227,6 @@ export {
     allCarOrder,
     getCarOrderData,
     pickupUpdate,
-    dropUpdate
+    dropUpdate,
+    cancelCarBook
 }
