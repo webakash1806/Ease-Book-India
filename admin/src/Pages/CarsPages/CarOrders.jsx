@@ -102,22 +102,10 @@ const CarOrders = () => {
         return filteredData;
     };
 
-    const filteredOrderData = getTimeFilteredData();
+    const filteredOrderData = getTimeFilteredData().slice().reverse(); // Create a copy and reverse it
     const totalPages = Math.ceil(filteredOrderData.length / itemsPerPage);
 
     const paginatedData = filteredOrderData.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
-
-    const handleNextPage = () => {
-        if (currentPage < totalPages) {
-            setCurrentPage(currentPage + 1);
-        }
-    };
-
-    const handlePreviousPage = () => {
-        if (currentPage > 1) {
-            setCurrentPage(currentPage - 1);
-        }
-    };
 
     return (
         <HomeLayout>

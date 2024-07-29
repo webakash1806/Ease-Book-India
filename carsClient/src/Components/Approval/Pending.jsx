@@ -4,7 +4,7 @@ import { useSelector } from 'react-redux'
 const Approval = () => {
 
     const [lang, setLang] = useState('en')
-    console.log(lang)
+
     const fullName = useSelector((state) => state?.auth?.data?.fullName)
 
     const handleLang = (e) => {

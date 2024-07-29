@@ -9,6 +9,7 @@ import CarsList from './Pages/CarsPages/CarsList'
 import CarDetail from './Pages/CarsPages/CarDetail'
 import UsersList from './Pages/UserPages/UsersList'
 import CarOrders from './Pages/CarsPages/CarOrders'
+import CarBookDetails from './Pages/CarsPages/CarBookDetails'
 
 const App = () => {
   return (
@@ -19,6 +20,7 @@ const App = () => {
           <Route path='/' element={<Home />} />
           <Route path='/car-list' element={<CarsList />} />
           <Route path='/driver/:id' element={<CarDetail />} />
+          <Route path='/book-detail/:id' element={<CarBookDetails />} />
           <Route path='/users-list' element={<UsersList />} />
           <Route path='/car-booking' element={<CarOrders />} />
         </Route>

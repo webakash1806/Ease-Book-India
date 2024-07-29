@@ -1,4 +1,5 @@
 import Admin from "../models/admin.model.js"
+import User from "../models/user.models.js"
 import Cars from "../models/cars.models.js"
 import AppError from "../utils/error.utils.js"
 import cloudinary from 'cloudinary'
@@ -489,6 +490,19 @@ const getDriverData = async (req, res, next) => {
     }
 }
 
+const usersList = async (req, res, next) => {
+    try {
+        const list = await User.find()
+
+        res.status(200).json({
+            status: 'success',
+            message: 'Users list',
+            list
+        })
+    } catch (e) {
+        return next(new AppError(e.message, 500))
+    }
+}
 /* The below code is exporting a set of functions related to admin authentication and profile
 management. These functions include: */
 export {
@@ -502,5 +516,6 @@ export {
     updateProfile,
     carDriverList,
     updateDriverStatus,
-    getDriverData
+    getDriverData,
+    usersList
 }

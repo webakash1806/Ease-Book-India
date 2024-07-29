@@ -45,16 +45,7 @@ const UsersList = () => {
         }
     }, [statusUpdated]);
 
-    const handleStatusChange = async (id, status) => {
-        const res = await dispatch(updateDriverStatus({ id, status }))
-            .unwrap()
-            .then(() => {
-                setStatusUpdated(true);
-                return toast.success("Status updated!");
-            });
 
-        console.log(res);
-    };
 
     const handleSearch = useCallback(
         debounce((query, status) => {

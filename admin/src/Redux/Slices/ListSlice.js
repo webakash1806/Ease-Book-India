@@ -7,7 +7,8 @@ const initialState = {
     driverList: localStorage.getItem('driverList') !== "undefined" ? JSON.parse(localStorage.getItem('driverList')) : [{}],
     carsBooking: localStorage.getItem('carsBooking') !== "undefined" ? JSON.parse(localStorage.getItem('carsBooking')) : [{}],
     userList: localStorage.getItem('userList') !== "undefined" ? JSON.parse(localStorage.getItem('userList')) : [{}],
-    driverDetail: localStorage.getItem('driverDetail') !== "undefined" ? JSON.parse(localStorage.getItem('driverDetail')) : {}
+    driverDetail: localStorage.getItem('driverDetail') !== "undefined" ? JSON.parse(localStorage.getItem('driverDetail')) : {},
+    singleCarData: localStorage.getItem('singleCarData') !== "undefined" ? JSON.parse(localStorage.getItem('singleCarData')) : {},
 }
 
 export const getDriverList = createAsyncThunk('/admin/car/list', async () => {
@@ -101,6 +102,24 @@ export const getCarBookings = createAsyncThunk('/admin/car/booking', async () =>
     }
 })
 
+export const getCarOrderDetail = createAsyncThunk('/admin/car-book/:id', async (data) => {
+    try {
+        let res = axiosInstance.get(`car-orders/${data}`)
+        toast.promise(res, {
+            loading: 'Loading',
+            success: (data) => {
+                return data?.data.message
+            },
+            error: "failed to get orders"
+        })
+        // getting response resolved here
+        res = await res;
+        return res.data;
+    } catch (e) {
+        return toast.error(e?.response?.data?.message)
+    }
+})
+
 
 const listSlice = createSlice({
     name: 'list',
@@ -119,6 +138,9 @@ const listSlice = createSlice({
         }).addCase(getCarBookings.fulfilled, (state, action) => {
             localStorage.setItem('carsBooking', JSON.stringify(action?.payload?.order))
             state.carsBooking = action?.payload?.order
+        }).addCase(getCarOrderDetail.fulfilled, (state, action) => {
+            localStorage.setItem('singleCarData', JSON.stringify(action?.payload?.order))
+            state.singleCarData = action?.payload?.order
         })
     }
 })

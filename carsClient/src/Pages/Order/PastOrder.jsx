@@ -110,7 +110,7 @@ const PastOrder = () => {
 
     return (
         <div className='relative flex flex-col min-h-[90vh] items-center py-4 text-black bg-white md:flex-row md:items-start'>
-            <div className={`fixed top-0 left-0 w-[13rem] mt-14 h-full shadow-xl bg-white p-4 md:flex md:flex-col ${showFilters ? 'block' : 'hidden'} md:block`}>
+            <div className={`fixed top-0 left-0 w-[13rem] pt-20 h-full shadow-xl bg-white p-4 md:flex md:flex-col ${showFilters ? 'block' : 'hidden'} md:block`}>
                 <div className='md:hidden'>
                     <button
                         className="flex items-center gap-2 px-2 py-1 mb-4 bg-white border border-gray-300 rounded"
