@@ -1,84 +1,144 @@
-import React, { useEffect, useState } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
-import { useNavigate, useParams } from 'react-router-dom'
-import { getOrders, updateDrop } from '../../Redux/Slices/OrderSlice'
-import { FaArrowRight, FaArrowRightArrowLeft, FaCar } from 'react-icons/fa6'
-import { MdCall, MdFilterList } from 'react-icons/md'
-import OtpInput from 'react-otp-input'
-import dayjs from 'dayjs'
+import React, { useEffect, useState } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { useNavigate, useParams } from 'react-router-dom';
+import { getOrders, updateDrop } from '../../Redux/Slices/OrderSlice';
+import { FaArrowRight, FaArrowRightArrowLeft, FaCar } from 'react-icons/fa6';
+import { MdCall, MdFilterList } from 'react-icons/md';
+import OtpInput from 'react-otp-input';
+import dayjs from 'dayjs';
+import Skeleton from 'react-loading-skeleton';
+import 'react-loading-skeleton/dist/skeleton.css';
 
 const PastCarOrders = () => {
-    const [otpValues, setOtpValues] = useState({})
-    const [filterStatus, setFilterStatus] = useState('All')
-    const [filterTime, setFilterTime] = useState('All')
-    const [showFilters, setShowFilters] = useState(false)
-    const dispatch = useDispatch()
-    const navigate = useNavigate()
-    const { id } = useParams()
-    const orderData = useSelector((state) => state?.order?.carsOrderData) || []
+    const [otpValues, setOtpValues] = useState({});
+    const [filterStatus, setFilterStatus] = useState('All');
+    const [filterTime, setFilterTime] = useState('All');
+    const [showFilters, setShowFilters] = useState(false);
+    const [loading, setLoading] = useState(true);
+
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const { id } = useParams();
+    const orderData = useSelector((state) => state?.order?.carsOrderData) || [];
 
     const loadOrder = async () => {
-        await dispatch(getOrders(id))
-    }
+        setLoading(true);
+        await dispatch(getOrders(id));
+        setLoading(false);
+    };
 
     const handleVerify = async (orderId) => {
-        const res = await dispatch(updateDrop({ dropOTP: otpValues[orderId], id: orderId }))
+        const res = await dispatch(updateDrop({ dropOTP: otpValues[orderId], id: orderId }));
         if (res?.payload?.success) {
-            loadOrder()
+            loadOrder();
         }
-    }
+    };
 
     useEffect(() => {
-        loadOrder()
-    }, [])
+        loadOrder();
+    }, []);
 
     const handleOtpChange = (otp, orderId) => {
         setOtpValues(prevState => ({
             ...prevState,
             [orderId]: otp
-        }))
-    }
+        }));
+    };
 
     const getTimeFilteredData = () => {
-        const now = dayjs()
-        let filteredData = orderData
+        const now = dayjs();
+        let filteredData = orderData;
 
         switch (filterTime) {
             case 'Last Week':
-                filteredData = orderData.filter(order => dayjs(order.orderDate).isAfter(now.subtract(1, 'week')))
-                break
+                filteredData = orderData.filter(order => dayjs(order.orderDate).isAfter(now.subtract(1, 'week')));
+                break;
             case 'Last Month':
-                filteredData = orderData.filter(order => dayjs(order.orderDate).isAfter(now.subtract(1, 'month')))
-                break
+                filteredData = orderData.filter(order => dayjs(order.orderDate).isAfter(now.subtract(1, 'month')));
+                break;
             case 'Last 3 Months':
-                filteredData = orderData.filter(order => dayjs(order.orderDate).isAfter(now.subtract(3, 'month')))
-                break
+                filteredData = orderData.filter(order => dayjs(order.orderDate).isAfter(now.subtract(3, 'month')));
+                break;
             case 'Last 6 Months':
-                filteredData = orderData.filter(order => dayjs(order.orderDate).isAfter(now.subtract(6, 'month')))
-                break
+                filteredData = orderData.filter(order => dayjs(order.orderDate).isAfter(now.subtract(6, 'month')));
+                break;
             case 'Last Year':
-                filteredData = orderData.filter(order => dayjs(order.orderDate).isAfter(now.subtract(1, 'year')))
-                break
+                filteredData = orderData.filter(order => dayjs(order.orderDate).isAfter(now.subtract(1, 'year')));
+                break;
             default:
-                filteredData = orderData
+                filteredData = orderData;
         }
 
         if (filterStatus !== 'All') {
-            filteredData = filteredData.filter(order => order.status === filterStatus)
+            filteredData = filteredData.filter(order => order.status === filterStatus);
         }
 
-        return filteredData
-    }
+        return filteredData;
+    };
 
     const filteredOrderData = getTimeFilteredData().slice().reverse().sort((a, b) => {
         if (a.status === 'Dropped' && (b.status === 'Picked up' || b.status === 'On the way')) {
-            return 1
+            return 1;
         }
         if ((a.status === 'Picked up' || a.status === 'On the way') && b.status === 'Dropped') {
-            return -1
+            return -1;
         }
-        return 0
-    })
+        return 0;
+    });
+
+    if (loading) {
+        return (
+            <div className='relative flex flex-col min-h-[90vh] items-center py-4 text-black bg-white md:flex-row md:items-start'>
+                <div className={`fixed top-0 left-0 w-[13rem] lg:w-[14rem] md:w-[10rem] mt-14 h-full shadow-xl bg-white p-4 md:flex md:flex-col ${showFilters ? 'block' : 'hidden'} md:block`}>
+                    <div className='md:hidden'>
+                        <button
+                            className="flex items-center gap-2 px-2 py-1 mb-4 bg-white border border-gray-300 rounded"
+                            onClick={() => setShowFilters(!showFilters)}
+                        >
+                            <MdFilterList />
+                            <span className="font-medium">Close Filters</span>
+                        </button>
+                    </div>
+                    <div className='w-full md:flex md:flex-col'>
+                        <h3 className='mb-2 font-medium'><Skeleton width={150} /></h3>
+                        <div className='flex flex-col'>
+                            <Skeleton count={5} height={20} />
+                        </div>
+                    </div>
+                    <div className='w-full md:flex md:flex-col'>
+                        <h3 className='mb-2 font-medium'><Skeleton width={150} /></h3>
+                        <div className='flex flex-col'>
+                            <Skeleton count={6} height={20} />
+                        </div>
+                    </div>
+                </div>
+                <div className='flex flex-col items-center w-full gap-6 px-4 md:w-3/4 md:ml-auto md:px-6'>
+                    <div className='flex justify-between w-full mb-4 md:hidden'>
+                        <button
+                            className="flex items-center gap-2 px-2 py-1 bg-white border border-gray-300 rounded"
+                            onClick={() => setShowFilters(!showFilters)}
+                        >
+                            <MdFilterList />
+                            <span className="font-medium">Filters</span>
+                        </button>
+                    </div>
+                    <div className='w-full'>
+                        {Array.from({ length: 5 }).map((_, index) => (
+                            <div key={index} className='flex gap-4 p-4 mb-4 bg-gray-100 rounded-md shadow-md'>
+                                <Skeleton circle={true} height={80} width={80} />
+                                <div className='flex flex-col flex-grow'>
+                                    <Skeleton height={20} width='80%' />
+                                    <Skeleton height={15} width='60%' className='mt-2' />
+                                    <Skeleton height={15} width='40%' className='mt-2' />
+                                    <Skeleton height={15} width='60%' className='mt-2' />
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+                </div>
+            </div>
+        );
+    }
 
     return (
         <div className='relative flex flex-col min-h-[90vh] items-center py-4 text-black bg-white md:flex-row md:items-start'>
@@ -135,7 +195,7 @@ const PastCarOrders = () => {
                     <div>No orders till now</div>
                 ) : (
                     filteredOrderData.map((data) => (
-                        <div key={data?._id} onClick={() => navigate(`/car-book-detail/${data?._id}`)} className='flex cursor-pointer rounded-sm sm:justify-between sm:min-w-[38rem] sm:flex-row shadow-[0px_0px_5px_#808080] overflow-hidden flex-col items-start sm:w-[65vw] w-[90vw] md:w-[63vw] lg:w-[58vw] xl:w-[50rem] min-w-[19.7rem]'>
+                        <div key={data?._id} className='relative flex cursor-pointer rounded-sm sm:justify-between sm:min-w-[38rem] sm:flex-row shadow-[0px_0px_5px_#808080] overflow-hidden flex-col items-start sm:w-[65vw] w-[90vw] md:w-[63vw] lg:w-[58vw] xl:w-[50rem] min-w-[19.7rem]' onClick={() => navigate(`/car-book-detail/${data?._id}`)}>
                             <div className='flex items-center gap-2 md:gap-3 lg:gap-4'>
                                 <div>
                                     <img className='w-[8.3rem] h-[6.4rem] lg:w-[9rem] object-cover' src={data?.driverData?.proofFiles[3]?.fileUrl} alt="" />
@@ -149,23 +209,23 @@ const PastCarOrders = () => {
                                 </div>
                             </div>
                             <div className='w-full text-[0.95rem] sm:w-[17.5rem] md:w-[18.5rem] xl:w-[23rem] sm:pr-2'>
-                                <div className='flex items-center justify-between w-full p-1 border-t '>
+                                <div className='flex items-center justify-between w-full p-1 border-t'>
                                     <h3>{data?.pickLocation}</h3>
                                     {data?.returnTrip ? <FaArrowRightArrowLeft /> : <FaArrowRight />}
                                     <h3>{data?.dropLocation}</h3>
                                 </div>
-                                <div className='flex items-center justify-between w-full p-1 border-t '>
+                                <div className='flex items-center justify-between w-full p-1 border-t'>
                                     <h3>{data?.orderDate}</h3>
                                     <h3>{data?.orderTime}</h3>
                                 </div>
                                 {data?.status === 'On the way' && (
-                                    <div className='flex items-center justify-between w-full p-1 border-t '>
+                                    <div className='flex items-center justify-between w-full p-1 border-t'>
                                         <h3>Pickup OTP - {data?.startOTP}</h3>
                                         <h3>Share with driver</h3>
                                     </div>
                                 )}
                                 {data?.status === 'Picked up' && (
-                                    <div className='flex items-center justify-between w-full p-1 border-t '>
+                                    <div className='flex items-center justify-between w-full p-1 border-t' onClick={(e) => e.stopPropagation()}>
                                         <h3 className='flex items-center gap-2'>Drop OTP
                                             <OtpInput
                                                 value={otpValues[data?._id] || ''}
@@ -199,7 +259,7 @@ const PastCarOrders = () => {
                 )}
             </div>
         </div>
-    )
-}
+    );
+};
 
-export default PastCarOrders
+export default PastCarOrders;

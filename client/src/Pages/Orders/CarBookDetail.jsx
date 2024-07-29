@@ -42,6 +42,10 @@ const CarBookDetail = () => {
         }
     }
 
+    useEffect(() => {
+        loadData()
+    }, [])
+
     if (!bookDetail) {
         return <div className="flex items-center justify-center h-screen">Loading...</div>
     }
@@ -70,9 +74,7 @@ const CarBookDetail = () => {
         status
     } = bookDetail
 
-    useEffect(() => {
-        loadData()
-    }, [])
+
 
     console.log(dropOTP)
 

@@ -175,7 +175,7 @@ const OrderCar = () => {
 
         const options = {
             key: razorpayKey, // Enter the Key ID generated from the Dashboard
-            amount: totalPrice * 100, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+            amount: formData?.totalPrice * 100, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
             currency: "INR",
             name: "....", //your business name
             description: "",
