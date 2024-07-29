@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { useParams } from 'react-router-dom'
+import { Navigate, useNavigate, useParams } from 'react-router-dom'
 import { getOrders, updateDrop } from '../../Redux/Slices/OrderSlice'
 import { FaArrowRight, FaArrowRightArrowLeft, FaCar } from 'react-icons/fa6'
 import { MdCall } from 'react-icons/md'
@@ -9,6 +9,7 @@ import OtpInput from 'react-otp-input';
 const PastCarOrders = () => {
     const [otpValues, setOtpValues] = useState({});
     const dispatch = useDispatch()
+    const navigate = useNavigate()
     const { id } = useParams()
     const orderData = useSelector((state) => state?.order?.carsOrderData) || []
 
@@ -50,7 +51,7 @@ const PastCarOrders = () => {
                 <div>No orders till now</div>
             ) : (
                 sortedOrderData.map((data) => (
-                    <div key={data?._id} className='flex cursor-pointer rounded-sm sm:justify-between sm:min-w-[38rem] sm:flex-row shadow-[0px_0px_5px_#808080] overflow-hidden flex-col items-start sm:w-[65vw] w-[90vw] md:w-[63vw] lg:w-[58vw] xl:w-[50rem] min-w-[19.7rem]'>
+                    <div key={data?._id} onClick={() => navigate(`/car-book-detail/${data?._id}`)} className='flex cursor-pointer rounded-sm sm:justify-between sm:min-w-[38rem] sm:flex-row shadow-[0px_0px_5px_#808080] overflow-hidden flex-col items-start sm:w-[65vw] w-[90vw] md:w-[63vw] lg:w-[58vw] xl:w-[50rem] min-w-[19.7rem]'>
                         <div className='flex items-center gap-2 md:gap-3 lg:gap-4'>
                             <div>
                                 <img className='w-[8.3rem] h-[6.4rem] lg:w-[9rem] object-cover' src={data?.driverData?.proofFiles[3]?.fileUrl} alt="" />
