@@ -1,6 +1,6 @@
-import Order from '../models/order.models.js'
-import Cars from '../models/cars.models.js'
-import AppError from '../utils/error.utils.js'
+import Order from '../../models/bookings/carOrder.models.js'
+import Cars from '../../models/cars.models.js'
+import AppError from '../../utils/error.utils.js'
 import otpGenerator from 'otp-generator'
 
 const createCarOrder = async (req, res, next) => {

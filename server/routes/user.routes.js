@@ -17,7 +17,7 @@ import { isLoggedIn } from "../middlewares/auth.middleware.js";
 import { loginAuth } from "../middlewares/login.middleware.js";
 import upload from '../middlewares/multer.middleware.js'
 import { getDriverWithService } from "../controllers/cars.controller.js";
-import { cancelCarBook, createCarOrder, dropUpdate, getCarOrderData, getUserCarOrder } from "../controllers/order.controller.js";
+import { cancelCarBook, createCarOrder, dropUpdate, getCarOrderData, getUserCarOrder } from "../controllers/bookings/carOrder.controller.js";
 
 // Creating an instance of the Express Router
 const router = Router()
