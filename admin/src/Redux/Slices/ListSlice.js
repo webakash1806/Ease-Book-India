@@ -7,6 +7,7 @@ const initialState = {
     driverList: localStorage.getItem('driverList') !== "undefined" ? JSON.parse(localStorage.getItem('driverList')) : [{}],
     carsBooking: localStorage.getItem('carsBooking') !== "undefined" ? JSON.parse(localStorage.getItem('carsBooking')) : [{}],
     userList: localStorage.getItem('userList') !== "undefined" ? JSON.parse(localStorage.getItem('userList')) : [{}],
+    boatManList: localStorage.getItem('boatManList') !== "undefined" ? JSON.parse(localStorage.getItem('boatManList')) : [{}],
     driverDetail: localStorage.getItem('driverDetail') !== "undefined" ? JSON.parse(localStorage.getItem('driverDetail')) : {},
     singleCarData: localStorage.getItem('singleCarData') !== "undefined" ? JSON.parse(localStorage.getItem('singleCarData')) : {},
 }
@@ -120,6 +121,42 @@ export const getCarOrderDetail = createAsyncThunk('/admin/car-book/:id', async (
     }
 })
 
+export const getBoatmanList = createAsyncThunk('/admin/boat/list', async () => {
+    try {
+        let res = axiosInstance.get('/boat/list')
+        toast.promise(res, {
+            loading: 'Loading data',
+            success: (data) => {
+                return data?.data.message
+            },
+            error: "failed to load"
+        })
+        res = await res
+        return res.data
+    } catch (e) {
+        return toast.error(e?.response?.data?.message)
+    }
+})
+
+export const updateBoatmanStatus = createAsyncThunk('/admin/boat/status-update', async (data) => {
+    try {
+        let res = axiosInstance.put('/boat/update-status', data)
+        toast.promise(res, {
+            loading: 'Loading data',
+            success: (data) => {
+                return data?.data.message
+            },
+            error: "failed to load"
+        })
+
+        res = await res
+        return res.data
+
+    } catch (e) {
+        return toast.error(e?.response?.data?.message)
+    }
+})
+
 
 const listSlice = createSlice({
     name: 'list',
@@ -141,6 +178,9 @@ const listSlice = createSlice({
         }).addCase(getCarOrderDetail.fulfilled, (state, action) => {
             localStorage.setItem('singleCarData', JSON.stringify(action?.payload?.order))
             state.singleCarData = action?.payload?.order
+        }).addCase(getBoatmanList.fulfilled, (state, action) => {
+            localStorage.setItem('boatManList', JSON.stringify(action?.payload?.list))
+            state.boatManList = action?.payload?.list
         })
     }
 })
