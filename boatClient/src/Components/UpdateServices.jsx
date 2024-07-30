@@ -17,7 +17,9 @@ const UpdateServices = () => {
         availability: serviceData?.availability,
         fullBoat: serviceData?.fullBoat,
         seatingCap: serviceData?.seatingCap,
-        serviceArea: serviceData?.serviceArea
+        serviceArea: serviceData?.serviceArea,
+        fullBoatFare: serviceData?.fullBoatFare,
+        seatFare: serviceData?.seatFare
     });
 
     function handleServiceInput(e) {
@@ -37,11 +39,11 @@ const UpdateServices = () => {
     const handleForm = async (e) => {
         e.preventDefault();
 
-        const { availability, fullBoat, seatingCap, serviceArea } = input;
+        const { availability, fullBoat, seatingCap, serviceArea, fullBoatFare, seatFare } = input;
 
         console.log(input);
 
-        if (!availability || !seatingCap || !serviceArea) {
+        if (!availability || !seatingCap || !serviceArea || !fullBoatFare || !seatFare) {
             setLoaderActive(false);
             return toast.error('All fields are required');
         }
@@ -82,6 +84,18 @@ const UpdateServices = () => {
                         <option name="serviceArea" value="" >Select</option>
                         {useArea.map((data, ind) => { return <option key={ind + 1} name="serviceArea" value={data} >{data}</option> })}
                     </select>
+                </div>
+                <div className='flex  min-w-[18rem] md:max-w-[20.5rem] max-w-[25.5rem] w-[87vw] sm:w-[24rem] justify-between'>
+
+                    <div className={`${mainDiv} w-[48%]`}>
+                        <label className={labelStyle} htmlFor="fullBoatFare">Fare/Boat</label>
+                        <input className='border border-[#685ED4] w-full rounded-[3px] h-full  px-2 p-[5.5px]  outline-none  text-[0.95rem] tracking-wide resize-none bg-[#3D4056] text-white' type="number" name='fullBoatFare' value={input.fullBoatFare} onChange={handleServiceInput} id='fullBoatFare' />
+                    </div>
+                    <div className={`${mainDiv} w-[48%]`}>
+                        <label className={labelStyle} htmlFor="seatFare">Fare/Seat</label>
+                        <input className='border border-[#685ED4] w-full rounded-[3px] h-full  px-2 p-[5.5px]  outline-none  text-[0.95rem] tracking-wide resize-none bg-[#3D4056] text-white' type="number" name='seatFare' value={input.seatFare} onChange={handleServiceInput} id='seatFare' />
+                    </div>
+
                 </div>
                 <div className='flex  min-w-[18rem] md:max-w-[20.5rem] max-w-[25.5rem] w-[87vw] sm:w-[24rem] justify-between'>
                     <div className={`${mainDiv} w-[23%]`}>
