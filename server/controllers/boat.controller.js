@@ -459,17 +459,20 @@ const updateProfile = async (req, res, next) => {
 const addService = async (req, res, next) => {
     try {
         const { seatingCap, serviceArea, availability, fullBoat } = req.body
+        console.log(req.body)
         const id = req.user.id
         console.log(id)
         const user = await Boat.findById(id)
-        if (!seatingCap || !serviceArea || !availability || !fullBoat) {
+        if (!seatingCap || !serviceArea || !availability) {
             return next(new AppError('All fields are required', 400))
         }
+
 
         user.servicesData.seatingCap = await seatingCap
         user.servicesData.serviceArea = await serviceArea
         user.servicesData.availability = await availability
-        user.servicesData.fullBoat = await fullBoat
+
+        user.servicesData.fullBoat = await fullBoat === "Yes" ? true : false
 
         await user.save()
 

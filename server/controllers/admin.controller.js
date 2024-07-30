@@ -511,13 +511,36 @@ const boatManList = async (req, res, next) => {
 
         res.status(200).json({
             status: 'success',
-            message: 'Users list',
+            message: 'Boatman list',
             list
         })
     } catch (e) {
         return next(new AppError(e.message, 500))
     }
 }
+
+const updateBoatmanStatus = async (req, res, next) => {
+    try {
+        const { id, status } = req.body
+        console.log(req.body)
+        const boat = await Boat.findById(id)
+
+        if (status) {
+            boat.status = await status
+        }
+
+        await boat.save()
+
+        res.status(200).json({
+            message: "Status updated",
+            boat
+        })
+
+    } catch (e) {
+        return next(new AppError(e.message, 500))
+    }
+}
+
 
 /* The below code is exporting a set of functions related to admin authentication and profile
 management. These functions include: */
@@ -534,5 +557,6 @@ export {
     updateDriverStatus,
     getDriverData,
     usersList,
-    boatManList
+    boatManList,
+    updateBoatmanStatus
 }
