@@ -74,7 +74,7 @@ const BoatPage = () => {
                                     <div className='p-3'>
                                         <div className='flex items-center justify-between my-2'>
                                             <h2 className='text-[1.1rem] font-semibold'>{data?.boatType}</h2>
-                                            <h2 className='flex items-center gap-1'><MdOutlineAirlineSeatReclineExtra />{data?.servicesData?.seatingCap}</h2>
+                                            <h2 className='flex items-center gap-1'><MdOutlineAirlineSeatReclineExtra />{data?.servicesData?.seatingCap}/{data?.servicesData?.allotedSeat}</h2>
                                         </div>
                                         <div className='flex items-center justify-between my-2'>
                                             <h1 className='flex items-center justify-center gap-2'><FaRegUserCircle />{data?.fullName}</h1>
@@ -89,9 +89,10 @@ const BoatPage = () => {
                                         </div>
                                         <div className='flex items-center justify-between pt-3 mt-3 border-t'>
                                             <div>
-                                                <h3>
-                                                    <span className='text-[1.02rem] font-semibold text-[#19B56F]'>Rs.{data?.servicesData?.fullBoatFare}</span> / boat
-                                                </h3>
+                                                {data?.servicesData?.allotedSeat === data?.servicesData?.seatingCap &&
+                                                    <h3>
+                                                        <span className='text-[1.02rem] font-semibold text-[#19B56F]'>Rs.{data?.servicesData?.fullBoatFare}</span> / boat
+                                                    </h3>}
                                                 <h3>
                                                     <span className='text-[1.02rem] font-semibold text-[#19B56F]'>Rs.{data?.servicesData?.seatFare}</span> / seat
                                                 </h3>
@@ -135,7 +136,7 @@ const BoatPage = () => {
                                                         <span className='text-[1.02rem] font-semibold text-[#19B56F]'>Rs.{data?.servicesData?.hrFare}</span> / hr
                                                     </h3>
                                                 </div>
-                                                <button onClick={() => navigate(`/car-book/${data?._id}`)} className='border p-2 px-4 rounded-full border-[#19B56F] hover:bg-[#19B56F] transition-all duration-500 hover:text-white text-[#19B56F] font-semibold'>BOOK NOW</button>
+                                                <button onClick={() => navigate(`/boat-book/${data?._id}`)} className='border p-2 px-4 rounded-full border-[#19B56F] hover:bg-[#19B56F] transition-all duration-500 hover:text-white text-[#19B56F] font-semibold'>BOOK NOW</button>
                                             </div>
                                         </div>
                                     </div>
@@ -175,7 +176,7 @@ const BoatPage = () => {
                                                         <span className='text-[1.02rem] font-semibold text-[#19B56F]'>Rs.{data?.servicesData?.hrFare}</span> / hr
                                                     </h3>
                                                 </div>
-                                                <button onClick={() => navigate(`/car-book/${data?._id}`)} className='border p-2 px-4 rounded-full border-[#19B56F] hover:bg-[#19B56F] transition-all duration-500 hover:text-white text-[#19B56F] font-semibold'>BOOK NOW</button>
+                                                <button onClick={() => navigate(`/boat-book/${data?._id}`)} className='border p-2 px-4 rounded-full border-[#19B56F] hover:bg-[#19B56F] transition-all duration-500 hover:text-white text-[#19B56F] font-semibold'>BOOK NOW</button>
                                             </div>
                                         </div>
                                     </div>
@@ -215,7 +216,7 @@ const BoatPage = () => {
                                                         <span className='text-[1.02rem] font-semibold text-[#19B56F]'>Rs.{data?.servicesData?.hrFare}</span> / hr
                                                     </h3>
                                                 </div>
-                                                <button onClick={() => navigate(`/car-book/${data?._id}`)} className='border p-2 px-4 rounded-full border-[#19B56F] hover:bg-[#19B56F] transition-all duration-500 hover:text-white text-[#19B56F] font-semibold'>BOOK NOW</button>
+                                                <button onClick={() => navigate(`/boat-book/${data?._id}`)} className='border p-2 px-4 rounded-full border-[#19B56F] hover:bg-[#19B56F] transition-all duration-500 hover:text-white text-[#19B56F] font-semibold'>BOOK NOW</button>
                                             </div>
                                         </div>
                                     </div>

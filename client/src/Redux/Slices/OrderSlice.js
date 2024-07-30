@@ -103,6 +103,25 @@ export const cancelBooking = createAsyncThunk('/user/cancel-booking', async (dat
     }
 })
 
+export const bookBoat = createAsyncThunk('/user/book-boat', async (data) => {
+    try {
+        let res = axiosInstance.post('user/book-boat', data)
+        toast.promise(res, {
+            loading: 'Booking',
+            success: (data) => {
+                return data?.data.message
+            },
+            error: "failed to book"
+        })
+        // getting response resolved here
+        res = await res;
+        return res.data;
+    } catch (e) {
+        return toast.error(e?.response?.data?.message)
+    }
+})
+
+
 const orderSlice = createSlice({
     name: 'order',
     initialState,
