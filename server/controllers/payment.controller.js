@@ -22,7 +22,7 @@ export const checkout = async (req, res, next) => {
     try {
 
         const { amount } = req.body
-
+        console.log(amount)
         const razorAmount = await Number(amount) * 100
         const options = {
             amount: razorAmount,

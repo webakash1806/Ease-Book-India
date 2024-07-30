@@ -80,7 +80,9 @@ const register = async (req, res, next) => {
                 seatingCap: "",
                 serviceArea: "",
                 availability: "BREAK",
-                fullBoat: false
+                fullBoat: false,
+                fullBoatFare: "",
+                seatFare: ""
             }
         })
 
@@ -458,7 +460,7 @@ const updateProfile = async (req, res, next) => {
 
 const addService = async (req, res, next) => {
     try {
-        const { seatingCap, serviceArea, availability, fullBoat } = req.body
+        const { seatingCap, serviceArea, availability, fullBoat, fullBoatFare, seatFare } = req.body
         console.log(req.body)
         const id = req.user.id
         console.log(id)
@@ -471,6 +473,9 @@ const addService = async (req, res, next) => {
         user.servicesData.seatingCap = await seatingCap
         user.servicesData.serviceArea = await serviceArea
         user.servicesData.availability = await availability
+        user.servicesData.fullBoatFare = await fullBoatFare
+        user.servicesData.allotedSeat = await seatingCap
+        user.servicesData.seatFare = await seatFare
 
         user.servicesData.fullBoat = await fullBoat === "Yes" ? true : false
 
@@ -487,8 +492,7 @@ const addService = async (req, res, next) => {
     }
 }
 
-
-const getDriverWithService = async (req, res, next) => {
+const getBoatmanWithService = async (req, res, next) => {
     try {
 
         const allDriver = await Boat.find()
@@ -517,5 +521,5 @@ export {
     changePassword,
     updateProfile,
     addService,
-    getDriverWithService
+    getBoatmanWithService
 }

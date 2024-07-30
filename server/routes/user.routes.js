@@ -18,6 +18,8 @@ import { loginAuth } from "../middlewares/login.middleware.js";
 import upload from '../middlewares/multer.middleware.js'
 import { getDriverWithService } from "../controllers/cars.controller.js";
 import { cancelCarBook, createCarOrder, dropUpdate, getCarOrderData, getUserCarOrder } from "../controllers/bookings/carOrder.controller.js";
+import { getBoatmanWithService } from "../controllers/boat.controller.js";
+import { createBoatOrder } from "../controllers/bookings/boatOrder.controller.js";
 
 // Creating an instance of the Express Router
 const router = Router()
@@ -49,7 +51,11 @@ router.put('/update-profile/:id', isLoggedIn, upload.single("avatar"), updatePro
 
 router.get('/cars-list', getDriverWithService)
 
+router.get('/boat-list', getBoatmanWithService)
+
 router.post('/book-car', isLoggedIn, createCarOrder)
+
+router.post('/book-boat', isLoggedIn, createBoatOrder)
 
 router.get('/get-car-order/:id', isLoggedIn, getUserCarOrder)
 

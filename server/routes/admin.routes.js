@@ -16,7 +16,8 @@ import {
     getDriverData,
     usersList,
     boatManList,
-    updateBoatmanStatus
+    updateBoatmanStatus,
+    getBoatmanDetail
 } from "../controllers/admin.controller.js";
 
 import { isLoggedIn } from "../middlewares/auth.middleware.js";
@@ -63,6 +64,7 @@ router.put('/car/update-status', isLoggedIn, updateDriverStatus)
 router.put('/boat/update-status', isLoggedIn, updateBoatmanStatus)
 
 router.get('/car/detail/:id', isLoggedIn, getDriverData)
+router.get('/boat/detail/:id', isLoggedIn, getBoatmanDetail)
 
 router.get('/car-orders', allCarOrder)
 

@@ -29,11 +29,7 @@ const orderSchema = new Schema({
         type: Number,
         required: true
     },
-    pickLocation: {
-        type: String,
-        required: true
-    },
-    dropLocation: {
+    area: {
         type: String,
         required: true
     },
@@ -56,6 +52,9 @@ const orderSchema = new Schema({
     fullBoat: {
         type: Boolean
     },
+    fareType: {
+        type: String
+    },
     startOTP: {
         type: Number,
     },
@@ -72,8 +71,8 @@ const orderSchema = new Schema({
     timestamps: true  // Automatically add timestamps (createdAt, updatedAt) to documents
 })
 
-// Creating a Mongoose model named Order using the defined schema
+// Creating a Mongoose model named BoatOrder using the defined schema
 
-const Order = model('Order', orderSchema)
+const BoatOrder = model('BoatOrder', orderSchema)
 
-export default Order
+export default BoatOrder

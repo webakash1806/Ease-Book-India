@@ -73,13 +73,25 @@ const boatSchema = new Schema({
             type: String,
             default: ""
         },
+        allotedSeat: {
+            type: String,
+            default: ""
+        },
         serviceArea: {
+            type: String,
+            default: ""
+        },
+        fullBoatFare: {
+            type: String,
+            default: ""
+        },
+        seatFare: {
             type: String,
             default: ""
         },
         availability: {
             type: String,
-            enum: ['AVAILABLE', 'BREAK', 'MAINTENANCE', 'ON SERVICE'],
+            enum: ['AVAILABLE', 'BREAK', 'MAINTENANCE', 'ON SERVICE', 'SEAT FULL'],
             default: 'BREAK'
         },
         fullBoat: {
