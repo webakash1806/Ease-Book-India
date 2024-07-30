@@ -53,16 +53,15 @@ const OrderBoat = () => {
             let originalPrice = 0;
             let discountedPrice = 0;
             const numberOfKms = 1;
-            const numberOfHours = 1;
 
             if (formData.fareType === 'boat') {
                 originalPrice = numberOfKms * fullBoatFare;
-                discountedPrice = originalPrice - originalPrice * 0.05; // 5% discount
+                discountedPrice = originalPrice - originalPrice * 0.10; // 10% discount
             } else {
                 const totalPassengers = Number(formData.numberOfMales) + Number(formData.numberOfFemales);
                 const childSeats = Number(formData.numberOfChildren) * 0.5;
                 originalPrice = (totalPassengers + childSeats) * seatFare;
-                discountedPrice = originalPrice - originalPrice * 0.10; // 10% discount
+                discountedPrice = originalPrice - originalPrice * 0.05; // 5% discount
             }
 
             setFormData(prevState => ({

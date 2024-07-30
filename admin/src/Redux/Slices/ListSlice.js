@@ -9,6 +9,7 @@ const initialState = {
     userList: localStorage.getItem('userList') !== "undefined" ? JSON.parse(localStorage.getItem('userList')) : [{}],
     boatManList: localStorage.getItem('boatManList') !== "undefined" ? JSON.parse(localStorage.getItem('boatManList')) : [{}],
     driverDetail: localStorage.getItem('driverDetail') !== "undefined" ? JSON.parse(localStorage.getItem('driverDetail')) : {},
+    boatmanDetail: localStorage.getItem('boatmanDetail') !== "undefined" ? JSON.parse(localStorage.getItem('boatmanDetail')) : {},
     singleCarData: localStorage.getItem('singleCarData') !== "undefined" ? JSON.parse(localStorage.getItem('singleCarData')) : {},
 }
 
@@ -157,6 +158,27 @@ export const updateBoatmanStatus = createAsyncThunk('/admin/boat/status-update',
     }
 })
 
+export const getBoatmanDetail = createAsyncThunk('/admin/boat/detail', async (data) => {
+    try {
+        console.log(`/boat/detail/${data}`)
+        let res = axiosInstance.get(`/boat/detail/${data}`)
+        toast.promise(res, {
+            loading: 'Loading data',
+            success: (data) => {
+                return data?.data.message
+            },
+            error: "failed to load"
+        })
+
+        res = await res
+        return res.data
+    } catch (e) {
+        return toast.error(e?.response?.data?.message)
+    }
+
+
+})
+
 
 const listSlice = createSlice({
     name: 'list',
@@ -181,6 +203,9 @@ const listSlice = createSlice({
         }).addCase(getBoatmanList.fulfilled, (state, action) => {
             localStorage.setItem('boatManList', JSON.stringify(action?.payload?.list))
             state.boatManList = action?.payload?.list
+        }).addCase(getBoatmanDetail.fulfilled, (state, action) => {
+            localStorage.setItem('boatmanDetail', JSON.stringify(action?.payload?.detail))
+            state.boatmanDetail = action?.payload?.detail
         })
     }
 })

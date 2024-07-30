@@ -11,6 +11,7 @@ import UsersList from './Pages/UserPages/UsersList'
 import CarOrders from './Pages/CarsPages/CarOrders'
 import CarBookDetails from './Pages/CarsPages/CarBookDetails'
 import BoatList from './Pages/BoatPages/BoatList'
+import BoatDetail from './Pages/BoatPages/BoatDetail'
 
 const App = () => {
   return (
@@ -21,6 +22,7 @@ const App = () => {
           <Route path='/' element={<Home />} />
           <Route path='/car-list' element={<CarsList />} />
           <Route path='/driver/:id' element={<CarDetail />} />
+          <Route path='/boat/:id' element={<BoatDetail />} />
           <Route path='/book-detail/:id' element={<CarBookDetails />} />
           <Route path='/car-booking' element={<CarOrders />} />
           <Route path='/users-list' element={<UsersList />} />

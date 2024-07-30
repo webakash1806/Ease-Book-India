@@ -200,7 +200,7 @@ const BoatList = () => {
                                         />
                                     </div>
                                 </div>
-                                <div onClick={() => navigate(`/driver/${data?._id}`, { state: data?._id })} className='min-w-[3.3rem] sticky px-5 right-0 bg-[white] flex items-center justify-center'>
+                                <div onClick={() => navigate(`/boat/${data?._id}`, { state: data?._id })} className='min-w-[3.3rem] sticky px-5 right-0 bg-[white] flex items-center justify-center'>
                                     <FaEye className='text-[1.45rem] cursor-pointer' />
                                 </div>
                             </div>

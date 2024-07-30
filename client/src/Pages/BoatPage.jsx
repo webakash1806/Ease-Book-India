@@ -35,34 +35,36 @@ const BoatPage = () => {
     return (
         <div className='from-[#ddfcee] bg-gradient-to-b via-[#f7fffb] to-white p-4 py-10 flex flex-col items-center gap-8 justify-center'>
             {loading ? (
-                Array.from({ length: 8 }).map((_, index) => (
-                    <div key={index} className='bg-white text-black max-w-[20rem] w-[90vw] rounded-xl shadow-[0px_0px_5px_#808080] overflow-hidden'>
-                        <Skeleton height={224} />
-                        <div className='p-3'>
-                            <Skeleton height={28} width={160} />
-                            <div className='flex items-center justify-between my-2'>
-                                <Skeleton height={24} width={100} />
-                                <Skeleton height={24} width={60} />
-                            </div>
-                            <div className='flex items-center justify-between my-2'>
-                                <Skeleton height={24} width={100} />
-                                <Skeleton height={24} width={60} />
-                            </div>
-                            <div className='flex items-center justify-between my-2'>
-                                <Skeleton height={24} width={100} />
-                                <Skeleton height={24} width={60} />
-                            </div>
-                            <div className='flex items-center justify-between my-2'>
-                                <Skeleton height={24} width={100} />
-                                <Skeleton height={24} width={100} />
-                            </div>
-                            <div className='flex items-center justify-between pt-3 mt-3 border-t'>
-                                <Skeleton height={28} width={80} />
-                                <Skeleton height={40} width={120} />
+                <div className='flex flex-wrap gap-4 mt-6'>
+                    {Array.from({ length: 8 }).map((_, index) => (
+                        <div key={index} className='bg-white text-black  max-w-[20rem] w-[90vw] rounded-xl shadow-[0px_0px_5px_#808080] overflow-hidden'>
+                            <Skeleton height={150} />
+                            <div className='p-3'>
+                                <Skeleton height={25} width={160} />
+                                <div className='flex items-center justify-between my-2'>
+                                    <Skeleton height={22} width={100} />
+                                    <Skeleton height={22} width={60} />
+                                </div>
+                                <div className='flex items-center justify-between my-2'>
+                                    <Skeleton height={22} width={100} />
+                                    <Skeleton height={22} width={60} />
+                                </div>
+                                <div className='flex items-center justify-between my-2'>
+                                    <Skeleton height={22} width={100} />
+                                    <Skeleton height={22} width={60} />
+                                </div>
+                                <div className='flex items-center justify-between my-2'>
+                                    <Skeleton height={22} width={100} />
+                                    <Skeleton height={22} width={100} />
+                                </div>
+                                <div className='flex items-center justify-between pt-3 mt-3 border-t'>
+                                    <Skeleton height={25} width={80} />
+                                    <Skeleton height={35} width={120} />
+                                </div>
                             </div>
                         </div>
-                    </div>
-                ))
+                    ))}
+                </div>
             ) : (
                 <div className='flex flex-col w-full gap-20 p-4'>
                     <div className='flex flex-wrap items-center justify-start w-full gap-8'>
