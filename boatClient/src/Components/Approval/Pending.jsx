@@ -26,7 +26,7 @@ const Approval = () => {
             {lang === 'en' ?
                 <div className='relative flex flex-col gap-2 md:p-10 sm:p-8 p-4 pt-8  md:w-[50vw]'>
                     <h2>Welcome <span className='font-semibold text-[1.1rem] text-[#813DFD]'>{fullName} </span>!🙏</h2>
-                    <p>Thank you for registering as a driver with us. We are excited to have you on board and look forward to working together to provide the best service possible.</p>
+                    <p>Thank you for registering as a boatman with us. We are excited to have you on board and look forward to working together to provide the best service possible.</p>
                     <div className="pending-info">
                         <p>Your registration is currently <strong className='text-orange-500'>PENDING</strong> for verification.</p>
                         <p>Please allow us 24 to 48 hours to review your information and activate your account.</p>
@@ -37,7 +37,7 @@ const Approval = () => {
                 <div className='relative flex flex-col gap-3 md:p-10 sm:p-8 p-4 pt-8 text-[0.95rem] md:w-[50vw]' >
                     <h2>Welcome <span className='font-semibold text-[1.1rem] text-[#813DFD]'>{fullName} </span>!🙏</h2>
 
-                    <p>हमारे साथ ड्राइवर के रूप में पंजीकरण करने के लिए धन्यवाद। हम आपको अपने साथ जोड़कर उत्साहित हैं और सर्वश्रेष्ठ सेवा प्रदान करने के लिए एक साथ काम करने की आशा करते हैं।</p>
+                    <p>हमारे साथ नाववाला के रूप में पंजीकरण करने के लिए धन्यवाद। हम आपको अपने साथ जोड़कर उत्साहित हैं और सर्वश्रेष्ठ सेवा प्रदान करने के लिए एक साथ काम करने की आशा करते हैं।</p>
                     <div>
                         <p>आपका पंजीकरण वर्तमान में <strong className='text-orange-500'>लंबित</strong> सत्यापन में है।</p>
                         <p>कृपया हमें आपकी जानकारी की समीक्षा करने और आपके खाते को सक्रिय करने के लिए 24 से 48 घंटे दें।</p>

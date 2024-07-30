@@ -26,7 +26,7 @@ const Approval = () => {
             {lang === 'en' ?
                 <div className='relative flex flex-col gap-2 md:p-10 sm:p-8 p-4 pt-8 md:w-[50vw]'>
                     <h2 className='text-[1rem] font-semibold'>Sorry <span className='font-semibold text-[1.1rem] text-[#813DFD]'>{fullName}</span>!😞</h2>
-                    <p>Thank you for registering as a driver with us. We appreciate your interest in working together to provide the best service possible.</p>
+                    <p>Thank you for registering as a boatman with us. We appreciate your interest in working together to provide the best service possible.</p>
                     <div className="rejected-info">
                         <p>We regret to inform you that your registration has been <strong className='text-red-500'>REJECTED</strong>.</p>
                         <p>If you have any questions or need further clarification regarding the rejection, feel free to contact our support team.</p>
@@ -36,7 +36,7 @@ const Approval = () => {
                 :
                 <div className='relative flex flex-col gap-2 md:p-10 sm:p-8 p-4 text-[0.95rem] pt-8 md:w-[50vw]'>
                     <h2 className='text-[1rem] font-semibold'>Sorry <span className='font-semibold text-[1.1rem] text-[#813DFD]'>{fullName}</span>!🙏</h2>
-                    <p>हमारे साथ ड्राइवर के रूप में पंजीकरण करने के लिए धन्यवाद। हमारे साथ मिलकर सबसे अच्छी सेवा प्रदान करने के लिए आपके रुचि की हम सराहना करते हैं।</p>
+                    <p>हमारे साथ नाववाला के रूप में पंजीकरण करने के लिए धन्यवाद। हमारे साथ मिलकर सबसे अच्छी सेवा प्रदान करने के लिए आपके रुचि की हम सराहना करते हैं।</p>
                     <div className="rejected-info">
                         <p>हमें आपको यह बताते हुए खेद हो रहा है कि आपका पंजीकरण <strong className='text-red-500'>अस्वीकृत</strong> हो गया है।</p>
                         <p>अगर आपके पास कोई प्रश्न है या अस्वीकृति के बारे में अधिक जानकारी चाहिए, तो हमारी सहायता टीम से संपर्क करने में संकोच न करें।</p>
