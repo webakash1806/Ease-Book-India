@@ -8,6 +8,7 @@ import userRoutes from './routes/user.routes.js'
 import carsRoutes from './routes/cars.routes.js'
 import adminRoutes from './routes/admin.routes.js'
 import paymentRoutes from './routes/payment.routes.js'
+import boatRoutes from './routes/boat.routes.js'
 config()
 
 const app = express()
@@ -37,6 +38,8 @@ app.use('/api/v1/car', carsRoutes)
 app.use('/api/v1/admin', adminRoutes)
 
 app.use('/api/v1/payment', paymentRoutes)
+
+app.use('/api/v1/boat', boatRoutes)
 
 app.all('*', (req, res) => {
     res.status(404).send('OOPS! 404 Page not found')

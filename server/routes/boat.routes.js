@@ -11,23 +11,19 @@ import {
     resetPassword,
     changePassword,
     updateProfile,
-    carDriverList,
-    updateDriverStatus,
-    getDriverData,
-    usersList,
-    boatManList
-} from "../controllers/admin.controller.js";
+    addService
+} from "../controllers/boat.controller.js";
 
 import { isLoggedIn } from "../middlewares/auth.middleware.js";
 import { loginAuth } from "../middlewares/login.middleware.js";
 import upload from '../middlewares/multer.middleware.js'
-import { allCarOrder, getCarOrderData } from "../controllers/bookings/carOrder.controller.js";
+import { getCarOrderData, getDriverCarOrder, pickupUpdate } from "../controllers/bookings/carOrder.controller.js";
 
 // Creating an instance of the Express Router
 const router = Router()
 
 // Route for user registration with optional avatar upload using multer middleware
-router.post('/register', register)
+router.post('/register', upload.array('proofFiles', 6), register)
 
 // Route for user login with authentication middleware (loginAuth)
 router.post('/login', loginAuth, login)
@@ -50,21 +46,13 @@ router.post('/change-password', isLoggedIn, changePassword)
 // Route for updating user profile information with optional avatar upload
 router.put('/update-profile/:id', isLoggedIn, upload.single("avatar"), updateProfile)
 
+router.put('/update-services', isLoggedIn, addService)
 
-router.get('/car/list', isLoggedIn, carDriverList)
+router.get('/get-order/:id', isLoggedIn, getDriverCarOrder)
 
-router.get('/user/list', isLoggedIn, usersList)
+router.put('/update-pickup', isLoggedIn, pickupUpdate)
 
-router.get('/boat/list', isLoggedIn, boatManList)
-
-router.put('/car/update-status', isLoggedIn, updateDriverStatus)
-
-router.get('/car/detail/:id', isLoggedIn, getDriverData)
-
-router.get('/car-orders', allCarOrder)
-
-router.get('/car-orders/:id', getCarOrderData)
-
+router.get('/car-book-detail/:id', isLoggedIn, getCarOrderData)
 
 
 // Exporting the router instance to be used in the main application
