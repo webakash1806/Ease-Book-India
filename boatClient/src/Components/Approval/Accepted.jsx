@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { getOrders, updatePickup } from '../../Redux/Slices/OrderSlice';
+import { getOrders } from '../../Redux/Slices/OrderSlice';
 import OtpInput from 'react-otp-input';
 import { FaArrowRight, FaArrowRightArrowLeft, FaCar } from 'react-icons/fa6';
 import { MdCall } from 'react-icons/md';

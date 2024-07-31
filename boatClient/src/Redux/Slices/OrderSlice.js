@@ -5,7 +5,7 @@ import axiosInstance from '../../Helper/axiosInstance'
 
 const initialState = {
     orderData: localStorage.getItem('orderData') !== "undefined" ? JSON.parse(localStorage.getItem('orderData')) : [{}],
-    singleCarData: localStorage.getItem('singleCarData') !== "undefined" ? JSON.parse(localStorage.getItem('singleCarData')) : {},
+    singleBoatData: localStorage.getItem('singleBoatData') !== "undefined" ? JSON.parse(localStorage.getItem('singleBoatData')) : {},
 }
 
 export const getOrders = createAsyncThunk('/cars/get-order/:id', async (data) => {
@@ -27,16 +27,16 @@ export const getOrders = createAsyncThunk('/cars/get-order/:id', async (data) =>
     }
 })
 
-export const updatePickup = createAsyncThunk('/cars/update-pickup', async (data) => {
+
+export const getBoatOrderDetail = createAsyncThunk('/boat/boat-book-detail/:id', async (data) => {
     try {
-        console.log(data)
-        let res = axiosInstance.put(`update-pickup`, data)
+        let res = axiosInstance.get(`boat-book-detail/${data}`)
         toast.promise(res, {
-            loading: 'Verifying',
+            loading: 'Loading',
             success: (data) => {
                 return data?.data.message
             },
-            error: "Failed to get verified"
+            error: "failed to get orders"
         })
         // getting response resolved here
         res = await res;
@@ -46,15 +46,16 @@ export const updatePickup = createAsyncThunk('/cars/update-pickup', async (data)
     }
 })
 
-export const getCarOrderDetail = createAsyncThunk('/user/car-book-detail/:id', async (data) => {
+export const updateBoatDrop = createAsyncThunk('/boat/update-boat-drop', async (data) => {
     try {
-        let res = axiosInstance.get(`car-book-detail/${data}`)
+        console.log(data)
+        let res = axiosInstance.put(`update-boat-drop`, data)
         toast.promise(res, {
-            loading: 'Loading',
+            loading: 'Verifying',
             success: (data) => {
                 return data?.data.message
             },
-            error: "failed to get orders"
+            error: "Failed to get verified"
         })
         // getting response resolved here
         res = await res;
@@ -73,9 +74,9 @@ const orderSlice = createSlice({
             console.log(action)
             localStorage.setItem('orderData', JSON.stringify(action?.payload?.order))
             state.orderData = action?.payload?.order
-        }).addCase(getCarOrderDetail.fulfilled, (state, action) => {
-            localStorage.setItem('singleCarData', JSON.stringify(action?.payload?.order))
-            state.singleCarData = action?.payload?.order
+        }).addCase(getBoatOrderDetail.fulfilled, (state, action) => {
+            localStorage.setItem('singleBoatData', JSON.stringify(action?.payload?.order))
+            state.singleBoatData = action?.payload?.order
         })
     }
 })

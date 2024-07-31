@@ -6,7 +6,7 @@ import Login from './Pages/Auth/Login'
 import Register from './Pages/Auth/Register'
 import RequireAuth from './Components/Auth/RequireAuth'
 import PastOrder from './Pages/Order/PastOrder'
-import CarBookDetail from './Pages/Order/CarBookDetail'
+import BoatBookDetail from './Pages/Order/BoatBookDetail'
 
 const App = () => {
   return (
@@ -15,7 +15,7 @@ const App = () => {
         <Route element={<RequireAuth allowedRoles={['BOATMAN']} />}>
           <Route path='/' element={<Home />} />
           <Route path='/order/:id' element={<PastOrder />} />
-          <Route path='/book-detail/:id' element={<CarBookDetail />} />
+          <Route path='/book-detail/:id' element={<BoatBookDetail />} />
         </Route>
         <Route path='/login' element={<Login />} />
         <Route path='/register' element={<Register />} />

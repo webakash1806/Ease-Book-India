@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
-import { getOrders, updatePickup } from '../../Redux/Slices/OrderSlice';
+import { getOrders, updateBoatDrop } from '../../Redux/Slices/OrderSlice';
 import OtpInput from 'react-otp-input';
 import { FaArrowRight, FaCar } from 'react-icons/fa6';
 import { MdCall, MdFilterList } from 'react-icons/md';
 import dayjs from 'dayjs';
 import customParseFormat from 'dayjs/plugin/customParseFormat';
+import { RxCross2 } from "react-icons/rx";
 
 dayjs.extend(customParseFormat);
 
@@ -62,6 +63,45 @@ const PastOrder = () => {
         await dispatch(getOrders(id));
         setLoading(false);
     };
+
+    dayjs.extend(customParseFormat);
+
+    const checkAndUpdateStatus = async () => {
+        const now = dayjs(); // Current date and time
+        console.log("Current Time:", now.format('hh:mm A'));
+
+        for (const order of orderData) {
+            // Parse arrivalTime using the correct format
+            const arrivalTime = dayjs(order.arrivalTime, 'hh:mm A', true);
+
+            // Check if arrivalTime is valid
+            if (!arrivalTime.isValid()) {
+                console.error("Invalid arrivalTime format:", order.arrivalTime);
+                continue; // Skip this iteration if the time is invalid
+            }
+
+            // Combine arrivalTime with today's date
+            const orderArrivalDateTime = dayjs().hour(arrivalTime.hour()).minute(arrivalTime.minute()).second(0);
+
+            console.log("Order Arrival Time:", orderArrivalDateTime.format('hh:mm A'));
+            console.log("Is Before Now:", orderArrivalDateTime.isBefore(now));
+
+            // Compare with current time and update status if needed
+            if (order.status === 'On the way' && orderArrivalDateTime.isBefore(now)) {
+                const res = await dispatch(updateBoatDrop({ id: order._id, status: 'Late' }));
+                if (res?.payload?.success) {
+                    loadData();
+                }
+            }
+        }
+    };
+
+    useEffect(() => {
+        loadData();
+        checkAndUpdateStatus()
+        const intervalId = setInterval(checkAndUpdateStatus, 60000); // Check every minute
+        return () => clearInterval(intervalId);
+    }, []);
 
     const handleVerify = async (id) => {
         const res = await dispatch(updatePickup({ startOTP: otp, id: id }));
@@ -148,7 +188,12 @@ const PastOrder = () => {
                                     <h3 className='flex items-center gap-3'><FaCar />{data?.fullName}</h3>
                                     <h3 className='flex items-center gap-3'><MdCall />{data?.phoneNumber}</h3>
                                     <h3 className='flex items-center gap-3 mt-3'>
-                                        <div className={`ml-[1.2px] ${data?.status === "Cancelled" && 'bg-red-500'} ${data?.status === "On the way" && 'bg-orange-500'} ${data?.status === "Picked up" && 'bg-yellow-500'} ${data?.status === "Dropped" && 'bg-green-500'} rounded-full size-3`}></div>{data?.status}
+                                        <div className='flex items-center gap-1 text-[0.95rem] font-normal'>
+
+                                            <div className={`ml-[1.2px] flex items-center justify-center ${data?.status === "Cancelled" && 'bg-red-500 size-3'} ${data?.status === "On the way" && 'bg-orange-500 size-3'} ${data?.status === "Picked up" && 'bg-yellow-500'} ${data?.status === "Dropped" && 'bg-green-500 size-3'} rounded-full `}>
+                                                {data?.status === "Late" && <RxCross2 className='text-red-500 text-[1.2rem] mt-[0.9px]' />}
+                                            </div>{data?.status}
+                                        </div>
                                     </h3>
                                 </div>
                             </div>
@@ -187,7 +232,7 @@ const PastOrder = () => {
                 </div>
                 <div className='w-full md:flex md:flex-col'>
                     <h3 className='mb-2 font-medium'>Filter by Status</h3>
-                    {['All', 'On the way', 'Picked up', 'Dropped', 'Cancelled'].map(status => (
+                    {['All', 'On the way', 'Late', 'Dropped', 'Cancelled'].map(status => (
                         <label key={status} className='flex items-center mb-2'>
                             <input
                                 type='checkbox'
