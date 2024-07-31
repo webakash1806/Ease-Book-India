@@ -11,6 +11,8 @@ import BookBoat from './Pages/Orders/BookBoat'
 import PastCarOrders from './Pages/Orders/PastCarOrders'
 import CarBookDetail from './Pages/Orders/CarBookDetail'
 import BoatPage from './Pages/BoatPage'
+import PastBoatOrders from './Pages/Orders/PastBoatOrders'
+import BoatBookDetail from './Pages/Orders/BoatBookDetail'
 
 const App = () => {
   // In your component
@@ -33,7 +35,9 @@ const App = () => {
         <Route path='/car-book/:id' element={<OrderCar />} />
         <Route path='/boat-book/:id' element={<BookBoat />} />
         <Route path='/order/car-book/:id' element={<PastCarOrders />} />
+        <Route path='/order/boat-book/:id' element={<PastBoatOrders />} />
         <Route path='/car-book-detail/:id' element={<CarBookDetail />} />
+        <Route path='/boat-book-detail/:id' element={<BoatBookDetail />} />
       </Routes>
     </HomeLayout>
   )

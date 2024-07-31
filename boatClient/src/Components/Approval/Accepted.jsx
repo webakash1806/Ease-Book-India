@@ -34,10 +34,11 @@ const Accepted = () => {
         setOtp(otp);
     };
 
-    const filteredOrderData = orderData.filter(order => order.status === "On the way" || order.status === "Picked up").slice().reverse();
+    // const filteredOrderData = orderData.filter(order => order.status === "On the way" || order.status === "Picked up").slice().reverse();
 
     return (
-        <div className='flex flex-col items-center py-4 text-black md:flex-row md:items-start'>
+        <>
+            {/* <div className='flex flex-col items-center py-4 text-black md:flex-row md:items-start'>
             <div className='flex flex-col items-center w-full gap-6'>
                 {filteredOrderData.length > 0 && (
                     filteredOrderData.map((data) => (
@@ -112,7 +113,8 @@ const Accepted = () => {
                     ))
                 )}
             </div>
-        </div>
+        </div> */}
+        </>
     );
 }
 

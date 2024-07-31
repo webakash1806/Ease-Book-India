@@ -16,7 +16,7 @@ const UpdateServices = () => {
     const [input, setInput] = useState({
         availability: serviceData?.availability,
         fullBoat: serviceData?.fullBoat,
-        seatingCap: serviceData?.seatingCap,
+        allotedSeat: serviceData?.allotedSeat,
         serviceArea: serviceData?.serviceArea,
         fullBoatFare: serviceData?.fullBoatFare,
         seatFare: serviceData?.seatFare
@@ -39,11 +39,11 @@ const UpdateServices = () => {
     const handleForm = async (e) => {
         e.preventDefault();
 
-        const { availability, fullBoat, seatingCap, serviceArea, fullBoatFare, seatFare } = input;
+        const { availability, fullBoat, allotedSeat, serviceArea, fullBoatFare, seatFare } = input;
 
         console.log(input);
 
-        if (!availability || !seatingCap || !serviceArea || !fullBoatFare || !seatFare) {
+        if (!availability || !allotedSeat || !serviceArea || !fullBoatFare || !seatFare) {
             setLoaderActive(false);
             return toast.error('All fields are required');
         }
@@ -118,13 +118,13 @@ const UpdateServices = () => {
                         </select>
                     </div>
                     <div className={`${mainDiv} w-[28%]`}>
-                        <label className={labelStyle} htmlFor="seatingCap">Seating cap.</label>
+                        <label className={labelStyle} htmlFor="allotedSeat">Seating cap.</label>
                         <select className='border border-[#685ED4] w-full rounded-[3px] h-full  px-2 p-[5.5px]  outline-none  text-[0.95rem] tracking-wide resize-none bg-[#3D4056] text-white'
-                            name='seatingCap'
+                            name='allotedSeat'
                             onChange={handleServiceInput}
-                            value={input.seatingCap} >
-                            <option name="seatingCap" value="" >Select</option>
-                            {seatNum.map((data, ind) => { return <option key={ind + 1} name="seatingCap" value={data} >{data}</option> })}
+                            value={input.allotedSeat} >
+                            <option name="allotedSeat" value="" >Select</option>
+                            {seatNum.map((data, ind) => { return <option key={ind + 1} name="allotedSeat" value={data} >{data}</option> })}
                         </select>
                     </div>
                 </div>

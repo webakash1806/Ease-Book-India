@@ -70,6 +70,7 @@ const orderSlice = createSlice({
     reducers: {},
     extraReducers: (builder) => {
         builder.addCase(getOrders.fulfilled, (state, action) => {
+            console.log(action)
             localStorage.setItem('orderData', JSON.stringify(action?.payload?.order))
             state.orderData = action?.payload?.order
         }).addCase(getCarOrderDetail.fulfilled, (state, action) => {

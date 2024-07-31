@@ -4,9 +4,9 @@ import axiosInstance from '../../Helper/axiosInstance'
 
 
 const initialState = {
-    carsData: localStorage.getItem('carsData') !== "undefined" ? JSON.parse(localStorage.getItem('carsData')) : {},
+    carsData: localStorage.getItem('carsData') !== "undefined" ? JSON.parse(localStorage.getItem('carsData')) : [],
     driverData: localStorage.getItem('driverData') !== "undefined" ? JSON.parse(localStorage.getItem('driverData')) : {},
-    boatData: localStorage.getItem('boatData') !== "undefined" ? JSON.parse(localStorage.getItem('boatData')) : {},
+    boatData: localStorage.getItem('boatData') !== "undefined" ? JSON.parse(localStorage.getItem('boatData')) : [],
     boatmanData: localStorage.getItem('boatmanData') !== "undefined" ? JSON.parse(localStorage.getItem('boatmanData')) : {},
 }
 

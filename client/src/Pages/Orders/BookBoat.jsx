@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { getBoatmanData, getDriverData } from '../../Redux/Slices/ServiceSlice';
+import { getBoatmanData } from '../../Redux/Slices/ServiceSlice';
 import { FaLocationDot } from 'react-icons/fa6';
 import { FaCar, FaRegUserCircle } from 'react-icons/fa';
 import { MdOutlineAirlineSeatReclineExtra } from 'react-icons/md';
-import { bookBoat, bookCar } from '../../Redux/Slices/OrderSlice';
+import { bookBoat } from '../../Redux/Slices/OrderSlice';
 import { toast } from 'react-toastify';
 import { getRazorpayId, order, verifyPayment } from '../../Redux/Slices/RazorpaySlice';
 
@@ -17,8 +17,8 @@ const OrderBoat = () => {
 
     const userData = useSelector((state) => state?.auth?.data);
     const boatData = useSelector((state) => state?.service?.boatmanData) || [];
-
-    console.log(boatData)
+    const razorpayKey = useSelector((state) => state?.razorpay?.key);
+    const order_id = useSelector((state) => state?.razorpay?.orderId);
 
     const userId = userData?._id;
     const boatId = boatData?._id;
@@ -36,6 +36,7 @@ const OrderBoat = () => {
         fareType: 'seat',
         totalPrice: 0,
         originalPrice: 0,
+        arrivalTime: '',
     });
 
     const loadData = async () => {
@@ -74,7 +75,6 @@ const OrderBoat = () => {
         calculateTotalPrice();
     }, [formData.fareType, formData.numberOfMales, formData.numberOfFemales, formData.numberOfChildren]);
 
-
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
         setFormData(prevState => ({
@@ -83,8 +83,6 @@ const OrderBoat = () => {
         }));
     };
 
-    const razorpayKey = useSelector((state) => state?.razorpay?.key);
-    const order_id = useSelector((state) => state?.razorpay?.orderId);
 
     const paymentDetails = {
         razorpay_payment_id: "",
@@ -100,22 +98,59 @@ const OrderBoat = () => {
         if (formData.totalPrice > 0) {
             fetchOrderId();
         }
-    }, [formData.fareType, formData.numberOfMales, formData.numberOfFemales, formData.numberOfChildren, formData.totalPrice]);
+    }, [formData.totalPrice]);
+
+    const getNextBatchTime = (currentTime) => {
+        const currentHours = currentTime.getHours();
+        const nextBatchHour = Math.ceil(currentHours / 2) * 2;
+        return new Date(currentTime.setHours(nextBatchHour, 0, 0, 0));
+    };
+
+    const getAvailableTimes = () => {
+        const currentHours = new Date().getHours();
+        let times = [];
+
+        if (boatData?.servicesData?.serviceArea.toLowerCase().includes('aarti')) {
+            times.push('6:00 PM');
+        } else {
+            for (let hour = currentHours + 1; hour <= 23; hour++) {
+                if (hour % 2 === 0) {
+                    let time = new Date();
+                    time.setHours(hour, 0, 0, 0);
+                    times.push(time.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }));
+                }
+            }
+        }
+
+        return times;
+    };
+
+    const availableTimes = getAvailableTimes();
+
+
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
+        const nowDate = new Date();
+        const currentHours = nowDate.getHours();
+
+        if (boatData?.servicesData?.serviceArea.toLowerCase().includes('aarti') && currentHours >= 18) {
+            return toast.error("Aarti time is over, you are late.");
+        }
+
         if (boatData.servicesData.availability !== "AVAILABLE") {
-            navigate('/boat')
-            return toast.error("Driver is busy Try another")
+            navigate('/boat');
+            return toast.error("Driver is busy. Try another.");
         }
 
         const date = new Date().getDate();
         const today = new Date();
         const month = today.toLocaleString('default', { month: 'short' });
         const year = new Date().getFullYear();
-
         const orderDate = `${date} ${month},${year}`;
+
+
 
         const now = new Date();
         const istTime = new Date(now.toLocaleString('en-US', { timeZone: 'Asia/Kolkata' }));
@@ -126,45 +161,32 @@ const OrderBoat = () => {
         const formattedMinutes = minutes < 10 ? '0' + minutes : minutes;
         const orderTime = `${formattedHours}:${formattedMinutes} ${ampm}`;
 
-        const { originalPrice, totalPrice, phoneNumber, alternateNumber, fareType, fullName, returnTrip, numberOfChildren, numberOfFemales, numberOfMales } = formData;
+        const { originalPrice, totalPrice, phoneNumber, alternateNumber, fareType, fullName, numberOfChildren, numberOfFemales, numberOfMales, arrivalTime } = formData;
 
-        if (
-            !originalPrice ||
-            !totalPrice ||
-            !phoneNumber ||
-            !alternateNumber ||
-            !fareType ||
-            !fullName ||
-            numberOfChildren === null ||
-            numberOfFemales === null ||
-            numberOfMales === null
-        ) {
+        if (!originalPrice || !totalPrice || !phoneNumber || !alternateNumber || !fareType || !fullName || numberOfChildren === null || numberOfFemales === null || numberOfMales === null || !arrivalTime) {
             setLoaderActive(false);
-            return toast.error("All fields are required");
+            return toast.error("All fields are required.");
         }
 
         if (numberOfChildren === 0 && numberOfMales === 0 && numberOfFemales === 0) {
             setLoaderActive(false);
-
-            return toast.error("Please fill no. of passengers")
+            return toast.error("Please fill in the number of passengers.");
         }
 
         if (Number(numberOfChildren) + Number(numberOfFemales) + Number(numberOfMales) > boatData?.servicesData?.seatingCap) {
             if (Number(numberOfChildren) + Number(numberOfFemales) + Number(numberOfMales) === Number(boatData?.servicesData?.seatingCap) + 1) {
                 if (Number(numberOfChildren) > 2) {
                     setLoaderActive(false);
-
-                    return toast.error(`Seating capacity is only ${boatData?.servicesData?.seatingCap}`)
+                    return toast.error(`Seating capacity is only ${boatData?.servicesData?.seatingCap}`);
                 }
             } else if (Number(numberOfChildren) + Number(numberOfFemales) + Number(numberOfMales) >= boatData?.servicesData?.seatingCap) {
                 setLoaderActive(false);
-
-                return toast.error(`Seating capacity is only ${boatData?.servicesData?.seatingCap}`)
+                return toast.error(`Seating capacity is only ${boatData?.servicesData?.seatingCap}`);
             }
         }
 
-        const totalPerson = Number(numberOfChildren) + Number(numberOfFemales) + Number(numberOfMales)
-        const area = boatData?.servicesData?.serviceArea
+        const totalPerson = Number(numberOfChildren) + Number(numberOfFemales) + Number(numberOfMales);
+        const area = boatData?.servicesData?.serviceArea;
 
         if (!order_id) {
             setLoaderActive(false);
@@ -172,47 +194,43 @@ const OrderBoat = () => {
         }
 
         const options = {
-            key: razorpayKey, // Enter the Key ID generated from the Dashboard
-            amount: formData?.totalPrice * 100, // Amount is in currency subunits. Default currency is INR. Hence, 50000 refers to 50000 paise
+            key: razorpayKey,
+            amount: formData?.totalPrice * 100,
             currency: "INR",
-            name: "Name", //your business name
+            name: "Name",
             description: "",
             image: "",
-            order_id: order_id, //This is a sample Order ID. Pass the `id` obtained in the response of Step 1
+            order_id: order_id,
             handler: async function (res) {
                 paymentDetails.razorpay_payment_id = res.razorpay_payment_id;
                 paymentDetails.razorpay_order_id = res.razorpay_order_id;
                 paymentDetails.razorpay_signature = res.razorpay_signature;
-                console.log(paymentDetails);
                 const response = await dispatch(verifyPayment(paymentDetails));
                 if (response?.payload?.success) {
-                    const res = await dispatch(bookBoat({ originalPrice, area, totalPrice, phoneNumber, alternateNumber, fareType, fullName, numberOfChildren, numberOfFemales, numberOfMales, totalPerson, orderDate, orderTime, userId, boatId }));
+                    const res = await dispatch(bookBoat({ originalPrice, area, totalPrice, orderTime, phoneNumber, alternateNumber, fareType, fullName, numberOfChildren, numberOfFemales, numberOfMales, totalPerson, orderDate, arrivalTime, userId, boatId }));
                     if (res.payload.success) {
                         setLoaderActive(false);
                         toast.success("Order Placed!");
                     }
-                    navigate(`/order/car-book/${userData?._id}`)
-                } else {
-                    navigate('/order/fail')
-                    setLoaderActive(false);
+                    navigate(`/order/car-book/${userData?._id}`);
                 }
             },
             prefill: {
-                "name": userData?.fullName, //your customer's name
-                "email": userData?.email,
-                "contact": userData?.phoneNumber  //Provide the customer's phone number for better conversion rates 
+                name: userData?.fullName,
+                email: userData?.email,
+                contact: userData?.phoneNumber
             },
             notes: {
-                "address": "Office"
+                address: "Address"
             },
             theme: {
-                "color": "#2F3349"
+                color: "#3399cc"
             }
         };
-
-        const razor = new window.Razorpay(options);
-        razor.open();
+        const paymentObject = new window.Razorpay(options);
+        paymentObject.open();
     };
+
 
     const proofFileUrl = boatData?.proofFiles?.[3]?.fileUrl;
 
@@ -227,14 +245,18 @@ const OrderBoat = () => {
                 <div className='flex flex-col w-full overflow-hidden text-black border-b md:items-end md:flex-row md:gap-6 border-[#8080803b]'>
                     <div>
                         {proofFileUrl ? (
-                            <img src={proofFileUrl} alt="Proof" className='h-[14rem] w-full md:w-[22rem] object-cover' />
+                            <img src={proofFileUrl} alt="Proof" className='h-[15rem] w-full md:w-[22rem] object-cover' />
                         ) : (
-                            <div className='h-[14rem] w-full bg-gray-200 flex items-center md:w-[22rem] justify-center'>
+                            <div className='h-[15rem] w-full bg-gray-200 flex items-center md:w-[22rem] justify-center'>
                                 <span>No Image Available</span>
                             </div>
                         )}
                     </div>
                     <div className='p-3 w-full md:w-[20.5rem]'>
+
+                        <div className='flex items-center justify-start my-1'>
+                            <h2 className='text-[1.1rem] font-semibold'>{boatData?.servicesData?.serviceArea.toLowerCase().includes('aarti') && "Arrival time: 6:00 PM"}</h2>
+                        </div>
                         <div className='flex items-center justify-between my-2'>
                             <h2 className='text-[1.1rem] font-semibold'>{boatData?.boatType}</h2>
                             <h2 className='flex items-center gap-1'><MdOutlineAirlineSeatReclineExtra />{boatData?.servicesData?.seatingCap}/{boatData?.servicesData?.allotedSeat}</h2>
@@ -263,7 +285,21 @@ const OrderBoat = () => {
                 <form className='flex flex-col p-4 text-black sm:p-6 md:items-end md:flex-row w-fit md:gap-6' onSubmit={handleSubmit}>
                     <div className='flex flex-col gap-[5px]'>
                         <h3 className='text-[1.1rem] font-semibold mb-2 border-b w-fit border-[#9e9e9e]'>Booking Details</h3>
-
+                        <div className='mb-1'>
+                            <label className='block text-sm font-medium text-gray-700'>Arrival Time</label>
+                            <select
+                                name='arrivalTime'
+                                value={formData.arrivalTime}
+                                onChange={handleChange}
+                                className='border border-[#808080] w-full rounded-[3px] h-full px-2 p-[5.5px] outline-none text-[0.95rem] tracking-wide bg-[#ffffff] text-black'
+                                required
+                            >
+                                <option value=''>Select Arrival Time</option>
+                                {availableTimes.map((time, index) => (
+                                    <option key={index} value={time}>{time}</option>
+                                ))}
+                            </select>
+                        </div>
                         <div className={mainDiv}>
                             <label className={labelStyle}>Full Name</label>
                             <input type='text' name='fullName' value={formData.fullName} onChange={handleChange} className={inputStyle} />

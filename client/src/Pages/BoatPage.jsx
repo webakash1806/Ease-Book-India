@@ -12,6 +12,7 @@ const BoatPage = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const serviceList = useSelector((state) => state?.service?.boatData) || [];
+    console.log(serviceList)
     const [loading, setLoading] = useState(true);
     const availableList = serviceList.filter((data) => data?.servicesData?.availability === "AVAILABLE")
 
