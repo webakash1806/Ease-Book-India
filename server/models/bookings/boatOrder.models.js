@@ -1,4 +1,5 @@
 import { model, Schema } from 'mongoose'
+import otpGenerator from 'otp-generator'
 
 const orderSchema = new Schema({
     userId: {
@@ -60,11 +61,15 @@ const orderSchema = new Schema({
     },
     dropOTP: {
         type: Number,
+        default: otpGenerator.generate(4, { upperCaseAlphabets: false, specialChars: false, lowerCaseAlphabets: false }),
+    },
+    arrivalTime: {
+        type: String,
     },
     status: {
         type: String,
         required: true,
-        enum: ["On the way", "Picked up", "Dropped", "Cancelled"],
+        enum: ["On the way", "Picked up", "Dropped", "Cancelled", "Late"],
         default: "On the way"
     }
 }, {
