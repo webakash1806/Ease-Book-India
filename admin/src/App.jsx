@@ -12,6 +12,8 @@ import CarOrders from './Pages/CarsPages/CarOrders'
 import CarBookDetails from './Pages/CarsPages/CarBookDetails'
 import BoatList from './Pages/BoatPages/BoatList'
 import BoatDetail from './Pages/BoatPages/BoatDetail'
+import BoatOrders from './Pages/BoatPages/BoatOrders'
+import BoatBookDetails from './Pages/BoatPages/BoatBookDetails'
 
 const App = () => {
   return (
@@ -24,7 +26,9 @@ const App = () => {
           <Route path='/driver/:id' element={<CarDetail />} />
           <Route path='/boat/:id' element={<BoatDetail />} />
           <Route path='/book-detail/:id' element={<CarBookDetails />} />
+          <Route path='/boat-book-detail/:id' element={<BoatBookDetails />} />
           <Route path='/car-booking' element={<CarOrders />} />
+          <Route path='/boat-booking' element={<BoatOrders />} />
           <Route path='/users-list' element={<UsersList />} />
           <Route path='/boatman-list' element={<BoatList />} />
         </Route>

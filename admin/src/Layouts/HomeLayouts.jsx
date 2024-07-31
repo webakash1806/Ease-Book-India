@@ -122,6 +122,12 @@ const HomeLayout = ({ children }) => {
                                             </NavLink>
                                         </li>
                                         <li>
+                                            <NavLink to={'/boat-booking'} className={({ isActive }) => isActive ? activeListStyle : listStyle}>
+                                                <FaHotel />
+                                                Boat Booking
+                                            </NavLink>
+                                        </li>
+                                        <li>
                                             <NavLink to={'/priest-booking'} className={({ isActive }) => isActive ? activeListStyle : listStyle}>
                                                 <GiSunPriest />
                                                 Priest Booking
