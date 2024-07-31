@@ -126,7 +126,7 @@ const getUserBoatOrder = async (req, res, next) => {
     }
 }
 
-const allCarOrder = async (req, res, next) => {
+const allBoatOrder = async (req, res, next) => {
     try {
         const order = await Order.find()
 
@@ -142,15 +142,21 @@ const allCarOrder = async (req, res, next) => {
 
 const pickupUpdate = async (req, res, next) => {
     try {
-        const { startOTP, id } = req.body
-        console.log(startOTP, id)
+        const { dropOTP, id } = req.body
         const order = await Order.findById(id)
         console.log(order)
-        if (order.startOTP == startOTP) {
-            order.status = "Picked up"
+
+        const boatData = await Boat.findOne({ _id: order.boatId })
+        const totalSeat = Number(order.numberOfChildren) + Number(order.numberOfFemales) + Number(order.numberOfMales)
+
+        if (order.dropOTP == dropOTP) {
+            boatData.servicesData.seatingCap = totalSeat + Number(boatData.servicesData.seatingCap)
+            order.status = "Dropped"
         } else {
             return next(new AppError("OTP is wrong!", 400))
         }
+
+        await boatData.save()
 
         await order.save()
 
@@ -174,6 +180,7 @@ const dropBoatUpdate = async (req, res, next) => {
         const boatId = order.boatId
 
         const boatData = await Boat.findOne({ _id: boatId })
+        const totalSeat = Number(order.numberOfChildren) + Number(order.numberOfFemales) + Number(order.numberOfMales)
 
         if (dropOTP) {
             if (order.dropOTP == dropOTP) {
@@ -186,8 +193,10 @@ const dropBoatUpdate = async (req, res, next) => {
             }
         } else {
             order.status = status
+            boatData.servicesData.seatingCap = totalSeat + Number(boatData.servicesData.seatingCap)
         }
 
+        await boatData.save()
         await order.save()
 
         res.status(200).json({
@@ -218,10 +227,6 @@ const cancelBoatBook = async (req, res, next) => {
         order.status = "Cancelled"
         const totalSeat = Number(order.numberOfChildren) + Number(order.numberOfFemales) + Number(order.numberOfMales)
 
-        console.log(totalSeat)
-
-        console.log(boatData.servicesData.seatingCap)
-
         if (order.fareType === "boat") {
             boatData.servicesData.seatingCap = boatData.servicesData.allotedSeat
         } else {
@@ -246,7 +251,7 @@ export {
     createBoatOrder,
     getDriverBoatOrder,
     getUserBoatOrder,
-    allCarOrder,
+    allBoatOrder,
     getBoatOrderData,
     pickupUpdate,
     dropBoatUpdate,
