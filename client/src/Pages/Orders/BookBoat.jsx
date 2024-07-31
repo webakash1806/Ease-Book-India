@@ -141,7 +141,7 @@ const OrderBoat = () => {
 
         if (boatData.servicesData.availability !== "AVAILABLE") {
             navigate('/boat');
-            return toast.error("Driver is busy. Try another.");
+            return toast.error("Boatman is busy. Try another.");
         }
 
         const date = new Date().getDate();
@@ -212,7 +212,7 @@ const OrderBoat = () => {
                         setLoaderActive(false);
                         toast.success("Order Placed!");
                     }
-                    navigate(`/order/car-book/${userData?._id}`);
+                    navigate(`/order/boat-book/${userData?._id}`);
                 }
             },
             prefill: {

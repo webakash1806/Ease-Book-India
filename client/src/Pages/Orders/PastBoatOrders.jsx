@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
-import { getBoatOrders, getOrders, updateBoatDrop, updateDrop } from '../../Redux/Slices/OrderSlice';
+import { getBoatOrders, getOrders, updateBoatDrop, updateBoatPickup, updateDrop } from '../../Redux/Slices/OrderSlice';
 import { FaArrowRight, FaArrowRightArrowLeft, FaCar } from 'react-icons/fa6';
 import { MdCall, MdFilterList } from 'react-icons/md';
 import OtpInput from 'react-otp-input';
@@ -72,7 +72,7 @@ const PastBoatOrders = () => {
     };
 
     const handleVerify = async (orderId) => {
-        const res = await dispatch(updateBoatDrop({ dropOTP: otpValues[orderId], id: orderId }));
+        const res = await dispatch(updateBoatPickup({ dropOTP: otpValues[orderId], id: orderId }));
         if (res?.payload?.success) {
             loadOrder();
         }
@@ -239,7 +239,12 @@ const PastBoatOrders = () => {
                     <div>No orders till now</div>
                 ) : (
                     filteredOrderData.map((data) => (
-                        <div key={data?._id} className='relative flex cursor-pointer rounded-sm sm:justify-between sm:min-w-[38rem] sm:flex-row shadow-[0px_0px_5px_#808080] overflow-hidden flex-col items-start sm:w-[65vw] w-[90vw] md:w-[63vw] lg:w-[58vw] xl:w-[50rem] min-w-[19.7rem]' onClick={() => navigate(`/boat-book-detail/${data?._id}`)}>
+                        <div key={data?._id} className='relative flex cursor-pointer rounded-sm sm:justify-between sm:min-w-[38rem] sm:flex-row shadow-[0px_0px_5px_#808080] overflow-hidden  flex-col items-start sm:w-[65vw] w-[90vw] md:w-[63vw] lg:w-[58vw] xl:w-[50rem] min-w-[19.7rem]' onClick={() => navigate(`/boat-book-detail/${data?._id}`)}>
+                            {data?.status === "Late" &&
+                                <div className='absolute flex items-center justify-center w-full h-full bg-[#ff00006b]'>
+                                    <p className='p-2 px-3 font-semibold text-red-500 bg-white rounded'>You are Late</p>
+                                </div>
+                            }
                             <div className='flex items-center gap-2 md:gap-3 lg:gap-4'>
                                 <div>
                                     <img className='w-[8.3rem] h-[6.4rem] lg:w-[9rem] object-cover' src={data?.boatData?.proofFiles[3]?.fileUrl} alt="" />

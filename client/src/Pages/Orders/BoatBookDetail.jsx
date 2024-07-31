@@ -1,11 +1,12 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
-import { cancelBoatBooking, cancelBooking, getBoatOrderDetail, getCarOrderDetail, updateBoatDrop, updateDrop } from '../../Redux/Slices/OrderSlice'
+import { cancelBoatBooking, cancelBooking, getBoatOrderDetail, getCarOrderDetail, updateBoatDrop, updateBoatPickup, updateDrop } from '../../Redux/Slices/OrderSlice'
 import OtpInput from 'react-otp-input';
 import { FaArrowRight, FaArrowRightArrowLeft } from 'react-icons/fa6';
 import { MdOutlineAirlineSeatReclineExtra } from 'react-icons/md';
 import { toast } from 'react-toastify';
+import { RxCross2 } from "react-icons/rx";
 
 const BoatBookDetail = () => {
     const [otpValues, setOtpValues] = useState({});
@@ -26,7 +27,7 @@ const BoatBookDetail = () => {
     };
 
     const handleVerify = async (orderId) => {
-        const res = await dispatch(updateBoatDrop({ dropOTP: otpValues[orderId], id: orderId }))
+        const res = await dispatch(updateBoatPickup({ dropOTP: otpValues[orderId], id: orderId }))
         if (res?.payload?.success) {
             loadData()
         }
@@ -93,22 +94,23 @@ const BoatBookDetail = () => {
                 <div className="">
                     <div className='flex flex-col md:items-end via-[#dcfced] from-[#d0f7e6] bg-gradient-to-b to-[#f2fef8e7] md:flex-row md:justify-between'>
                         <div className="flex flex-col justify-center">
-                            <h2 className="my-1 md:mb-5 text-[1.3rem] text-center font-semibold">Arrival time : {arrivalTime} </h2>
+                            {status === "On the way" && (
+                                <div className='flex items-center justify-center w-full gap-4 py-2'>
+                                    <h2 className="my-1 md:mb-5 text-[1.1rem] text-center font-semibold">Arrival time : {arrivalTime} </h2>
+                                    <button onClick={handleCancel} className='p-[7px] px-6 text-white bg-red-500 rounded'>Cancel</button>
+
+                                </div>
+
+                            )}
                             <img src={vehicleImage} alt="Vehicle" className="object-cover w-full md:w-[22rem] md:h-[12.8rem] md:rounded-l-none md:rounded-r-lg rounded-lg rounded-b-none" />
                         </div>
 
 
                         <div className='p-2 md:pb-0 md:w-[25rem]'>
-                            {status === "On the way" && (
-                                <div className='flex items-center justify-between w-full md:pl-8'>
-                                    <h3>Pickup OTP - {startOTP}</h3>
-                                    <button onClick={handleCancel} className='p-[7px] px-6 text-white bg-red-500 rounded'>Cancel booking</button>
-                                </div>
 
-                            )}
-                            {status === "Picked up" && (
+                            {status === "On the way" && (
                                 <div className='flex items-center justify-between w-full p-1 '>
-                                    <h3 className='flex items-center gap-2'>Drop OTP
+                                    <h3 className='flex items-center gap-2'>Enter OTP
                                         <OtpInput
                                             value={otpValues[_id] || ''}
                                             onChange={(otp) => handleOtpChange(otp, _id)}
@@ -154,8 +156,10 @@ const BoatBookDetail = () => {
                     <div className='p-2 bg-[#f9fffb]'>
                         <h3 className="flex items-center justify-between mt-4 mb-2 text-xl font-semibold">Order Information
                             <div className='flex items-center gap-1 text-[0.95rem] font-normal'>
-                                <div className={`ml-[1.2px] ${status === "Cancelled" && 'bg-red-500'} ${status === "On the way" && 'bg-orange-500'} ${status === "Picked up" && 'bg-yellow-500'} ${status === "Dropped" && 'bg-green-500'} rounded-full size-3`}></div>{status}
 
+                                <div className={`ml-[1.2px] flex items-center justify-center ${status === "Cancelled" && 'bg-red-500 size-3'} ${status === "On the way" && 'bg-orange-500 size-3'} ${status === "Picked up" && 'bg-yellow-500'} ${status === "Dropped" && 'bg-green-500 size-3'} rounded-full `}>
+                                    {status === "Late" && <RxCross2 className='text-red-500 text-[1.2rem] mt-[0.9px]' />}{status === "Late" && "You are"}
+                                </div>{status}
                             </div>
                         </h3>
                         <div className='flex flex-col md:flex-row md:justify-between'>
