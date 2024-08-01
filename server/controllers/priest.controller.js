@@ -1,5 +1,5 @@
 import User from "../models/user.models.js"
-import Priest from '../models/priest.models.js'
+import Priest from '../models/priest.model.js'
 import AppError from "../utils/error.utils.js"
 import cloudinary from 'cloudinary'
 import fs from 'fs/promises'
@@ -68,6 +68,7 @@ const register = async (req, res, next) => {
             proofFiles: {},
             servicesData: {
                 poojaList: [],
+                fare: 0,
                 serviceArea: "",
                 availability: "BREAK"
             }
@@ -447,14 +448,15 @@ const updateProfile = async (req, res, next) => {
 
 const addService = async (req, res, next) => {
     try {
-        const { poojaList, serviceArea, availability } = req.body
+        const { poojaList, serviceArea, availability, fare } = req.body
         const id = req.user.id
         console.log(id)
         const user = await Priest.findById(id)
-        if (!poojaList || !serviceArea || !availability) {
+        if (!poojaList || !serviceArea || !availability || !fare) {
             return next(new AppError('All fields are required', 400))
         }
 
+        user.servicesData.fare = await fare
         user.servicesData.poojaList = await poojaList
         user.servicesData.serviceArea = await serviceArea
         user.servicesData.availability = await availability

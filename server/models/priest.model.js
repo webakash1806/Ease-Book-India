@@ -11,7 +11,7 @@ const priestSchema = new Schema({
     role: {
         type: String,
         enum: ['USER', 'ADMIN', 'BOATMAN', 'GUIDER', 'PRIEST', 'WRITER', 'RIDER', 'SHOPKEEPER'],
-        default: 'RIDER'
+        default: 'PRIEST'
     },
 
     // User's full name with length constraints
@@ -63,6 +63,10 @@ const priestSchema = new Schema({
         serviceArea: {
             type: String,
             default: ""
+        },
+        fare: {
+            type: Number,
+            default: 0
         },
         availability: {
             type: String,

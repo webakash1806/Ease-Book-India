@@ -34,6 +34,8 @@ const HomeLayout = ({ children }) => {
         }
     };
 
+
+
     useEffect(() => {
         document.addEventListener('click', handleClickOutside);
         return () => {
