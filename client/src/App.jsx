@@ -13,6 +13,8 @@ import CarBookDetail from './Pages/Orders/CarBookDetail'
 import BoatPage from './Pages/BoatPage'
 import PastBoatOrders from './Pages/Orders/PastBoatOrders'
 import BoatBookDetail from './Pages/Orders/BoatBookDetail'
+import PoojaList from './Pages/PoojaList'
+import PriestList from './Pages/PriestList'
 
 const App = () => {
   // In your component
@@ -38,6 +40,8 @@ const App = () => {
         <Route path='/order/boat-book/:id' element={<PastBoatOrders />} />
         <Route path='/car-book-detail/:id' element={<CarBookDetail />} />
         <Route path='/boat-book-detail/:id' element={<BoatBookDetail />} />
+        <Route path='/pooja-list' element={<PoojaList />} />
+        <Route path='/priest-list' element={<PriestList />} />
       </Routes>
     </HomeLayout>
   )

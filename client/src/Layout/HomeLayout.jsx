@@ -69,7 +69,7 @@ const HomeLayout = ({ children }) => {
                                     <li><Link to='/car'>Rent car</Link></li>
                                     <li><Link to='/boat'>Book boat</Link></li>
                                     <li><Link to='/guide'>Book guider</Link></li>
-                                    <li><Link to='/priest'>Book priest</Link></li>
+                                    <li><Link to='/pooja-list'>Book priest</Link></li>
                                     <li><Link to='/hotels'>Book hotels</Link></li>
                                     <li><Link to='/about'>About</Link></li>
                                     <li><Link to='/contact'>Contact</Link></li>
@@ -131,7 +131,7 @@ const HomeLayout = ({ children }) => {
                                 <li><Link to='/car'>Rent car</Link></li>
                                 <li><Link to='/boat'>Book boat</Link></li>
                                 <li><Link to='/guide'>Book guider</Link></li>
-                                <li><Link to='/priest'>Book priest</Link></li>
+                                <li><Link to='/pooja-list'>Book priest</Link></li>
                                 <li><Link to='/hotels'>Hotels</Link></li>
                                 <li><Link to='/about'>About</Link></li>
                                 <li><Link to='/contact'>Contact</Link></li>
