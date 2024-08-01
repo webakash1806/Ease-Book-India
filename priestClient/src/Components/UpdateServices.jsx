@@ -120,7 +120,7 @@ const UpdateServices = () => {
                 </div>
 
 
-                <div className='flex  min-w-[18rem] md:max-w-[20.5rem] max-w-[25.5rem] w-[87vw] sm:w-[24rem] justify-between'>
+                <div className='flex mt-2 min-w-[18rem] md:max-w-[20.5rem] max-w-[25.5rem] w-[87vw] sm:w-[24rem] justify-between'>
                     <div className={`${mainDiv} w-[48%]`}>
                         <label className={labelStyle} htmlFor='fare'>Fare</label>
                         <input

@@ -2,6 +2,7 @@ import Admin from "../models/admin.model.js"
 import User from "../models/user.models.js"
 import Cars from "../models/cars.models.js"
 import Boat from "../models/boat.models.js"
+import Priest from "../models/priest.model.js"
 import AppError from "../utils/error.utils.js"
 import cloudinary from 'cloudinary'
 import fs from 'fs/promises'
@@ -557,6 +558,58 @@ const getBoatmanDetail = async (req, res, next) => {
     }
 }
 
+const priestList = async (req, res, next) => {
+    try {
+        const list = await Priest.find()
+
+        res.status(200).json({
+            status: 'success',
+            message: 'Boatman list',
+            list
+        })
+    } catch (e) {
+        return next(new AppError(e.message, 500))
+    }
+}
+
+const updatePriestStatus = async (req, res, next) => {
+    try {
+        const { id, status } = req.body
+        console.log(req.body)
+        const priest = await Priest.findById(id)
+
+        if (status) {
+            priest.status = await status
+        }
+
+        await priest.save()
+
+        res.status(200).json({
+            message: "Status updated",
+            priest
+        })
+
+    } catch (e) {
+        return next(new AppError(e.message, 500))
+    }
+}
+
+const getPriestDetail = async (req, res, next) => {
+    try {
+        console.log(req.params)
+        const { id } = req.params
+        console.log(id)
+        const detail = await Priest.findById(id)
+
+        res.status(200).json({
+            message: 'Boatman data',
+            detail
+        })
+    } catch (e) {
+        return next(new AppError(e.message, 500))
+    }
+}
+
 
 /* The below code is exporting a set of functions related to admin authentication and profile
 management. These functions include: */
@@ -575,5 +628,8 @@ export {
     usersList,
     boatManList,
     updateBoatmanStatus,
-    getBoatmanDetail
+    getBoatmanDetail,
+    priestList,
+    updatePriestStatus,
+    getPriestDetail
 }
