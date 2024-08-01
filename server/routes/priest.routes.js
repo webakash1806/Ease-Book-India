@@ -10,23 +10,20 @@ import {
     forgotPassword,
     resetPassword,
     changePassword,
-    updateProfile
-} from "../controllers/user.controller.js";
+    updateProfile,
+    addService
+} from "../controllers/priest.controller.js";
 
 import { isLoggedIn } from "../middlewares/auth.middleware.js";
 import { loginAuth } from "../middlewares/login.middleware.js";
 import upload from '../middlewares/multer.middleware.js'
-import { getDriverWithService } from "../controllers/cars.controller.js";
-import { cancelCarBook, createCarOrder, dropUpdate, getCarOrderData, getUserCarOrder } from "../controllers/bookings/carOrder.controller.js";
-import { getBoatmanWithService } from "../controllers/boat.controller.js";
-import { cancelBoatBook, createBoatOrder, dropBoatUpdate, getBoatOrderData, getUserBoatOrder, pickupUpdate } from "../controllers/bookings/boatOrder.controller.js";
-import { getPriestWithService } from "../controllers/priest.controller.js";
+import { getCarOrderData, getDriverCarOrder, pickupUpdate } from "../controllers/bookings/carOrder.controller.js";
 
 // Creating an instance of the Express Router
 const router = Router()
 
 // Route for user registration with optional avatar upload using multer middleware
-router.post('/register', upload.single("avatar"), register)
+router.post('/register', upload.array('proofFiles', 6), register)
 
 // Route for user login with authentication middleware (loginAuth)
 router.post('/login', loginAuth, login)
@@ -49,34 +46,14 @@ router.post('/change-password', isLoggedIn, changePassword)
 // Route for updating user profile information with optional avatar upload
 router.put('/update-profile/:id', isLoggedIn, upload.single("avatar"), updateProfile)
 
+router.put('/update-services', isLoggedIn, addService)
 
-router.get('/cars-list', getDriverWithService)
+router.get('/get-order/:id', isLoggedIn, getDriverCarOrder)
 
-router.get('/boat-list', getBoatmanWithService)
-
-router.get('/priest-list', getPriestWithService)
-
-router.post('/book-car', isLoggedIn, createCarOrder)
-
-router.post('/book-boat', isLoggedIn, createBoatOrder)
-
-router.get('/get-car-order/:id', isLoggedIn, getUserCarOrder)
-
-router.get('/get-boat-order/:id', isLoggedIn, getUserBoatOrder)
-
-router.put('/update-car-drop', isLoggedIn, dropUpdate)
-
-router.put('/update-boat-drop', isLoggedIn, dropBoatUpdate)
-
-router.put('/update-boat-pick', isLoggedIn, pickupUpdate)
+router.put('/update-pickup', isLoggedIn, pickupUpdate)
 
 router.get('/car-book-detail/:id', isLoggedIn, getCarOrderData)
 
-router.get('/boat-book-detail/:id', isLoggedIn, getBoatOrderData)
-
-router.put('/car-book-cancel/:id', isLoggedIn, cancelCarBook)
-
-router.put('/boat-book-cancel/:id', isLoggedIn, cancelBoatBook)
 
 // Exporting the router instance to be used in the main application
 export default router
