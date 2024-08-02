@@ -81,7 +81,7 @@ const UpdateServices = () => {
     const inputStyle = 'border border-[#685ED4] min-w-[18rem] md:max-w-[20.5rem] max-w-[25.5rem] w-[87vw] sm:w-[24rem] rounded-[3px] h-full px-2 p-[5.5px] outline-none text-[0.95rem] tracking-wide resize-none bg-[#3D4056] text-white';
 
     return (
-        <div className='flex items-center justify-center bg-[#f8f6fc]'>
+        <div className='flex items-center justify-center '>
             <form onSubmit={handleForm} className='sm:p-6 p-4 bg-[#2F3349] text-white rounded-md shadow-[0px_0px_20px_#3D4056] my-12 flex flex-col w-fit'>
                 <div className='mb-4'>
                     <h2 className='text-[1.8rem] font-semibold tracking-wide'>Update Service</h2>
