@@ -127,9 +127,8 @@ const allPriestOrder = async (req, res, next) => {
 const startUpdate = async (req, res, next) => {
     try {
         const { startOTP, id } = req.body
-        console.log(startOTP, id)
+
         const order = await PriestOrder.findById(id)
-        console.log(order)
         if (order.startOTP == startOTP) {
             order.status = "Started"
         } else {
