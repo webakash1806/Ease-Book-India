@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { getOrders, updatePickup } from '../../Redux/Slices/OrderSlice';
+import { getOrders, updateStatus } from '../../Redux/Slices/OrderSlice';
 import OtpInput from 'react-otp-input';
-import { FaArrowRight, FaArrowRightArrowLeft, FaCar } from 'react-icons/fa6';
+import { FaArrowRight, FaArrowRightArrowLeft, FaCar, FaLocationDot } from 'react-icons/fa6';
 import { MdCall } from 'react-icons/md';
+import { GiSunPriest } from 'react-icons/gi';
 
 const Accepted = () => {
-    const [otp, setOtp] = useState('');
+    const [otpValues, setOtpValues] = useState({});
+
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -19,8 +21,8 @@ const Accepted = () => {
         await dispatch(getOrders(id));
     };
 
-    const handleVerify = async (id) => {
-        const res = await dispatch(updatePickup({ startOTP: otp, id: id }));
+    const handleVerify = async (orderId) => {
+        const res = await dispatch(updateStatus({ startOTP: otpValues[orderId], id: orderId }));
         if (res?.payload?.success) {
             loadData();
         }
@@ -30,87 +32,86 @@ const Accepted = () => {
         loadData();
     }, []);
 
-    const handleOtpChange = (otp) => {
-        setOtp(otp);
+    const handleOtpChange = (otp, orderId) => {
+        setOtpValues(prevState => ({
+            ...prevState,
+            [orderId]: otp
+        }));
     };
 
-    const filteredOrderData = orderData.filter(order => order.status === "On the way" || order.status === "Picked up").slice().reverse();
+    const filteredOrderData = orderData.filter(order => order.status === "Ordered" || order.status === "Started").slice().reverse();
+
+    console.log(filteredOrderData[0])
 
     return (
-        <div className='flex flex-col items-center py-4 text-black md:flex-row md:items-start'>
-            <div className='flex flex-col items-center w-full gap-6'>
-                {filteredOrderData.length > 0 && (
-                    filteredOrderData.map((data) => (
-                        <div
-                            key={data?._id}
-                            className='flex cursor-pointer rounded-sm sm:justify-between sm:min-w-[38rem] sm:flex-row shadow-[0px_0px_5px_#808080] overflow-hidden flex-col items-start sm:w-[65vw] w-[90vw] md:w-[63vw] lg:w-[58vw] xl:w-[50rem] min-w-[19.7rem]'
-                            onClick={(e) => {
-                                if (e.target.closest('.otp-container')) return;
-                                navigate(`/book-detail/${data?._id}`);
-                            }}
-                        >
-                            <div className='flex items-center gap-2 md:gap-3 lg:gap-4'>
-                                <div>
-                                    <img className='w-[8.3rem] h-[6.4rem] lg:w-[9rem] object-cover' src={data?.driverData?.proofFiles[3]?.fileUrl} alt="" />
-                                </div>
-                                <div className='text-[0.9rem] font-semibold'>
-                                    <h3 className='flex items-center gap-3'><FaCar />{data?.fullName}</h3>
-                                    <h3 className='flex items-center gap-3'><MdCall />{data?.phoneNumber}</h3>
-                                    <h3 className='flex items-center gap-3 mt-3'>
-                                        <div className={`ml-[1.2px] ${data?.status === "Cancelled" && 'bg-red-500'} ${data?.status === "On the way" && 'bg-orange-500'} ${data?.status === "Picked up" && 'bg-yellow-500'} ${data?.status === "Dropped" && 'bg-green-500'} rounded-full size-3`}></div>{data?.status}
-                                    </h3>
-                                </div>
-                            </div>
-                            <div className='w-full text-[0.95rem] sm:w-[17.5rem] md:w-[18.5rem] xl:w-[23rem] sm:pr-2'>
-                                <div className='flex items-center justify-between w-full p-1 border-t'>
-                                    <h3>{data?.pickLocation}</h3>
-                                    {data?.returnTrip ? <FaArrowRightArrowLeft /> : <FaArrowRight />}
-                                    <h3>{data?.dropLocation}</h3>
-                                </div>
-                                <div className='flex items-center justify-between w-full p-1 border-t'>
-                                    <h3>{data?.orderDate}</h3>
-                                    <h3>{data?.orderTime}</h3>
-                                </div>
-                                {data?.status === "Picked up" && (
-                                    <div className='flex items-center justify-between w-full p-1 border-t'>
-                                        <h3>Drop OTP - {data?.dropOTP}</h3>
-                                        <h3>Share with user</h3>
-                                    </div>
-                                )}
-                                {data?.status === "On the way" && (
-                                    <div className='flex items-center justify-between w-full p-1 border-t otp-container'>
-                                        <h3 className='flex items-center gap-2 text-[0.92rem]'>
-                                            Pickup OTP
-                                            <OtpInput
-                                                value={otp}
-                                                onChange={handleOtpChange}
-                                                numInputs={4}
-                                                renderSeparator={<span>-</span>}
-                                                renderInput={(props) => (
-                                                    <input
-                                                        {...props}
-                                                        style={{
-                                                            width: '1.9rem',
-                                                            height: '1.9rem',
-                                                            margin: '0 0.1rem',
-                                                            fontSize: '1rem',
-                                                            borderRadius: '4px',
-                                                            border: '1px solid #ccc',
-                                                            textAlign: 'center',
-                                                            backgroundColor: 'white',
-                                                            color: 'black',
-                                                        }}
-                                                    />
-                                                )}
-                                            />
-                                        </h3>
-                                        <div className='size-[1.9rem] flex items-center rounded justify-center bg-green-500 cursor-pointer text-white' onClick={(e) => { e.stopPropagation(); handleVerify(data?._id); }}><FaArrowRight /></div>
-                                    </div>
-                                )}
-                            </div>
+        <div
+            key={filteredOrderData[0]._id}
+            className={`flex flex-col w-[95vw] text-black md:max-w-[45rem] p-4 bg-white rounded-lg shadow-md border-l-4 ${filteredOrderData[0].status === 'Completed' ? 'border-green-500' : filteredOrderData[0].status === 'Started' || filteredOrderData[0].status === 'Booked' ? 'border-orange-500' : filteredOrderData[0].status === 'Cancelled' ? 'border-red-500' : 'border-blue-500'}`}
+            onClick={() => navigate(`/book-detail/${filteredOrderData[0]._id}`)}
+        >
+            <div className='flex flex-col items-start justify-between sm:flex-row'>
+                <div className='flex items-center mb-4'>
+                    <GiSunPriest className='mr-4 text-[3.5rem] text-orange-600' />
+                    <div>
+                        <h2 className='text-xl font-semibold'>{filteredOrderData[0]?.priestData?.fullName || 'Priest Name'}</h2>
+                        <h3>{filteredOrderData[0]?.poojaName}</h3>
+                        <div className='text-sm text-gray-600'>
+                            <div><strong>Booking Date:</strong> {filteredOrderData[0]?.orderDate || 'N/A'}</div>
+                            <div><strong>Booking time:</strong> {filteredOrderData[0]?.orderTime || 'N/A'}</div>
                         </div>
-                    ))
-                )}
+                    </div>
+                </div>
+                <div className='flex items-center mb-2 text-sm'>
+                    <h3 className='flex items-center gap-3 mt-3'>
+                        <div className={`ml-[1.2px] ${filteredOrderData[0]?.status === 'Cancelled' && 'bg-red-500'} ${filteredOrderData[0]?.status === 'Booked' && 'bg-orange-500'} ${filteredOrderData[0]?.status === 'Started' && 'bg-yellow-500'} ${filteredOrderData[0]?.status === 'Completed' && 'bg-green-500'} rounded-full size-3`}></div>{filteredOrderData[0]?.status}
+                    </h3>
+                </div>
+            </div>
+            <div className='flex flex-col justify-between gap-4 sm:items-end sm:flex-row'>
+                <div>
+                    <div className='flex items-center mb-2 text-sm'>
+                        <FaLocationDot className='mr-2' />
+                        <span><strong>Location:</strong> {filteredOrderData[0]?.location || 'N/A'}</span>
+                    </div>
+                    <div className='flex items-center mb-2 text-sm'>
+                        <MdCall className='mr-2' />
+                        <span><strong>Customer Contact:</strong> {filteredOrderData[0]?.phoneNumber || 'N/A'}</span>
+                    </div>
+                </div>
+                <div className='flex mb-[7px] flex-col justify-between '>
+                    {filteredOrderData[0]?.status === 'Started' && (
+                        <h3 className=''>End OTP - {filteredOrderData[0].dropOTP}</h3>
+                    )}
+                    {filteredOrderData[0]?.status === 'Booked' && (
+                        <div className='flex items-center mt-1' onClick={(e) => e.stopPropagation()}>
+                            <h3 className='flex items-center gap-2'>Start OTP
+                                <OtpInput
+                                    value={otpValues[filteredOrderData[0]?._id] || ''}
+                                    onChange={(otp) => handleOtpChange(otp, filteredOrderData[0]?._id)}
+                                    numInputs={4}
+                                    renderSeparator={<span>-</span>}
+                                    renderInput={(props) => (
+                                        <input
+                                            {...props}
+                                            style={{
+                                                width: '1.9rem',
+                                                height: '1.9rem',
+                                                margin: '0 0.1rem',
+                                                fontSize: '1rem',
+                                                borderRadius: '4px',
+                                                border: '1px solid #ccc',
+                                                textAlign: 'center',
+                                                backgroundColor: 'white',
+                                                color: 'black',
+                                            }}
+                                        />
+                                    )}
+                                />
+                            </h3>
+                            <div className='size-[1.9rem] ml-2 flex items-center rounded justify-center bg-green-500 cursor-pointer text-white' onClick={() => handleVerify(filteredOrderData[0]?._id)}><FaArrowRight /></div>
+                        </div>
+                    )}
+                </div>
             </div>
         </div>
     );

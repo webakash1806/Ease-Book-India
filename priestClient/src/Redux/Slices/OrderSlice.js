@@ -5,10 +5,10 @@ import axiosInstance from '../../Helper/axiosInstance'
 
 const initialState = {
     orderData: localStorage.getItem('orderData') !== "undefined" ? JSON.parse(localStorage.getItem('orderData')) : [{}],
-    singleCarData: localStorage.getItem('singleCarData') !== "undefined" ? JSON.parse(localStorage.getItem('singleCarData')) : {},
+    singlePriestData: localStorage.getItem('singlePriestData') !== "undefined" ? JSON.parse(localStorage.getItem('singlePriestData')) : {},
 }
 
-export const getOrders = createAsyncThunk('/cars/get-order/:id', async (data) => {
+export const getOrders = createAsyncThunk('/priest/get-order/:id', async (data) => {
     try {
         console.log(data)
         let res = axiosInstance.get(`get-order/${data}`)
@@ -27,10 +27,10 @@ export const getOrders = createAsyncThunk('/cars/get-order/:id', async (data) =>
     }
 })
 
-export const updatePickup = createAsyncThunk('/cars/update-pickup', async (data) => {
+export const updateStatus = createAsyncThunk('/priest/update-pickup', async (data) => {
     try {
         console.log(data)
-        let res = axiosInstance.put(`update-pickup`, data)
+        let res = axiosInstance.put(`update-pooja-complete`, data)
         toast.promise(res, {
             loading: 'Verifying',
             success: (data) => {
@@ -46,9 +46,9 @@ export const updatePickup = createAsyncThunk('/cars/update-pickup', async (data)
     }
 })
 
-export const getCarOrderDetail = createAsyncThunk('/user/car-book-detail/:id', async (data) => {
+export const getCarOrderDetail = createAsyncThunk('/priest/book-detail/:id', async (data) => {
     try {
-        let res = axiosInstance.get(`car-book-detail/${data}`)
+        let res = axiosInstance.get(`book-detail/${data}`)
         toast.promise(res, {
             loading: 'Loading',
             success: (data) => {
@@ -73,8 +73,8 @@ const orderSlice = createSlice({
             localStorage.setItem('orderData', JSON.stringify(action?.payload?.order))
             state.orderData = action?.payload?.order
         }).addCase(getCarOrderDetail.fulfilled, (state, action) => {
-            localStorage.setItem('singleCarData', JSON.stringify(action?.payload?.order))
-            state.singleCarData = action?.payload?.order
+            localStorage.setItem('singlePriestData', JSON.stringify(action?.payload?.order))
+            state.singlePriestData = action?.payload?.order
         })
     }
 })
