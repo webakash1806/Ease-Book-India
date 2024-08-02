@@ -100,7 +100,7 @@ const PriestList = () => {
                                             <h3>
                                                 <span className='text-[1.02rem] font-semibold text-[#19B56F]'>Rs.{data?.servicesData?.fare + Number(state.pooja.price)}</span>
                                             </h3>
-                                            <button onClick={() => navigate(`/car-book/${data?._id}`)} className='border p-2 px-4 rounded-full border-[#19B56F] hover:bg-[#19B56F] transition-all duration-500 hover:text-white text-[#19B56F] font-semibold'>BOOK NOW</button>
+                                            <button onClick={() => navigate(`/priest-book/${data?._id}`, { state: { state } })} className='border p-2 px-4 rounded-full border-[#19B56F] hover:bg-[#19B56F] transition-all duration-500 hover:text-white text-[#19B56F] font-semibold'>BOOK NOW</button>
                                         </div>
                                     </div>
                                 </div>

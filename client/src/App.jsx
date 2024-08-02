@@ -15,6 +15,9 @@ import PastBoatOrders from './Pages/Orders/PastBoatOrders'
 import BoatBookDetail from './Pages/Orders/BoatBookDetail'
 import PoojaList from './Pages/PoojaList'
 import PriestList from './Pages/PriestList'
+import BookPriest from './Pages/Orders/BookPriest'
+import PastPriestOrders from './Pages/Orders/PastPriestOrders'
+import PriestBookDetail from './Pages/Orders/PriestBookDetail'
 
 const App = () => {
   // In your component
@@ -36,10 +39,13 @@ const App = () => {
         <Route path='/boat' element={<BoatPage />} />
         <Route path='/car-book/:id' element={<OrderCar />} />
         <Route path='/boat-book/:id' element={<BookBoat />} />
+        <Route path='/priest-book/:id' element={<BookPriest />} />
         <Route path='/order/car-book/:id' element={<PastCarOrders />} />
         <Route path='/order/boat-book/:id' element={<PastBoatOrders />} />
+        <Route path='/order/priest-book/:id' element={<PastPriestOrders />} />
         <Route path='/car-book-detail/:id' element={<CarBookDetail />} />
         <Route path='/boat-book-detail/:id' element={<BoatBookDetail />} />
+        <Route path='/priest-book-detail/:id' element={<PriestBookDetail />} />
         <Route path='/pooja-list' element={<PoojaList />} />
         <Route path='/priest-list' element={<PriestList />} />
       </Routes>

@@ -9,6 +9,7 @@ const initialState = {
     boatData: localStorage.getItem('boatData') !== "undefined" ? JSON.parse(localStorage.getItem('boatData')) : [],
     priestListData: localStorage.getItem('priestListData') !== "undefined" ? JSON.parse(localStorage.getItem('priestListData')) : [],
     boatmanData: localStorage.getItem('boatmanData') !== "undefined" ? JSON.parse(localStorage.getItem('boatmanData')) : {},
+    priestData: localStorage.getItem('priestData') !== "undefined" ? JSON.parse(localStorage.getItem('priestData')) : {},
 }
 
 export const getCarsList = createAsyncThunk('/user/cars-list', async () => {
@@ -106,6 +107,25 @@ export const getPriestList = createAsyncThunk('/user/priest-list', async () => {
 
 })
 
+export const getPriestData = createAsyncThunk('/user/priest-order', async (data) => {
+    try {
+        let res = axiosInstance.get(`admin/priest/detail/${data}`)
+        toast.promise(res, {
+            // loading: '',
+            success: (data) => {
+                return data?.data.message
+            },
+            error: "failed to load data"
+        })
+        // getting response resolved here
+        res = await res;
+        return res.data;
+    } catch (e) {
+        return toast.error(e?.response?.data?.message)
+    }
+
+})
+
 
 
 const serviceSlice = createSlice({
@@ -129,6 +149,9 @@ const serviceSlice = createSlice({
             console.log(action)
             localStorage.setItem('priestListData', JSON.stringify(action?.payload?.filteredPriest))
             state.priestListData = action?.payload?.filteredPriest
+        }).addCase(getPriestData.fulfilled, (state, action) => {
+            localStorage.setItem('priestData', JSON.stringify(action?.payload?.detail))
+            state.priestData = action?.payload?.detail
         })
     }
 })

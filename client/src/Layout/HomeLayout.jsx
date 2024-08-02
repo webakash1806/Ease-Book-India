@@ -144,7 +144,7 @@ const HomeLayout = ({ children }) => {
                                             <ul className="absolute z-10 flex-col w-[10rem] mt-1 bg-white border rounded shadow-lg top-full">
                                                 <li><Link to={`/order/car-book/${userId}`} className="px-4 py-2 hover:bg-gray-100">Car Book</Link></li>
                                                 <li><Link to={`/order/boat-book/${userId}`} className="px-4 py-2 hover:bg-gray-100">Boat Book</Link></li>
-                                                <li><Link to='/hotels-book' className="px-4 py-2 hover:bg-gray-100">Priest Book</Link></li>
+                                                <li><Link to={`/order/priest-book/${userId}`} className="px-4 py-2 hover:bg-gray-100">Priest Book</Link></li>
                                                 <li><Link to='/hotels-book' className="px-4 py-2 hover:bg-gray-100">Hotel Book</Link></li>
                                             </ul>
                                         )}

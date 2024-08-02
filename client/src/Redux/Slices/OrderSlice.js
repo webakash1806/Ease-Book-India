@@ -6,8 +6,10 @@ import axiosInstance from '../../Helper/axiosInstance'
 const initialState = {
     carsOrderData: localStorage.getItem('carsOrderData') !== "undefined" ? JSON.parse(localStorage.getItem('carsOrderData')) : [],
     boatOrderData: localStorage.getItem('boatOrderData') !== "undefined" ? JSON.parse(localStorage.getItem('boatOrderData')) : [],
+    priestOrderData: localStorage.getItem('priestOrderData') !== "undefined" ? JSON.parse(localStorage.getItem('priestOrderData')) : [],
     singleCarData: localStorage.getItem('singleCarData') !== "undefined" ? JSON.parse(localStorage.getItem('singleCarData')) : {},
     singleBoatData: localStorage.getItem('singleBoatData') !== "undefined" ? JSON.parse(localStorage.getItem('singleBoatData')) : {},
+    singlePriestData: localStorage.getItem('singlePriestData') !== "undefined" ? JSON.parse(localStorage.getItem('singlePriestData')) : {},
 
 }
 
@@ -218,6 +220,100 @@ export const updateBoatPickup = createAsyncThunk('/user/update-boat-drop', async
     }
 })
 
+export const bookPriest = createAsyncThunk('/user/book-priest', async (data) => {
+    try {
+        let res = axiosInstance.post('user/book-priest', data)
+        toast.promise(res, {
+            loading: 'Booking',
+            success: (data) => {
+                return data?.data.message
+            },
+            error: "failed to book"
+        })
+        // getting response resolved here
+        res = await res;
+        return res.data;
+    } catch (e) {
+        return toast.error(e?.response?.data?.message)
+    }
+})
+
+export const getPriestOrders = createAsyncThunk('/user/get-priest-order/:id', async (data) => {
+    try {
+        console.log(data)
+        let res = axiosInstance.get(`user/get-priest-order/${data}`)
+        toast.promise(res, {
+            loading: 'Loading',
+            success: (data) => {
+                return data?.data.message
+            },
+            error: "failed to get orders"
+        })
+        // getting response resolved here
+        res = await res;
+        return res.data;
+    } catch (e) {
+        return toast.error(e?.response?.data?.message)
+    }
+})
+
+export const getPriestOrderDetail = createAsyncThunk('/user/priest-book-detail/:id', async (data) => {
+    try {
+        console.log(data)
+        let res = axiosInstance.get(`user/priest-book-detail/${data}`)
+        toast.promise(res, {
+            loading: 'Loading',
+            success: (data) => {
+                return data?.data.message
+            },
+            error: "failed to get orders"
+        })
+        // getting response resolved here
+        res = await res;
+        return res.data;
+    } catch (e) {
+        return toast.error(e?.response?.data?.message)
+    }
+})
+
+export const poojaFinishUpdate = createAsyncThunk('/user/update-pooja-finish', async (data) => {
+    try {
+        console.log(data)
+        let res = axiosInstance.put(`user/update-pooja-complete`, data)
+        toast.promise(res, {
+            loading: 'Verifying',
+            success: (data) => {
+                return data?.data.message
+            },
+            error: "Failed to get verified"
+        })
+        // getting response resolved here
+        res = await res;
+        return res.data;
+    } catch (e) {
+        return toast.error(e?.response?.data?.message)
+    }
+})
+
+export const cancelPoojaBooking = createAsyncThunk('/user/cancel-pooja-booking', async (data) => {
+    try {
+        console.log(data)
+        let res = axiosInstance.put(`user/priest-book-cancel/${data}`)
+        toast.promise(res, {
+            loading: 'Cancelling',
+            success: (data) => {
+                return data?.order.message
+            },
+            error: "Failed to get cancel"
+        })
+        // getting response resolved here
+        res = await res;
+        return res.data;
+    } catch (e) {
+        return toast.error(e?.response?.data?.message)
+    }
+})
+
 
 const orderSlice = createSlice({
     name: 'order',
@@ -236,6 +332,12 @@ const orderSlice = createSlice({
         }).addCase(getBoatOrderDetail.fulfilled, (state, action) => {
             localStorage.setItem('singleBoatData', JSON.stringify(action?.payload?.order))
             state.singleBoatData = action?.payload?.order
+        }).addCase(getPriestOrders.fulfilled, (state, action) => {
+            localStorage.setItem('priestOrderData', JSON.stringify(action?.payload?.order))
+            state.priestOrderData = action?.payload?.order
+        }).addCase(getPriestOrderDetail.fulfilled, (state, action) => {
+            localStorage.setItem('singlePriestData', JSON.stringify(action?.payload?.order))
+            state.singlePriestData = action?.payload?.order
         })
     }
 })
