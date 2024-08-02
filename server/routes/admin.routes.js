@@ -20,7 +20,10 @@ import {
     getBoatmanDetail,
     priestList,
     updatePriestStatus,
-    getPriestDetail
+    getPriestDetail,
+    guiderList,
+    updateGuiderStatus,
+    getGuiderDetail
 } from "../controllers/admin.controller.js";
 
 import { isLoggedIn } from "../middlewares/auth.middleware.js";
@@ -66,17 +69,23 @@ router.get('/boat/list', isLoggedIn, boatManList)
 
 router.get('/priest/list', isLoggedIn, priestList)
 
+router.get('/guider/list', isLoggedIn, guiderList)
+
 router.put('/car/update-status', isLoggedIn, updateDriverStatus)
 
 router.put('/boat/update-status', isLoggedIn, updateBoatmanStatus)
 
 router.put('/priest/update-status', isLoggedIn, updatePriestStatus)
 
+router.put('/guider/update-status', isLoggedIn, updateGuiderStatus)
+
 router.get('/car/detail/:id', isLoggedIn, getDriverData)
 
 router.get('/boat/detail/:id', isLoggedIn, getBoatmanDetail)
 
 router.get('/priest/detail/:id', isLoggedIn, getPriestDetail)
+
+router.get('/guider/detail/:id', isLoggedIn, getGuiderDetail)
 
 router.get('/car-orders', allCarOrder)
 

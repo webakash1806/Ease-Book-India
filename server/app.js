@@ -10,6 +10,7 @@ import adminRoutes from './routes/admin.routes.js'
 import paymentRoutes from './routes/payment.routes.js'
 import boatRoutes from './routes/boat.routes.js'
 import priestRoutes from './routes/priest.routes.js'
+import guiderRoutes from './routes/guider.routes.js'
 
 config()
 
@@ -44,6 +45,8 @@ app.use('/api/v1/payment', paymentRoutes)
 app.use('/api/v1/boat', boatRoutes)
 
 app.use('/api/v1/priest', priestRoutes)
+
+app.use('/api/v1/guider', guiderRoutes)
 
 app.all('*', (req, res) => {
     res.status(404).send('OOPS! 404 Page not found')

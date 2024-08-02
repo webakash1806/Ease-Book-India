@@ -3,6 +3,7 @@ import User from "../models/user.models.js"
 import Cars from "../models/cars.models.js"
 import Boat from "../models/boat.models.js"
 import Priest from "../models/priest.model.js"
+import Guider from "../models/guider.model.js"
 import AppError from "../utils/error.utils.js"
 import cloudinary from 'cloudinary'
 import fs from 'fs/promises'
@@ -610,6 +611,57 @@ const getPriestDetail = async (req, res, next) => {
     }
 }
 
+const guiderList = async (req, res, next) => {
+    try {
+        const list = await Guider.find()
+
+        res.status(200).json({
+            status: 'success',
+            message: 'Guider list',
+            list
+        })
+    } catch (e) {
+        return next(new AppError(e.message, 500))
+    }
+}
+
+const updateGuiderStatus = async (req, res, next) => {
+    try {
+        const { id, status } = req.body
+        console.log(req.body)
+        const guider = await Guider.findById(id)
+
+        if (status) {
+            guider.status = await status
+        }
+
+        await guider.save()
+
+        res.status(200).json({
+            message: "Status updated",
+            guider
+        })
+
+    } catch (e) {
+        return next(new AppError(e.message, 500))
+    }
+}
+
+const getGuiderDetail = async (req, res, next) => {
+    try {
+        console.log(req.params)
+        const { id } = req.params
+        console.log(id)
+        const detail = await Guider.findById(id)
+
+        res.status(200).json({
+            message: 'Guider data',
+            detail
+        })
+    } catch (e) {
+        return next(new AppError(e.message, 500))
+    }
+}
 
 /* The below code is exporting a set of functions related to admin authentication and profile
 management. These functions include: */
@@ -631,5 +683,8 @@ export {
     getBoatmanDetail,
     priestList,
     updatePriestStatus,
-    getPriestDetail
+    getPriestDetail,
+    guiderList,
+    updateGuiderStatus,
+    getGuiderDetail
 }
