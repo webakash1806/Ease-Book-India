@@ -18,6 +18,8 @@ import PriestList from './Pages/PriestPages/PriestList'
 import PriestDetail from './Pages/PriestPages/PriestDetail'
 import PriestOrders from './Pages/PriestPages/PriestOrders'
 import PriestBookDetails from './Pages/PriestPages/PriestBookDetail'
+import GuiderList from './Pages/GuiderPages/GuiderList'
+import GuiderDetail from './Pages/GuiderPages/GuiderDetail'
 
 const App = () => {
   return (
@@ -30,6 +32,7 @@ const App = () => {
           <Route path='/driver/:id' element={<CarDetail />} />
           <Route path='/boat/:id' element={<BoatDetail />} />
           <Route path='/priest/:id' element={<PriestDetail />} />
+          <Route path='/guider/:id' element={<GuiderDetail />} />
           <Route path='/book-detail/:id' element={<CarBookDetails />} />
           <Route path='/boat-book-detail/:id' element={<BoatBookDetails />} />
           <Route path='/priest-book-detail/:id' element={<PriestBookDetails />} />
@@ -39,6 +42,7 @@ const App = () => {
           <Route path='/users-list' element={<UsersList />} />
           <Route path='/boatman-list' element={<BoatList />} />
           <Route path='/priest-list' element={<PriestList />} />
+          <Route path='/guider-list' element={<GuiderList />} />
         </Route>
       </Routes>
     </div>
