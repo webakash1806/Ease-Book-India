@@ -4,15 +4,15 @@ import { useNavigate } from 'react-router-dom';
 
 const PoojaList = () => {
     const poojaOptions = [
-        { name: 'Rudra Havan', desc: "1500" },
-        { name: 'Maha mrityunjay jap', desc: "2000" },
-        { name: 'Vishnu yagna', desc: "1800" },
-        { name: 'Kaal Sarp yog', desc: "3300" },
-        { name: 'Bhagwat katha', desc: "3000" },
-        { name: 'Vastu shanti', desc: "2000" },
-        { name: 'Naw grah shanti', desc: "1500" },
-        { name: 'Nakshastra shanti', desc: "3000" },
-        { name: 'Rudra abhishekh', desc: "5000" },
+        { name: 'Rudra Havan', price: "1500" },
+        { name: 'Maha mrityunjay jap', price: "2000" },
+        { name: 'Vishnu yagna', price: "1800" },
+        { name: 'Kaal Sarp yog', price: "3300" },
+        { name: 'Bhagwat katha', price: "3000" },
+        { name: 'Vastu shanti', price: "2000" },
+        { name: 'Naw grah shanti', price: "1500" },
+        { name: 'Nakshastra shanti', price: "3000" },
+        { name: 'Rudra abhishekh', price: "5000" },
     ];
 
     const navigate = useNavigate();
