@@ -174,7 +174,7 @@ const BoatOrders = () => {
                     paginatedData.map((data) => (
                         <div
                             key={data?._id}
-                            className='flex cursor-pointer rounded-sm lg:justify-between lg:min-w-[38rem] lg:flex-row shadow-[0px_0px_5px_#808080] overflow-hidden flex-col items-start md:w-[50vw] sm:w-[65vw] w-[90vw]  lg:w-[50vw] xl:w-[50rem] min-w-[18rem] '
+                            className={`flex cursor-pointer  lg:justify-between lg:min-w-[38rem] lg:flex-row overflow-hidden flex-col items-start md:w-[50vw] sm:w-[65vw] w-[90vw]  lg:w-[50vw] xl:w-[50rem] min-w-[18rem] rounded-lg shadow-md border-r-4 ${data.status === 'Completed' ? 'border-green-500' : data.status === 'Picked up' || data.status === 'On the way' ? 'border-orange-500' : data.status === 'Cancelled' || data.status === "Late" ? 'border-red-500' : 'border-blue-500'}`}
                             onClick={(e) => {
                                 if (e.target.closest('.otp-container')) return;
                                 navigate(`/boat-book-detail/${data?._id}`);

@@ -17,6 +17,7 @@ import BoatBookDetails from './Pages/BoatPages/BoatBookDetails'
 import PriestList from './Pages/PriestPages/PriestList'
 import PriestDetail from './Pages/PriestPages/PriestDetail'
 import PriestOrders from './Pages/PriestPages/PriestOrders'
+import PriestBookDetails from './Pages/PriestPages/PriestBookDetail'
 
 const App = () => {
   return (
@@ -31,6 +32,7 @@ const App = () => {
           <Route path='/priest/:id' element={<PriestDetail />} />
           <Route path='/book-detail/:id' element={<CarBookDetails />} />
           <Route path='/boat-book-detail/:id' element={<BoatBookDetails />} />
+          <Route path='/priest-book-detail/:id' element={<PriestBookDetails />} />
           <Route path='/car-booking' element={<CarOrders />} />
           <Route path='/boat-booking' element={<BoatOrders />} />
           <Route path='/priest-booking' element={<PriestOrders />} />
