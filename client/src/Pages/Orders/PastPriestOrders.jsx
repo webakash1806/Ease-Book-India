@@ -238,7 +238,7 @@ const PastPriestOrders = () => {
                                     )}
                                     {order?.status === 'Started' && (
                                         <div className='flex items-center mt-1' onClick={(e) => e.stopPropagation()}>
-                                            <h3 className='flex items-center gap-2'>Drop OTP
+                                            <h3 className='flex items-center gap-2'>End OTP
                                                 <OtpInput
                                                     value={otpValues[order?._id] || ''}
                                                     onChange={(otp) => handleOtpChange(otp, order?._id)}

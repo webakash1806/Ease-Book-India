@@ -77,7 +77,7 @@ const PriestBookDetail = () => {
                 className={`flex flex-col max-w-[32rem] sm:w-[80vw] w-[95vw]  text-black md:max-w-[45rem] p-1  overflow-hidden bg-white rounded-lg shadow-md border-b-4 ${status === 'Completed' ? 'border-green-500' : status === 'Started' || status === 'Booked' ? 'border-orange-500' : status === 'Cancelled' ? 'border-red-500' : 'border-blue-500'}`}
             >
                 <div className="p-2 px-4 bg-gradient-to-r from-green-200 to-green-100">
-                    <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center">
+                    <div className="flex flex-col md:flex-row md:justify-between md:items-center">
                         <div className="flex items-center mb-4 md:mb-0">
                             <GiSunPriest className="mr-4 text-4xl text-orange-600" />
                             <div>

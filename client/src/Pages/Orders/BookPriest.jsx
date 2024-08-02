@@ -8,6 +8,7 @@ import { MdOutlineAirlineSeatReclineExtra } from 'react-icons/md';
 import { bookCar, bookPriest } from '../../Redux/Slices/OrderSlice';
 import { toast } from 'react-toastify';
 import { getRazorpayId, order, verifyPayment } from '../../Redux/Slices/RazorpaySlice';
+import { GiSunPriest } from "react-icons/gi";
 
 const BookPriest = () => {
     const [loaderActive, setLoaderActive] = useState(false);
@@ -46,7 +47,7 @@ const BookPriest = () => {
 
     useEffect(() => {
         const calculateTotalPrice = () => {
-            const price = state.state.pooja.price
+            const price = Number(state.state.pooja.price) + Number(priestData.servicesData.fare)
 
 
             let originalPrice = price;
@@ -196,69 +197,54 @@ const BookPriest = () => {
     const inputStyle = 'min-w-[18rem] max-w-[20.5rem] w-[87vw] sm:w-[24rem] rounded-[3px] h-full px-2 p-[7px] outline-none text-[0.94rem] tracking-wide resize-none bg-white border-[#808080] border '
 
     return (
-        <div className='from-[#ddfcee] bg-gradient-to-b via-[#f7fffb] to-white py-10 flex flex-col items-center justify-center'>
-            <div className='overflow-hidden rounded-xl shadow-[0px_0px_5px_#808080] via-[#ecfff6] from-[#d0f7e6] bg-gradient-to-b to-[#f7fffb]'>
-                <div className='flex flex-col w-full overflow-hidden text-black border-b md:items-end md:flex-row md:gap-6 border-[#8080803b]'>
+        <div className='py-10 bg-[#efefef] flex flex-col items-center justify-center'>
+            <div className='overflow-hidden rounded-xl shadow-[3px_6px_15px_-8px#808080] '>
+                <div className='flex py-3 via-[#ecfff6] from-[#d0f7e6] bg-gradient-to-b to-[#f7fffb] w-full overflow-hidden text-black  items-center justify-center '>
 
-                    <div className='p-3 w-full md:w-[20.5rem]'>
-                        <h2 className='text-[1.3rem] text-center font-semibold mb-4 '>{state.state.pooja.name}</h2>
-                        <div className='flex items-center justify-between my-2'>
-                            <h1 className='flex items-center justify-center gap-2'><FaRegUserCircle />{priestData?.fullName}</h1>
-                            <h2>{priestData?.age} years</h2>
-                        </div>
-                        <div className='flex items-center justify-between my-2'>
-                            <h1 className='flex items-center justify-center gap-2'><FaCar />Experience</h1>
-                            <h2>{priestData?.experience} years</h2>
-                        </div>
-                        <div className='flex items-center justify-between my-2'>
-                            <h1 className='flex items-center justify-center gap-2'><FaLocationDot />{priestData?.servicesData?.serviceArea}</h1>
-                        </div>
-                        <div className='flex items-center justify-between pt-3 mt-3 border-t'>
-                            <h3>
-                                <span className='text-[1.02rem] font-semibold text-[#19B56F]'>Rs.{priestData?.servicesData?.fare + Number(state.state.pooja.price)}</span>
-                            </h3>
+                    <GiSunPriest className='mr-4 text-[3.5rem] text-orange-600' />
+                    <div>
+                        <h2 className='text-xl font-semibold'>{priestData?.fullName || 'Priest Name'}</h2>
+                        <h3>{state.state.pooja.name}</h3>
+                        <div className='text-sm text-gray-600'>
+                            <div><strong>Pooja cost : </strong> {Number(state.state.pooja.price) + Number(priestData.servicesData.fare) || 'N/A'}</div>
 
                         </div>
                     </div>
                 </div>
-                <form className='flex flex-col p-4 text-black sm:p-6 md:items-end md:flex-row w-fit md:gap-6' onSubmit={handleSubmit}>
-                    <div className='flex flex-col gap-[5px]'>
-                        <h3 className='text-[1.1rem] font-semibold mb-2 border-b w-fit border-[#9e9e9e]'>Booking Details</h3>
-                        <div className={mainDiv}>
-                            <label className={labelStyle}>Location</label>
-                            <input type='text' name='location' value={formData.location} onChange={handleChange} className={inputStyle} />
+                <form className='flex flex-col p-4 pt-2 text-black bg-white w-fit ' onSubmit={handleSubmit}>
+                    <h3 className='text-[1.1rem] font-semibold mb-2 border-b w-fit border-[#9e9e9e]'>Booking Details</h3>
+                    <div className={mainDiv}>
+                        <label className={labelStyle}>Location</label>
+                        <input type='text' name='location' value={formData.location} onChange={handleChange} className={inputStyle} />
+                    </div>
+                    <div className={mainDiv}>
+                        <label className={labelStyle}>Full Name</label>
+                        <input type='text' name='fullName' value={formData.fullName} onChange={handleChange} className={inputStyle} />
+                    </div>
+                    <div className='flex min-w-[18rem] max-w-[20.5rem] w-[87vw] sm:w-[24rem] justify-between'>
+                        <div className={`${mainDiv} w-[48%]`}>
+                            <label className={labelStyle} htmlFor="phoneNumber">Phone Number</label>
+                            <input className='border border-[#808080] w-full rounded-[3px] h-full px-2 p-[5.5px] outline-none text-[0.95rem] tracking-wide bg-[#ffffff] text-black' type="text" name='phoneNumber' value={formData.phoneNumber} onChange={handleChange} />
                         </div>
-                        <div className={mainDiv}>
-                            <label className={labelStyle}>Full Name</label>
-                            <input type='text' name='fullName' value={formData.fullName} onChange={handleChange} className={inputStyle} />
-                        </div>
-                        <div className='flex min-w-[18rem] max-w-[20.5rem] w-[87vw] sm:w-[24rem] justify-between'>
-                            <div className={`${mainDiv} w-[48%]`}>
-                                <label className={labelStyle} htmlFor="phoneNumber">Phone Number</label>
-                                <input className='border border-[#808080] w-full rounded-[3px] h-full px-2 p-[5.5px] outline-none text-[0.95rem] tracking-wide bg-[#ffffff] text-black' type="text" name='phoneNumber' value={formData.phoneNumber} onChange={handleChange} />
-                            </div>
-                            <div className={`${mainDiv} w-[48%]`}>
-                                <label className={labelStyle} htmlFor="alternateNumber">Alternate Number</label>
-                                <input className='border border-[#808080] w-full rounded-[3px] h-full px-2 p-[5.5px] outline-none text-[0.95rem] tracking-wide bg-[#ffffff] text-black' type="text" name='alternateNumber' value={formData.alternateNumber} onChange={handleChange} />
-                            </div>
+                        <div className={`${mainDiv} w-[48%]`}>
+                            <label className={labelStyle} htmlFor="alternateNumber">Alternate Number</label>
+                            <input className='border border-[#808080] w-full rounded-[3px] h-full px-2 p-[5.5px] outline-none text-[0.95rem] tracking-wide bg-[#ffffff] text-black' type="text" name='alternateNumber' value={formData.alternateNumber} onChange={handleChange} />
                         </div>
                     </div>
-                    <div className='flex flex-col gap-[6px]'>
 
-                        <div className='flex items-center gap-3 mt-[10px]'>
-                            <input type='checkbox' name='samagri' className='accent-green-500' checked={formData.samagri} onChange={handleChange} />
-                            <label className={labelStyle}>Want pooja samagri? (+ Rs.{Number(state.state.pooja.price) / 2})</label>
-                        </div>
-                        <div className='flex flex-col gap-2 mt-4'>
-
-                            <h3 className='text-[1.04rem] font-semibold'>
-                                Total Price: <span className='line-through'>Rs.{formData.originalPrice}</span> Rs.{formData.totalPrice.toFixed(2)}
-                            </h3>
-                        </div>
-                        <button onClick={() => setLoaderActive(true)} className='bg-[#685ED4] hover:bg-[#FF4C51] text-white flex items-center justify-center transition-all duration-700 w-full rounded-md p-[6px] font-semibold mt-[10px]'>
-                            Book {loaderActive && <div className='ml-4 ease-in-out mt-1 size-[1.25rem] border-[2.4px] border-t-[#46454546] animate-spin rounded-full bottom-0'></div>}
-                        </button>
+                    <div className='flex items-center gap-3 mt-[10px]'>
+                        <input type='checkbox' name='samagri' className='accent-green-500' checked={formData.samagri} onChange={handleChange} />
+                        <label className={labelStyle}>Want pooja samagri? (+ Rs.{Number(state.state.pooja.price) / 2})</label>
                     </div>
+                    <div className='flex flex-col gap-2 mt-4'>
+
+                        <h3 className='text-[1.04rem] font-semibold'>
+                            Total Price: <span className='line-through'>Rs.{formData.originalPrice}</span> Rs.{formData.totalPrice.toFixed(2)}
+                        </h3>
+                    </div>
+                    <button onClick={() => setLoaderActive(true)} className='bg-[#685ED4] hover:bg-[#FF4C51] text-white flex items-center justify-center transition-all duration-700 w-full rounded-md p-[6px] font-semibold mt-[10px]'>
+                        Book {loaderActive && <div className='ml-4 ease-in-out mt-1 size-[1.25rem] border-[2.4px] border-t-[#46454546] animate-spin rounded-full bottom-0'></div>}
+                    </button>
                 </form>
             </div>
         </div>

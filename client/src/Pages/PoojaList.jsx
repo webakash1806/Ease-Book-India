@@ -18,9 +18,9 @@ const PoojaList = () => {
     const navigate = useNavigate();
 
     return (
-        <div className='min-h-[90vh] text-black bg-gradient-to-r from-gray-100 to-gray-300 py-10 flex flex-wrap justify-center items-start p-4'>
+        <div className='min-h-[90vh]  text-black bg-gradient-to-r from-gray-100 to-gray-300 py-10 flex flex-wrap justify-center items-start p-4'>
             {poojaOptions.map((pooja, index) => (
-                <div key={index} className='flex flex-col items-center justify-center p-6 m-4 transition-transform transform bg-[#fffeee] border border-gray-200 rounded-lg shadow-md w-80 hover:scale-105'>
+                <div key={index} className='flex border-l-[6px] border-orange-500 flex-col items-center justify-center p-6 m-4 transition-transform transform bg-[#fefdf7] rounded-lg shadow-md w-80 hover:scale-105'>
                     <h2 className='mb-2 text-2xl font-semibold text-gray-800'>{pooja.name}</h2>
                     <div className='flex items-center mb-4'>
                         <FaMapMarkerAlt className='mr-2 text-red-500' />

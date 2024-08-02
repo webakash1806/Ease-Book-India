@@ -141,7 +141,7 @@ const PastCarOrders = () => {
     }
 
     return (
-        <div className='relative flex flex-col min-h-[90vh] items-center py-4 text-black bg-white md:flex-row md:items-start'>
+        <div className='relative flex flex-col min-h-[90vh] items-center py-4 text-black bg-[#efefef] md:flex-row md:items-start'>
             <div className={`fixed top-0 left-0 w-[13rem] z-[10] lg:w-[14rem] md:w-[10rem] mt-14 h-full shadow-xl bg-white p-4 md:flex md:flex-col ${showFilters ? 'block' : 'hidden'} md:block`}>
                 <div className='md:hidden'>
                     <button
@@ -181,7 +181,7 @@ const PastCarOrders = () => {
                     ))}
                 </div>
             </div>
-            <div className='flex flex-col items-center w-full gap-6 px-4 md:w-3/4 md:ml-auto md:px-6'>
+            <div className='flex flex-col items-center w-full gap-6 px-4 md:w-[82vw]  md:ml-auto md:px-6'>
                 <div className='flex justify-between w-full mb-4 md:hidden'>
                     <button
                         className="flex items-center gap-2 px-2 py-1 bg-white border border-gray-300 rounded"
@@ -195,7 +195,9 @@ const PastCarOrders = () => {
                     <div>No orders till now</div>
                 ) : (
                     filteredOrderData.map((data) => (
-                        <div key={data?._id} className='relative flex cursor-pointer rounded-sm sm:justify-between sm:min-w-[38rem] sm:flex-row shadow-[0px_0px_5px_#808080] overflow-hidden flex-col items-start sm:w-[65vw] w-[90vw] md:w-[63vw] lg:w-[58vw] xl:w-[50rem] min-w-[19.7rem]' onClick={() => navigate(`/car-book-detail/${data?._id}`)}>
+                        <div key={data?._id}
+                            className={`flex flex-col sm:flex-row justify-between w-full sm:max-w-[40rem] md:max-w-[45rem] overflow-hidden bg-white rounded-lg shadow-md border-r-4 ${data.status === 'Completed' ? 'border-green-500' : data.status === 'Picked up' || data.status === 'On the way' ? 'border-orange-500' : data.status === 'Cancelled' ? 'border-red-500' : 'border-blue-500'}`}
+                            onClick={() => navigate(`/car-book-detail/${data?._id}`)}>
                             <div className='flex items-center gap-2 md:gap-3 lg:gap-4'>
                                 <div>
                                     <img className='w-[8.3rem] h-[6.4rem] lg:w-[9rem] object-cover' src={data?.driverData?.proofFiles[3]?.fileUrl} alt="" />

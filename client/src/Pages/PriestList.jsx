@@ -43,7 +43,7 @@ const PriestList = () => {
     }, []);
 
     return (
-        <div className='from-[#ddfcee] bg-gradient-to-b via-[#f7fffb] to-white p-4 py-10 flex flex-col items-center gap-8 justify-center'>
+        <div className='bg-[#efefef] p-4 py-10 flex flex-col items-center gap-8 justify-center'>
             {loading ? (
                 <div className='flex flex-wrap gap-4'>
                     {Array.from({ length: 8 }).map((_, index) => (
@@ -81,7 +81,7 @@ const PriestList = () => {
 
                         {
                             availableList.map((data, key) => (
-                                <div key={key + 1} className='bg-white text-black max-w-[20rem] w-[90vw] hover:from-[#d0f7e6] transition-all duration-300 hover:bg-gradient-to-b hover:to-[#f7fffbf0] rounded-xl shadow-[0px_0px_5px_#808080] overflow-hidden'>
+                                <div key={key + 1} className='bg-white border-l-4 border-blue-500 text-black max-w-[20rem] sm:max-w-[22rem] w-[90vw] hover:from-[#d0f7e6] transition-all duration-300 hover:bg-gradient-to-b hover:to-[#f7fffbf0] rounded-xl shadow-[0px_4px_12px_-6px_#808080] overflow-hidden'>
                                     <div className='p-3'>
                                         <h2 className='text-[1.3rem] text-orange-500 mb-4 text-center  font-semibold'>{state.pooja.name}</h2>
                                         <div className='flex items-center justify-between my-2'>
