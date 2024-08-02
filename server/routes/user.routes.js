@@ -21,6 +21,7 @@ import { cancelCarBook, createCarOrder, dropUpdate, getCarOrderData, getUserCarO
 import { getBoatmanWithService } from "../controllers/boat.controller.js";
 import { cancelBoatBook, createBoatOrder, dropBoatUpdate, getBoatOrderData, getUserBoatOrder, pickupUpdate } from "../controllers/bookings/boatOrder.controller.js";
 import { getPriestWithService } from "../controllers/priest.controller.js";
+import { cancelPoojaBook, createPriestOrder, finishUpdate, getPriestOrderData, getUserPriestOrder, startUpdate } from "../controllers/bookings/priestOrder.controller.js";
 
 // Creating an instance of the Express Router
 const router = Router()
@@ -50,33 +51,58 @@ router.post('/change-password', isLoggedIn, changePassword)
 router.put('/update-profile/:id', isLoggedIn, upload.single("avatar"), updateProfile)
 
 
+// Car routes
+
 router.get('/cars-list', getDriverWithService)
-
-router.get('/boat-list', getBoatmanWithService)
-
-router.get('/priest-list', getPriestWithService)
 
 router.post('/book-car', isLoggedIn, createCarOrder)
 
-router.post('/book-boat', isLoggedIn, createBoatOrder)
-
 router.get('/get-car-order/:id', isLoggedIn, getUserCarOrder)
 
-router.get('/get-boat-order/:id', isLoggedIn, getUserBoatOrder)
-
 router.put('/update-car-drop', isLoggedIn, dropUpdate)
+
+router.get('/car-book-detail/:id', isLoggedIn, getCarOrderData)
+
+router.put('/car-book-cancel/:id', isLoggedIn, cancelCarBook)
+
+
+// -----------------------------------------------------------------------------------------
+
+
+// Boat routes
+
+router.get('/boat-list', getBoatmanWithService)
+
+router.post('/book-boat', isLoggedIn, createBoatOrder)
+
+router.get('/get-boat-order/:id', isLoggedIn, getUserBoatOrder)
 
 router.put('/update-boat-drop', isLoggedIn, dropBoatUpdate)
 
 router.put('/update-boat-pick', isLoggedIn, pickupUpdate)
 
-router.get('/car-book-detail/:id', isLoggedIn, getCarOrderData)
-
 router.get('/boat-book-detail/:id', isLoggedIn, getBoatOrderData)
 
-router.put('/car-book-cancel/:id', isLoggedIn, cancelCarBook)
-
 router.put('/boat-book-cancel/:id', isLoggedIn, cancelBoatBook)
+
+// -----------------------------------------------------------------------------------------
+
+
+// Priest routes
+
+router.get('/priest-list', getPriestWithService)
+
+router.post('/book-priest', isLoggedIn, createPriestOrder)
+
+router.get('/get-priest-order/:id', isLoggedIn, getUserPriestOrder)
+
+router.put('/update-pooja-complete', isLoggedIn, finishUpdate)
+
+router.get('/priest-book-detail/:id', isLoggedIn, getPriestOrderData)
+
+router.put('/priest-book-cancel/:id', isLoggedIn, cancelPoojaBook)
+
+// -----------------------------------------------------------------------------------------
 
 // Exporting the router instance to be used in the main application
 export default router

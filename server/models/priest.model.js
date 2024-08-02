@@ -70,7 +70,7 @@ const priestSchema = new Schema({
         },
         availability: {
             type: String,
-            enum: ['AVAILABLE', 'BREAK', 'MAINTENANCE', 'ON SERVICE'],
+            enum: ['AVAILABLE', 'BREAK', 'BOOKED'],
             default: 'BREAK'
         },
         poojaList: {
