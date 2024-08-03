@@ -18,6 +18,12 @@ import PriestList from './Pages/PriestList'
 import BookPriest from './Pages/Orders/BookPriest'
 import PastPriestOrders from './Pages/Orders/PastPriestOrders'
 import PriestBookDetail from './Pages/Orders/PriestBookDetail'
+import PlacesPage from './Pages/PlacesPage'
+import GuiderList from './Pages/GuiderList'
+import BookGuider from './Pages/Orders/BookGuider'
+import PastGuiderOrders from './Pages/Orders/PastGuiderOrders'
+import GuiderBookDetail from './Pages/Orders/GuiderBookDetail'
+import Hotel from './Pages/Hotel'
 
 const App = () => {
   // In your component
@@ -37,17 +43,23 @@ const App = () => {
         <Route path='/places' element={<Places />} />
         <Route path='/car' element={<Cars />} />
         <Route path='/boat' element={<BoatPage />} />
+        <Route path='/hotels' element={<Hotel />} />
         <Route path='/car-book/:id' element={<OrderCar />} />
         <Route path='/boat-book/:id' element={<BookBoat />} />
         <Route path='/priest-book/:id' element={<BookPriest />} />
+        <Route path='/guider-book/:id' element={<BookGuider />} />
         <Route path='/order/car-book/:id' element={<PastCarOrders />} />
         <Route path='/order/boat-book/:id' element={<PastBoatOrders />} />
         <Route path='/order/priest-book/:id' element={<PastPriestOrders />} />
+        <Route path='/order/guider-book/:id' element={<PastGuiderOrders />} />
         <Route path='/car-book-detail/:id' element={<CarBookDetail />} />
         <Route path='/boat-book-detail/:id' element={<BoatBookDetail />} />
         <Route path='/priest-book-detail/:id' element={<PriestBookDetail />} />
+        <Route path='/guider-book-detail/:id' element={<GuiderBookDetail />} />
         <Route path='/pooja-list' element={<PoojaList />} />
+        <Route path='/place-list' element={<PlacesPage />} />
         <Route path='/priest-list' element={<PriestList />} />
+        <Route path='/guider-list' element={<GuiderList />} />
       </Routes>
     </HomeLayout>
   )

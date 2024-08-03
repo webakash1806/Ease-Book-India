@@ -7,9 +7,11 @@ const initialState = {
     carsOrderData: localStorage.getItem('carsOrderData') !== "undefined" ? JSON.parse(localStorage.getItem('carsOrderData')) : [],
     boatOrderData: localStorage.getItem('boatOrderData') !== "undefined" ? JSON.parse(localStorage.getItem('boatOrderData')) : [],
     priestOrderData: localStorage.getItem('priestOrderData') !== "undefined" ? JSON.parse(localStorage.getItem('priestOrderData')) : [],
+    guiderOrderData: localStorage.getItem('guiderOrderData') !== "undefined" ? JSON.parse(localStorage.getItem('guiderOrderData')) : [],
     singleCarData: localStorage.getItem('singleCarData') !== "undefined" ? JSON.parse(localStorage.getItem('singleCarData')) : {},
     singleBoatData: localStorage.getItem('singleBoatData') !== "undefined" ? JSON.parse(localStorage.getItem('singleBoatData')) : {},
     singlePriestData: localStorage.getItem('singlePriestData') !== "undefined" ? JSON.parse(localStorage.getItem('singlePriestData')) : {},
+    singleGuiderData: localStorage.getItem('singleGuiderData') !== "undefined" ? JSON.parse(localStorage.getItem('singleGuiderData')) : {},
 
 }
 
@@ -314,6 +316,102 @@ export const cancelPoojaBooking = createAsyncThunk('/user/cancel-pooja-booking',
     }
 })
 
+export const bookGuider = createAsyncThunk('/user/book-guider', async (data) => {
+    try {
+        let res = axiosInstance.post('user/book-guider', data)
+        toast.promise(res, {
+            loading: 'Booking',
+            success: (data) => {
+                return data?.data.message
+            },
+            error: "failed to book"
+        })
+        // getting response resolved here
+        res = await res;
+        return res.data;
+    } catch (e) {
+        return toast.error(e?.response?.data?.message)
+    }
+})
+
+export const getGuiderOrders = createAsyncThunk('/user/get-guider-order/:id', async (data) => {
+    try {
+        console.log(data)
+        let res = axiosInstance.get(`user/get-guider-order/${data}`)
+        toast.promise(res, {
+            loading: 'Loading',
+            success: (data) => {
+                return data?.data.message
+            },
+            error: "failed to get orders"
+        })
+        // getting response resolved here
+        res = await res;
+        return res.data;
+    } catch (e) {
+        return toast.error(e?.response?.data?.message)
+    }
+})
+
+export const getGuiderOrderDetail = createAsyncThunk('/user/guider-book-detail/:id', async (data) => {
+    try {
+        console.log(data)
+        let res = axiosInstance.get(`user/guider-book-detail/${data}`)
+        toast.promise(res, {
+            loading: 'Loading',
+            success: (data) => {
+                return data?.data.message
+            },
+            error: "failed to get orders"
+        })
+        // getting response resolved here
+        res = await res;
+        return res.data;
+    } catch (e) {
+        return toast.error(e?.response?.data?.message)
+    }
+})
+
+export const guideFinishUpdate = createAsyncThunk('/user/update-guide-finish', async (data) => {
+    try {
+        console.log(data)
+        let res = axiosInstance.put(`user/update-guide-complete`, data)
+        toast.promise(res, {
+            loading: 'Verifying',
+            success: (data) => {
+                return data?.data.message
+            },
+            error: "Failed to get verified"
+        })
+        // getting response resolved here
+        res = await res;
+        return res.data;
+    } catch (e) {
+        return toast.error(e?.response?.data?.message)
+    }
+})
+
+export const cancelGuideBooking = createAsyncThunk('/user/cancel-guide-booking', async (data) => {
+    try {
+        console.log(data)
+        let res = axiosInstance.put(`user/guider-book-cancel/${data}`)
+        toast.promise(res, {
+            loading: 'Cancelling',
+            success: (data) => {
+                return data?.order.message
+            },
+            error: "Failed to get cancel"
+        })
+        // getting response resolved here
+        res = await res;
+        return res.data;
+    } catch (e) {
+        return toast.error(e?.response?.data?.message)
+    }
+})
+
+
+
 
 const orderSlice = createSlice({
     name: 'order',
@@ -338,6 +436,12 @@ const orderSlice = createSlice({
         }).addCase(getPriestOrderDetail.fulfilled, (state, action) => {
             localStorage.setItem('singlePriestData', JSON.stringify(action?.payload?.order))
             state.singlePriestData = action?.payload?.order
+        }).addCase(getGuiderOrderDetail.fulfilled, (state, action) => {
+            localStorage.setItem('singleGuiderData', JSON.stringify(action?.payload?.order))
+            state.singleGuiderData = action?.payload?.order
+        }).addCase(getGuiderOrders.fulfilled, (state, action) => {
+            localStorage.setItem('guiderOrderData', JSON.stringify(action?.payload?.order))
+            state.guiderOrderData = action?.payload?.order
         })
     }
 })
