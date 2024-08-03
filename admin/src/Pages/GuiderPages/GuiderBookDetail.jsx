@@ -3,32 +3,31 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
 import { FaArrowRight } from 'react-icons/fa';
 import { toast } from 'react-toastify';
-import { GiSunPriest } from 'react-icons/gi';
+import guiderIcon from "../../assets/guiderIcon.png"
+
 import { TiTick } from 'react-icons/ti';
 import { RxCross2 } from 'react-icons/rx';
-import { getPriestOrderDetail } from '../../Redux/Slices/ListSlice';
+import { getGuiderOrderDetail, getPriestOrderDetail } from '../../Redux/Slices/ListSlice';
 import HomeLayout from '../../Layouts/HomeLayouts';
 
-const PriestBookDetails = () => {
+const GuiderBookDetails = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const { id } = useParams();
 
     const loadData = async () => {
-        await dispatch(getPriestOrderDetail(id));
+        await dispatch(getGuiderOrderDetail(id));
     };
 
-    const bookDetail = useSelector((state) => state?.list?.singlePriestData);
+    const bookDetail = useSelector((state) => state?.list?.singleGuiderData);
 
     useEffect(() => {
         loadData();
     }, []);
 
-
-
     const {
         _id,
-        priestData,
+        guiderData,
         orderDate,
         orderTime,
         fullName,
@@ -37,10 +36,9 @@ const PriestBookDetails = () => {
         location,
         phoneNumber,
         alternateNumber,
-        poojaName,
+        placeName,
         startOTP,
         dropOTP,
-        samagri,
         status
     } = bookDetail;
 
@@ -56,10 +54,11 @@ const PriestBookDetails = () => {
                     <div className="p-2 px-4 bg-gradient-to-r from-green-200 to-green-100">
                         <div className="flex flex-col lg:flex-row lg:justify-between lg:items-center">
                             <div className="flex items-center mb-4 lg:mb-0">
-                                <GiSunPriest className="mr-4 text-4xl text-orange-600" />
+                                <img className='w-[4rem] mr-6 mx-2' src={guiderIcon} alt="" />
+
                                 <div>
-                                    <h2 className="text-2xl font-semibold">{priestData?.fullName || 'Priest Name'}</h2>
-                                    <h3 className="text-lg">{poojaName}</h3>
+                                    <h2 className="text-2xl font-semibold">{guiderData?.fullName || 'Priest Name'}</h2>
+                                    <h3 className="text-lg">{placeName}</h3>
                                 </div>
                             </div>
                             <div className="flex flex-col items-center w-full sm:w-fit lg:items-end">
@@ -73,11 +72,11 @@ const PriestBookDetails = () => {
 
                         <div className="flex lg:w-[48%] flex-col">
                             <h3 className="mb-1 text-xl font-semibold">Pandit Ji Information</h3>
-                            <p className={rowStyle}><span className="font-semibold">Name:</span> {priestData?.fullName}</p>
-                            <p className={rowStyle}><span className="font-semibold">Phone Number:</span> {priestData?.phoneNumber}</p>
-                            <p className={rowStyle}><span className="font-semibold">Email:</span> {priestData?.email}</p>
-                            <p className={rowStyle}><span className="font-semibold">Age:</span> {priestData?.age} years</p>
-                            <p className={rowStyle}><span className="font-semibold">Experience:</span> {priestData?.experience} years</p>
+                            <p className={rowStyle}><span className="font-semibold">Name:</span> {guiderData?.fullName}</p>
+                            <p className={rowStyle}><span className="font-semibold">Phone Number:</span> {guiderData?.phoneNumber}</p>
+                            <p className={rowStyle}><span className="font-semibold">Email:</span> {guiderData?.email}</p>
+                            <p className={rowStyle}><span className="font-semibold">Age:</span> {guiderData?.age} years</p>
+                            <p className={rowStyle}><span className="font-semibold">Experience:</span> {guiderData?.experience} years</p>
                         </div>
 
 
@@ -99,12 +98,9 @@ const PriestBookDetails = () => {
                     </div>
                     <div className="p-2 px-4 bg-gradient-to-r from-green-200 to-green-100">
                         <div className='flex justify-between items center'>
-                            <div className={rowStyle}>
-                                <span className="font-semibold text-[1.1rem]">Samagri:</span>
-                                <span>{samagri ? <TiTick className="text-green-500 text-[1.1rem]" /> : <RxCross2 className="text-red-500 text-[1.1rem]" />}</span>
-                            </div>
-                            <div className="px-4 ">
-                                <h3 className="flex items-center text-[1.1rem] font-semibold">
+
+                            <div className="py-1 ">
+                                <h3 className="flex items-center text-[1.05rem] font-semibold">
                                     <div className={`ml-2 size-3 rounded-full ${status === 'Cancelled' ? 'bg-red-500' : status === 'Booked' ? 'bg-orange-500' : status === 'Picked up' ? 'bg-yellow-500' : status === 'Dropped' ? 'bg-green-500' : ''}`}></div>
                                     <span className="ml-2">{status}</span>
                                 </h3>
@@ -119,4 +115,4 @@ const PriestBookDetails = () => {
     );
 };
 
-export default PriestBookDetails;
+export default GuiderBookDetails;

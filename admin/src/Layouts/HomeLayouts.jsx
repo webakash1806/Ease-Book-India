@@ -134,6 +134,12 @@ const HomeLayout = ({ children }) => {
                                             </NavLink>
                                         </li>
                                         <li>
+                                            <NavLink to={'/guider-booking'} className={({ isActive }) => isActive ? activeListStyle : listStyle}>
+                                                <FaHotel />
+                                                Guider Booking
+                                            </NavLink>
+                                        </li>
+                                        <li>
                                             <NavLink to={'/hotel-booking'} className={({ isActive }) => isActive ? activeListStyle : listStyle}>
                                                 <FaHotel />
                                                 Hotel Booking
