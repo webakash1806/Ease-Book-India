@@ -12,11 +12,13 @@ const initialState = {
     userList: localStorage.getItem('userList') !== "undefined" ? JSON.parse(localStorage.getItem('userList')) : [{}],
     priestList: localStorage.getItem('priestList') !== "undefined" ? JSON.parse(localStorage.getItem('priestList')) : [{}],
     guiderList: localStorage.getItem('guiderList') !== "undefined" ? JSON.parse(localStorage.getItem('guiderList')) : [{}],
+    hotelList: localStorage.getItem('hotelList') !== "undefined" ? JSON.parse(localStorage.getItem('hotelList')) : [{}],
     boatManList: localStorage.getItem('boatManList') !== "undefined" ? JSON.parse(localStorage.getItem('boatManList')) : [{}],
     driverDetail: localStorage.getItem('driverDetail') !== "undefined" ? JSON.parse(localStorage.getItem('driverDetail')) : {},
     boatmanDetail: localStorage.getItem('boatmanDetail') !== "undefined" ? JSON.parse(localStorage.getItem('boatmanDetail')) : {},
     priestDetail: localStorage.getItem('priestDetail') !== "undefined" ? JSON.parse(localStorage.getItem('priestDetail')) : {},
     guiderDetail: localStorage.getItem('guiderDetail') !== "undefined" ? JSON.parse(localStorage.getItem('guiderDetail')) : {},
+    hotelDetail: localStorage.getItem('hotelDetail') !== "undefined" ? JSON.parse(localStorage.getItem('hotelDetail')) : {},
     singleCarData: localStorage.getItem('singleCarData') !== "undefined" ? JSON.parse(localStorage.getItem('singleCarData')) : {},
     singleBoatData: localStorage.getItem('singleBoatData') !== "undefined" ? JSON.parse(localStorage.getItem('singleBoatData')) : {},
     singlePriestData: localStorage.getItem('singlePriestData') !== "undefined" ? JSON.parse(localStorage.getItem('singlePriestData')) : {},
@@ -406,6 +408,61 @@ export const getGuiderOrderDetail = createAsyncThunk('/admin/guider-book/:id', a
     }
 })
 
+export const getHotelList = createAsyncThunk('/admin/hotel/list', async () => {
+    try {
+        let res = axiosInstance.get('/hotel/list')
+        toast.promise(res, {
+            loading: 'Loading data',
+            success: (data) => {
+                return data?.data.message
+            },
+            error: "failed to load"
+        })
+        res = await res
+        return res.data
+    } catch (e) {
+        return toast.error(e?.response?.data?.message)
+    }
+})
+
+export const updateHotelStatus = createAsyncThunk('/admin/hotel/status-update', async (data) => {
+    try {
+        let res = axiosInstance.put('/hotel/update-status', data)
+        toast.promise(res, {
+            loading: 'Loading data',
+            success: (data) => {
+                return data?.data.message
+            },
+            error: "failed to load"
+        })
+
+        res = await res
+        return res.data
+
+    } catch (e) {
+        return toast.error(e?.response?.data?.message)
+    }
+})
+
+export const getHotelDetail = createAsyncThunk('/admin/hotel/detail', async (data) => {
+    try {
+        let res = axiosInstance.get(`/hotel/detail/${data}`)
+        toast.promise(res, {
+            loading: 'Loading data',
+            success: (data) => {
+                return data?.data.message
+            },
+            error: "failed to load"
+        })
+
+        res = await res
+        return res.data
+    } catch (e) {
+        return toast.error(e?.response?.data?.message)
+    }
+
+
+})
 
 const listSlice = createSlice({
     name: 'list',
@@ -463,6 +520,12 @@ const listSlice = createSlice({
         }).addCase(getGuiderOrderDetail.fulfilled, (state, action) => {
             localStorage.setItem('singleGuiderData', JSON.stringify(action?.payload?.order))
             state.singleGuiderData = action?.payload?.order
+        }).addCase(getHotelList.fulfilled, (state, action) => {
+            localStorage.setItem('hotelList', JSON.stringify(action?.payload?.list))
+            state.hotelList = action?.payload?.list
+        }).addCase(getHotelDetail.fulfilled, (state, action) => {
+            localStorage.setItem('hotelDetail', JSON.stringify(action?.payload?.detail))
+            state.hotelDetail = action?.payload?.detail
         })
     }
 })
