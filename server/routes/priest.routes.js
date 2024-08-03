@@ -51,7 +51,7 @@ router.put('/update-services', isLoggedIn, addService)
 
 router.get('/get-order/:id', isLoggedIn, getPriestPoojaOrder)
 
-router.put('/update-pooja-complete', isLoggedIn, startUpdate)
+router.put('/update-pooja-start', isLoggedIn, startUpdate)
 
 router.get('/book-detail/:id', isLoggedIn, getPriestOrderData)
 

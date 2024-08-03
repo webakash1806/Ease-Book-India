@@ -32,6 +32,7 @@ import upload from '../middlewares/multer.middleware.js'
 import { allCarOrder, getCarOrderData } from "../controllers/bookings/carOrder.controller.js";
 import { allBoatOrder, getBoatOrderData } from "../controllers/bookings/boatOrder.controller.js";
 import { allPriestOrder, getPriestOrderData } from "../controllers/bookings/priestOrder.controller.js";
+import { allGuiderOrder, getGuiderOrderData } from "../controllers/bookings/guiderOrder.controller.js";
 
 // Creating an instance of the Express Router
 const router = Router()
@@ -93,11 +94,15 @@ router.get('/boat-orders', allBoatOrder)
 
 router.get('/priest-orders', allPriestOrder)
 
+router.get('/guider-orders', allGuiderOrder)
+
 router.get('/car-orders/:id', getCarOrderData)
 
 router.get('/boat-orders/:id', getBoatOrderData)
 
 router.get('/priest-orders/:id', getPriestOrderData)
+
+router.get('/guider-orders/:id', getGuiderOrderData)
 
 
 

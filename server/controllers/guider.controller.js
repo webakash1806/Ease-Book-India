@@ -478,13 +478,13 @@ const addService = async (req, res, next) => {
 const getGuiderWithService = async (req, res, next) => {
     try {
 
-        const allPriest = await Guider.find()
+        const allGuider = await Guider.find()
 
-        const filteredPriest = allPriest.filter(driver => driver.servicesData.placesList != [] && driver.status !== "REJECTED")
+        const filteredGuider = allGuider.filter(guider => guider.servicesData.placesList != [] && guider.status !== "REJECTED")
 
         res.status(200).json({
             success: true,
-            filteredPriest
+            filteredGuider
         })
 
     } catch (e) {
