@@ -6,7 +6,8 @@ import OtpInput from 'react-otp-input';
 import { FaArrowRight, FaLocationDot } from 'react-icons/fa6';
 import { MdCall, MdFilterList } from 'react-icons/md';
 import dayjs from 'dayjs';
-import { GiSunPriest } from 'react-icons/gi';
+import guiderIcon from "../../assets/guiderIcon.png"
+
 
 const SkeletonLoader = () => {
     return (
@@ -55,6 +56,7 @@ const PastOrder = () => {
 
     const orderData = useSelector((state) => state?.order?.orderData) || [];
 
+    console.log(orderData)
     const loadData = async () => {
         setLoading(true);
         await dispatch(getOrders(id));
@@ -174,10 +176,11 @@ const PastOrder = () => {
                         >
                             <div className='flex flex-col items-start justify-between sm:flex-row'>
                                 <div className='flex items-center mb-4'>
-                                    <GiSunPriest className='mr-4 text-[3.5rem] text-orange-600' />
+                                    <img className='w-[4rem] mr-6 mx-2' src={guiderIcon} alt="" />
+
                                     <div>
-                                        <h2 className='text-xl font-semibold'>{order?.priestData?.fullName || 'Priest Name'}</h2>
-                                        <h3>{order?.poojaName}</h3>
+                                        <h2 className='text-xl font-semibold'>{order?.guiderData?.fullName || 'Priest Name'}</h2>
+                                        <h3>{order?.placeName}</h3>
                                         <div className='text-sm text-gray-600'>
                                             <div><strong>Booking Date:</strong> {order?.orderDate || 'N/A'}</div>
                                             <div><strong>Booking time:</strong> {order?.orderTime || 'N/A'}</div>
@@ -194,7 +197,7 @@ const PastOrder = () => {
                                 <div>
                                     <div className='flex items-center mb-2 text-sm'>
                                         <FaLocationDot className='mr-2' />
-                                        <span><strong>Location:</strong> {order?.location || 'N/A'}</span>
+                                        <span><strong>Start Location:</strong> {order?.location || 'N/A'}</span>
                                     </div>
                                     <div className='flex items-center mb-2 text-sm'>
                                         <MdCall className='mr-2' />

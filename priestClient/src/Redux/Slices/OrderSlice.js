@@ -27,10 +27,10 @@ export const getOrders = createAsyncThunk('/priest/get-order/:id', async (data) 
     }
 })
 
-export const updateStatus = createAsyncThunk('/priest/update-pickup', async (data) => {
+export const updateStatus = createAsyncThunk('/priest/update-start', async (data) => {
     try {
         console.log(data)
-        let res = axiosInstance.put(`update-pooja-complete`, data)
+        let res = axiosInstance.put(`update-pooja-start`, data)
         toast.promise(res, {
             loading: 'Verifying',
             success: (data) => {

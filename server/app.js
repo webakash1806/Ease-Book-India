@@ -11,6 +11,7 @@ import paymentRoutes from './routes/payment.routes.js'
 import boatRoutes from './routes/boat.routes.js'
 import priestRoutes from './routes/priest.routes.js'
 import guiderRoutes from './routes/guider.routes.js'
+import hotelRoutes from './routes/hotel.routes.js'
 
 config()
 
@@ -47,6 +48,8 @@ app.use('/api/v1/boat', boatRoutes)
 app.use('/api/v1/priest', priestRoutes)
 
 app.use('/api/v1/guider', guiderRoutes)
+
+app.use('/api/v1/hotel', hotelRoutes)
 
 app.all('*', (req, res) => {
     res.status(404).send('OOPS! 404 Page not found')

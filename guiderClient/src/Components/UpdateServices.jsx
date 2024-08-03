@@ -12,22 +12,21 @@ const UpdateServices = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    const poojaOptions = [
-        { name: 'Rudra Havan', price: 1500 },
-        { name: 'Maha mrityunjay jap', price: 2000 },
-        { name: 'Vishnu yagna', price: 1800 },
-        { name: 'Kaal Sarp yog', price: 3300 },
-        { name: 'Bhagwat katha', price: 3000 },
-        { name: 'Vastu shanti', price: 2000 },
-        { name: 'Naw grah shanti', price: 1500 },
-        { name: 'Nakshastra shanti', price: 3000 },
-        { name: 'Rudra abhishekh', price: 5000 },
+    const placeOptions = [
+        { name: 'All ghats', price: 2000 },
+        { name: 'All Ghats temple', price: 3000 },
+        { name: 'Kashi vishwanath temple', price: 1500 },
+        { name: 'Sarnath temple', price: 1000 },
+        { name: 'Assi ghat - Dasaswamedh ghat', price: 2000 },
+        { name: 'Dasaswamedh ghat - Mankikarnika ghat', price: 1500 },
+        { name: 'Assi ghat - Mankikarnika ghat', price: 3000 },
+
     ];
 
     const [input, setInput] = useState({
         availability: serviceData?.availability,
         fare: serviceData?.fare,
-        poojaList: serviceData?.poojaList,
+        placesList: serviceData?.placesList,
         serviceArea: serviceData?.serviceArea
     });
 
@@ -45,12 +44,12 @@ const UpdateServices = () => {
         const { checked } = e.target;
         setInput((prevState) => {
             const newPoojaList = checked
-                ? [...prevState.poojaList, pooja]
-                : prevState.poojaList.filter((p) => p.name !== pooja.name);
+                ? [...prevState.placesList, pooja]
+                : prevState.placesList.filter((p) => p.name !== pooja.name);
 
             return {
                 ...prevState,
-                poojaList: newPoojaList
+                placesList: newPoojaList
             };
         });
     };
@@ -60,9 +59,9 @@ const UpdateServices = () => {
     const handleForm = async (e) => {
         e.preventDefault();
 
-        const { availability, fare, poojaList, serviceArea } = input;
+        const { availability, fare, placesList, serviceArea } = input;
 
-        if (!availability || !fare || poojaList.length === 0 || !serviceArea) {
+        if (!availability || !fare || placesList.length === 0 || !serviceArea) {
             setLoaderActive(false);
             return toast.error('All fields are required');
         }
@@ -102,13 +101,13 @@ const UpdateServices = () => {
                 </div>
 
                 <div className='flex flex-col gap-2 mt-4'>
-                    <label className={labelStyle} htmlFor='poojaList'>Pooja list</label>
-                    {poojaOptions.map((pooja, index) => (
+                    <label className={labelStyle} htmlFor='placesList'>Pooja list</label>
+                    {placeOptions.map((pooja, index) => (
                         <div key={index} className='flex items-center gap-2'>
                             <input
                                 type='checkbox'
                                 id={`pooja-${index}`}
-                                checked={input.poojaList.some((p) => p.name === pooja.name)}
+                                checked={input.placesList.some((p) => p.name === pooja.name)}
                                 onChange={(e) => handlePoojaListChange(e, pooja)}
                             />
                             <label htmlFor={`pooja-${index}`} className='flex justify-between w-full'>

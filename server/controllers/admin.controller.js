@@ -4,6 +4,7 @@ import Cars from "../models/cars.models.js"
 import Boat from "../models/boat.models.js"
 import Priest from "../models/priest.model.js"
 import Guider from "../models/guider.model.js"
+import Hotel from "../models/hotel.model.js"
 import AppError from "../utils/error.utils.js"
 import cloudinary from 'cloudinary'
 import fs from 'fs/promises'
@@ -446,7 +447,7 @@ const carDriverList = async (req, res, next) => {
         const list = await Cars.find()
 
         res.status(200).json({
-            status: 'success',
+            status: true,
             message: 'Driver list',
             list
         })
@@ -498,7 +499,7 @@ const usersList = async (req, res, next) => {
         const list = await User.find()
 
         res.status(200).json({
-            status: 'success',
+            status: true,
             message: 'Users list',
             list
         })
@@ -512,7 +513,7 @@ const boatManList = async (req, res, next) => {
         const list = await Boat.find()
 
         res.status(200).json({
-            status: 'success',
+            status: true,
             message: 'Boatman list',
             list
         })
@@ -564,7 +565,7 @@ const priestList = async (req, res, next) => {
         const list = await Priest.find()
 
         res.status(200).json({
-            status: 'success',
+            status: true,
             message: 'Boatman list',
             list
         })
@@ -616,7 +617,7 @@ const guiderList = async (req, res, next) => {
         const list = await Guider.find()
 
         res.status(200).json({
-            status: 'success',
+            status: true,
             message: 'Guider list',
             list
         })
@@ -663,6 +664,60 @@ const getGuiderDetail = async (req, res, next) => {
     }
 }
 
+const hotelList = async (req, res, next) => {
+    try {
+        const list = await Hotel.find()
+
+        res.status(200).json({
+            status: true,
+            message: 'Hotel list',
+            list
+        })
+    } catch (e) {
+        return next(new AppError(e.message, 500))
+    }
+}
+
+const updateHotelStatus = async (req, res, next) => {
+    try {
+        const { id, status } = req.body
+        console.log(req.body)
+        const hotel = await Hotel.findById(id)
+
+        if (status) {
+            hotel.status = await status
+        }
+
+        await hotel.save()
+
+        res.status(200).json({
+            success: true,
+            message: "Status updated",
+            hotel
+        })
+
+    } catch (e) {
+        return next(new AppError(e.message, 500))
+    }
+}
+
+const getHotelDetail = async (req, res, next) => {
+    try {
+        console.log(req.params)
+        const { id } = req.params
+        console.log(id)
+        const detail = await Hotel.findById(id)
+
+        res.status(200).json({
+            success: true,
+            message: 'Hotel data',
+            detail
+        })
+    } catch (e) {
+        return next(new AppError(e.message, 500))
+    }
+}
+
 /* The below code is exporting a set of functions related to admin authentication and profile
 management. These functions include: */
 export {
@@ -686,5 +741,8 @@ export {
     getPriestDetail,
     guiderList,
     updateGuiderStatus,
-    getGuiderDetail
+    getGuiderDetail,
+    hotelList,
+    updateHotelStatus,
+    getHotelDetail
 }

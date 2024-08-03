@@ -5,10 +5,10 @@ import axiosInstance from '../../Helper/axiosInstance'
 
 const initialState = {
     orderData: localStorage.getItem('orderData') !== "undefined" ? JSON.parse(localStorage.getItem('orderData')) : [{}],
-    singlePriestData: localStorage.getItem('singlePriestData') !== "undefined" ? JSON.parse(localStorage.getItem('singlePriestData')) : {},
+    singleGuiderData: localStorage.getItem('singleGuiderData') !== "undefined" ? JSON.parse(localStorage.getItem('singleGuiderData')) : {},
 }
 
-export const getOrders = createAsyncThunk('/priest/get-order/:id', async (data) => {
+export const getOrders = createAsyncThunk('/guider/get-order/:id', async (data) => {
     try {
         console.log(data)
         let res = axiosInstance.get(`get-order/${data}`)
@@ -27,10 +27,10 @@ export const getOrders = createAsyncThunk('/priest/get-order/:id', async (data) 
     }
 })
 
-export const updateStatus = createAsyncThunk('/priest/update-pickup', async (data) => {
+export const updateStatus = createAsyncThunk('/guider/update-pickup', async (data) => {
     try {
         console.log(data)
-        let res = axiosInstance.put(`update-pooja-complete`, data)
+        let res = axiosInstance.put(`update-guide-start`, data)
         toast.promise(res, {
             loading: 'Verifying',
             success: (data) => {
@@ -46,7 +46,7 @@ export const updateStatus = createAsyncThunk('/priest/update-pickup', async (dat
     }
 })
 
-export const getCarOrderDetail = createAsyncThunk('/priest/book-detail/:id', async (data) => {
+export const getGuiderOrderDetail = createAsyncThunk('/guider/book-detail/:id', async (data) => {
     try {
         let res = axiosInstance.get(`book-detail/${data}`)
         toast.promise(res, {
@@ -72,9 +72,9 @@ const orderSlice = createSlice({
         builder.addCase(getOrders.fulfilled, (state, action) => {
             localStorage.setItem('orderData', JSON.stringify(action?.payload?.order))
             state.orderData = action?.payload?.order
-        }).addCase(getCarOrderDetail.fulfilled, (state, action) => {
-            localStorage.setItem('singlePriestData', JSON.stringify(action?.payload?.order))
-            state.singlePriestData = action?.payload?.order
+        }).addCase(getGuiderOrderDetail.fulfilled, (state, action) => {
+            localStorage.setItem('singleGuiderData', JSON.stringify(action?.payload?.order))
+            state.singleGuiderData = action?.payload?.order
         })
     }
 })

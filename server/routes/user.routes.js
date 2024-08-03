@@ -24,6 +24,7 @@ import { getPriestWithService } from "../controllers/priest.controller.js";
 import { cancelPoojaBook, createPriestOrder, finishUpdate, getPriestOrderData, getUserPriestOrder, startUpdate } from "../controllers/bookings/priestOrder.controller.js";
 import { getGuiderWithService } from "../controllers/guider.controller.js";
 import { cancelGuideBook, createGuiderOrder, finishGuideUpdate, getGuiderOrderData, getUserGuiderOrder } from "../controllers/bookings/guiderOrder.controller.js";
+import { getHotelWithService } from "../controllers/hotel.controller.js";
 
 // Creating an instance of the Express Router
 const router = Router()
@@ -94,6 +95,7 @@ router.put('/boat-book-cancel/:id', isLoggedIn, cancelBoatBook)
 
 router.get('/priest-list', getPriestWithService)
 router.get('/guider-list', getGuiderWithService)
+router.get('/hotel-list', getHotelWithService)
 
 router.post('/book-priest', isLoggedIn, createPriestOrder)
 router.post('/book-guider', isLoggedIn, createGuiderOrder)
