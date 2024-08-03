@@ -148,9 +148,10 @@ export const resetPasswords = createAsyncThunk('hotel/reset-password', async (da
     }
 })
 
-export const updateServices = createAsyncThunk('/hotel/update-services', async (data) => {
+export const updateServices = createAsyncThunk('/hotel/update-rooms', async (data) => {
     try {
-        let res = axiosInstance.put(`/update-services`, data)
+        console.log(data)
+        let res = axiosInstance.put(`/update-rooms`, data)
         toast.promise(res, {
             loading: "Updating!",
             success: (data) => {
