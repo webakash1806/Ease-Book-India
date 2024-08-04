@@ -206,7 +206,7 @@ const BookPriest = () => {
                         <h2 className='text-xl font-semibold'>{priestData?.fullName || 'Priest Name'}</h2>
                         <h3>{state.state.pooja.name}</h3>
                         <div className='text-sm text-gray-600'>
-                            <div><strong>Pooja cost : </strong> {Number(state.state.pooja.price) + Number(priestData.servicesData.fare) || 'N/A'}</div>
+                            <div><strong>Pooja cost : </strong> {Number(state.state.pooja.price) + Number(priestData?.servicesData?.fare) || 'N/A'}</div>
 
                         </div>
                     </div>
@@ -224,22 +224,22 @@ const BookPriest = () => {
                     <div className='flex min-w-[18rem] max-w-[20.5rem] w-[87vw] sm:w-[24rem] justify-between'>
                         <div className={`${mainDiv} w-[48%]`}>
                             <label className={labelStyle} htmlFor="phoneNumber">Phone Number</label>
-                            <input className='border border-[#808080] w-full rounded-[3px] h-full px-2 p-[5.5px] outline-none text-[0.95rem] tracking-wide bg-[#ffffff] text-black' type="text" name='phoneNumber' value={formData.phoneNumber} onChange={handleChange} />
+                            <input className='border border-[#808080] w-full rounded-[3px] h-full px-2 p-[5.5px] outline-none text-[0.95rem] tracking-wide bg-[#ffffff] text-black' type="text" name='phoneNumber' value={formData?.phoneNumber} onChange={handleChange} />
                         </div>
                         <div className={`${mainDiv} w-[48%]`}>
                             <label className={labelStyle} htmlFor="alternateNumber">Alternate Number</label>
-                            <input className='border border-[#808080] w-full rounded-[3px] h-full px-2 p-[5.5px] outline-none text-[0.95rem] tracking-wide bg-[#ffffff] text-black' type="text" name='alternateNumber' value={formData.alternateNumber} onChange={handleChange} />
+                            <input className='border border-[#808080] w-full rounded-[3px] h-full px-2 p-[5.5px] outline-none text-[0.95rem] tracking-wide bg-[#ffffff] text-black' type="text" name='alternateNumber' value={formData?.alternateNumber} onChange={handleChange} />
                         </div>
                     </div>
 
                     <div className='flex items-center gap-3 mt-[10px]'>
-                        <input type='checkbox' name='samagri' className='accent-green-500' checked={formData.samagri} onChange={handleChange} />
+                        <input type='checkbox' name='samagri' className='accent-green-500' checked={formData?.samagri} onChange={handleChange} />
                         <label className={labelStyle}>Want pooja samagri? (+ Rs.{Number(state.state.pooja.price) / 2})</label>
                     </div>
                     <div className='flex flex-col gap-2 mt-4'>
 
                         <h3 className='text-[1.04rem] font-semibold'>
-                            Total Price: <span className='line-through'>Rs.{formData.originalPrice}</span> Rs.{formData.totalPrice.toFixed(2)}
+                            Total Price: <span className='line-through'>Rs.{formData?.originalPrice}</span> Rs.{formData?.totalPrice.toFixed(2)}
                         </h3>
                     </div>
                     <button onClick={() => setLoaderActive(true)} className='bg-[#685ED4] hover:bg-[#FF4C51] text-white flex items-center justify-center transition-all duration-700 w-full rounded-md p-[6px] font-semibold mt-[10px]'>

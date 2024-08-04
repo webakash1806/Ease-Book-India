@@ -1,15 +1,17 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getHotelList } from '../Redux/Slices/ServiceSlice';
-import { FaHotel, FaSwimmingPool, FaWifi } from 'react-icons/fa';
+import { FaHotel, FaParking, FaSwimmingPool, FaWifi } from 'react-icons/fa';
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
 import { FaLocationDot } from "react-icons/fa6";
 import { useNavigate } from 'react-router-dom';
-import { MdOutlineFreeBreakfast } from 'react-icons/md';
+import { MdOutlineFreeBreakfast, MdRestaurantMenu } from 'react-icons/md';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
+import { GrLounge } from 'react-icons/gr';
+import { CgGym } from 'react-icons/cg';
 
 const Hotel = () => {
     const dispatch = useDispatch();
@@ -73,19 +75,19 @@ const Hotel = () => {
                         {hotelListData.map((data, key) => (
                             <div
                                 key={key}
-                                className='bg-white flex flex-col md:border-r-[6px] lg:hover:border-r-[0.5px] border-blue-500 sm:flex-row min-w-[19.5rem] text-black max-w-[20rem] sm:max-w-[45rem] md:max-w-[50rem] lg:max-w-[60rem] w-[90vw] hover:from-[#f3fbff] cursor-pointer transition-all duration-500 hover:bg-gradient-to-b hover:to-[#f8fafc] rounded-xl shadow-[0px_5px_10px_-6px_#808080] overflow-hidden'
+                                className='bg-white flex flex-col md:border-r-[6px] lg:hover:border-r-[0.5px] border-blue-500 sm:flex-row min-w-[19.5rem] text-black max-w-[20rem] sm:max-w-[45rem] md:max-w-[50rem] lg:max-w-[58.5rem] w-[90vw] hover:from-[#f3fbff] cursor-pointer transition-all duration-500 hover:bg-gradient-to-b hover:to-[#f8fafc] rounded-xl shadow-[0px_5px_10px_-6px_#808080] overflow-hidden'
                                 onClick={() => navigate(`/hotel/${data._id}`)}
                             >
                                 <div className='w-full sm:w-[19rem]'>
                                     <Slider {...settings}>
                                         {data?.proofFiles?.slice(0, 5).map((file, index) => (
-                                            <img key={index} src={file.fileUrl} alt={`Proof ${index + 1}`} className='h-[11.5rem] sm:h-[13.5rem] w-full object-cover' />
+                                            <img key={index} src={file.fileUrl} alt={`Proof ${index + 1}`} className='h-[11.5rem] sm:h-[13.8rem] lg:h-[14rem] w-full object-cover' />
                                         ))}
                                     </Slider>
                                 </div>
-                                <div className='flex flex-col justify-between px-3 pb-2 lg:gap-4 lg:flex-row'>
-                                    <div className='lg:w-[27rem]'>
-                                        <div className='flex items-center justify-between mt-3'>
+                                <div className='flex flex-col justify-between px-3 pb-2 sm:pb-1 lg:gap-4 lg:flex-row'>
+                                    <div className='lg:w-[22.5rem]'>
+                                        <div className='flex items-center justify-between mt-1 lg:mt-1'>
                                             <h2 className='text-[1.2rem] lg:text-[1.45rem] font-semibold'>{data?.hotelName}</h2>
                                             <h2 className='flex items-center gap-1 '><FaHotel />{data?.servicesData?.roomType}</h2>
                                         </div>
@@ -93,23 +95,37 @@ const Hotel = () => {
                                             <h1 className='flex text-[0.85rem] lg:text-[0.95rem] font-semibold items-center text-[#555555] justify-center gap-1'><FaLocationDot className='text-black' />{data?.address}</h1>
                                         </div>
                                         <div className='flex items-center justify-between my-1 '>
-                                            <p className='text-[0.8rem] lg:text-[0.87rem] lg:line-clamp-5 line-clamp-3'>{data?.description}</p>
+                                            <p className='text-[0.8rem] lg:text-[0.87rem] lg:line-clamp-5 sm:line-clamp-2 md:line-clamp-4 line-clamp-3'>{data?.description}</p>
                                         </div>
                                     </div>
                                     <div className='flex items-center justify-between mt-1 border-t lg:py-4 lg:pl-4 lg:border-t-0 lg:border-l lg:ml-6 lg:w-fit lg:flex-col'>
-                                        <div className='flex flex-col items-start'>
-                                            <div className='flex items-center mr-4 justify-center gap-1 text-[0.8rem] text-[#808080] font-semibold'>
-                                                <FaWifi className='text-green-500' />
-                                                Wifi
+                                        <div className='flex flex-wrap w-[70%]  lg:w-[12rem]'>
+                                            <div className='flex items-center mr-4 justify-center gap-1 text-[0.87rem] text-[#6e6d6d] font-semibold'>
+                                                <FaWifi className='' />
+                                                Free Wifi
                                             </div>
-                                            <div className='flex items-center justify-center gap-1 text-[0.8rem] text-[#808080] font-semibold'>
-                                                <FaSwimmingPool className='text-blue-500' />
+
+                                            <div className='flex items-center mr-4  justify-center gap-1 text-[0.87rem] text-[#6e6d6d] font-semibold'>
+                                                <FaSwimmingPool className='' />
                                                 <p>Swimming Pool</p>
                                             </div>
-                                            <div className='flex items-center justify-center gap-1 text-[0.8rem] text-[#808080] font-semibold'>
-                                                <MdOutlineFreeBreakfast className='text-red-500' />
-                                                <p>Free breakfast</p>
+                                            <div className='flex items-center mr-4  justify-center gap-1 text-[0.87rem] text-[#6e6d6d] font-semibold'>
+                                                <FaParking className='' />
+                                                <p>Free Parking</p>
                                             </div>
+                                            <div className='flex items-center mr-4  justify-center gap-1 text-[0.87rem] text-[#6e6d6d] font-semibold'>
+                                                <CgGym className='' />
+                                                <p>Gym</p>
+                                            </div>
+                                            <div className='flex items-center mr-4  justify-center gap-1 text-[0.87rem] text-[#6e6d6d] font-semibold'>
+                                                <MdRestaurantMenu className='' />
+                                                <p>Restaurant</p>
+                                            </div>
+                                            <div className='flex items-center mr-4  justify-center gap-1 text-[0.87rem] text-[#6e6d6d] font-semibold'>
+                                                <GrLounge className='' />
+                                                <p>Lounge</p>
+                                            </div>
+
                                         </div>
                                         <div className='flex flex-col items-center justify-center  relative top-[-6px]'>
                                             <p className='text-[0.7rem] flex flex-col top-3 items-center font-semibold text-[#505050] relative'>&#8377;15000

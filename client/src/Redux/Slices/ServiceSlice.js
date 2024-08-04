@@ -238,6 +238,13 @@ const serviceSlice = createSlice({
             console.log(action)
             localStorage.setItem('hotelData', JSON.stringify(action?.payload?.detail))
             state.hotelData = action?.payload?.detail
+        }).addCase(getPriestList.fulfilled, (state, action) => {
+            localStorage.setItem('priestListData', JSON.stringify(action?.payload?.filteredPriest))
+            state.priestListData = action?.payload?.filteredPriest
+        }).addCase(getPriestData.fulfilled, (state, action) => {
+            console.log(action)
+            localStorage.setItem('priestData', JSON.stringify(action?.payload?.detail))
+            state.priestData = action?.payload?.detail
         })
     }
 })

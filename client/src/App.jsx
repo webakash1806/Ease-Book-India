@@ -24,6 +24,8 @@ import BookGuider from './Pages/Orders/BookGuider'
 import PastGuiderOrders from './Pages/Orders/PastGuiderOrders'
 import GuiderBookDetail from './Pages/Orders/GuiderBookDetail'
 import Hotel from './Pages/Hotel'
+import HotelsWithRoom from './Pages/HotelsWithRoom'
+import BookHotel from './Pages/Orders/BookHotel'
 
 const App = () => {
   // In your component
@@ -45,6 +47,8 @@ const App = () => {
         <Route path='/boat' element={<BoatPage />} />
         <Route path='/hotels' element={<Hotel />} />
         <Route path='/car-book/:id' element={<OrderCar />} />
+        <Route path='/hotel/:id' element={<HotelsWithRoom />} />
+        <Route path='/hotel-book/hotel/:id/room/:roomId' element={<BookHotel />} />
         <Route path='/boat-book/:id' element={<BookBoat />} />
         <Route path='/priest-book/:id' element={<BookPriest />} />
         <Route path='/guider-book/:id' element={<BookGuider />} />
