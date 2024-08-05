@@ -5,10 +5,10 @@ import axiosInstance from '../../Helper/axiosInstance'
 
 const initialState = {
     orderData: localStorage.getItem('orderData') !== "undefined" ? JSON.parse(localStorage.getItem('orderData')) : [{}],
-    singleGuiderData: localStorage.getItem('singleGuiderData') !== "undefined" ? JSON.parse(localStorage.getItem('singleGuiderData')) : {},
+    singleHotelData: localStorage.getItem('singleHotelData') !== "undefined" ? JSON.parse(localStorage.getItem('singleHotelData')) : {},
 }
 
-export const getOrders = createAsyncThunk('/guider/get-order/:id', async (data) => {
+export const getOrders = createAsyncThunk('/hotel/get-order/:id', async (data) => {
     try {
         console.log(data)
         let res = axiosInstance.get(`get-order/${data}`)
@@ -27,10 +27,10 @@ export const getOrders = createAsyncThunk('/guider/get-order/:id', async (data) 
     }
 })
 
-export const updateStatus = createAsyncThunk('/guider/update-pickup', async (data) => {
+export const updateStatus = createAsyncThunk('/hotel/update-check-in', async (data) => {
     try {
         console.log(data)
-        let res = axiosInstance.put(`update-guide-start`, data)
+        let res = axiosInstance.put(`update-check-in`, data)
         toast.promise(res, {
             loading: 'Verifying',
             success: (data) => {
@@ -46,7 +46,7 @@ export const updateStatus = createAsyncThunk('/guider/update-pickup', async (dat
     }
 })
 
-export const getGuiderOrderDetail = createAsyncThunk('/guider/book-detail/:id', async (data) => {
+export const getGuiderOrderDetail = createAsyncThunk('/hotel/book-detail/:id', async (data) => {
     try {
         let res = axiosInstance.get(`book-detail/${data}`)
         toast.promise(res, {
@@ -73,8 +73,8 @@ const orderSlice = createSlice({
             localStorage.setItem('orderData', JSON.stringify(action?.payload?.order))
             state.orderData = action?.payload?.order
         }).addCase(getGuiderOrderDetail.fulfilled, (state, action) => {
-            localStorage.setItem('singleGuiderData', JSON.stringify(action?.payload?.order))
-            state.singleGuiderData = action?.payload?.order
+            localStorage.setItem('singleHotelData', JSON.stringify(action?.payload?.order))
+            state.singleHotelData = action?.payload?.order
         })
     }
 })
