@@ -76,7 +76,7 @@ const OrderCar = () => {
         };
 
         calculateTotalPrice();
-    }, [formData.fareType, formData.pickLocation, formData.numberOfHours, formData.returnTrip]);
+    }, [formData.fareType, formData.pickLocation, formData.numberOfHours, formData.returnTrip, formData.originalPrice]);
 
     const handleChange = (e) => {
         const { name, value, type, checked } = e.target;
@@ -96,14 +96,12 @@ const OrderCar = () => {
     };
 
     const fetchOrderId = async () => {
-        await dispatch(order({ amount: formData.totalPrice }));
+        await dispatch(order({ amount: formData.totalPrice, id: driverId, forName: "CAR" }));
     };
 
     useEffect(() => {
-        if (!order_id) {
-            fetchOrderId();
-        }
-    }, [order_id]);
+        fetchOrderId();
+    }, [formData]);
 
     const handleSubmit = async (e) => {
         e.preventDefault();

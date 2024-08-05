@@ -157,7 +157,10 @@ const HotelBookDetail = () => {
                         className='h-[27rem] lg:h-[28rem]  flex flex-col md:border-b-[6px] lg:hover:border-b-[0.5px] bg-[#f5f5f5] border-blue-500  min-w-[19.5rem] text-black justify-between max-w-[21rem] w-[90vw]  cursor-pointer transition-all duration-500 hover:bg-gradient-to-b  rounded-xl shadow-[0px_5px_10px_-6px_#808080] overflow-hidden'
                     >
                         <div className='flex items-center justify-center bg-[#eaebff] shadow-[0px_5px_8px_-4px_#808080] font-semibold'>
+                            {bookDetail?.status === "CHECK_OUT" &&
+                                <p className='py-[9px] text-center text-white bg-gradient-to-r w-full from-[#1751fe] via-[#0074f9] transition-all duration-300 to-[#0199ff]'>COMPLETED</p>
 
+                            }
                             {bookDetail?.status === "CANCELLED" &&
                                 <p className='py-[9px] text-center text-white bg-gradient-to-r w-full from-[#1751fe] via-[#0074f9] transition-all duration-300 to-[#0199ff]'>Booking Cancelled</p>}
 

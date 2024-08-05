@@ -47,7 +47,7 @@ const BookPriest = () => {
 
     useEffect(() => {
         const calculateTotalPrice = () => {
-            const price = Number(state.state.pooja.price) + Number(priestData.servicesData.fare)
+            const price = Number(state.state.pooja.price) + Number(priestData?.servicesData?.fare)
 
 
             let originalPrice = price;
@@ -86,7 +86,7 @@ const BookPriest = () => {
     };
 
     const fetchOrderId = async () => {
-        await dispatch(order({ amount: formData.totalPrice }));
+        await dispatch(order({ amount: formData.totalPrice, id: priestId, forName: "PRIEST" }));
     };
 
     useEffect(() => {

@@ -53,7 +53,7 @@ const PastHotelOrders = () => {
 
 
 
-
+    console.log(hotelData[3])
 
 
     const handleVerify = async (orderId) => {
@@ -183,7 +183,7 @@ const PastHotelOrders = () => {
                 </div>
                 <div className='w-full md:flex md:flex-col'>
                     <h3 className='mb-2 font-medium'>Filter by Status</h3>
-                    {['All', 'Booked', 'Started', 'Completed', 'Cancelled'].map(status => (
+                    {['All', 'Confirmed', 'Check-in', 'Check-out', 'Cancelled'].map(status => (
                         <label key={status} className='flex items-center mb-2'>
                             <input
                                 type='checkbox'
@@ -315,7 +315,10 @@ const PastHotelOrders = () => {
                             </div>
                             <div className='flex  items-center justify-center bg-[#f1f2ff] font-semibold'>
 
+                                {room?.status === "CHECK_OUT" &&
+                                    <p className='py-[9px] text-center text-white bg-gradient-to-r w-full from-[#1751fe] via-[#0074f9] transition-all duration-300 to-[#0199ff]'>COMPLETED</p>
 
+                                }
 
                                 {room?.status === "CANCELLED" &&
                                     <p className='py-[9px] text-center text-white bg-gradient-to-r w-full from-[#1751fe] via-[#0074f9] transition-all duration-300 to-[#0199ff]'>Booking Cancelled</p>}
@@ -325,7 +328,7 @@ const PastHotelOrders = () => {
                                     <h3 className='py-[7px] text-center text-white bg-gradient-to-r w-full from-[#1751fe] via-[#0074f9] transition-all duration-300 to-[#0199ff] p-1'>Check-in OTP - {room?.checkInOTP}</h3>
                                 )}
                                 {room?.status === 'CHECK_IN' && (
-                                    <div className='flex items-center mt-1' onClick={(e) => e.stopPropagation()}>
+                                    <div className='flex items-center p-2 mt-1' onClick={(e) => e.stopPropagation()}>
                                         <h3 className='flex items-center gap-2'>Check-out
                                             <OtpInput
                                                 value={otpValues[room?._id] || ''}

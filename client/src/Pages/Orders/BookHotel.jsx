@@ -150,7 +150,7 @@ const BookHotel = () => {
     };
 
     const fetchOrderId = async () => {
-        await dispatch(order({ amount: formData.totalAmt }));
+        await dispatch(order({ amount: formData.totalAmt, id: hotelId, forName: "HOTEL" }));
     };
 
     useEffect(() => {

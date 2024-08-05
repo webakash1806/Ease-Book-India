@@ -91,7 +91,7 @@ const OrderBoat = () => {
     };
 
     const fetchOrderId = async () => {
-        await dispatch(order({ amount: formData.totalPrice }));
+        await dispatch(order({ amount: formData.totalPrice, id: boatId, forName: "BOAT" }));
     };
 
     useEffect(() => {

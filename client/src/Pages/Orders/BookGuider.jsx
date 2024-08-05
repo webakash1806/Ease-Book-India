@@ -81,7 +81,7 @@ const BookGuider = () => {
     };
 
     const fetchOrderId = async () => {
-        await dispatch(order({ amount: formData.totalPrice }));
+        await dispatch(order({ amount: formData.totalPrice, id: guiderId, forName: "GUIDER" }));
     };
 
     useEffect(() => {
