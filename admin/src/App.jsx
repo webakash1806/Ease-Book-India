@@ -24,6 +24,8 @@ import GuiderBookDetails from './Pages/GuiderPages/GuiderBookDetail'
 import GuiderOrders from './Pages/GuiderPages/GuiderOrders'
 import HotelsList from './Pages/HotelPages/HotelsList'
 import HotelDetail from './Pages/HotelPages/HotelDetail'
+import HotelOrders from './Pages/HotelPages/HotelOrders'
+import HotelBookDetail from './Pages/HotelPages/HotelBookDetail'
 
 const App = () => {
   return (
@@ -42,10 +44,12 @@ const App = () => {
           <Route path='/boat-book-detail/:id' element={<BoatBookDetails />} />
           <Route path='/priest-book-detail/:id' element={<PriestBookDetails />} />
           <Route path='/guider-book-detail/:id' element={<GuiderBookDetails />} />
+          <Route path='/hotel-book-detail/:id' element={<HotelBookDetail />} />
           <Route path='/car-booking' element={<CarOrders />} />
           <Route path='/boat-booking' element={<BoatOrders />} />
           <Route path='/priest-booking' element={<PriestOrders />} />
           <Route path='/guider-booking' element={<GuiderOrders />} />
+          <Route path='/hotel-booking' element={<HotelOrders />} />
           <Route path='/users-list' element={<UsersList />} />
           <Route path='/boatman-list' element={<BoatList />} />
           <Route path='/priest-list' element={<PriestList />} />

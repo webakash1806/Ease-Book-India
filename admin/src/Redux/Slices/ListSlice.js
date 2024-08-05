@@ -9,6 +9,7 @@ const initialState = {
     boatBooking: localStorage.getItem('boatBooking') !== "undefined" ? JSON.parse(localStorage.getItem('boatBooking')) : [{}],
     priestBooking: localStorage.getItem('priestBooking') !== "undefined" ? JSON.parse(localStorage.getItem('priestBooking')) : [{}],
     guiderBooking: localStorage.getItem('guiderBooking') !== "undefined" ? JSON.parse(localStorage.getItem('guiderBooking')) : [{}],
+    hotelBooking: localStorage.getItem('hotelBooking') !== "undefined" ? JSON.parse(localStorage.getItem('hotelBooking')) : [{}],
     userList: localStorage.getItem('userList') !== "undefined" ? JSON.parse(localStorage.getItem('userList')) : [{}],
     priestList: localStorage.getItem('priestList') !== "undefined" ? JSON.parse(localStorage.getItem('priestList')) : [{}],
     guiderList: localStorage.getItem('guiderList') !== "undefined" ? JSON.parse(localStorage.getItem('guiderList')) : [{}],
@@ -23,6 +24,7 @@ const initialState = {
     singleBoatData: localStorage.getItem('singleBoatData') !== "undefined" ? JSON.parse(localStorage.getItem('singleBoatData')) : {},
     singlePriestData: localStorage.getItem('singlePriestData') !== "undefined" ? JSON.parse(localStorage.getItem('singlePriestData')) : {},
     singleGuiderData: localStorage.getItem('singleGuiderData') !== "undefined" ? JSON.parse(localStorage.getItem('singleGuiderData')) : {},
+    singleHotelData: localStorage.getItem('singleHotelData') !== "undefined" ? JSON.parse(localStorage.getItem('singleHotelData')) : {},
 }
 
 export const getDriverList = createAsyncThunk('/admin/car/list', async () => {
@@ -464,6 +466,42 @@ export const getHotelDetail = createAsyncThunk('/admin/hotel/detail', async (dat
 
 })
 
+export const getHotelBookings = createAsyncThunk('/admin/hotel/booking', async () => {
+    try {
+        let res = axiosInstance.get('/hotel-orders')
+        toast.promise(res, {
+            loading: 'Loading data',
+            success: (data) => {
+                return data?.data.message
+            },
+            error: "failed to load"
+        })
+        res = await res
+        return res.data
+    } catch (e) {
+        return toast.error(e?.response?.data?.message)
+    }
+})
+
+export const getHotelOrderDetail = createAsyncThunk('/admin/hotel-book/:id', async (data) => {
+    try {
+        console.log(data)
+        let res = axiosInstance.get(`hotel-orders/${data}`)
+        toast.promise(res, {
+            loading: 'Loading',
+            success: (data) => {
+                return data?.data.message
+            },
+            error: "failed to get orders"
+        })
+        // getting response resolved here
+        res = await res;
+        return res.data;
+    } catch (e) {
+        return toast.error(e?.response?.data?.message)
+    }
+})
+
 const listSlice = createSlice({
     name: 'list',
     initialState,
@@ -526,6 +564,12 @@ const listSlice = createSlice({
         }).addCase(getHotelDetail.fulfilled, (state, action) => {
             localStorage.setItem('hotelDetail', JSON.stringify(action?.payload?.detail))
             state.hotelDetail = action?.payload?.detail
+        }).addCase(getHotelBookings.fulfilled, (state, action) => {
+            localStorage.setItem('hotelBooking', JSON.stringify(action?.payload?.order))
+            state.hotelBooking = action?.payload?.order
+        }).addCase(getHotelOrderDetail.fulfilled, (state, action) => {
+            localStorage.setItem('singleHotelData', JSON.stringify(action?.payload?.order))
+            state.singleHotelData = action?.payload?.order
         })
     }
 })
