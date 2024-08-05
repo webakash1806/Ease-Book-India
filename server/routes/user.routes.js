@@ -25,6 +25,7 @@ import { cancelPoojaBook, createPriestOrder, finishUpdate, getPriestOrderData, g
 import { getGuiderWithService } from "../controllers/guider.controller.js";
 import { cancelGuideBook, createGuiderOrder, finishGuideUpdate, getGuiderOrderData, getUserGuiderOrder } from "../controllers/bookings/guiderOrder.controller.js";
 import { getHotelWithService } from "../controllers/hotel.controller.js";
+import { cancelHotelBook, checkOutUpdate, createHotelOrder, getHotelOrderDetail, getUserHotelOrder } from "../controllers/bookings/hotelBook.controller.js";
 
 // Creating an instance of the Express Router
 const router = Router()
@@ -99,18 +100,23 @@ router.get('/hotel-list', getHotelWithService)
 
 router.post('/book-priest', isLoggedIn, createPriestOrder)
 router.post('/book-guider', isLoggedIn, createGuiderOrder)
+router.post('/book-hotel', isLoggedIn, createHotelOrder)
 
 router.get('/get-priest-order/:id', isLoggedIn, getUserPriestOrder)
 router.get('/get-guider-order/:id', isLoggedIn, getUserGuiderOrder)
+router.get('/get-hotel-order/:id', isLoggedIn, getUserHotelOrder)
 
 router.put('/update-pooja-complete', isLoggedIn, finishUpdate)
 router.put('/update-guide-complete', isLoggedIn, finishGuideUpdate)
+router.put('/update-check-out', isLoggedIn, checkOutUpdate)
 
 router.get('/priest-book-detail/:id', isLoggedIn, getPriestOrderData)
 router.get('/guider-book-detail/:id', isLoggedIn, getGuiderOrderData)
+router.get('/hotel-book-detail/:id', isLoggedIn, getHotelOrderDetail)
 
 router.put('/priest-book-cancel/:id', isLoggedIn, cancelPoojaBook)
 router.put('/guider-book-cancel/:id', isLoggedIn, cancelGuideBook)
+router.put('/hotel-book-cancel/:id', isLoggedIn, cancelHotelBook)
 
 // -----------------------------------------------------------------------------------------
 
