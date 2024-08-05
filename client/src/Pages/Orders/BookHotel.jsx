@@ -5,7 +5,7 @@ import { getHotelData } from '../../Redux/Slices/ServiceSlice';
 import { FaLocationDot } from 'react-icons/fa6';
 import { FaHotel, FaUser } from 'react-icons/fa';
 import { MdOutlineFreeBreakfast } from 'react-icons/md';
-import { bookPriest } from '../../Redux/Slices/OrderSlice';
+import { bookHotel, bookPriest } from '../../Redux/Slices/OrderSlice';
 import { toast } from 'react-toastify';
 import { getRazorpayId, order, verifyPayment } from '../../Redux/Slices/RazorpaySlice';
 import { TiCancel } from 'react-icons/ti';
@@ -180,7 +180,7 @@ const BookHotel = () => {
         const formattedMinutes = minutes < 10 ? '0' + minutes : minutes;
         const orderTime = `${formattedHours}:${formattedMinutes} ${ampm}`;
 
-        const { adults, fullName, phoneNumber, alternateNumber, children, food, totalRoom, totalAmt, checkIn, checkOut } = formData;
+        const { adults, fullName, phoneNumber, alternateNumber, children, food, totalRoom, totalAmt, checkIn, priceBeforeDis, checkOut } = formData;
 
         if (
             !fullName ||
@@ -206,13 +206,8 @@ const BookHotel = () => {
             return toast.error("Unable to get order ID. Please try again.");
         }
 
-        const data = { adults, fullName, phoneNumber, alternateNumber, checkIn, checkOut, children, food, totalAmt, totalRoom, userId, roomId, hotelId }
+        const data = { adults, fullName, phoneNumber, alternateNumber, totalNight, checkIn, checkOut, children, food, totalAmt, totalRoom, userId, roomId, hotelId, orderDate, orderTime, priceBeforeDis }
 
-        console.log(data)
-
-        if (data) {
-            return true
-        }
 
         const options = {
             key: razorpayKey, // Enter the Key ID generated from the Dashboard
@@ -229,12 +224,12 @@ const BookHotel = () => {
                 console.log(paymentDetails);
                 const response = await dispatch(verifyPayment(paymentDetails));
                 if (response?.payload?.success) {
-                    const res = await dispatch(bookPriest({ originalPrice, totalAmt, location, poojaName, phoneNumber, alternateNumber, fullName, samagri, orderDate, orderTime, userId, priestId }));
+                    const res = await dispatch(bookHotel(data));
                     if (res.payload.success) {
                         setLoaderActive(false);
                         toast.success("Order Placed!");
                     }
-                    navigate(`/order/priest-book/${userData?._id}`)
+                    navigate(`/order/hotel-book/${userData?._id}`)
                 } else {
                     navigate('/order/fail')
                     setLoaderActive(false);

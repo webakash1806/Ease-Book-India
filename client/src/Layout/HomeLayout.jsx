@@ -84,7 +84,7 @@ const HomeLayout = ({ children }) => {
                                                     <li><Link to={`/order/boat-book/${userId}`} className="px-4 py-2 hover:bg-gray-100">Boat Book</Link></li>
                                                     <li><Link to={`/order/priest-book/${userId}`} className="px-4 py-2 hover:bg-gray-100">Priest Book</Link></li>
                                                     <li><Link to={`/order/guider-book/${userId}`} className="px-4 py-2 hover:bg-gray-100">Guider Book</Link></li>
-                                                    <li><Link to='/order/hotels-book' className="px-4 py-2 hover:bg-gray-100">Hotel Book</Link></li>
+                                                    <li><Link to={`/order/hotel-book/${userId}`} className="px-4 py-2 hover:bg-gray-100">Hotel Book</Link></li>
                                                 </ul>
                                             )}
                                         </li>
@@ -147,7 +147,7 @@ const HomeLayout = ({ children }) => {
                                                 <li><Link to={`/order/boat-book/${userId}`} className="px-4 py-2 hover:bg-gray-100">Boat Book</Link></li>
                                                 <li><Link to={`/order/priest-book/${userId}`} className="px-4 py-2 hover:bg-gray-100">Priest Book</Link></li>
                                                 <li><Link to={`/order/guider-book/${userId}`} className="px-4 py-2 hover:bg-gray-100">Guider Book</Link></li>
-                                                <li><Link to='/hotels-book' className="px-4 py-2 hover:bg-gray-100">Hotel Book</Link></li>
+                                                <li><Link to={`/order/hotel-book/${userId}`} className="px-4 py-2 hover:bg-gray-100">Hotel Book</Link></li>
                                             </ul>
                                         )}
                                     </li>

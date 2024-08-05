@@ -8,10 +8,12 @@ const initialState = {
     boatOrderData: localStorage.getItem('boatOrderData') !== "undefined" ? JSON.parse(localStorage.getItem('boatOrderData')) : [],
     priestOrderData: localStorage.getItem('priestOrderData') !== "undefined" ? JSON.parse(localStorage.getItem('priestOrderData')) : [],
     guiderOrderData: localStorage.getItem('guiderOrderData') !== "undefined" ? JSON.parse(localStorage.getItem('guiderOrderData')) : [],
+    hotelOrderData: localStorage.getItem('hotelOrderData') !== "undefined" ? JSON.parse(localStorage.getItem('hotelOrderData')) : [],
     singleCarData: localStorage.getItem('singleCarData') !== "undefined" ? JSON.parse(localStorage.getItem('singleCarData')) : {},
     singleBoatData: localStorage.getItem('singleBoatData') !== "undefined" ? JSON.parse(localStorage.getItem('singleBoatData')) : {},
     singlePriestData: localStorage.getItem('singlePriestData') !== "undefined" ? JSON.parse(localStorage.getItem('singlePriestData')) : {},
     singleGuiderData: localStorage.getItem('singleGuiderData') !== "undefined" ? JSON.parse(localStorage.getItem('singleGuiderData')) : {},
+    singleHotelData: localStorage.getItem('singleHotelData') !== "undefined" ? JSON.parse(localStorage.getItem('singleHotelData')) : {},
 
 }
 
@@ -410,6 +412,101 @@ export const cancelGuideBooking = createAsyncThunk('/user/cancel-guide-booking',
     }
 })
 
+export const bookHotel = createAsyncThunk('/user/book-hotel', async (data) => {
+    try {
+        let res = axiosInstance.post('user/book-hotel', data)
+        toast.promise(res, {
+            loading: 'Booking',
+            success: (data) => {
+                return data?.data.message
+            },
+            error: "failed to book"
+        })
+        // getting response resolved here
+        res = await res;
+        return res.data;
+    } catch (e) {
+        return toast.error(e?.response?.data?.message)
+    }
+})
+
+export const getHotelOrders = createAsyncThunk('/user/get-hotel-order/:id', async (data) => {
+    try {
+        console.log(data)
+        let res = axiosInstance.get(`user/get-hotel-order/${data}`)
+        toast.promise(res, {
+            loading: 'Loading',
+            success: (data) => {
+                return data?.data.message
+            },
+            error: "failed to get orders"
+        })
+        // getting response resolved here
+        res = await res;
+        return res.data;
+    } catch (e) {
+        return toast.error(e?.response?.data?.message)
+    }
+})
+
+export const getHotelOrderDetail = createAsyncThunk('/user/hotel-book-detail/:id', async (data) => {
+    try {
+        console.log(data)
+        let res = axiosInstance.get(`user/hotel-book-detail/${data}`)
+        toast.promise(res, {
+            loading: 'Loading',
+            success: (data) => {
+                return data?.data.message
+            },
+            error: "failed to get orders"
+        })
+        // getting response resolved here
+        res = await res;
+        return res.data;
+    } catch (e) {
+        return toast.error(e?.response?.data?.message)
+    }
+})
+
+export const checkOutUpdate = createAsyncThunk('/user/update-check-out', async (data) => {
+    try {
+        console.log(data)
+        let res = axiosInstance.put(`user/update-check-out`, data)
+        toast.promise(res, {
+            loading: 'Verifying',
+            success: (data) => {
+                return data?.data.message
+            },
+            error: "Failed to get verified"
+        })
+        // getting response resolved here
+        res = await res;
+        return res.data;
+    } catch (e) {
+        return toast.error(e?.response?.data?.message)
+    }
+})
+
+export const cancelHotelBooking = createAsyncThunk('/user/cancel-hotel-booking', async (data) => {
+    try {
+        console.log(data)
+        let res = axiosInstance.put(`user/hotel-book-cancel/${data}`)
+        toast.promise(res, {
+            loading: 'Cancelling',
+            success: (data) => {
+                return data?.order.message
+            },
+            error: "Failed to get cancel"
+        })
+        // getting response resolved here
+        res = await res;
+        return res.data;
+    } catch (e) {
+        return toast.error(e?.response?.data?.message)
+    }
+})
+
+
 
 
 
@@ -442,6 +539,12 @@ const orderSlice = createSlice({
         }).addCase(getGuiderOrders.fulfilled, (state, action) => {
             localStorage.setItem('guiderOrderData', JSON.stringify(action?.payload?.order))
             state.guiderOrderData = action?.payload?.order
+        }).addCase(getHotelOrderDetail.fulfilled, (state, action) => {
+            localStorage.setItem('singleHotelData', JSON.stringify(action?.payload?.order))
+            state.singleHotelData = action?.payload?.order
+        }).addCase(getHotelOrders.fulfilled, (state, action) => {
+            localStorage.setItem('hotelOrderData', JSON.stringify(action?.payload?.order))
+            state.hotelOrderData = action?.payload?.order
         })
     }
 })
