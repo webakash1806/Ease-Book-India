@@ -69,7 +69,7 @@ const HomeLayout = ({ children }) => {
                             <img src={avatar?.profilePicture || ''} className='w-[2.6rem]' alt="User Avatar" />
                         </Link>
                     </header>
-                    <div className='h-[87vh] bg-[#F2F2F7] scrollbar scrollbar-none overflow-y-scroll'>
+                    <div className='h-[87vh] bg-[#F2F2F7] w-custom scrollbar scrollbar-none overflow-y-scroll'>
                         {children}
                     </div>
                 </div>
