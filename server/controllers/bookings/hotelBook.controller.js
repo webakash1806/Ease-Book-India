@@ -179,7 +179,7 @@ const checkOutUpdate = async (req, res, next) => {
         console.log(order.checkOutOTP)
 
         if (order.checkOutOTP == checkOutOTP) {
-            order.status = "Completed"
+            order.status = "CHECK_OUT"
             hotel.rooms[roomIndex].totalRoom = Number(hotel.rooms[roomIndex].totalRoom) + Number(order.totalRoom)
             await hotel.save()
         } else {

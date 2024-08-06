@@ -36,6 +36,9 @@ import { allCarOrder, getCarOrderData } from "../controllers/bookings/carOrder.c
 import { allBoatOrder, getBoatOrderData } from "../controllers/bookings/boatOrder.controller.js";
 import { allPriestOrder, getPriestOrderData } from "../controllers/bookings/priestOrder.controller.js";
 import { allGuiderOrder, getGuiderOrderData } from "../controllers/bookings/guiderOrder.controller.js";
+import { allPayments, fetchOrderPayments } from "../controllers/payment.controller.js";
+import { allHotelsOrder, getHotelOrderDetail } from "../controllers/bookings/hotelBook.controller.js";
+import { bookingStats, userStats } from "../controllers/misc.controller.js";
 
 // Creating an instance of the Express Router
 const router = Router()
@@ -105,6 +108,8 @@ router.get('/priest-orders', allPriestOrder)
 
 router.get('/guider-orders', allGuiderOrder)
 
+router.get('/hotel-orders', allHotelsOrder)
+
 router.get('/car-orders/:id', getCarOrderData)
 
 router.get('/boat-orders/:id', getBoatOrderData)
@@ -112,6 +117,16 @@ router.get('/boat-orders/:id', getBoatOrderData)
 router.get('/priest-orders/:id', getPriestOrderData)
 
 router.get('/guider-orders/:id', getGuiderOrderData)
+
+router.get('/hotel-orders/:id', getHotelOrderDetail)
+
+router.get('/payments', allPayments)
+router.get('/order-payment', fetchOrderPayments)
+
+router.get('/booking-stats', bookingStats)
+router.get('/stats', userStats)
+
+
 
 
 

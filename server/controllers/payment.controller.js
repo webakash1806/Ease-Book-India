@@ -21,12 +21,16 @@ export const razorpayApiKey = async (req, res, next) => {
 export const checkout = async (req, res, next) => {
     try {
 
-        const { amount } = req.body
+        const { amount, id, forName } = req.body
         console.log(amount)
         const razorAmount = await Number(amount) * 100
         const options = {
             amount: razorAmount,
-            currency: "INR"
+            currency: "INR",
+            notes: {
+                purpose: forName,
+                pay_id: id
+            }
         }
 
         const order = await razorpay.orders.create(options)
@@ -84,3 +88,77 @@ export const paymentVerification = async (req, res, next) => {
         return next(new AppError(e, 500))
     }
 }
+
+
+export const allPayments = async (req, res) => {
+    try {
+        const payments = await razorpay.payments.all();
+        const monthlyPayments = {};
+
+        payments.items.forEach(payment => {
+            const date = new Date(payment.created_at * 1000);
+            const month = date.toLocaleString('default', { month: 'long' });
+            monthlyPayments[month] = (monthlyPayments[month] || 0) + payment.amount;
+        });
+
+        const allPayments = payments.items
+            .filter(payment => payment.status === 'captured') // Filter successful payments
+            .reduce((total, payment) => total + payment.amount, 0) / 100;
+
+        // Process payments to group by month
+
+
+        res.status(200).json({
+            success: true,
+            allPayments,
+            monthlyPayments
+        });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
+
+
+export const fetchOrderPayments = async (req, res) => {
+    try {
+        const payments = await razorpay.payments.all();
+
+        const boat = payments.items.filter(payment => payment.notes && payment.notes.purpose === 'BOAT');
+        const boatPayments = boat
+            .filter(payment => payment.status === 'captured') // Filter successful payments
+            .reduce((total, payment) => total + payment.amount, 0) / 100;
+
+        const guider = payments.items.filter(payment => payment.notes && payment.notes.purpose === 'GUIDER');
+        const guiderPayments = guider
+            .filter(payment => payment.status === 'captured') // Filter successful payments
+            .reduce((total, payment) => total + payment.amount, 0) / 100;
+
+        const hotel = payments.items.filter(payment => payment.notes && payment.notes.purpose === 'HOTEL');
+        const hotelPayments = hotel
+            .filter(payment => payment.status === 'captured') // Filter successful payments
+            .reduce((total, payment) => total + payment.amount, 0) / 100;
+
+        const car = payments.items.filter(payment => payment.notes && payment.notes.purpose === 'CAR');
+        const carPayments = car
+            .filter(payment => payment.status === 'captured') // Filter successful payments
+            .reduce((total, payment) => total + payment.amount, 0) / 100;
+
+        const priest = payments.items.filter(payment => payment.notes && payment.notes.purpose === 'PRIEST');
+        const priestPayments = priest
+            .filter(payment => payment.status === 'captured') // Filter successful payments
+            .reduce((total, payment) => total + payment.amount, 0) / 100;
+
+        res.status(200).json({
+            success: true,
+            hotelPayments,
+            carPayments,
+            priestPayments,
+            boatPayments,
+            guiderPayments
+        });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+};
+
