@@ -46,7 +46,7 @@ export const updateStatus = createAsyncThunk('/hotel/update-check-in', async (da
     }
 })
 
-export const getGuiderOrderDetail = createAsyncThunk('/hotel/book-detail/:id', async (data) => {
+export const getHotelOrderDetail = createAsyncThunk('/hotel/book-detail/:id', async (data) => {
     try {
         let res = axiosInstance.get(`book-detail/${data}`)
         toast.promise(res, {
@@ -72,7 +72,7 @@ const orderSlice = createSlice({
         builder.addCase(getOrders.fulfilled, (state, action) => {
             localStorage.setItem('orderData', JSON.stringify(action?.payload?.order))
             state.orderData = action?.payload?.order
-        }).addCase(getGuiderOrderDetail.fulfilled, (state, action) => {
+        }).addCase(getHotelOrderDetail.fulfilled, (state, action) => {
             localStorage.setItem('singleHotelData', JSON.stringify(action?.payload?.order))
             state.singleHotelData = action?.payload?.order
         })

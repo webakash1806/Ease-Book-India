@@ -6,7 +6,7 @@ import Login from './Pages/Auth/Login'
 import Register from './Pages/Auth/Register'
 import RequireAuth from './Components/Auth/RequireAuth'
 import PastOrder from './Pages/Order/PastOrder'
-import GuiderBookDetail from './Pages/Order/GuiderBookDetail'
+import HotelBookDetail from './Pages/Order/HotelBookDetail'
 
 const App = () => {
   return (
@@ -15,7 +15,7 @@ const App = () => {
         <Route element={<RequireAuth allowedRoles={['HOTEL']} />}>
           <Route path='/' element={<Home />} />
           <Route path='/order/:id' element={<PastOrder />} />
-          <Route path='/book-detail/:id' element={<GuiderBookDetail />} />
+          <Route path='/book-detail/:id' element={<HotelBookDetail />} />
         </Route>
         <Route path='/login' element={<Login />} />
         <Route path='/register' element={<Register />} />
