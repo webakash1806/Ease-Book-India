@@ -1,8 +1,8 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { updateServices, userProfile } from '../Redux/Slices/AuthSlice';
+import { addServices, updateServices, userProfile } from '../Redux/Slices/AuthSlice';
 
 const roomTypes = ['SINGLE', 'DOUBLE', 'DELUXE_DOUBLE', 'PREMIUM_DELUXE'];
 const avail = ['AVAILABLE', 'OCCUPIED', 'UNDER_MAINTENANCE'];
@@ -11,22 +11,48 @@ const amenitiesList = ['Wifi', 'TV', 'Air Conditioning', 'Breakfast', 'Parking']
 const UpdateServices = () => {
     const [loaderActive, setLoaderActive] = useState(false);
     const [file, setFile] = useState(Array(5).fill(null));
-
-    const serviceData = useSelector((state) => state?.auth?.data?.servicesData);
+    const [type, setType] = useState('SINGLE')
+    const serviceData = useSelector((state) => state?.auth?.data?.rooms);
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
+    const room = serviceData?.find((data) => data.roomType === type)
+
     const [input, setInput] = useState({
-        totalRoom: 0,
-        roomType: '',
-        courtyardView: false,
-        capacity: 0,
-        amenities: [],
-        price: 0,
-        availability: ''
+        totalRoom: room?.totalRoom || 0,
+        roomType: room?.roomType || type,
+        courtyardView: room?.courtyardView || false,
+        capacity: room?.capacity || 0,
+        amenities: room?.amenities || [],
+        price: room?.price || 0,
+        availability: room?.availability || ''
     });
 
-    console.log(input)
+    useEffect(() => {
+        const updatedRoom = serviceData?.find((data) => data.roomType === type);
+        if (updatedRoom) {
+            setInput({
+                totalRoom: updatedRoom.totalRoom || 0,
+                roomType: updatedRoom.roomType || type,
+                courtyardView: updatedRoom.courtyardView || false,
+                capacity: updatedRoom.capacity || 0,
+                amenities: updatedRoom.amenities || [],
+                price: updatedRoom.price || 0,
+                availability: updatedRoom.availability || ''
+            });
+        } else {
+            // Clear input if no room found for the selected type
+            setInput({
+                totalRoom: 0,
+                roomType: type,
+                courtyardView: false,
+                capacity: 0,
+                amenities: [],
+                price: 0,
+                availability: ''
+            });
+        }
+    }, [type, serviceData]);
 
     function handleInputChange(e) {
         const { name, value, type, checked } = e.target;
@@ -68,56 +94,93 @@ const UpdateServices = () => {
         });
     };
 
-    const handleForm = async (e) => {
-        e.preventDefault();
 
-        const { totalRoom, roomType, courtyardView, capacity, amenities, price, availability } = input;
 
-        if (!totalRoom || !roomType || capacity === 0 || amenities.length === 0 || price === 0 || !availability) {
-            setLoaderActive(false);
-            return toast.error('All fields are required');
+
+
+    const handleFormSubmit = async (e) => {
+        if (room?.roomType === type) {
+            e.preventDefault()
+            const { totalRoom, roomType, courtyardView, capacity, amenities, price, availability } = input;
+
+            if (!totalRoom || !roomType || capacity === 0 || amenities.length === 0 || price === 0 || !availability) {
+                setLoaderActive(false);
+                return toast.error('All fields are required');
+            }
+
+            const res = await dispatch(updateServices(input));
+
+            if (res?.payload?.success) {
+                await dispatch(userProfile());
+                toast.success('Updated!');
+                setLoaderActive(false);
+            } else {
+                setLoaderActive(false);
+                toast.error('Update failed');
+            }
         }
+        else if (room?.roomType !== type) {
+            e.preventDefault();
 
-        const formData = new FormData();
+            const { totalRoom, roomType, courtyardView, capacity, amenities, price, availability } = input;
 
-        formData.append('totalRoom', totalRoom);
-        formData.append('roomType', roomType);
-        formData.append('courtyardView', courtyardView);
-        formData.append('capacity', capacity);
-        formData.append('price', price);
-        formData.append('availability', availability);
-        input.amenities.forEach(service => {
-            formData.append('amenities', service);
-        });
+            console.log(input)
 
-        console.log(file)
+            if (!totalRoom || !roomType || capacity === 0 || amenities.length === 0 || price === 0 || !availability) {
+                setLoaderActive(false);
+                return toast.error('All fields are required');
+            }
 
-        file.forEach((data) => {
-            console.log(data)
-            formData.append('roomImage', data);
-        });
+            const formData = new FormData();
 
-        const res = await dispatch(updateServices(formData));
+            formData.append('totalRoom', totalRoom);
+            formData.append('roomType', roomType);
+            formData.append('courtyardView', courtyardView);
+            formData.append('capacity', capacity);
+            formData.append('price', price);
+            formData.append('availability', availability);
+            input.amenities.forEach(service => {
+                formData.append('amenities', service);
+            });
 
-        if (res?.payload?.success) {
-            await dispatch(userProfile());
-            toast.success('Updated!');
-            setLoaderActive(false);
-        } else {
-            setLoaderActive(false);
-            toast.error('Update failed');
+            console.log(file)
+
+            file.forEach((data) => {
+                console.log(data)
+                formData.append('roomImage', data);
+            });
+
+            const res = await dispatch(addServices(formData));
+
+            if (res?.payload?.success) {
+                await dispatch(userProfile());
+                toast.success('Updated!');
+                setLoaderActive(false);
+            } else {
+                setLoaderActive(false);
+                toast.error('Update failed');
+            }
         }
-    };
+    }
 
     const mainDiv = 'flex flex-col gap-[0.1px]';
     const labelStyle = 'text-[0.83rem] tracking-wide text-[#CFCCE4] font-[400] ml-[0.5px]';
     const inputStyle = 'border border-[#685ED4] w-full rounded-[3px] h-full px-2 p-[5.5px] outline-none text-[0.95rem] tracking-wide resize-none bg-[#3D4056] text-white';
 
     return (
-        <div className='flex items-center justify-center '>
-            <form onSubmit={handleForm} className='sm:p-6 p-4 bg-[#2F3349] text-white rounded-md shadow-[0px_0px_20px_#3D4056] my-12 flex flex-col gap-1 w-fit'>
+        <div className='flex flex-col items-center justify-center '>
+            <div className='flex flex-wrap items-center justify-center gap-2'>
+                {roomTypes?.map((data, index) => {
+                    return (
+                        <div key={index + 1} className='bg-[black] text-white text-[0.9rem] font-semibold p-[7px] px-4 cursor-pointer rounded' onClick={() => setType(data)}>
+                            {data}
+                        </div>
+                    )
+                })}
+            </div>
+            <form onSubmit={handleFormSubmit} className='sm:p-6 p-4 mt-10 bg-[#2F3349] text-white rounded-md shadow-[0px_0px_20px_#3D4056] my-12 flex flex-col gap-1 w-fit'>
                 <div className='mb-4'>
-                    <h2 className='text-[1.8rem] font-semibold tracking-wide'>Update Rooms</h2>
+                    <h2 className='text-[1.8rem] font-semibold tracking-wide'>{room?.roomType === type ? "Update" : "Add"} Rooms</h2>
                     <div className='flex items-center mt-2'>
                         <div className='bg-[#685ED4] w-12 h-[5px] rounded-full mr-1'></div>
                         <div className='bg-[#685ED4] w-[12px] h-[5px] rounded-full mr-1'></div>
@@ -127,10 +190,7 @@ const UpdateServices = () => {
                 <div className={mainDiv}>
                     <label className={labelStyle} htmlFor='roomType'>Room Type</label>
                     <select className={inputStyle} name='roomType' onChange={handleInputChange} value={input.roomType}>
-                        <option value=''>Select</option>
-                        {roomTypes.map((type, ind) => (
-                            <option key={ind} value={type}>{type}</option>
-                        ))}
+                        <option value={type}>{type}</option>
                     </select>
                 </div>
                 <div className='flex min-w-[18rem] md:max-w-[20.5rem] max-w-[25.5rem] w-[87vw] sm:w-[24rem] justify-between'>
@@ -179,26 +239,30 @@ const UpdateServices = () => {
                         </select>
                     </div>
                 </div>
-                <div className='flex min-w-[18rem] md:max-w-[20.5rem] max-w-[25.5rem] w-[87vw] sm:w-[24rem] justify-between'>
-                    <div className={`${mainDiv} w-[48%]`}>
-                        <label className={labelStyle} htmlFor="image1">Image 1</label>
-                        <input className='border border-[#685ED4] w-full rounded-[3px] h-full px-2 p-[5.5px] outline-none text-[0.95rem] tracking-wide resize-none bg-[#3D4056] text-white' type="file" name="image1" id="image1" onChange={(e) => handleFileChange(e, 0)} />
-                    </div>
-                    <div className={`${mainDiv} w-[48%]`}>
-                        <label className={labelStyle} htmlFor="image2">Image 2</label>
-                        <input className='border border-[#685ED4] w-full rounded-[3px] h-full px-2 p-[5.5px] outline-none text-[0.95rem] tracking-wide resize-none bg-[#3D4056] text-white' type="file" name="image2" id="image2" onChange={(e) => handleFileChange(e, 1)} />
-                    </div>
-                </div>
-                <div className='flex min-w-[18rem] md:max-w-[20.5rem] max-w-[25.5rem] w-[87vw] sm:w-[24rem] justify-between'>
-                    <div className={`${mainDiv} w-[48%]`}>
-                        <label className={labelStyle} htmlFor="image3">Image 3</label>
-                        <input className='border border-[#685ED4] w-full rounded-[3px] h-full px-2 p-[5.5px] outline-none text-[0.95rem] tracking-wide resize-none bg-[#3D4056] text-white' type="file" name="image3" id="image3" onChange={(e) => handleFileChange(e, 2)} />
-                    </div>
-                    <div className={`${mainDiv} w-[48%]`}>
-                        <label className={labelStyle} htmlFor="image4">Image 4</label>
-                        <input className='border border-[#685ED4] w-full rounded-[3px] h-full px-2 p-[5.5px] outline-none text-[0.95rem] tracking-wide resize-none bg-[#3D4056] text-white' type="file" name="image4" id="image4" onChange={(e) => handleFileChange(e, 3)} />
-                    </div>
-                </div>
+                {room?.roomType !== type &&
+                    <>
+                        <div className='flex min-w-[18rem] md:max-w-[20.5rem] max-w-[25.5rem] w-[87vw] sm:w-[24rem] justify-between'>
+                            <div className={`${mainDiv} w-[48%]`}>
+                                <label className={labelStyle} htmlFor="image1">Image 1</label>
+                                <input className='border border-[#685ED4] w-full rounded-[3px] h-full px-2 p-[5.5px] outline-none text-[0.95rem] tracking-wide resize-none bg-[#3D4056] text-white' type="file" name="image1" id="image1" onChange={(e) => handleFileChange(e, 0)} />
+                            </div>
+                            <div className={`${mainDiv} w-[48%]`}>
+                                <label className={labelStyle} htmlFor="image2">Image 2</label>
+                                <input className='border border-[#685ED4] w-full rounded-[3px] h-full px-2 p-[5.5px] outline-none text-[0.95rem] tracking-wide resize-none bg-[#3D4056] text-white' type="file" name="image2" id="image2" onChange={(e) => handleFileChange(e, 1)} />
+                            </div>
+                        </div>
+                        <div className='flex min-w-[18rem] md:max-w-[20.5rem] max-w-[25.5rem] w-[87vw] sm:w-[24rem] justify-between'>
+                            <div className={`${mainDiv} w-[48%]`}>
+                                <label className={labelStyle} htmlFor="image3">Image 3</label>
+                                <input className='border border-[#685ED4] w-full rounded-[3px] h-full px-2 p-[5.5px] outline-none text-[0.95rem] tracking-wide resize-none bg-[#3D4056] text-white' type="file" name="image3" id="image3" onChange={(e) => handleFileChange(e, 2)} />
+                            </div>
+                            <div className={`${mainDiv} w-[48%]`}>
+                                <label className={labelStyle} htmlFor="image4">Image 4</label>
+                                <input className='border border-[#685ED4] w-full rounded-[3px] h-full px-2 p-[5.5px] outline-none text-[0.95rem] tracking-wide resize-none bg-[#3D4056] text-white' type="file" name="image4" id="image4" onChange={(e) => handleFileChange(e, 3)} />
+                            </div>
+                        </div>
+                    </>
+                }
                 <div className={mainDiv}>
                     <label className={labelStyle}>Amenities</label>
                     <div className='grid grid-cols-2'>
@@ -228,7 +292,7 @@ const UpdateServices = () => {
                     <label className={labelStyle} htmlFor='courtyardView'>Courtyard View?</label>
                 </div>
                 <button onClick={() => setLoaderActive(true)} className='bg-[#685ED4] hover:bg-[#FF4C51] text-white flex items-center justify-center transition-all duration-700 w-full rounded-md p-[6.9px] font-semibold mt-[12px] mb-1'>
-                    Update {loaderActive && <div className='ml-4 ease-in-out mt-1 size-[1.25rem] border-[2.4px] border-y-[#46454546] animate-spin rounded-full bottom-0'></div>}
+                    {room?.roomType === type ? "Update" : "Add"} {loaderActive && <div className='ml-4 ease-in-out mt-1 size-[1.25rem] border-[2.4px] border-y-[#46454546] animate-spin rounded-full bottom-0'></div>}
                 </button>
             </form>
         </div>
