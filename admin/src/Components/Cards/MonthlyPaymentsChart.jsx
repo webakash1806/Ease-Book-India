@@ -78,7 +78,7 @@ const MonthlyPaymentsChart = () => {
     if (error) return <p>{error}</p>;
 
     return (
-        <div className='h-[21rem] pl-0 w-full flex flex-col items-center gap-4 mb-6 bg-white pb-[3rem] p-3 rounded-md shadow-[0px_0px_18px_-3px_#808080]'>
+        <div className='h-[20rem] pl-0 w-full flex flex-col items-center gap-1 mb-6 bg-white pb-[3rem] p-3 rounded-md shadow-[0px_0px_18px_-3px_#808080]'>
             <h2 className='ml-8 font-semibold text-[1.1rem] text-[#655CCE]'>Monthly Incomes</h2>
             {chartData && (
                 <Bar

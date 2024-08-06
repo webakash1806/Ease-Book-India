@@ -7,7 +7,7 @@ import { getOrderRevenue } from '../../Redux/Slices/StatsSlice';
 ChartJS.register(CategoryScale, LinearScale, BarElement, Title, Tooltip, Legend);
 
 const BookingTypes = ['Hotel', 'Boat', 'Car', 'Priest', 'Guider'];
-const colors = ['#FF6384', '#36A2EB', '#FFCE56', '#4BC0C0', '#9966FF'];
+const colors = ['#655CCE', '#1206FF', '#FF4C51', '#FF5900', '#00B753'];
 
 const BookingsRevenueChart = () => {
     const [chartData, setChartData] = useState(null);
@@ -45,9 +45,9 @@ const BookingsRevenueChart = () => {
                         label: 'Booking Revenue (in Rs)',
                         data,
                         backgroundColor: colors,
-                        borderRadius: 3,
+                        borderRadius: 4,
                         hoverBackgroundColor: '#FF4C51',
-                        barThickness: 18,
+                        barThickness: 15,
                         minBarLength: 2
                     }
                 ]
@@ -59,7 +59,7 @@ const BookingsRevenueChart = () => {
     if (loading) return <p>Loading...</p>;
 
     return (
-        <div className='h-[21rem] w-full flex flex-col items-center gap-4 mb-4 lg:mb-3 bg-white pb-[3rem] p-3 rounded-md shadow-[0px_0px_18px_-3px_#808080]'>
+        <div className='h-[20rem] w-full flex flex-col items-center gap-1 mb-4 lg:mb-3 bg-white pb-[3rem] p-3 rounded-md shadow-[0px_0px_18px_-3px_#808080]'>
             <h2 className='ml-8 font-semibold text-[1.1rem] text-[#655CCE]'>Bookings Revenue</h2>
             {chartData && (
                 <Bar
