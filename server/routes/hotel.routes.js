@@ -12,6 +12,7 @@ import {
     changePassword,
     updateProfile,
     addRoom,
+    updateRoom,
 
 } from "../controllers/hotel.controller.js";
 
@@ -48,7 +49,9 @@ router.post('/change-password', isLoggedIn, changePassword)
 // Route for updating user profile information with optional avatar upload
 router.put('/update-profile/:id', isLoggedIn, upload.single("avatar"), updateProfile)
 
-router.put('/update-rooms', isLoggedIn, upload.array('roomImage', 10), addRoom)
+router.put('/add-rooms', isLoggedIn, upload.array('roomImage', 10), addRoom)
+
+router.put('/update-rooms', isLoggedIn, updateRoom)
 
 router.get('/get-order/:id', isLoggedIn, allHotelsOrder)
 

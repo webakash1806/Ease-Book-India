@@ -403,7 +403,7 @@ const addRoom = async (req, res, next) => {
         console.log(req.files)
 
         const hotel = await Hotel.findById(id)
-        if (!totalRoom || !roomType || !courtyardView || !capacity || !amenities || !price || !availability) {
+        if (!totalRoom || !roomType || !capacity || !amenities || !price || !availability) {
             return next(new AppError('All fields are required', 400))
         }
 
@@ -457,6 +457,42 @@ const addRoom = async (req, res, next) => {
     }
 }
 
+const updateRoom = async (req, res, next) => {
+    try {
+        const { totalRoom, roomType, courtyardView, capacity, amenities, price, availability } = req.body
+        const id = req.user.id
+        console.log(id)
+
+        const hotel = await Hotel.findById(id)
+
+        if (!totalRoom || !roomType || !capacity || !amenities || !price || !availability) {
+            return next(new AppError('All fields are required', 400))
+        }
+
+        const roomIndex = hotel.rooms.findIndex(
+            (room) => room.roomType == roomType)
+
+        hotel.rooms[roomIndex].totalRoom = await totalRoom
+        hotel.rooms[roomIndex].courtyardView = await courtyardView
+        hotel.rooms[roomIndex].capacity = await capacity
+        hotel.rooms[roomIndex].amenities = await amenities
+        hotel.rooms[roomIndex].price = await price
+        hotel.rooms[roomIndex].availability = await availability
+
+
+        await hotel.save()
+
+        res.status(200).json({
+            success: true,
+            message: "Services updated",
+            hotel
+        })
+
+    } catch (e) {
+        return next(new AppError(e.message, 500))
+    }
+}
+
 
 const getHotelWithService = async (req, res, next) => {
     try {
@@ -487,5 +523,6 @@ export {
     changePassword,
     updateProfile,
     addRoom,
-    getHotelWithService
+    getHotelWithService,
+    updateRoom
 }
