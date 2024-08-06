@@ -26,6 +26,8 @@ import HotelsList from './Pages/HotelPages/HotelsList'
 import HotelDetail from './Pages/HotelPages/HotelDetail'
 import HotelOrders from './Pages/HotelPages/HotelOrders'
 import HotelBookDetail from './Pages/HotelPages/HotelBookDetail'
+import DeniedPage from './Pages/Auth/DeniedPage'
+import PageNotFound from './Pages/Auth/404Page'
 
 const App = () => {
   return (
@@ -56,6 +58,8 @@ const App = () => {
           <Route path='/guider-list' element={<GuiderList />} />
           <Route path='/hotels-list' element={<HotelsList />} />
         </Route>
+        <Route path='/denied' element={<DeniedPage />} />
+        <Route path='/*' element={<PageNotFound />} />
       </Routes>
     </div>
   )

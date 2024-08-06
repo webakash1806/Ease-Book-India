@@ -4,10 +4,20 @@ import { getBookingStatsData, getStatsData } from '../../Redux/Slices/StatsSlice
 import { FiUsers } from "react-icons/fi";
 import { IoCarSportOutline } from "react-icons/io5";
 import { FaHotel } from "react-icons/fa6";
-import { GiBinoculars } from "react-icons/gi";
-import { GiSunPriest } from "react-icons/gi";
+import { GiBinoculars, GiSunPriest } from "react-icons/gi";
 import { MdOutlineDirectionsBoatFilled } from "react-icons/md";
 import HorizontalBar from './HorizontalBar'; // Adjust the path as needed
+
+// Utility function for formatting numbers
+const formatNumber = (num) => {
+    if (num >= 1_000_000) {
+        return (num / 1_000_000).toFixed(1) + 'M';
+    } else if (num >= 1_000) {
+        return (num / 1_000).toFixed(1) + 'K';
+    } else {
+        return num.toString();
+    }
+};
 
 const Statistics = () => {
     const dispatch = useDispatch();
@@ -35,9 +45,11 @@ const Statistics = () => {
         loadData();
     }, []);
 
+    // Data for the horizontal bar chart
     const labels = ['Customers', 'Drivers', 'Hotels', 'Guiders', 'Priests', 'Boaters'];
     const data = [totalUser, totalDriver, totalHotel, totalGuider, totalPriest, totalBoater];
     const colors = ['#00a5bb', '#e61e24', '#655CCE', '#00b753', '#ff5900', '#1206ff'];
+    const barWidths = [30, 13, 10, 12, 10, 15]; // 40% for Customers, and equal distribution for others
 
     const bookingLabels = ['Boat', 'Car', 'Hotels', 'Guider', 'Priest'];
     const bookingData = [totalBoatBook, totalCarBook, totalHotelBook, totalGuiderBook, totalPriestBook];
@@ -53,7 +65,7 @@ const Statistics = () => {
                             <FiUsers className='text-[#00a5bb] text-[1.25rem]' />
                         </div>
                         <div className='mb-[7px]'>
-                            <p className='font-semibold text-[1.35rem] text-[#353535]'>{totalUser}</p>
+                            <p className='font-semibold text-[1.35rem] text-[#353535]'>{formatNumber(totalUser)}</p>
                             <p className='text-[0.82rem] font-semibold text-[#737373]'>Customers</p>
                         </div>
                     </div>
@@ -62,7 +74,7 @@ const Statistics = () => {
                             <IoCarSportOutline className='text-[#e61e24] text-[1.25rem]' />
                         </div>
                         <div className='mb-[7px]'>
-                            <p className='font-semibold text-[1.35rem] text-[#353535]'>{totalDriver}</p>
+                            <p className='font-semibold text-[1.35rem] text-[#353535]'>{formatNumber(totalDriver)}</p>
                             <p className='text-[0.82rem] font-semibold text-[#737373]'>Drivers</p>
                         </div>
                     </div>
@@ -71,7 +83,7 @@ const Statistics = () => {
                             <FaHotel className='text-[#5f54d5] text-[1.25rem]' />
                         </div>
                         <div className='mb-[7px]'>
-                            <p className='font-semibold text-[1.35rem] text-[#353535]'>{totalHotel}</p>
+                            <p className='font-semibold text-[1.35rem] text-[#353535]'>{formatNumber(totalHotel)}</p>
                             <p className='text-[0.82rem] font-semibold text-[#737373]'>Hotels</p>
                         </div>
                     </div>
@@ -80,7 +92,7 @@ const Statistics = () => {
                             <GiBinoculars className='text-[#00b753] text-[1.25rem]' />
                         </div>
                         <div className='mb-[7px]'>
-                            <p className='font-semibold text-[1.35rem] text-[#353535]'>{totalGuider}</p>
+                            <p className='font-semibold text-[1.35rem] text-[#353535]'>{formatNumber(totalGuider)}</p>
                             <p className='text-[0.82rem] font-semibold text-[#737373]'>Guiders</p>
                         </div>
                     </div>
@@ -89,7 +101,7 @@ const Statistics = () => {
                             <GiSunPriest className='text-[#ff5900] text-[1.25rem]' />
                         </div>
                         <div className='mb-[7px]'>
-                            <p className='font-semibold text-[1.35rem] text-[#353535]'>{totalPriest}</p>
+                            <p className='font-semibold text-[1.35rem] text-[#353535]'>{formatNumber(totalPriest)}</p>
                             <p className='text-[0.82rem] font-semibold text-[#737373]'>Priests</p>
                         </div>
                     </div>
@@ -98,12 +110,12 @@ const Statistics = () => {
                             <MdOutlineDirectionsBoatFilled className='text-[#1206ff] text-[1.25rem]' />
                         </div>
                         <div className='mb-[7px]'>
-                            <p className='font-semibold text-[1.35rem] text-[#353535]'>{totalBoater}</p>
+                            <p className='font-semibold text-[1.35rem] text-[#353535]'>{formatNumber(totalBoater)}</p>
                             <p className='text-[0.82rem] font-semibold text-[#737373]'>Boaters</p>
                         </div>
                     </div>
                 </div>
-                <HorizontalBar labels={labels} data={data} colors={colors} />
+                <HorizontalBar labels={labels} data={data} colors={colors} barWidths={barWidths} />
             </div>
             <div className='p-4 bg-white w-full rounded-md shadow-[0px_0px_10px_-3px_#808080]'>
                 <h1 className='text-[1.2rem] mb-4 font-semibold text-[#5F54D5]'>Booking Statistics</h1>
@@ -113,7 +125,7 @@ const Statistics = () => {
                             <MdOutlineDirectionsBoatFilled className='text-[#1206ff] text-[1.25rem]' />
                         </div>
                         <div className='mb-[7px]'>
-                            <p className='font-semibold text-[1.35rem] text-[#353535]'>{totalBoatBook}</p>
+                            <p className='font-semibold text-[1.35rem] text-[#353535]'>{formatNumber(totalBoatBook)}</p>
                             <p className='text-[0.82rem] font-semibold text-[#737373]'>Boat</p>
                         </div>
                     </div>
@@ -122,7 +134,7 @@ const Statistics = () => {
                             <IoCarSportOutline className='text-[#e61e24] text-[1.25rem]' />
                         </div>
                         <div className='mb-[7px]'>
-                            <p className='font-semibold text-[1.35rem] text-[#353535]'>{totalCarBook}</p>
+                            <p className='font-semibold text-[1.35rem] text-[#353535]'>{formatNumber(totalCarBook)}</p>
                             <p className='text-[0.82rem] font-semibold text-[#737373]'>Car</p>
                         </div>
                     </div>
@@ -131,8 +143,8 @@ const Statistics = () => {
                             <FaHotel className='text-[#5f54d5] text-[1.25rem]' />
                         </div>
                         <div className='mb-[7px]'>
-                            <p className='font-semibold text-[1.35rem] text-[#353535]'>{totalHotelBook}</p>
-                            <p className='text-[0.82rem] font-semibold text-[#737373]'>Hotel</p>
+                            <p className='font-semibold text-[1.35rem] text-[#353535]'>{formatNumber(totalHotelBook)}</p>
+                            <p className='text-[0.82rem] font-semibold text-[#737373]'>Hotels</p>
                         </div>
                     </div>
                     <div className='flex items-center gap-4 w-fit'>
@@ -140,8 +152,8 @@ const Statistics = () => {
                             <GiBinoculars className='text-[#00b753] text-[1.25rem]' />
                         </div>
                         <div className='mb-[7px]'>
-                            <p className='font-semibold text-[1.35rem] text-[#353535]'>{totalGuiderBook}</p>
-                            <p className='text-[0.82rem] font-semibold text-[#737373]'>Guider</p>
+                            <p className='font-semibold text-[1.35rem] text-[#353535]'>{formatNumber(totalGuiderBook)}</p>
+                            <p className='text-[0.82rem] font-semibold text-[#737373]'>Guiders</p>
                         </div>
                     </div>
                     <div className='flex items-center gap-4 w-fit'>
@@ -149,8 +161,8 @@ const Statistics = () => {
                             <GiSunPriest className='text-[#ff5900] text-[1.25rem]' />
                         </div>
                         <div className='mb-[7px]'>
-                            <p className='font-semibold text-[1.35rem] text-[#353535]'>{totalPriestBook}</p>
-                            <p className='text-[0.82rem] font-semibold text-[#737373]'>Priest</p>
+                            <p className='font-semibold text-[1.35rem] text-[#353535]'>{formatNumber(totalPriestBook)}</p>
+                            <p className='text-[0.82rem] font-semibold text-[#737373]'>Priests</p>
                         </div>
                     </div>
                 </div>
