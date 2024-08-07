@@ -18,6 +18,8 @@ import { isLoggedIn } from "../middlewares/auth.middleware.js";
 import { loginAuth } from "../middlewares/login.middleware.js";
 import upload from '../middlewares/multer.middleware.js'
 import { finishGuideUpdate, getGuiderOrderData, getGuiderPlaceOrder, startUpdate } from "../controllers/bookings/guiderOrder.controller.js";
+import { fetchGuiderPayments } from "../controllers/payment.controller.js";
+import { guiderStats } from "../controllers/misc.controller.js";
 
 // Creating an instance of the Express Router
 const router = Router()
@@ -53,6 +55,10 @@ router.get('/get-order/:id', isLoggedIn, getGuiderPlaceOrder)
 router.put('/update-guide-start', isLoggedIn, startUpdate)
 
 router.get('/book-detail/:id', isLoggedIn, getGuiderOrderData)
+
+router.get('/revenue', fetchGuiderPayments)
+
+router.get('/stats/:id', guiderStats)
 
 
 // Exporting the router instance to be used in the main application

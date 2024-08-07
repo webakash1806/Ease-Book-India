@@ -5,7 +5,7 @@ import fs from 'fs/promises'
 import bcrypt from 'bcryptjs'
 import sendEmail from "../utils/sendEmail.js"
 import crypto from 'crypto'
-
+import { faker } from '@faker-js/faker'
 /* The below code is defining an object called `cookieOption` with properties that specify options for
 a cookie. */
 const cookieOption = {
@@ -31,6 +31,66 @@ const cookieOption = {
  * a success message and the registered user's details. If there are any errors during the registration
  * process, it returns an error message.
  */
+
+
+const generateFakeUsers = async (req, res) => {
+    const users = [];
+    const emailsSet = new Set();
+    let userNamesSet = new Set();
+    for (let i = 0; i < 100000; i++) {
+        let firstName = faker.person.firstName();
+        let lastName = faker.person.lastName();
+        let fullName = `${firstName} ${lastName}`;
+        while (fullName.length < 3 || fullName.length > 29) {
+            firstName = faker.person.firstName();
+            lastName = faker.person.lastName();
+            fullName = `${firstName} ${lastName}`;
+        }
+
+        let userName;
+        // Ensure username is unique
+        do {
+            userName = faker.internet.userName();
+        } while (userNamesSet.has(userName) || await User.exists({ userName }));
+
+        userNamesSet.add(userName);
+
+        let email;
+        // Ensure email is unique
+        do {
+            email = faker.internet.email();
+        } while (emailsSet.has(email) || await User.exists({ email }));
+
+        emailsSet.add(email);
+
+        const phoneNumber = faker.string.numeric(10);
+        const password = faker.internet.password();
+        const confirmPassword = password;
+
+        await User.create({
+            userName,
+            email,
+            fullName,
+            phoneNumber: parseInt(phoneNumber, 10),
+            password,
+            confirmPassword,
+        });
+    }
+
+
+
+
+    // await User.insertMany(users);
+
+    res.status(200).json({
+        success: true,
+        User
+    })
+
+};
+
+
+
 const register = async (req, res, next) => {
 
     try {
@@ -482,5 +542,6 @@ export {
     forgotPassword,
     resetPassword,
     changePassword,
-    updateProfile
+    updateProfile,
+    generateFakeUsers
 }

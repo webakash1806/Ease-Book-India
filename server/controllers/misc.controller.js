@@ -54,7 +54,241 @@ const bookingStats = async (req, res, next) => {
     }
 }
 
+const boatStats = async (req, res, next) => {
+    try {
+        const { id } = req.params
+
+        // Fetch all boat bookings
+        const allBoatBookings = await BoatBookings.find({ boatId: id });
+        const totalBoatBook = await BoatBookings.countDocuments({ boatId: id })
+
+        // Initialize an empty object to hold monthly stats
+        const monthlyStats = {};
+
+        // Process each booking
+        allBoatBookings.forEach(booking => {
+            const date = new Date(booking.createdAt); // Replace 'date' with your actual date field
+            const month = date.toLocaleString('default', { month: 'long' });
+            const year = date.getFullYear();
+            const key = `${month}-${year}`;
+
+            if (!monthlyStats[key]) {
+                monthlyStats[key] = 0;
+            }
+
+            monthlyStats[key]++;
+        });
+
+        // Convert the monthlyStats object to an array of objects
+        const formattedStats = Object.keys(monthlyStats).map(key => {
+            const [month, year] = key.split('-');
+            return {
+                month,
+                year,
+                count: monthlyStats[key]
+            };
+        });
+
+        res.status(200).json({
+            success: true,
+            monthlyBoatBookings: formattedStats,
+            totalBoatBook
+        });
+    } catch (e) {
+        return next(new AppError(e.message, 500));
+    }
+}
+
+const hotelStats = async (req, res, next) => {
+    try {
+        const { id } = req.params
+
+        // Fetch all boat bookings
+        const allHotelBookings = await HotelBookings.find({ hotelId: id });
+        const totalHotelBook = await HotelBookings.countDocuments({ hotelId: id })
+
+
+        // Initialize an empty object to hold monthly stats
+        const monthlyStats = {};
+
+        // Process each booking
+        allHotelBookings.forEach(booking => {
+            const date = new Date(booking.createdAt); // Replace 'date' with your actual date field
+            const month = date.toLocaleString('default', { month: 'long' });
+            const year = date.getFullYear();
+            const key = `${month}-${year}`;
+
+            if (!monthlyStats[key]) {
+                monthlyStats[key] = 0;
+            }
+
+            monthlyStats[key]++;
+        });
+
+        // Convert the monthlyStats object to an array of objects
+        const formattedStats = Object.keys(monthlyStats).map(key => {
+            const [month, year] = key.split('-');
+            return {
+                month,
+                year,
+                count: monthlyStats[key]
+            };
+        });
+
+        res.status(200).json({
+            success: true,
+            monthlyHotelBookings: formattedStats,
+            totalHotelBook
+        });
+    } catch (e) {
+        return next(new AppError(e.message, 500));
+    }
+}
+
+const priestStats = async (req, res, next) => {
+    try {
+        const { id } = req.params
+
+        // Fetch all boat bookings
+        const allPriestBookings = await PriestBookings.find({ priestId: id });
+        const totalPriestBook = await PriestBookings.countDocuments({ priestId: id })
+
+
+        // Initialize an empty object to hold monthly stats
+        const monthlyStats = {};
+
+        // Process each booking
+        allPriestBookings.forEach(booking => {
+            const date = new Date(booking.createdAt); // Replace 'date' with your actual date field
+            const month = date.toLocaleString('default', { month: 'long' });
+            const year = date.getFullYear();
+            const key = `${month}-${year}`;
+
+            if (!monthlyStats[key]) {
+                monthlyStats[key] = 0;
+            }
+
+            monthlyStats[key]++;
+        });
+
+        // Convert the monthlyStats object to an array of objects
+        const formattedStats = Object.keys(monthlyStats).map(key => {
+            const [month, year] = key.split('-');
+            return {
+                month,
+                year,
+                count: monthlyStats[key]
+            };
+        });
+
+        res.status(200).json({
+            success: true,
+            monthlyHotelBookings: formattedStats,
+            totalPriestBook
+        });
+    } catch (e) {
+        return next(new AppError(e.message, 500));
+    }
+}
+
+const carStats = async (req, res, next) => {
+    try {
+        const { id } = req.params
+        // Fetch all boat bookings
+        const allCarBookings = await CarBookings.find({ driverId: id });
+        const totalCarBook = await CarBookings.countDocuments({ driverId: id })
+
+
+        // Initialize an empty object to hold monthly stats
+        const monthlyStats = {};
+
+        // Process each booking
+        allCarBookings.forEach(booking => {
+            const date = new Date(booking.createdAt); // Replace 'date' with your actual date field
+            const month = date.toLocaleString('default', { month: 'long' });
+            const year = date.getFullYear();
+            const key = `${month}-${year}`;
+
+            if (!monthlyStats[key]) {
+                monthlyStats[key] = 0;
+            }
+
+            monthlyStats[key]++;
+        });
+
+        // Convert the monthlyStats object to an array of objects
+        const formattedStats = Object.keys(monthlyStats).map(key => {
+            const [month, year] = key.split('-');
+            return {
+                month,
+                year,
+                count: monthlyStats[key]
+            };
+        });
+
+        res.status(200).json({
+            success: true,
+            monthlyCarBookings: formattedStats,
+            totalCarBook
+        });
+    } catch (e) {
+        return next(new AppError(e.message, 500));
+    }
+}
+
+const guiderStats = async (req, res, next) => {
+    try {
+        const { id } = req.params
+
+        // Fetch all boat bookings
+        const allGuiderBookings = await GuiderBookings.find({ guiderId: id });
+        const totalGuiderBook = await GuiderBookings.countDocuments({ guiderId: id })
+
+
+        // Initialize an empty object to hold monthly stats
+        const monthlyStats = {};
+
+        // Process each booking
+        allGuiderBookings.forEach(booking => {
+            const date = new Date(booking.createdAt); // Replace 'date' with your actual date field
+            const month = date.toLocaleString('default', { month: 'long' });
+            const year = date.getFullYear();
+            const key = `${month}-${year}`;
+
+            if (!monthlyStats[key]) {
+                monthlyStats[key] = 0;
+            }
+
+            monthlyStats[key]++;
+        });
+
+        // Convert the monthlyStats object to an array of objects
+        const formattedStats = Object.keys(monthlyStats).map(key => {
+            const [month, year] = key.split('-');
+            return {
+                month,
+                year,
+                count: monthlyStats[key]
+            };
+        });
+
+        res.status(200).json({
+            success: true,
+            monthlyGuiderBookings: formattedStats,
+            totalGuiderBook
+        });
+    } catch (e) {
+        return next(new AppError(e.message, 500));
+    }
+}
+
+
 export {
     userStats,
-    bookingStats
+    bookingStats,
+    boatStats,
+    hotelStats,
+    priestStats,
+    carStats,
+    guiderStats
 }

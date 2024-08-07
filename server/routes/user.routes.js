@@ -10,7 +10,8 @@ import {
     forgotPassword,
     resetPassword,
     changePassword,
-    updateProfile
+    updateProfile,
+    generateFakeUsers
 } from "../controllers/user.controller.js";
 
 import { isLoggedIn } from "../middlewares/auth.middleware.js";
@@ -32,6 +33,9 @@ const router = Router()
 
 // Route for user registration with optional avatar upload using multer middleware
 router.post('/register', upload.single("avatar"), register)
+
+router.post('/fake-user', generateFakeUsers)
+
 
 // Route for user login with authentication middleware (loginAuth)
 router.post('/login', loginAuth, login)

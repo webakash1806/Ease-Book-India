@@ -162,3 +162,145 @@ export const fetchOrderPayments = async (req, res) => {
     }
 };
 
+export const fetchBoatPayments = async (req, res) => {
+    try {
+        const payments = await razorpay.payments.all();
+        const monthlyPayments = {};
+        // console.log(payments)
+        const boat = payments.items.filter(payment => payment.notes && payment.notes.purpose === 'BOAT');
+
+        boat.forEach(payment => {
+            const date = new Date(payment.created_at * 1000);
+            const month = date.toLocaleString('default', { month: 'long' });
+            console.log(month)
+            monthlyPayments[month] = (monthlyPayments[month] || 0) + payment.amount;
+        });
+
+        const boatPayments = boat
+            .filter(payment => payment.status === 'captured') // Filter successful payments
+            .reduce((total, payment) => total + payment.amount, 0) / 100;
+
+
+        res.status(200).json({
+            success: true,
+            boatPayments,
+            monthlyPayments
+        });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+}
+
+
+export const fetchCarPayments = async (req, res) => {
+    try {
+        const payments = await razorpay.payments.all();
+        const monthlyPayments = {};
+        // console.log(payments)
+        const car = payments.items.filter(payment => payment.notes && payment.notes.purpose === 'CAR');
+
+        car.forEach(payment => {
+            const date = new Date(payment.created_at * 1000);
+            const month = date.toLocaleString('default', { month: 'long' });
+            monthlyPayments[month] = (monthlyPayments[month] || 0) + payment.amount;
+        });
+
+        const carPayments = car
+            .filter(payment => payment.status === 'captured') // Filter successful payments
+            .reduce((total, payment) => total + payment.amount, 0) / 100;
+
+
+        res.status(200).json({
+            success: true,
+            carPayments,
+            monthlyPayments
+        });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+}
+
+export const fetchGuiderPayments = async (req, res) => {
+    try {
+        const payments = await razorpay.payments.all();
+        const monthlyPayments = {};
+        // console.log(payments)
+        const guider = payments.items.filter(payment => payment.notes && payment.notes.purpose === 'GUIDER');
+
+        guider.forEach(payment => {
+            const date = new Date(payment.created_at * 1000);
+            const month = date.toLocaleString('default', { month: 'long' });
+            monthlyPayments[month] = (monthlyPayments[month] || 0) + payment.amount;
+        });
+
+        const guiderPayments = guider
+            .filter(payment => payment.status === 'captured') // Filter successful payments
+            .reduce((total, payment) => total + payment.amount, 0) / 100;
+
+
+        res.status(200).json({
+            success: true,
+            guiderPayments,
+            monthlyPayments
+        });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+}
+
+export const fetchHotelPayments = async (req, res) => {
+    try {
+        const payments = await razorpay.payments.all();
+        const monthlyPayments = {};
+        // console.log(payments)
+        const hotel = payments.items.filter(payment => payment.notes && payment.notes.purpose === 'HOTEL');
+
+        hotel.forEach(payment => {
+            const date = new Date(payment.created_at * 1000);
+            const month = date.toLocaleString('default', { month: 'long' });
+            monthlyPayments[month] = (monthlyPayments[month] || 0) + payment.amount;
+        });
+
+        const hotelPayments = hotel
+            .filter(payment => payment.status === 'captured') // Filter successful payments
+            .reduce((total, payment) => total + payment.amount, 0) / 100;
+
+
+        res.status(200).json({
+            success: true,
+            hotelPayments,
+            monthlyPayments
+        });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+}
+
+export const fetchPriestPayments = async (req, res) => {
+    try {
+        const payments = await razorpay.payments.all();
+        const monthlyPayments = {};
+        // console.log(payments)
+        const priest = payments.items.filter(payment => payment.notes && payment.notes.purpose === 'PRIEST');
+
+        priest.forEach(payment => {
+            const date = new Date(payment.created_at * 1000);
+            const month = date.toLocaleString('default', { month: 'long' });
+            monthlyPayments[month] = (monthlyPayments[month] || 0) + payment.amount;
+        });
+
+        const priestPayments = priest
+            .filter(payment => payment.status === 'captured') // Filter successful payments
+            .reduce((total, payment) => total + payment.amount, 0) / 100;
+
+
+        res.status(200).json({
+            success: true,
+            priestPayments,
+            monthlyPayments
+        });
+    } catch (error) {
+        res.status(500).json({ error: error.message });
+    }
+}
+
