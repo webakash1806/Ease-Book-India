@@ -4,6 +4,8 @@ import Pending from '../Components/Approval/Pending'
 import Rejected from '../Components/Approval/Rejected'
 import Accepted from '../Components/Approval/Accepted'
 import UpdateServices from '../Components/UpdateServices'
+import MonthlyRevenueChart from '../Components/MonthlyRevenueChart'
+import MonthlyBookingsChart from '../Components/MonthlyBookingsChart'
 
 const Home = () => {
 
@@ -18,7 +20,11 @@ const Home = () => {
                     <Rejected />}
 
                 {approval === 'ACCEPTED' &&
-                    <div>
+                    <div className='w-full'>
+                        <div className='flex flex-col md:gap-4 lg:gap-6 md:flex-row'>
+                            <MonthlyRevenueChart />
+                            <MonthlyBookingsChart />
+                        </div>
                         <Accepted />
                         <UpdateServices />
                     </div>

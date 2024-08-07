@@ -6,7 +6,11 @@ import axiosInstance from '../../Helper/axiosInstance'
 const initialState = {
     isLoggedIn: localStorage.getItem('isLoggedIn') || false,
     role: localStorage.getItem('role') || "",
-    data: localStorage.getItem('data') !== "undefined" ? JSON.parse(localStorage.getItem('data')) : {}
+    data: localStorage.getItem('data') !== "undefined" ? JSON.parse(localStorage.getItem('data')) : {},
+    monthlyRevenue: {},
+    totalRevenue: 0,
+    monthlyBooking: {},
+    totalBooking: 0,
 }
 
 export const createAccount = createAsyncThunk('/cars/register', async (data) => {
@@ -165,6 +169,42 @@ export const updateServices = createAsyncThunk('/cars/update-services', async (d
     }
 })
 
+export const getTotalMonthlyRevenue = createAsyncThunk('/admin/stats/payment-monthly', async () => {
+    try {
+        const response = axiosInstance.get('/revenue')
+        toast.promise(response, {
+            loading: "Getting the stats",
+            success: (data) => {
+                return data?.data?.message
+            },
+            error: "Failed to load data"
+        })
+
+        return (await response).data
+    } catch (e) {
+        toast.error(e?.response?.data?.messages)
+    }
+})
+
+export const getTotalMonthlyBooking = createAsyncThunk('/admin/stats/booking-monthly', async (data) => {
+    try {
+        console.log(data)
+        const response = axiosInstance.get(`stats/${data}`)
+        toast.promise(response, {
+            loading: "Getting the stats",
+            success: (data) => {
+                return data?.data?.message
+            },
+            error: "Failed to load data"
+        })
+
+        return (await response).data
+    } catch (e) {
+        toast.error(e?.response?.data?.messages)
+    }
+})
+
+
 const authSlice = createSlice({
     name: 'auth',
     initialState,
@@ -197,6 +237,12 @@ const authSlice = createSlice({
             state.isLoggedIn = true
             state.data = action?.payload?.cars
             state.role = action?.payload?.cars?.role
+        }).addCase(getTotalMonthlyRevenue.fulfilled, (state, action) => {
+            state.monthlyRevenue = action?.payload?.monthlyPayments
+            state.totalRevenue = action?.payload?.allPayments
+        }).addCase(getTotalMonthlyBooking.fulfilled, (state, action) => {
+            state.monthlyBooking = action?.payload?.monthlyCarBookings
+            state.totalBooking = action?.payload?.totalCarBook
         })
     }
 })
