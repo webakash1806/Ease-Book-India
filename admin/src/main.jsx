@@ -13,7 +13,7 @@ ReactDOM.createRoot(document.getElementById('root')).render(
     <BrowserRouter>
       <App />
       <div className='relative z-[1556059550555]'>
-        <ToastContainer />
+        <ToastContainer position='bottom-right' />
       </div>
     </BrowserRouter>
   </Provider>

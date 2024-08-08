@@ -4,84 +4,68 @@ import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
 import HomeLayout from '../../Layouts/HomeLayouts';
 import { useDispatch, useSelector } from 'react-redux';
-import { getDriverList, getGuiderList, getPriestList, updateDriverStatus, updateGuiderStatus, updatePriestStatus } from '../../Redux/Slices/ListSlice';
+import { getGuiderList, getHotelList, updateGuiderStatus, updateHotelStatus } from '../../Redux/Slices/ListSlice';
 import { FaEye } from 'react-icons/fa';
-import { toast } from 'react-toastify';
-import { GrFormNext, GrFormPrevious } from "react-icons/gr";
+import { GrFormNext, GrFormPrevious } from 'react-icons/gr';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 const GuiderList = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const list = useSelector((state) => state?.list?.guiderList);
-    const [statusUpdated, setStatusUpdated] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
     const [statusFilter, setStatusFilter] = useState('');
-    const [filteredDrivers, setFilteredDrivers] = useState([]);
-
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage, setItemsPerPage] = useState(10);
     const [loading, setLoading] = useState(false);
+    const [totalPages, setTotalPages] = useState(1);
 
-    const loadData = async () => {
+    const loadData = async (page = 1) => {
         setLoading(true);
         try {
-            await dispatch(getGuiderList()).unwrap();
+            const params = {
+                page,
+                limit: itemsPerPage,
+                searchQuery,
+                statusFilter
+            };
+            const response = await dispatch(getGuiderList(params)).unwrap();
+            setTotalPages(response.totalPages);
         } catch (error) {
-            toast.error("No internet connection. Please try again.");
-        } finally {
-            setLoading(false);
+            console.error(error);
         }
+        setLoading(false);
     };
 
     useEffect(() => {
-        loadData();
-    }, []);
-
-    useEffect(() => {
-        if (statusUpdated) {
-            loadData();
-            setStatusUpdated(false);
-        }
-    }, [statusUpdated]);
-
-    const handleStatusChange = async (id, status) => {
-        const res = await dispatch(updateGuiderStatus({ id, status }))
-            .unwrap()
-            .then(() => {
-                setStatusUpdated(true);
-                return toast.success("Status updated!");
-            });
-
-        console.log(res);
-    };
+        loadData(currentPage);
+    }, [currentPage, itemsPerPage, searchQuery, statusFilter]);
 
     const handleSearch = useCallback(
         debounce((query, status) => {
-            if (list) {
-                const filtered = list.slice().reverse().filter(driver => {
-                    const matchesName = driver?.fullName.toLowerCase().includes(query.toLowerCase());
-                    const matchesStatus = status ? driver?.status === status : true;
-                    return matchesName && matchesStatus;
-                });
-                setFilteredDrivers(filtered);
-                setCurrentPage(1);
-            }
-        }, 300),
-        [list]
+            setSearchQuery(query);
+            setStatusFilter(status);
+            setCurrentPage(1);
+        }, 10),
+        []
     );
-
-    useEffect(() => {
-        handleSearch(searchQuery, statusFilter);
-    }, [searchQuery, statusFilter, handleSearch]);
 
     const handleItemsPerPageChange = (e) => {
         setItemsPerPage(Number(e.target.value));
         setCurrentPage(1);
     };
 
-    const currentDrivers = filteredDrivers.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
-    const totalPages = Math.ceil(filteredDrivers.length / itemsPerPage);
+
+    const handleStatusChange = async (id, status) => {
+        try {
+            await dispatch(updateGuiderStatus({ id, status })).unwrap();
+            toast.success('Status updated!');
+            loadData(currentPage); // Reload data after status update
+        } catch (error) {
+            toast.error('Failed to update status');
+        }
+    };
 
     return (
         <HomeLayout>
@@ -90,7 +74,7 @@ const GuiderList = () => {
                     type="text"
                     placeholder="Search by name..."
                     value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
+                    onChange={(e) => handleSearch(e.target.value, statusFilter)}
                     className="bg-white shadow-[0px_0px_15px_#95959577_inset] outline-none text-black rounded p-2 lg:w-[20rem] w-full"
                 />
                 <div className='flex items-center justify-between w-full lg:w-fit lg:gap-2 xl:gap-10'>
@@ -98,7 +82,7 @@ const GuiderList = () => {
                         <label htmlFor="" className='text-black text-[1.1rem] mr-2'>Status:</label>
                         <select
                             value={statusFilter}
-                            onChange={(e) => setStatusFilter(e.target.value)}
+                            onChange={(e) => handleSearch(searchQuery, e.target.value)}
                             className="bg-[#fff] shadow-[0px_0px_15px_#95959577_inset] outline-none text-black rounded p-2 sm:w-[9rem] w-[5.6rem]"
 
                         >
@@ -156,7 +140,7 @@ const GuiderList = () => {
                             </div>
                         ))
                     ) : (
-                        currentDrivers.map((data, index) => (
+                        list?.map((data, index) => (
                             <div key={data?._id} className='relative flex items-center justify-between w-full gap-3 px-3 py-3 text-black bg-white'>
                                 <p className='min-w-[3rem] text-center'>{(currentPage - 1) * itemsPerPage + index + 1}.</p>
                                 <div className='min-w-[14.5rem] lg:min-w-[17rem] line-clamp-1'>
@@ -217,8 +201,8 @@ const GuiderList = () => {
                 <span className='font-semibold '>Page {currentPage} of {totalPages}</span>
                 <button
                     className='flex items-center justify-center bg-[#7367F0] p-3'
-
-                    onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))} disabled={currentPage === totalPages}>
+                    onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+                    disabled={currentPage === totalPages}>
                     Next <GrFormNext className='text-[1.4rem] mt-1' />
                 </button>
             </div>

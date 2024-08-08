@@ -96,14 +96,10 @@ export const editProfile = createAsyncThunk('admin/update-profile', async (data)
 export const changePassword = createAsyncThunk('admin/update-password', async (data) => {
     try {
         let res = axiosInstance.post(`change-password`, data)
-        toast.promise(res, {
-            loading: "Changing Password!",
-            success: (data) => {
-                return data?.data.message
-            },
-            error: "Failed to change password!"
-        })
+
         res = await res;
+        toast.success(res?.data.message)
+
         return res.data;
     } catch (e) {
         return toast.error(e?.response?.data?.message)

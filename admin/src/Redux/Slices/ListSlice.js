@@ -27,9 +27,10 @@ const initialState = {
     singleHotelData: localStorage.getItem('singleHotelData') !== "undefined" ? JSON.parse(localStorage.getItem('singleHotelData')) : {},
 }
 
-export const getDriverList = createAsyncThunk('/admin/car/list', async () => {
+export const getDriverList = createAsyncThunk('/admin/car/list', async (data) => {
     try {
-        let res = axiosInstance.get('/car/list')
+        const params = new URLSearchParams(data).toString();
+        let res = axiosInstance.get(`/car/list?${params}`);
         toast.promise(res, {
             loading: 'Loading data',
             success: (data) => {
@@ -84,22 +85,25 @@ export const getDriverDetail = createAsyncThunk('/admin/car/detail', async (data
 
 })
 
-export const getUsersList = createAsyncThunk('/admin/user/list', async () => {
+export const getUsersList = createAsyncThunk('/admin/user/list', async (data) => {
     try {
-        let res = axiosInstance.get('/user/list')
+        const params = new URLSearchParams(data).toString();
+        let res = axiosInstance.get(`/user/list?${params}`);
+
         toast.promise(res, {
             loading: 'Loading data',
             success: (data) => {
-                return data?.data.message
+                return data?.data.message;
             },
-            error: "failed to load"
-        })
-        res = await res
-        return res.data
+            error: "Failed to load"
+        });
+
+        res = await res;
+        return res.data;
     } catch (e) {
-        return toast.error(e?.response?.data?.message)
+        return toast.error(e?.response?.data?.message);
     }
-})
+});
 
 export const getCarBookings = createAsyncThunk('/admin/car/booking', async () => {
     try {
@@ -136,9 +140,10 @@ export const getCarOrderDetail = createAsyncThunk('/admin/car-book/:id', async (
     }
 })
 
-export const getBoatmanList = createAsyncThunk('/admin/boat/list', async () => {
+export const getBoatmanList = createAsyncThunk('/admin/boat/list', async (data) => {
     try {
-        let res = axiosInstance.get('/boat/list')
+        const params = new URLSearchParams(data).toString();
+        let res = axiosInstance.get(`/boat/list?${params}`);
         toast.promise(res, {
             loading: 'Loading data',
             success: (data) => {
@@ -228,9 +233,10 @@ export const getBoatOrderDetail = createAsyncThunk('/admin/boat-book/:id', async
     }
 })
 
-export const getPriestList = createAsyncThunk('/admin/priest/list', async () => {
+export const getPriestList = createAsyncThunk('/admin/priest/list', async (data) => {
     try {
-        let res = axiosInstance.get('/priest/list')
+        const params = new URLSearchParams(data).toString();
+        let res = axiosInstance.get(`/priest/list?${params}`);
         toast.promise(res, {
             loading: 'Loading data',
             success: (data) => {
@@ -319,9 +325,10 @@ export const getPriestOrderDetail = createAsyncThunk('/admin/priest-book/:id', a
     }
 })
 
-export const getGuiderList = createAsyncThunk('/admin/guider/list', async () => {
+export const getGuiderList = createAsyncThunk('/admin/guider/list', async (data) => {
     try {
-        let res = axiosInstance.get('/guider/list')
+        const params = new URLSearchParams(data).toString();
+        let res = axiosInstance.get(`/guider/list?${params}`);
         toast.promise(res, {
             loading: 'Loading data',
             success: (data) => {
@@ -410,9 +417,10 @@ export const getGuiderOrderDetail = createAsyncThunk('/admin/guider-book/:id', a
     }
 })
 
-export const getHotelList = createAsyncThunk('/admin/hotel/list', async () => {
+export const getHotelList = createAsyncThunk('/admin/hotel/list', async (data) => {
     try {
-        let res = axiosInstance.get('/hotel/list')
+        const params = new URLSearchParams(data).toString();
+        let res = axiosInstance.get(`/hotel/list?${params}`);
         toast.promise(res, {
             loading: 'Loading data',
             success: (data) => {

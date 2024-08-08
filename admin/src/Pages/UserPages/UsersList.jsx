@@ -4,9 +4,8 @@ import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
 import HomeLayout from '../../Layouts/HomeLayouts';
 import { useDispatch, useSelector } from 'react-redux';
-import { getDriverList, getUsersList, updateDriverStatus } from '../../Redux/Slices/ListSlice';
+import { getUsersList } from '../../Redux/Slices/ListSlice';
 import { FaEye } from 'react-icons/fa';
-import { toast } from 'react-toastify';
 import { GrFormNext, GrFormPrevious } from "react-icons/gr";
 import { useNavigate } from 'react-router-dom';
 
@@ -17,62 +16,52 @@ const UsersList = () => {
     const [statusUpdated, setStatusUpdated] = useState(false);
     const [searchQuery, setSearchQuery] = useState('');
     const [statusFilter, setStatusFilter] = useState('');
-    const [filteredDrivers, setFilteredDrivers] = useState([]);
-
     const [currentPage, setCurrentPage] = useState(1);
     const [itemsPerPage, setItemsPerPage] = useState(10);
     const [loading, setLoading] = useState(false);
+    const [totalPages, setTotalPages] = useState(1);
 
-    const loadData = async () => {
+    const loadData = async (page = 1) => {
         setLoading(true);
         try {
-            await dispatch(getUsersList()).unwrap();
+            const params = {
+                page,
+                limit: itemsPerPage,
+                searchQuery,
+                statusFilter
+            };
+            const response = await dispatch(getUsersList(params)).unwrap();
+            setTotalPages(response.totalPages);
         } catch (error) {
-            toast.error("No internet connection. Please try again.");
-        } finally {
-            setLoading(false);
+            console.error(error);
         }
+        setLoading(false);
     };
 
     useEffect(() => {
-        loadData();
-    }, []);
+        loadData(currentPage);
+    }, [currentPage, itemsPerPage, searchQuery, statusFilter]);
 
     useEffect(() => {
         if (statusUpdated) {
-            loadData();
+            loadData(currentPage);
             setStatusUpdated(false);
         }
     }, [statusUpdated]);
 
-
-
     const handleSearch = useCallback(
         debounce((query, status) => {
-            if (list) {
-                const filtered = list.slice().reverse().filter(driver => {
-                    const matchesName = driver?.fullName.toLowerCase().includes(query.toLowerCase());
-                    const matchesStatus = status ? driver?.status === status : true;
-                    return matchesName && matchesStatus;
-                });
-                setFilteredDrivers(filtered);
-                setCurrentPage(1);
-            }
-        }, 300),
-        [list]
+            setSearchQuery(query);
+            setStatusFilter(status);
+            setCurrentPage(1);
+        }, 10),
+        []
     );
-
-    useEffect(() => {
-        handleSearch(searchQuery, statusFilter);
-    }, [searchQuery, statusFilter, handleSearch]);
 
     const handleItemsPerPageChange = (e) => {
         setItemsPerPage(Number(e.target.value));
         setCurrentPage(1);
     };
-
-    const currentDrivers = filteredDrivers.slice((currentPage - 1) * itemsPerPage, currentPage * itemsPerPage);
-    const totalPages = Math.ceil(filteredDrivers.length / itemsPerPage);
 
     return (
         <HomeLayout>
@@ -81,19 +70,16 @@ const UsersList = () => {
                     type="text"
                     placeholder="Search by name..."
                     value={searchQuery}
-                    onChange={(e) => setSearchQuery(e.target.value)}
+                    onChange={(e) => handleSearch(e.target.value, statusFilter)}
                     className="bg-white shadow-[0px_0px_15px_#95959577_inset] outline-none text-black rounded p-2 lg:w-[20rem] w-full"
                 />
                 <div className='flex items-center justify-between w-full lg:w-fit lg:gap-2 xl:gap-10'>
-
                     <div>
                         <label htmlFor="" className='text-black text-[1.1rem] mr-2'>Show:</label>
-
                         <select
                             value={itemsPerPage}
                             onChange={handleItemsPerPageChange}
                             className="bg-white shadow-[0px_0px_15px_#95959577_inset] outline-none text-black rounded p-2 sm:w-[6rem] w-[4rem]"
-
                         >
                             <option value={10}>10</option>
                             <option value={50}>50</option>
@@ -134,7 +120,7 @@ const UsersList = () => {
                             </div>
                         ))
                     ) : (
-                        currentDrivers.map((data, index) => (
+                        list?.map((data, index) => (
                             <div key={data?._id} className='relative flex items-center justify-between w-full gap-3 px-3 py-3 text-black bg-white'>
                                 <p className='min-w-[3rem] text-center'>{(currentPage - 1) * itemsPerPage + index + 1}.</p>
                                 <div className='min-w-[13rem] lg:min-w-[15rem] line-clamp-1'>
@@ -163,8 +149,8 @@ const UsersList = () => {
                 <span className='font-semibold '>Page {currentPage} of {totalPages}</span>
                 <button
                     className='flex items-center justify-center bg-[#7367F0] p-3'
-
-                    onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))} disabled={currentPage === totalPages}>
+                    onClick={() => setCurrentPage(prev => Math.min(prev + 1, totalPages))}
+                    disabled={currentPage === totalPages}>
                     Next <GrFormNext className='text-[1.4rem] mt-1' />
                 </button>
             </div>

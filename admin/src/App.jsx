@@ -28,6 +28,7 @@ import HotelOrders from './Pages/HotelPages/HotelOrders'
 import HotelBookDetail from './Pages/HotelPages/HotelBookDetail'
 import DeniedPage from './Pages/Auth/DeniedPage'
 import PageNotFound from './Pages/Auth/404Page'
+import Profile from './Pages/Auth/Profile'
 
 const App = () => {
   return (
@@ -36,6 +37,7 @@ const App = () => {
         <Route path='/login' element={<Login />} />
         <Route element={<RequireAuth allowedRoles={['ADMIN']} />} >
           <Route path='/' element={<Home />} />
+          <Route path='/:fullName' element={<Profile />} />
           <Route path='/car-list' element={<CarsList />} />
           <Route path='/driver/:id' element={<CarDetail />} />
           <Route path='/boat/:id' element={<BoatDetail />} />

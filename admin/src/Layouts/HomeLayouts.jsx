@@ -8,6 +8,7 @@ import { logout } from '../Redux/Slices/AuthSlice';
 import { MdContentPaste, MdOutlineSettings, MdOutlineDashboard } from 'react-icons/md';
 import { RxHamburgerMenu } from "react-icons/rx";
 import { RiGalleryFill, RiUserLocationFill } from "react-icons/ri";
+import userImg from '../assets/user.png';
 import { GiSunPriest } from "react-icons/gi";
 import { PiUserList } from "react-icons/pi";
 import { FaSailboat, FaCircle, FaPersonCircleQuestion } from "react-icons/fa6";
@@ -59,17 +60,17 @@ const HomeLayout = ({ children }) => {
 
     return (
         <>
-            <div className='items-start h-[100vh] overflow-hidden md:flex md:flex-row-reverse'>
+            <div className='items-start h-[100vh] overflow-hidden md:flex md:flex-row-reverse bg-[#eaeaea]'>
                 <div className='p-3 md:w-full md:p-4 md:px-6 '>
-                    <header className='flex items-center justify-between backdrop-blur-3xl relative z-[1000] px-3 bg-[#ffffff2d] rounded-md p-2 md:w-full text-black shadow-[0px_0px_15px_#8080807e]'>
+                    <header className='flex items-center justify-between backdrop-blur-3xl relative z-[1000000] px-3 bg-[#ffffff] rounded-md p-2 md:w-full text-black shadow-[0px_0px_15px_#8080807e]'>
                         <div className='p-2 cursor-pointer md:hidden' onClick={() => setActive(true)}><RxHamburgerMenu className='text-[#535162fa] text-[1.5rem]' /></div>
                         <div className='hidden md:block'></div>
                         <p className=''>{time}</p>
-                        <Link to={'/me'} className='size-[2.6rem] rounded-full overflow-hidden pt-1 bg-[#b0aaf7fa] border-[0.15rem] border-[#8e85f3a3]'>
-                            <img src={avatar?.profilePicture || ''} className='w-[2.6rem]' alt="User Avatar" />
+                        <Link to={`/${fullName}`} className='size-[2.6rem] rounded-full overflow-hidden bg-[#b0aaf7fa] border-[0.13rem] border-[#8e85f3a3]'>
+                            <img src={avatar?.profilePicture || userImg} className='w-[2.6rem]' alt="User Avatar" />
                         </Link>
                     </header>
-                    <div className='h-[87vh] bg-[#F2F2F7] w-custom scrollbar scrollbar-none overflow-y-scroll'>
+                    <div className='h-[87vh] bg-[#eaeaea] w-custom scrollbar scrollbar-none overflow-y-scroll'>
                         {children}
                     </div>
                 </div>
