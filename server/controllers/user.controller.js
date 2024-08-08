@@ -469,7 +469,9 @@ const updateProfile = async (req, res, next) => {
     try {
         // Extracting full name and user ID from the request body and user
         const { fullName, phoneNumber } = req.body
-        const { id } = req.user
+        const { id } = req.params
+        console.log(id)
+        console.log(req.body.fullName)
 
         // Finding the user by ID
         const user = await User.findById(id)
@@ -488,10 +490,16 @@ const updateProfile = async (req, res, next) => {
             user.phoneNumber = await phoneNumber
         }
 
+        console.log(user.avatar)
+
+
         // Handling avatar upload using cloudinary if a file is present in the request
         if (req.file) {
             // Destroying the previous avatar in cloudinary
-            await cloudinary.v2.uploader.destroy(user.avatar.publicId)
+
+            if (user.avatar.publicId) {
+                await cloudinary.v2.uploader.destroy(user.avatar.publicId)
+            }
             try {
                 // Uploading the new avatar to cloudinary
                 const result = await cloudinary.v2.uploader.upload(req.file.path, {
@@ -503,6 +511,7 @@ const updateProfile = async (req, res, next) => {
                 })
                 // Updating user's avatar information
                 if (result) {
+                    console.log(result)
                     user.avatar.publicId = result.public_id
                     user.avatar.secure_url = result.secure_url
 
@@ -522,11 +531,12 @@ const updateProfile = async (req, res, next) => {
         // Sending success response to the client
         res.status(200).json({
             success: true,
-            message: 'User Detail updated successfully'
+            message: 'Updated!'
         })
     }
     catch (e) {
         // Handling any unexpected errors
+        console.log(e.message)
         return next(new AppError(e.message, 500))
     }
 
