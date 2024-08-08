@@ -3,18 +3,21 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { logout } from '../Redux/Slices/AuthSlice';
 import Footer from '../Components/Footer';
+import { FaArrowUp } from 'react-icons/fa'; // Import the scroll-to-top icon
+import { FaArrowUpRightDots } from 'react-icons/fa6';
+import { MdKeyboardArrowUp, MdKeyboardDoubleArrowUp } from 'react-icons/md';
+import userImg from '../assets/Images/user.png'
 
 const HomeLayout = ({ children }) => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const [orderDropdownOpen, setOrderDropdownOpen] = useState(false);
+    const [isScrollTopVisible, setIsScrollTopVisible] = useState(false); // State to control button visibility
 
     const isLoggedIn = useSelector((state) => state?.auth?.isLoggedIn);
     const avatar = useSelector((state) => state?.auth?.data?.avatar);
     const fullName = useSelector((state) => state?.auth?.data?.fullName);
     const userId = useSelector((state) => state?.auth?.data?._id);
-
-    console.log(userId)
 
     const handleLogout = async () => {
         const response = await dispatch(logout());
@@ -34,18 +37,34 @@ const HomeLayout = ({ children }) => {
         }
     };
 
+    const handleScroll = () => {
+        if (window.scrollY > 300) {
+            setIsScrollTopVisible(true);
+        } else {
+            setIsScrollTopVisible(false);
+        }
+    };
 
+    const scrollToTop = () => {
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth',
+        });
+    };
 
     useEffect(() => {
         document.addEventListener('click', handleClickOutside);
+        window.addEventListener('scroll', handleScroll); // Add scroll event listener
+
         return () => {
             document.removeEventListener('click', handleClickOutside);
+            window.removeEventListener('scroll', handleScroll); // Clean up scroll event listener
         };
     }, []);
 
     return (
         <>
-            <div>
+            <div className='font-semibold'>
                 <div className="drawer">
                     <input id="my-drawer-3" type="checkbox" className="drawer-toggle" />
                     <div className="flex flex-col drawer-content ">
@@ -93,21 +112,21 @@ const HomeLayout = ({ children }) => {
                                         {!isLoggedIn ?
                                             <div className='flex items-center justify-center gap-2 '>
                                                 <Link to='/login'
-                                                    className='btn bg-[#19b56f] transition-all duration-700 hover:bg-[#FF8900] border-none text-white btn-sm rounded-sm px-6 font-normal text-[1.02rem] tracking-wide'>
+                                                    className='btn from-[#1751fe] via-[#0074f9] hover:bg-gradient-to-bl bg-gradient-to-tr to-[#0199ff] transition-all duration-300 border-none text-white btn-sm rounded-sm px-6 font-normal text-[1.02rem] tracking-wide'>
                                                     Login
                                                 </Link>
                                                 <Link to='/register'
-                                                    className='btn bg-[#FF8900] transition-all duration-700 hover:bg-[#19b56f] border-none text-white btn-sm rounded-sm px-6 font-normal text-[1.02rem] tracking-wide'>
+                                                    className='btn bg-[#FF8900] transition-all duration-700 hover:bg-[#0074f9] border-none text-white btn-sm rounded-sm px-6 font-normal text-[1.02rem] tracking-wide'>
                                                     Register
                                                 </Link>
                                             </div>
                                             :
                                             <div className='flex items-center justify-center gap-4'>
-                                                <Link to='/me'>
-                                                    <img src={avatar?.secure_url} alt={`${fullName} img`} className='w-[2.1rem] h-[2.1rem] rounded-full object-cover shadow-[0px_0px_5px_#7479FF]' />
+                                                <Link to={`/${fullName}`}>
+                                                    <img src={(!avatar?.secure_url ? userImg : avatar?.secure_url)} alt={`${fullName} img`} className='size-[2.5rem] rounded-full object-cover shadow-[0px_0px_5px_#7479FF]' />
                                                 </Link>
                                                 <Link to='/logout' onClick={handleLogout}
-                                                    className='btn bg-[#FF8900] transition-all duration-700 hover:bg-[#19b56f] border-none text-white btn-sm rounded-sm px-6 font-normal text-[1.02rem] tracking-wide'>
+                                                    className='btn bg-[#FF8900] transition-all duration-700 hover:bg-[#0074f9] border-none text-white btn-sm rounded-sm px-6 font-normal text-[1.02rem] tracking-wide'>
                                                     Logout
                                                 </Link>
                                             </div>
@@ -167,11 +186,11 @@ const HomeLayout = ({ children }) => {
                                     </div>
                                     :
                                     <div className='flex flex-col gap-2'>
-                                        <Link to='/me' className='flex items-center justify-between p-2 gap-4 rounded-md w-[99%] cursor-pointer bg-[#19b56f] hover:bg-[#0d011c] duration-300'>
-                                            <img src={avatar?.secure_url} alt={`${fullName} img`} className='w-[2.3rem] h-[2.3rem] rounded-full object-cover shadow-[0px_0px_6px_#808080] ml-1' />
+                                        <Link to={`/${fullName}`} className='flex items-center justify-between p-2 gap-4 rounded-md w-[99%] cursor-pointer from-[#1751fe] via-[#0074f9] hover:bg-gradient-to-bl bg-gradient-to-tr to-[#0199ff]  duration-300'>
+                                            <img src={(!avatar?.secure_url ? userImg : avatar?.secure_url)} alt={`${fullName} img`} className='w-[2.3rem] bg-white h-[2.3rem] rounded-full   object-cover shadow-[0px_0px_18px_-6px_#fff] ml-1' />
                                             <p className='text-[0.95rem] w-[7.5rem] truncate text-white capitalize'>{fullName}</p>
                                         </Link>
-                                        <Link to='/logout' onClick={handleLogout} className='btn bg-[#FF8900] transition-all duration-700 hover:bg-[#19b56f] border-none text-white btn-sm rounded-sm w-[99%] font-normal text-[1.02rem] tracking-wide'>
+                                        <Link to='/logout' onClick={handleLogout} className='btn bg-[#FF8900] transition-all duration-700 hover:bg-[#0074f9] border-none text-white btn-sm rounded-sm w-[99%] font-normal text-[1.02rem] tracking-wide'>
                                             Logout
                                         </Link>
                                     </div>}
@@ -179,6 +198,14 @@ const HomeLayout = ({ children }) => {
                         </ul>
                     </div>
                 </div>
+                {/* Scroll to Top Button */}
+                {isScrollTopVisible && (
+                    <button
+                        onClick={scrollToTop}
+                        className="fixed z-[10000000000] bottom-4 right-4 p-3 from-[#1751fe] via-[#0074f9] bg-gradient-to-tr duration-300 to-[#0199ff] text-white rounded-full shadow-lg hover:bg-[#0d011c] transition-transform transform hover:scale-110">
+                        <MdKeyboardDoubleArrowUp size={24} />
+                    </button>
+                )}
                 <Footer />
             </div>
         </>

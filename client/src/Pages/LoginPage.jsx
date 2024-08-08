@@ -48,11 +48,12 @@ const LoginPage = () => {
     const inputStyle = ' min-w-[18rem] max-w-[20.5rem] w-[87vw] sm:w-[24rem] rounded-[3px] h-full  px-2 p-[7.5px]  outline-none  text-[0.95rem] tracking-wide resize-none bg-white text-black'
 
     return (
-        <div className='min-h-[90vh] min-w-full flex items-start justify-center bg-[#1EC28B]'>
+        <div className='min-h-[90vh] min-w-full flex items-start justify-center bg-gradient-to-r from-green-400 to-blue-500'>
+
             <div className='text-black flex items-center justify-center gap-4 mt-12 bg-[#d5f6ea] rounded-lg w-fit'>
                 {/* <div className='hidden md:block'>Left</div> */}
-                <form noValidate onSubmit={handleFormInput} className='p-4 py-8 flex flex-col items-start justify-center gap-2'>
-                    <div className=' mb-10 mt-3 w-full text-center'>
+                <form noValidate onSubmit={handleFormInput} className='flex flex-col items-start justify-center gap-2 p-4 py-8'>
+                    <div className='w-full mt-3 mb-10 text-center '>
                         <h1 className=' text-[1.5rem] font-semibold'>Hello Again!</h1>
                         {/* <div className='w-[5rem] h-[3.5px] bg-[#FF8900] rounded-full'></div> */}
                         <p className='mt-4 tracking-wide'>Welcome back <br />You&apos;ve been missed!</p>
@@ -76,12 +77,12 @@ const LoginPage = () => {
                         </div>
                     </div>
 
-                    <div className='w-full text-end my-1'>
+                    <div className='w-full my-1 text-end'>
                         <Link className='text-[#FF8900] text-[0.95rem] font-semibold'>Forgot your Password?</Link>
                     </div>
 
                     <button type='submit' className='w-full mt-3 bg-[#FF8900] rounded text-white p-[5px]'>Login</button>
-                    <div className='w-full text-center mt-2'>
+                    <div className='w-full mt-2 text-center'>
                         <p>Don&apos;t have an account? <Link to={"/register"} className='text-[#FF8900] font-semibold underline '>Sign up</Link></p>
                     </div>
                 </form>

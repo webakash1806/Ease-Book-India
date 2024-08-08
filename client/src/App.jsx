@@ -28,6 +28,10 @@ import HotelsWithRoom from './Pages/HotelsWithRoom'
 import BookHotel from './Pages/Orders/BookHotel'
 import PastHotelOrders from './Pages/Orders/PastHotelOrders'
 import HotelBookDetail from './Pages/Orders/HotelBookDetail'
+import RequireAuth from './Components/Auth/RequireAuth'
+import AboutPage from './Pages/AboutPage'
+import ContactPage from './Pages/ContactPage'
+import Profile from './Pages/Profile'
 
 const App = () => {
   // In your component
@@ -41,33 +45,41 @@ const App = () => {
   return (
     <HomeLayout>
       <Routes>
-        <Route path='/' element={<HomePage />} />
         <Route path='/register' element={<RegisterPage />} />
         <Route path='/login' element={<LoginPage />} />
-        <Route path='/places' element={<Places />} />
-        <Route path='/car' element={<Cars />} />
-        <Route path='/boat' element={<BoatPage />} />
-        <Route path='/hotels' element={<Hotel />} />
-        <Route path='/car-book/:id' element={<OrderCar />} />
-        <Route path='/hotel/:id' element={<HotelsWithRoom />} />
-        <Route path='/hotel-book/hotel/:id/room/:roomId' element={<BookHotel />} />
-        <Route path='/boat-book/:id' element={<BookBoat />} />
-        <Route path='/priest-book/:id' element={<BookPriest />} />
-        <Route path='/guider-book/:id' element={<BookGuider />} />
-        <Route path='/order/car-book/:id' element={<PastCarOrders />} />
-        <Route path='/order/boat-book/:id' element={<PastBoatOrders />} />
-        <Route path='/order/priest-book/:id' element={<PastPriestOrders />} />
-        <Route path='/order/guider-book/:id' element={<PastGuiderOrders />} />
-        <Route path='/order/hotel-book/:id' element={<PastHotelOrders />} />
-        <Route path='/car-book-detail/:id' element={<CarBookDetail />} />
-        <Route path='/boat-book-detail/:id' element={<BoatBookDetail />} />
-        <Route path='/priest-book-detail/:id' element={<PriestBookDetail />} />
-        <Route path='/guider-book-detail/:id' element={<GuiderBookDetail />} />
-        <Route path='/hotel-book-detail/:id' element={<HotelBookDetail />} />
-        <Route path='/pooja-list' element={<PoojaList />} />
-        <Route path='/place-list' element={<PlacesPage />} />
-        <Route path='/priest-list' element={<PriestList />} />
-        <Route path='/guider-list' element={<GuiderList />} />
+        <Route path='/' element={<HomePage />} />
+        <Route path='/about' element={<AboutPage />} />
+        <Route path='/contact' element={<ContactPage />} />
+
+
+        <Route element={<RequireAuth allowedRoles={['USER']} />} >
+
+          <Route path='/:fullName' element={<Profile />} />
+          <Route path='/places' element={<Places />} />
+          <Route path='/car' element={<Cars />} />
+          <Route path='/boat' element={<BoatPage />} />
+          <Route path='/hotels' element={<Hotel />} />
+          <Route path='/car-book/:id' element={<OrderCar />} />
+          <Route path='/hotel/:id' element={<HotelsWithRoom />} />
+          <Route path='/hotel-book/hotel/:id/room/:roomId' element={<BookHotel />} />
+          <Route path='/boat-book/:id' element={<BookBoat />} />
+          <Route path='/priest-book/:id' element={<BookPriest />} />
+          <Route path='/guider-book/:id' element={<BookGuider />} />
+          <Route path='/order/car-book/:id' element={<PastCarOrders />} />
+          <Route path='/order/boat-book/:id' element={<PastBoatOrders />} />
+          <Route path='/order/priest-book/:id' element={<PastPriestOrders />} />
+          <Route path='/order/guider-book/:id' element={<PastGuiderOrders />} />
+          <Route path='/order/hotel-book/:id' element={<PastHotelOrders />} />
+          <Route path='/car-book-detail/:id' element={<CarBookDetail />} />
+          <Route path='/boat-book-detail/:id' element={<BoatBookDetail />} />
+          <Route path='/priest-book-detail/:id' element={<PriestBookDetail />} />
+          <Route path='/guider-book-detail/:id' element={<GuiderBookDetail />} />
+          <Route path='/hotel-book-detail/:id' element={<HotelBookDetail />} />
+          <Route path='/pooja-list' element={<PoojaList />} />
+          <Route path='/place-list' element={<PlacesPage />} />
+          <Route path='/priest-list' element={<PriestList />} />
+          <Route path='/guider-list' element={<GuiderList />} />
+        </Route>
       </Routes>
     </HomeLayout>
   )

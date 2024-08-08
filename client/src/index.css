@@ -9,3 +9,32 @@
     background-size: cover;
     /* background-color: #0f0d31; */
 }
+
+@keyframes gradientBackground {
+    0% {
+        background: linear-gradient(90deg, rgba(34, 193, 195, 1) 0%, rgba(253, 187, 45, 1) 100%);
+    }
+
+    50% {
+        background: linear-gradient(90deg, rgba(253, 187, 45, 1) 0%, rgba(34, 193, 195, 1) 100%);
+    }
+
+    100% {
+        background: linear-gradient(90)
+    }
+}
+
+.active-menu-item {
+    color: #1d4ed8;
+    /* Tailwind's blue-500 */
+    font-weight: 600;
+}
+
+@layer base {
+
+    input[type="number"]::-webkit-inner-spin-button,
+    input[type="number"]::-webkit-outer-spin-button {
+        -webkit-appearance: none;
+        margin: 0;
+    }
+}
