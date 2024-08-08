@@ -55,7 +55,7 @@ const CategorySection = () => {
 
 
     return (
-        <div className='w-full h-fit py-24  bg-gradient-to-b from-[#161d1b] from-[-1%] via-[#86f8d7] via-[2%] to-[50%] lg:to-[65%] to-white flex flex-col items-center justify-center overflow-hidden'>
+        <div className='w-full h-fit py-24  bg-gradient-to-b from-[#00ffb7] from-[-1%] via-[#86f8d7] via-[2%] to-[50%] lg:to-[65%] to-white flex flex-col items-center justify-center overflow-hidden'>
             <div className='rounded-[1rem] overflow-hidden '>
                 <div className='grid items-center justify-center grid-cols-3 md:grid-cols-6 w-fit'>
                     <div onClick={() => setActive(1)} className={`w-[6rem] md:w-[7rem] lg:w-[10rem] lg:p-2 flex flex-col p-1 items-center justify-center ${active === 1 ? 'bg-[#FF8900]' : 'bg-white'}`}>

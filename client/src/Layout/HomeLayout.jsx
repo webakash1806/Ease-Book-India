@@ -69,7 +69,7 @@ const HomeLayout = ({ children }) => {
                     <input id="my-drawer-3" type="checkbox" className="drawer-toggle" />
                     <div className="flex flex-col drawer-content ">
                         {/* Navbar */}
-                        <div className="w-full text-black bg-white navbar">
+                        <div className="w-full text-black bg-white navbar z-[1000]">
                             <div className="flex-none xl:hidden ">
                                 <label htmlFor="my-drawer-3" aria-label="open sidebar" className="btn btn-square btn-ghost">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" className="inline-block w-6 h-6 stroke-current">
