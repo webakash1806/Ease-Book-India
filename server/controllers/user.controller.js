@@ -448,7 +448,7 @@ const changePassword = async (req, res, next) => {
 
         // Sending success response to the client
         res.status(200).json({
-            status: true,
+            success: true,
             message: 'Password Changed successfully'
         })
     }

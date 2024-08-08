@@ -67,6 +67,10 @@ const register = async (req, res, next) => {
             phoneNumber,
             password,
             confirmPassword,
+            avatar: {
+                publicId: '',
+                secure_url: ''
+            }
         })
 
         if (!admin) {
@@ -187,7 +191,8 @@ const logout = (req, res) => {
 const profile = async (req, res, next) => {
     try {
         // Extracting admin ID from the request
-        const userId = req.admin.id
+        const userId = req.user.id
+        console.log(userId)
 
         // Finding the admin by ID
         const admin = await Admin.findById(userId)
@@ -320,7 +325,7 @@ const changePassword = async (req, res, next) => {
     try {
         // Extracting old and new passwords from the request body and admin ID from request admin
         const { oldPassword, newPassword } = req.body
-        const { id } = req.admin
+        const { id } = req.user
 
         // Validating required fields
         if (!oldPassword || !newPassword) {
@@ -357,7 +362,7 @@ const changePassword = async (req, res, next) => {
 
         // Sending success response to the client
         res.status(200).json({
-            status: true,
+            success: true,
             message: 'Password Changed successfully'
         })
     }
@@ -378,7 +383,7 @@ const updateProfile = async (req, res, next) => {
     try {
         // Extracting full name and admin ID from the request body and admin
         const { fullName, phoneNumber } = req.body
-        const { id } = req.admin
+        const { id } = req.params
 
         // Finding the admin by ID
         const admin = await Admin.findById(id)
@@ -400,7 +405,11 @@ const updateProfile = async (req, res, next) => {
         // Handling avatar upload using cloudinary if a file is present in the request
         if (req.file) {
             // Destroying the previous avatar in cloudinary
-            await cloudinary.v2.uploader.destroy(admin.avatar.publicId)
+            if (admin.avatar.publicId) {
+                await cloudinary.v2.uploader.destroy(admin.avatar.publicId)
+
+            }
+
             try {
                 // Uploading the new avatar to cloudinary
                 const result = await cloudinary.v2.uploader.upload(req.file.path, {
@@ -431,10 +440,12 @@ const updateProfile = async (req, res, next) => {
         // Sending success response to the client
         res.status(200).json({
             success: true,
-            message: 'Admin Detail updated successfully'
+            message: 'Admin Detail updated successfully',
+            admin
         })
     }
     catch (e) {
+        console.log(e.message)
         // Handling any unexpected errors
         return next(new AppError(e.message, 500))
     }
@@ -444,17 +455,54 @@ const updateProfile = async (req, res, next) => {
 
 const carDriverList = async (req, res, next) => {
     try {
-        const list = await Cars.find()
+        // Extract and parse query parameters
+        const { statusFilter = '', page = 1, limit = 10, searchQuery = '' } = req.query;
+        const pageNum = parseInt(page);
+        const limitNum = parseInt(limit);
+
+        // Log query parameters for debugging
+        console.log('Request Query:', req.query);
+        console.log('Page Number:', pageNum, 'Limit:', limitNum);
+
+        // Calculate the starting index
+        const startIndex = (pageNum - 1) * limitNum;
+
+        // Build filter object
+        const filter = {};
+        if (statusFilter) {
+            filter.status = statusFilter;
+        }
+        if (searchQuery) {
+            filter.fullName = { $regex: searchQuery, $options: 'i' }; // Case-insensitive search
+        }
+
+        // Log filter for debugging
+        console.log('Filter:', filter);
+
+        // Fetch the paginated list
+        const list = await Cars.find(filter)
+            .skip(startIndex)
+            .limit(limitNum);
+
+
+
+        // Count total documents matching the filter
+        const totalCount = await Cars.countDocuments(filter);
 
         res.status(200).json({
             status: true,
             message: 'Driver list',
-            list
-        })
+            list,
+            totalPages: Math.ceil(totalCount / limitNum),
+            currentPage: pageNum,
+        });
     } catch (e) {
-        return next(new AppError(e.message, 500))
+        console.error('Error:', e.message); // Log the error
+        return next(new AppError(e.message, 500));
     }
-}
+};
+
+
 
 const updateDriverStatus = async (req, res, next) => {
     try {
@@ -496,31 +544,80 @@ const getDriverData = async (req, res, next) => {
 
 const usersList = async (req, res, next) => {
     try {
-        const list = await User.find()
+        const { page = 1, limit = 10, searchQuery = '' } = req.query;
+
+        // Convert page and limit to numbers
+        const pageNum = parseInt(page);
+        const limitNum = parseInt(limit);
+
+        // Calculate the starting index
+        const startIndex = (pageNum - 1) * limitNum;
+
+        // Filter and paginate
+        const list = await User.find({
+            fullName: { $regex: searchQuery, $options: 'i' }  // Case-insensitive search
+        })
+            .skip(startIndex)
+            .limit(limitNum);
+
+        const totalCount = await User.countDocuments({
+            fullName: { $regex: searchQuery, $options: 'i' }
+        });
 
         res.status(200).json({
             status: true,
             message: 'Users list',
-            list
-        })
+            list,
+            totalPages: Math.ceil(totalCount / limitNum),
+            currentPage: pageNum,
+        });
     } catch (e) {
-        return next(new AppError(e.message, 500))
+        return next(new AppError(e.message, 500));
     }
 }
 
+
+
 const boatManList = async (req, res, next) => {
     try {
-        const list = await Boat.find()
+        const { statusFilter = '', page = 1, limit = 10, searchQuery = '' } = req.query;
+
+        // Convert page and limit to numbers
+        const pageNum = parseInt(page);
+        const limitNum = parseInt(limit);
+
+        // Calculate the starting index
+        const startIndex = (pageNum - 1) * limitNum;
+
+        // Build filter object
+        const filter = {};
+        if (statusFilter) {
+            filter.status = statusFilter;
+        }
+        if (searchQuery) {
+            filter.fullName = { $regex: searchQuery, $options: 'i' }; // Case-insensitive search
+        }
+
+        // Fetch the paginated list
+        const list = await Boat.find(filter)
+            .skip(startIndex)
+            .limit(limitNum);
+
+        // Count total documents matching the filter
+        const totalCount = await Boat.countDocuments(filter);
 
         res.status(200).json({
             status: true,
             message: 'Boatman list',
-            list
-        })
+            list,
+            totalPages: Math.ceil(totalCount / limitNum),
+            currentPage: pageNum,
+        });
     } catch (e) {
-        return next(new AppError(e.message, 500))
+        return next(new AppError(e.message, 500));
     }
-}
+};
+
 
 const updateBoatmanStatus = async (req, res, next) => {
     try {
@@ -562,17 +659,44 @@ const getBoatmanDetail = async (req, res, next) => {
 
 const priestList = async (req, res, next) => {
     try {
-        const list = await Priest.find()
+        const { statusFilter = '', page = 1, limit = 10, searchQuery = '' } = req.query;
+
+        // Convert page and limit to numbers
+        const pageNum = parseInt(page);
+        const limitNum = parseInt(limit);
+
+        // Calculate the starting index
+        const startIndex = (pageNum - 1) * limitNum;
+
+        // Build filter object
+        const filter = {};
+        if (statusFilter) {
+            filter.status = statusFilter;
+        }
+        if (searchQuery) {
+            filter.fullName = { $regex: searchQuery, $options: 'i' }; // Case-insensitive search
+        }
+
+        // Fetch the paginated list
+        const list = await Priest.find(filter)
+            .skip(startIndex)
+            .limit(limitNum);
+
+        // Count total documents matching the filter
+        const totalCount = await Priest.countDocuments(filter);
 
         res.status(200).json({
             status: true,
-            message: 'Boatman list',
-            list
-        })
+            message: 'Priest list',
+            list,
+            totalPages: Math.ceil(totalCount / limitNum),
+            currentPage: pageNum,
+        });
     } catch (e) {
-        return next(new AppError(e.message, 500))
+        return next(new AppError(e.message, 500));
     }
-}
+};
+
 
 const updatePriestStatus = async (req, res, next) => {
     try {
@@ -614,17 +738,44 @@ const getPriestDetail = async (req, res, next) => {
 
 const guiderList = async (req, res, next) => {
     try {
-        const list = await Guider.find()
+        const { statusFilter = '', page = 1, limit = 10, searchQuery = '' } = req.query;
+
+        // Convert page and limit to numbers
+        const pageNum = parseInt(page, 10);
+        const limitNum = parseInt(limit, 10);
+
+        // Calculate the starting index
+        const startIndex = (pageNum - 1) * limitNum;
+
+        // Build filter object
+        const filter = {};
+        if (statusFilter) {
+            filter.status = statusFilter;
+        }
+        if (searchQuery) {
+            filter.fullName = { $regex: searchQuery, $options: 'i' }; // Case-insensitive search
+        }
+
+        // Fetch the paginated list
+        const list = await Guider.find(filter)
+            .skip(startIndex)
+            .limit(limitNum);
+
+        // Count total documents matching the filter
+        const totalCount = await Guider.countDocuments(filter);
 
         res.status(200).json({
             status: true,
             message: 'Guider list',
-            list
-        })
+            list,
+            totalPages: Math.ceil(totalCount / limitNum),
+            currentPage: pageNum,
+        });
     } catch (e) {
-        return next(new AppError(e.message, 500))
+        return next(new AppError(e.message, 500));
     }
-}
+};
+
 
 const updateGuiderStatus = async (req, res, next) => {
     try {
@@ -666,17 +817,44 @@ const getGuiderDetail = async (req, res, next) => {
 
 const hotelList = async (req, res, next) => {
     try {
-        const list = await Hotel.find()
+        const { statusFilter = '', page = 1, limit = 10, searchQuery = '' } = req.query;
+
+        // Convert page and limit to numbers
+        const pageNum = parseInt(page, 10);
+        const limitNum = parseInt(limit, 10);
+
+        // Calculate the starting index
+        const startIndex = (pageNum - 1) * limitNum;
+
+        // Build filter object
+        const filter = {};
+        if (statusFilter) {
+            filter.status = statusFilter;
+        }
+        if (searchQuery) {
+            filter.fullName = { $regex: searchQuery, $options: 'i' }; // Case-insensitive search
+        }
+
+        // Fetch the paginated list
+        const list = await Hotel.find(filter)
+            .skip(startIndex)
+            .limit(limitNum);
+
+        // Count total documents matching the filter
+        const totalCount = await Hotel.countDocuments(filter);
 
         res.status(200).json({
             status: true,
             message: 'Hotel list',
-            list
-        })
+            list,
+            totalPages: Math.ceil(totalCount / limitNum),
+            currentPage: pageNum,
+        });
     } catch (e) {
-        return next(new AppError(e.message, 500))
+        return next(new AppError(e.message, 500));
     }
-}
+};
+
 
 const updateHotelStatus = async (req, res, next) => {
     try {

@@ -45,6 +45,14 @@ const adminSchema = new Schema({
         trim: true,
         select: false
     },
+    avatar: {
+        publicId: {
+            type: 'String',
+        },
+        secure_url: {
+            type: 'String',
+        }
+    },
     // Token and expiry for password reset
     forgetPasswordToken: 'String',
     forgetPasswordExpiry: Date,
