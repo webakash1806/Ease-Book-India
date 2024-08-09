@@ -29,15 +29,19 @@ import HotelBookDetail from './Pages/HotelPages/HotelBookDetail'
 import DeniedPage from './Pages/Auth/DeniedPage'
 import PageNotFound from './Pages/Auth/404Page'
 import Profile from './Pages/Auth/Profile'
+import GlobalSettingsPage from './Pages/GlobalSettingsPage'
 
 const App = () => {
   return (
     <div className='bg-[#F2F2F7] min-h-[100vh]'>
       <Routes>
         <Route path='/login' element={<Login />} />
+        <Route path='/denied' element={<DeniedPage />} />
+        <Route path='/*' element={<PageNotFound />} />
         <Route element={<RequireAuth allowedRoles={['ADMIN']} />} >
           <Route path='/' element={<Home />} />
-          <Route path='/:fullName' element={<Profile />} />
+          <Route path='/profile/:fullName' element={<Profile />} />
+          <Route path='/global-settings' element={<GlobalSettingsPage />} />
           <Route path='/car-list' element={<CarsList />} />
           <Route path='/driver/:id' element={<CarDetail />} />
           <Route path='/boat/:id' element={<BoatDetail />} />
@@ -60,8 +64,7 @@ const App = () => {
           <Route path='/guider-list' element={<GuiderList />} />
           <Route path='/hotels-list' element={<HotelsList />} />
         </Route>
-        <Route path='/denied' element={<DeniedPage />} />
-        <Route path='/*' element={<PageNotFound />} />
+
       </Routes>
     </div>
   )

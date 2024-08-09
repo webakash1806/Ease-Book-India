@@ -66,7 +66,7 @@ const HomeLayout = ({ children }) => {
                         <div className='p-2 cursor-pointer md:hidden' onClick={() => setActive(true)}><RxHamburgerMenu className='text-[#535162fa] text-[1.5rem]' /></div>
                         <div className='hidden md:block'></div>
                         <p className=''>{time}</p>
-                        <Link to={`/${fullName}`} className='size-[2.6rem] rounded-full overflow-hidden bg-[#b0aaf7fa] border-[0.13rem] border-[#8e85f3a3]'>
+                        <Link to={`/profile/${fullName}`} className='size-[2.6rem] rounded-full overflow-hidden bg-[#b0aaf7fa] border-[0.13rem] border-[#8e85f3a3]'>
                             <img src={avatar?.profilePicture || userImg} className='w-[2.6rem]' alt="User Avatar" />
                         </Link>
                     </header>

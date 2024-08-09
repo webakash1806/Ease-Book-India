@@ -5,7 +5,9 @@ import axiosInstance from '../../Helper/axiosInstance'
 const initialState = {
     isLoggedIn: localStorage.getItem('isLoggedIn') || false,
     role: localStorage.getItem('role') || "",
-    data: localStorage.getItem('data') !== "undefined" ? JSON.parse(localStorage.getItem('data')) : {}
+    data: localStorage.getItem('data') !== "undefined" ? JSON.parse(localStorage.getItem('data')) : {},
+    globalSettingsData: localStorage.getItem('globalSettingsData') !== "undefined" ? JSON.parse(localStorage.getItem('globalSettingsData')) : {},
+
 }
 
 
@@ -140,6 +142,41 @@ export const resetPasswords = createAsyncThunk('admin/reset-password', async (da
     }
 })
 
+export const getGlobalSettingsData = createAsyncThunk('admin/global-settings', async () => {
+    try {
+        let res = axiosInstance.get(`/global-settings`)
+        toast.promise(res, {
+            // pending: "Getting data!",
+            success: (data) => {
+                return data?.data.message
+            },
+            error: "Failed to reset password"
+        })
+        res = await res;
+        return res.data;
+    } catch (e) {
+        return toast.error(e?.response?.data?.message)
+    }
+})
+
+export const createGlobalSettingsData = createAsyncThunk('create/global-settings', async (data) => {
+    try {
+        let res = axiosInstance.post(`/global-settings`, data)
+        toast.promise(res, {
+            // pending: "Updating!",
+            success: (data) => {
+                return data?.data.message
+            },
+            error: "Failed to update"
+        })
+        res = await res;
+        return res.data;
+    } catch (e) {
+        return toast.error(e?.response?.data?.message)
+    }
+})
+
+
 const authSlice = createSlice({
     name: "auth",
     initialState,
@@ -169,6 +206,9 @@ const authSlice = createSlice({
                 localStorage.setItem('role', action?.payload?.admin?.role)
                 state.role = action?.payload?.admin?.role
                 state.data = action?.payload?.admin
+            }).addCase(getGlobalSettingsData.fulfilled, (state, action) => {
+                localStorage.setItem('globalSettingsData', JSON.stringify(action?.payload?.globalSettingsData))
+                state.globalSettingsData = action?.payload?.globalSettingsData
             })
     }
 })
