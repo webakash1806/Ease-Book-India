@@ -39,6 +39,7 @@ import { allGuiderOrder, getGuiderOrderData } from "../controllers/bookings/guid
 import { allPayments, fetchOrderPayments } from "../controllers/payment.controller.js";
 import { allHotelsOrder, getHotelOrderDetail } from "../controllers/bookings/hotelBook.controller.js";
 import { bookingStats, userStats } from "../controllers/misc.controller.js";
+import { createGlobalSettings, getGlobalSettingsData } from "../controllers/admin/global.controller.js";
 
 // Creating an instance of the Express Router
 const router = Router()
@@ -125,6 +126,12 @@ router.get('/order-payment', fetchOrderPayments)
 
 router.get('/booking-stats', bookingStats)
 router.get('/stats', userStats)
+
+
+router.get('/global-settings', getGlobalSettingsData)
+router.post('/global-settings', upload.fields([
+    { name: 'logo', maxCount: 1 },
+    { name: 'icon', maxCount: 1 }]), createGlobalSettings)
 
 
 
