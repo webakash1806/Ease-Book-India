@@ -25,7 +25,7 @@ const HomeLayout = ({ children }) => {
     const isLoggedIn = useSelector((state) => state?.auth?.isLoggedIn);
     const avatar = useSelector((state) => state?.auth?.data?.avatar);
     const fullName = useSelector((state) => state?.auth?.data?.fullName);
-    console.log(avatar)
+
     const handleLogout = async () => {
         const response = await dispatch(logout());
 

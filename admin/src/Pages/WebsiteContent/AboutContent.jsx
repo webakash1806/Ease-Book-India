@@ -1,6 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import HomeLayout from '../../Layouts/HomeLayouts';
 import { FaArrowLeft, FaArrowRight, FaCamera, FaChevronDown, FaChevronUp } from 'react-icons/fa';
+import { useDispatch, useSelector } from 'react-redux';
+import { createAboutSettingsData, getAboutSettingsData } from '../../Redux/Slices/AuthSlice';
+import { toast } from 'react-toastify';
 
 const icons = {
     mission: '🚀',
@@ -12,25 +15,60 @@ const AboutContent = () => {
     const [currentStep, setCurrentStep] = useState(1);
     const [expandedStory, setExpandedStory] = useState(1);
     const [expandedTeam, setExpandedTeam] = useState(1);
+    const dispatch = useDispatch();
+
+    const loadData = () => {
+        dispatch(getAboutSettingsData());
+    };
+
+    const aboutData = useSelector((state) => state?.auth?.aboutSettingsData);
+
+
+    useEffect(() => {
+        loadData();
+    }, []);
 
     const [formData, setFormData] = useState({
-        missionImage: '',
-        missionDescription1: '',
-        missionDescription2: '',
-        story1: { year: '', description: '' },
-        story2: { year: '', description: '' },
-        story3: { year: '', description: '' },
-        team1: { image: '', name: '', role: '' },
-        team2: { image: '', name: '', role: '' },
-        team3: { image: '', name: '', role: '' }
+        missionImage: aboutData?.missionImage?.secure_url || '',
+        missionDescription1: aboutData?.missionDescription1 || '',
+        missionDescription2: aboutData?.missionDescription2 || '',
+        story1: { year: aboutData?.stories[0]?.year || '', description: aboutData?.stories[0]?.description || '' },
+        story2: { year: aboutData?.stories[1]?.year || '', description: aboutData?.stories[1]?.description || '' },
+        story3: { year: aboutData?.stories[2]?.year || '', description: aboutData?.stories[2]?.description || '' },
+        team1: { image: aboutData?.team1?.image?.secure_url || '', name: aboutData?.team1?.name || '', role: aboutData?.team1?.role || '' },
+        team2: { image: aboutData?.team2?.image?.secure_url || '', name: aboutData?.team2?.name || '', role: aboutData?.team2?.role || '' },
+        team3: { image: aboutData?.team3?.image?.secure_url || '', name: aboutData?.team3?.name || '', role: aboutData?.team3?.role || '' },
     });
+
 
     const [missionImagePreview, setMissionImagePreview] = useState(null);
     const [teamImagePreviews, setTeamImagePreviews] = useState({
         team1: null,
         team2: null,
-        team3: null
+        team3: null,
     });
+
+    useEffect(() => {
+        if (aboutData) {
+            setFormData({
+                missionImage: aboutData.missionImage.secure_url || '',
+                missionDescription1: aboutData.missionDescription1 || '',
+                missionDescription2: aboutData.missionDescription2 || '',
+                story1: { year: aboutData?.stories[0]?.year || '', description: aboutData?.stories[0]?.description || '' },
+                story2: { year: aboutData.stories[1]?.year || '', description: aboutData.stories[1]?.description || '' },
+                story3: { year: aboutData.stories[2]?.year || '', description: aboutData.stories[2]?.description || '' },
+                team1: { image: aboutData?.team1?.image?.secure_url || '', name: aboutData?.team1?.name || '', role: aboutData?.team1?.role || '' },
+                team2: { image: aboutData?.team2?.image?.secure_url || '', name: aboutData?.team2?.name || '', role: aboutData?.team2?.role || '' },
+                team3: { image: aboutData?.team3?.image?.secure_url || '', name: aboutData?.team3?.name || '', role: aboutData?.team3?.role || '' },
+            });
+            setMissionImagePreview(aboutData.missionImage.secure_url || null);
+            setTeamImagePreviews({
+                team1: aboutData?.team1?.image?.secure_url || null,
+                team2: aboutData?.team2?.image?.secure_url || null,
+                team3: aboutData?.team3?.image?.secure_url || null,
+            });
+        }
+    }, [aboutData]);
 
     const handleNext = () => {
         if (currentStep < 3 && validateForm()) {
@@ -52,44 +90,44 @@ const AboutContent = () => {
         setExpandedTeam(teamNumber === expandedTeam ? 1 : teamNumber);
     };
 
-
     const handleChange = (e, section, field) => {
-        if (section.startsWith('story') || section.startsWith('team')) {
-            setFormData({
-                ...formData,
-                [section]: {
-                    ...formData[section],
-                    [field]: e.target.value
-                }
-            });
-
-            // Handle team image preview
-            if (section.startsWith('team') && field === 'image') {
-                const file = e.target.files[0];
-                setFormData({
-                    ...formData,
+        if (section.startsWith('team') && field === 'image') {
+            const file = e.target.files[0];
+            if (file) {
+                setFormData(prevFormData => ({
+                    ...prevFormData,
                     [section]: {
-                        ...formData[section],
+                        ...prevFormData[section],
                         image: file
                     }
-                });
-                setTeamImagePreviews({
-                    ...teamImagePreviews,
+                }));
+                setTeamImagePreviews(prevPreviews => ({
+                    ...prevPreviews,
                     [section]: URL.createObjectURL(file)
-                });
+                }));
             }
         } else if (section === 'missionImage') {
             const file = e.target.files[0];
-            setFormData({
-                ...formData,
-                missionImage: file
-            });
-            setMissionImagePreview(URL.createObjectURL(file));
+            if (file) {
+                setFormData(prevFormData => ({
+                    ...prevFormData,
+                    missionImage: file
+                }));
+                setMissionImagePreview(URL.createObjectURL(file));
+            }
+        } else if (field) {
+            setFormData(prevFormData => ({
+                ...prevFormData,
+                [section]: {
+                    ...prevFormData[section],
+                    [field]: e.target.value
+                }
+            }));
         } else {
-            setFormData({
-                ...formData,
+            setFormData(prevFormData => ({
+                ...prevFormData,
                 [section]: e.target.value
-            });
+            }));
         }
     };
 
@@ -98,13 +136,56 @@ const AboutContent = () => {
         return true;
     };
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        if (validateForm()) {
-            console.log(formData);
-            // Submit form data to backend
+    const handleSubmit = async (e) => {
+        if (e) {
+            e.preventDefault();
+
         }
-        console.log(1)
+
+        const formDataToSend = new FormData();
+
+        // Mission Image
+        if (formData.missionImage instanceof File) {
+            formDataToSend.append('missionImage', formData.missionImage);
+        } else {
+            formDataToSend.append('missionImage', formData.missionImage); // Preserve existing image if no new file is provided
+        }
+
+        // Mission Descriptions
+        formDataToSend.append('missionDescription1', formData.missionDescription1);
+        formDataToSend.append('missionDescription2', formData.missionDescription2);
+
+        // Stories
+        for (let i = 1; i <= 3; i++) {
+            formDataToSend.append(`stories[${i - 1}][year]`, formData[`story${i}`].year);
+            formDataToSend.append(`stories[${i - 1}][description]`, formData[`story${i}`].description);
+        }
+
+        // Team
+        for (let i = 1; i <= 3; i++) {
+            if (formData[`team${i}`].image instanceof File) {
+                formDataToSend.append(`team${i}[image]`, formData[`team${i}`].image);
+            } else {
+                formDataToSend.append(`team${i}[image]`, aboutData?.[`team${i}`]?.image?.secure_url || ''); // Preserve existing image if no new file is provided
+            }
+
+            formDataToSend.append(`team${i}[name]`, formData[`team${i}`].name);
+            formDataToSend.append(`team${i}[role]`, formData[`team${i}`].role);
+        }
+
+        try {
+            const response = await dispatch(createAboutSettingsData(formDataToSend));
+
+            if (response?.payload?.success) {
+                loadData();
+                if (currentStep === 3) {
+                    toast.success('Form submitted successfully!');
+
+                }
+            }
+        } catch (error) {
+            toast.error('Error submitting form, please try again.');
+        }
     };
 
     const triggerFileInput = (inputId) => {
@@ -114,6 +195,9 @@ const AboutContent = () => {
     const toggleStory = (storyNumber) => {
         setExpandedStory(storyNumber === expandedStory ? 1 : storyNumber);
     };
+
+
+
 
     return (
         <HomeLayout>
@@ -224,67 +308,71 @@ const AboutContent = () => {
                     )}
                     {currentStep === 3 && (
                         <div className="space-y-2">
-                            {[1, 2, 3].map((num) => (
-                                <div key={num} className="space-y-2 bg-white rounded-lg shadow ">
-                                    <div
-                                        onClick={() => toggleTeam(num)}
-                                        className={`flex items-center justify-between p-4 py-3 rounded border-b cursor-pointer ${expandedTeam === num ? 'bg-[#2F3349] text-white' : 'bg-[#655CCE] text-white'}`}
-                                    >
-                                        <span className="font-semibold">{`Team Member ${num}`}</span>
-                                        {expandedTeam === num ? <FaChevronUp /> : <FaChevronDown />}
-                                    </div>
-                                    {expandedTeam === num && (
-                                        <div className="px-4 pb-4 space-y-2 ">
-                                            <div className="flex bg-[#655CCE] shadow-[0px_0px_25px_-10px_#000_inset] p-4 rounded flex-col items-center justify-center">
-                                                {teamImagePreviews[`team${num}`] ? (
-                                                    <div onClick={() => triggerFileInput(`teamImageInput${num}`)} className="relative cursor-pointer">
-                                                        <img
-                                                            src={teamImagePreviews[`team${num}`]}
-                                                            alt={`Team ${num} Preview`}
-                                                            className="size-[7rem] sm:size-[8rem] md:size-[9rem] lg:size-[10rem] border rounded shadow"
-                                                        />
-                                                        <div className="absolute flex items-center justify-center p-[0.6rem] text-white bg-black rounded-full bg-opacity-80 right-[-10px] top-[-10px]">
-                                                            <span className="text-lg"><FaCamera /></span>
+                            {['team1', 'team2', 'team3'].map((teamKey, index) => {
+                                const teamNumber = index + 1;
+                                return (
+                                    <div key={teamKey} className="space-y-2 bg-white rounded-lg shadow ">
+                                        <div
+                                            onClick={() => toggleTeam(teamNumber)}
+                                            className={`flex items-center justify-between p-4 py-3 rounded border-b cursor-pointer ${expandedTeam === teamNumber ? 'bg-[#2F3349] text-white' : 'bg-[#655CCE] text-white'}`}
+                                        >
+                                            <span className="font-semibold">{`Team Member ${teamNumber}`}</span>
+                                            {expandedTeam === teamNumber ? <FaChevronUp /> : <FaChevronDown />}
+                                        </div>
+                                        {expandedTeam === teamNumber && (
+                                            <div className="px-4 pb-4 space-y-2 ">
+                                                <div className="flex bg-[#655CCE] shadow-[0px_0px_25px_-10px_#000_inset] p-4 rounded flex-col items-center justify-center">
+                                                    {teamImagePreviews[`team${teamNumber}`] ? (
+                                                        <div onClick={() => triggerFileInput(`teamImageInput${teamNumber}`)} className="relative cursor-pointer">
+                                                            <img
+                                                                src={teamImagePreviews[`team${teamNumber}`]}
+                                                                alt={`Team ${teamNumber} Preview`}
+                                                                className="size-[7rem] sm:size-[8rem] md:size-[9rem] lg:size-[10rem] border rounded shadow"
+                                                            />
+                                                            <div className="absolute flex items-center justify-center p-[0.6rem] text-white bg-black rounded-full bg-opacity-80 right-[-10px] top-[-10px]">
+                                                                <span className="text-lg"><FaCamera /></span>
+                                                            </div>
                                                         </div>
-                                                    </div>
-                                                ) : (
-                                                    <button
-                                                        type="button"
-                                                        onClick={() => triggerFileInput(`teamImageInput${num}`)}
-                                                        className="flex items-center justify-center size-[7rem] sm:size-[8rem] md:size-[9rem] lg:size-[10rem]  p-4 text-white bg-[#2F3349] border rounded shadow cursor-pointer"
-                                                    >
-                                                        <span className="mr-2 text-[1.3rem]"><FaCamera /></span>
-                                                        <span className=''>Upload</span>
-                                                    </button>
-                                                )}
+                                                    ) : (
+                                                        <button
+                                                            type="button"
+                                                            onClick={() => triggerFileInput(`teamImageInput${teamNumber}`)}
+                                                            className="flex items-center justify-center size-[7rem] sm:size-[8rem] md:size-[9rem] lg:size-[10rem]  p-4 text-white bg-[#2F3349] border rounded shadow cursor-pointer"
+                                                        >
+                                                            <span className="mr-2 text-[1.3rem]"><FaCamera /></span>
+                                                            <span className=''>Upload</span>
+                                                        </button>
+                                                    )}
+                                                    <input
+                                                        id={`teamImageInput${teamNumber}`}
+                                                        type="file"
+                                                        accept="image/*"
+                                                        className="hidden"
+                                                        onChange={(e) => handleChange(e, `team${teamNumber}`, 'image')}
+                                                    />
+                                                </div>
                                                 <input
-                                                    id={`teamImageInput${num}`}
-                                                    type="file"
-                                                    accept="image/*"
-                                                    className="hidden"
-                                                    onChange={(e) => handleChange(e, `team${num}`, 'image')}
+                                                    type="text"
+                                                    className="block w-full p-2 bg-gray-100 border border-[#8681c6] rounded outline-none"
+
+                                                    placeholder={`Team Name ${teamNumber}`}
+                                                    value={formData[`team${teamNumber}`].name}
+                                                    onChange={(e) => handleChange(e, `team${teamNumber}`, 'name')}
+                                                />
+                                                <input
+                                                    type="text"
+                                                    className="block w-full p-2 bg-gray-100 border border-[#8681c6] rounded outline-none"
+
+                                                    placeholder={`Team Role ${teamNumber}`}
+                                                    value={formData[`team${teamNumber}`].role}
+                                                    onChange={(e) => handleChange(e, `team${teamNumber}`, 'role')}
                                                 />
                                             </div>
-                                            <input
-                                                type="text"
-                                                className="block w-full p-2 bg-gray-100 border border-[#8681c6] rounded outline-none"
-
-                                                placeholder={`Team Name ${num}`}
-                                                value={formData[`team${num}`].name}
-                                                onChange={(e) => handleChange(e, `team${num}`, 'name')}
-                                            />
-                                            <input
-                                                type="text"
-                                                className="block w-full p-2 bg-gray-100 border border-[#8681c6] rounded outline-none"
-
-                                                placeholder={`Team Role ${num}`}
-                                                value={formData[`team${num}`].role}
-                                                onChange={(e) => handleChange(e, `team${num}`, 'role')}
-                                            />
-                                        </div>
-                                    )}
-                                </div>
-                            ))}
+                                        )}
+                                    </div>)
+                            }
+                            )
+                            }
                         </div>
                     )}
 

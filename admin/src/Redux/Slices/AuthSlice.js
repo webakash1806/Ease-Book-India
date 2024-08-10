@@ -7,6 +7,7 @@ const initialState = {
     role: localStorage.getItem('role') || "",
     data: localStorage.getItem('data') !== "undefined" ? JSON.parse(localStorage.getItem('data')) : {},
     globalSettingsData: localStorage.getItem('globalSettingsData') !== "undefined" ? JSON.parse(localStorage.getItem('globalSettingsData')) : {},
+    aboutSettingsData: localStorage.getItem('aboutSettingsData') !== "undefined" ? JSON.parse(localStorage.getItem('aboutSettingsData')) : {},
 
 }
 
@@ -176,6 +177,39 @@ export const createGlobalSettingsData = createAsyncThunk('create/global-settings
     }
 })
 
+export const getAboutSettingsData = createAsyncThunk('admin/about-settings', async () => {
+    try {
+        let res = axiosInstance.get(`/about`)
+        toast.promise(res, {
+            // pending: "Getting data!",
+            success: (data) => {
+                return data?.data.message
+            },
+            error: "Failed to reset password"
+        })
+        res = await res;
+        return res.data;
+    } catch (e) {
+        return toast.error(e?.response?.data?.message)
+    }
+})
+
+export const createAboutSettingsData = createAsyncThunk('create/about-settings', async (data) => {
+    try {
+        let res = axiosInstance.post(`/about`, data)
+        toast.promise(res, {
+            // pending: "Updating!",
+            success: (data) => {
+                return data?.data.message
+            },
+            error: "Failed to update"
+        })
+        res = await res;
+        return res.data;
+    } catch (e) {
+        return toast.error(e?.response?.data?.message)
+    }
+})
 
 const authSlice = createSlice({
     name: "auth",
@@ -209,6 +243,9 @@ const authSlice = createSlice({
             }).addCase(getGlobalSettingsData.fulfilled, (state, action) => {
                 localStorage.setItem('globalSettingsData', JSON.stringify(action?.payload?.globalSettingsData))
                 state.globalSettingsData = action?.payload?.globalSettingsData
+            }).addCase(getAboutSettingsData.fulfilled, (state, action) => {
+                localStorage.setItem('aboutSettingsData', JSON.stringify(action?.payload?.aboutData))
+                state.aboutSettingsData = action?.payload?.aboutData
             })
     }
 })
