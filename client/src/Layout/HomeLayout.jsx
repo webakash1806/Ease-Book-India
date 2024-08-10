@@ -122,7 +122,7 @@ const HomeLayout = ({ children }) => {
                                             </div>
                                             :
                                             <div className='flex items-center justify-center gap-4'>
-                                                <Link to={`/${fullName}`}>
+                                                <Link to={`/profile/${fullName}`}>
                                                     <img src={(!avatar?.secure_url ? userImg : avatar?.secure_url)} alt={`${fullName} img`} className='size-[2.5rem] rounded-full object-cover shadow-[0px_0px_5px_#7479FF]' />
                                                 </Link>
                                                 <Link to='/logout' onClick={handleLogout}
@@ -186,7 +186,7 @@ const HomeLayout = ({ children }) => {
                                     </div>
                                     :
                                     <div className='flex flex-col gap-2'>
-                                        <Link to={`/${fullName}`} className='flex items-center justify-between p-2 gap-4 rounded-md w-[99%] cursor-pointer from-[#1751fe] via-[#0074f9] hover:bg-gradient-to-bl bg-gradient-to-tr to-[#0199ff]  duration-300'>
+                                        <Link to={`/profile/${fullName}`} className='flex items-center justify-between p-2 gap-4 rounded-md w-[99%] cursor-pointer from-[#1751fe] via-[#0074f9] hover:bg-gradient-to-bl bg-gradient-to-tr to-[#0199ff]  duration-300'>
                                             <img src={(!avatar?.secure_url ? userImg : avatar?.secure_url)} alt={`${fullName} img`} className='w-[2.3rem] bg-white h-[2.3rem] rounded-full   object-cover shadow-[0px_0px_18px_-6px_#fff] ml-1' />
                                             <p className='text-[0.95rem] w-[7.5rem] truncate text-white capitalize'>{fullName}</p>
                                         </Link>

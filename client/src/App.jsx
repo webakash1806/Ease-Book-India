@@ -54,7 +54,7 @@ const App = () => {
 
         <Route element={<RequireAuth allowedRoles={['USER']} />} >
 
-          <Route path='/:fullName' element={<Profile />} />
+          <Route path='/profile/:fullName' element={<Profile />} />
           <Route path='/places' element={<Places />} />
           <Route path='/car' element={<Cars />} />
           <Route path='/boat' element={<BoatPage />} />
