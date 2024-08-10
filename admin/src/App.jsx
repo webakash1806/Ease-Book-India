@@ -30,6 +30,8 @@ import DeniedPage from './Pages/Auth/DeniedPage'
 import PageNotFound from './Pages/Auth/404Page'
 import Profile from './Pages/Auth/Profile'
 import GlobalSettingsPage from './Pages/GlobalSettingsPage'
+import WebsiteContent from './Pages/WebsiteContent/WebsiteContent'
+import AboutContent from './Pages/WebsiteContent/AboutContent'
 
 const App = () => {
   return (
@@ -42,6 +44,8 @@ const App = () => {
           <Route path='/' element={<Home />} />
           <Route path='/profile/:fullName' element={<Profile />} />
           <Route path='/global-settings' element={<GlobalSettingsPage />} />
+          <Route path='/website-content' element={<WebsiteContent />} />
+          <Route path='/website-content/about' element={<AboutContent />} />
           <Route path='/car-list' element={<CarsList />} />
           <Route path='/driver/:id' element={<CarDetail />} />
           <Route path='/boat/:id' element={<BoatDetail />} />

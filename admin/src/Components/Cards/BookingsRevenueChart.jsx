@@ -59,7 +59,7 @@ const BookingsRevenueChart = () => {
     if (loading) return <p>Loading...</p>;
 
     return (
-        <div className='h-[20rem] w-full flex flex-col items-center gap-1 mb-4 lg:mb-3 bg-white pb-[3rem] p-3 rounded-md shadow-[0px_0px_18px_-3px_#808080]'>
+        <div className='h-[20rem] w-full flex flex-col items-center gap-1 mb-4 lg:mb-3 bg-white pb-[3rem] p-3 rounded-md shadow-[0px_0px_12px_-5px_#808080]'>
             <h2 className='ml-8 font-semibold text-[1.1rem] text-[#655CCE]'>Bookings Revenue</h2>
             {chartData && (
                 <Bar

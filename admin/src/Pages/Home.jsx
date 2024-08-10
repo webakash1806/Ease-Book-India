@@ -10,7 +10,7 @@ const Home = () => {
 
     return (
         <HomeLayout>
-            <div className='mt-4 text-black sm:m-3 '>
+            <div className='m-[0.4rem] mt-5 text-black'>
                 <div className='flex flex-col justify-between lg:flex-row'>
                     <div className='lg:w-[49.3%]'>
                         <MonthlyPaymentsChart />

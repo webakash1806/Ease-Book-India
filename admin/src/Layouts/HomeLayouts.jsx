@@ -23,9 +23,9 @@ const HomeLayout = ({ children }) => {
     const navigate = useNavigate();
 
     const isLoggedIn = useSelector((state) => state?.auth?.isLoggedIn);
-    const avatar = useSelector((state) => state?.auth?.data);
+    const avatar = useSelector((state) => state?.auth?.data?.avatar);
     const fullName = useSelector((state) => state?.auth?.data?.fullName);
-
+    console.log(avatar)
     const handleLogout = async () => {
         const response = await dispatch(logout());
 
@@ -60,17 +60,17 @@ const HomeLayout = ({ children }) => {
 
     return (
         <>
-            <div className='items-start h-[100vh] overflow-hidden md:flex md:flex-row-reverse bg-[#eaeaea]'>
+            <div className='items-start h-[100vh] overflow-hidden md:flex md:flex-row-reverse bg-[#F7F6F9]'>
                 <div className='p-3 md:w-full md:p-4 md:px-6 '>
                     <header className='flex items-center justify-between backdrop-blur-3xl relative z-[1000000] px-3 bg-[#ffffff] rounded-md p-2 md:w-full text-black shadow-[0px_0px_15px_#8080807e]'>
                         <div className='p-2 cursor-pointer md:hidden' onClick={() => setActive(true)}><RxHamburgerMenu className='text-[#535162fa] text-[1.5rem]' /></div>
                         <div className='hidden md:block'></div>
                         <p className=''>{time}</p>
                         <Link to={`/profile/${fullName}`} className='size-[2.6rem] rounded-full overflow-hidden bg-[#b0aaf7fa] border-[0.13rem] border-[#8e85f3a3]'>
-                            <img src={avatar?.profilePicture || userImg} className='w-[2.6rem]' alt="User Avatar" />
+                            <img src={avatar?.secure_url || userImg} className='w-[2.6rem]' alt="User Avatar" />
                         </Link>
                     </header>
-                    <div className='h-[87vh] bg-[#eaeaea] w-custom scrollbar scrollbar-none overflow-y-scroll'>
+                    <div className='h-[90vh] bg-[#F7F6F9] w-custom scrollbar scrollbar-none overflow-y-scroll'>
                         {children}
                     </div>
                 </div>

@@ -56,8 +56,8 @@ const Statistics = () => {
     const bookingColors = ['#1206ff', '#e61e24', '#655CCE', '#00b753', '#ff5900'];
 
     return (
-        <div className='flex flex-col justify-between gap-3 lg:flex-row'>
-            <div className='p-4 w-full bg-white rounded-md shadow-[0px_0px_10px_-3px_#808080]'>
+        <div className='flex flex-col justify-between gap-[1.1rem] lg:flex-row'>
+            <div className='p-4 w-full bg-white rounded-md shadow-[0px_0px_12px_-5px_#808080]'>
                 <h1 className='text-[1.2rem] mb-4 font-semibold text-[#5F54D5]'>Statistics</h1>
                 <div className='grid justify-between grid-cols-2 gap-4 lg:grid-cols-2 xl:grid-cols-3 sm:grid-cols-3'>
                     <div className='flex items-center gap-4 w-fit'>
@@ -117,7 +117,7 @@ const Statistics = () => {
                 </div>
                 <HorizontalBar labels={labels} data={data} colors={colors} barWidths={barWidths} />
             </div>
-            <div className='p-4 bg-white w-full rounded-md shadow-[0px_0px_10px_-3px_#808080]'>
+            <div className='p-4 bg-white w-full rounded-md shadow-[0px_0px_12px_-5px_#808080]'>
                 <h1 className='text-[1.2rem] mb-4 font-semibold text-[#5F54D5]'>Booking Statistics</h1>
                 <div className='grid justify-between grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-2 xl:grid-cols-3'>
                     <div className='flex items-center gap-4 w-fit'>
