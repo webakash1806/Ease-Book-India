@@ -40,6 +40,7 @@ import { allPayments, fetchOrderPayments } from "../controllers/payment.controll
 import { allHotelsOrder, getHotelOrderDetail } from "../controllers/bookings/hotelBook.controller.js";
 import { bookingStats, userStats } from "../controllers/misc.controller.js";
 import { createGlobalSettings, getGlobalSettingsData } from "../controllers/admin/global.controller.js";
+import { createOrUpdateAbout, getAboutData } from "../controllers/admin/aboutWebsite.controller.js";
 
 // Creating an instance of the Express Router
 const router = Router()
@@ -133,6 +134,18 @@ router.post('/global-settings', upload.fields([
     { name: 'logo', maxCount: 1 },
     { name: 'icon', maxCount: 1 }]), createGlobalSettings)
 
+
+router.get('/about', getAboutData);
+router.post(
+    '/about',
+    upload.fields([
+        { name: 'missionImage', maxCount: 1 },
+        { name: 'team1[image]', maxCount: 1 },
+        { name: 'team2[image]', maxCount: 1 },
+        { name: 'team3[image]', maxCount: 1 },
+    ]),
+    createOrUpdateAbout
+);
 
 
 
