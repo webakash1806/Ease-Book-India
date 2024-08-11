@@ -9,6 +9,7 @@ const initialState = {
     globalSettingsData: localStorage.getItem('globalSettingsData') !== "undefined" ? JSON.parse(localStorage.getItem('globalSettingsData')) : {},
     aboutSettingsData: localStorage.getItem('aboutSettingsData') !== "undefined" ? JSON.parse(localStorage.getItem('aboutSettingsData')) : {},
     contactSettingsData: localStorage.getItem('contactSettingsData') !== "undefined" ? JSON.parse(localStorage.getItem('contactSettingsData')) : {},
+    testimonialData: localStorage.getItem('testimonialData') !== "undefined" ? JSON.parse(localStorage.getItem('testimonialData')) : {},
 
 }
 
@@ -246,6 +247,58 @@ export const createContactSettingsData = createAsyncThunk('create/contact-settin
     }
 })
 
+export const getTestimonialData = createAsyncThunk('admin/testimonial-settings', async () => {
+    try {
+        let res = axiosInstance.get(`/testimonial`)
+        toast.promise(res, {
+            // pending: "Getting data!",
+            success: (data) => {
+                return data?.data.message
+            },
+            // error: "Failed to s!"
+        })
+        res = await res;
+        return res.data;
+    } catch (e) {
+        return toast.error(e?.response?.data?.message)
+    }
+})
+
+export const createTestimonial = createAsyncThunk('create/testimonial-settings', async (data) => {
+    try {
+        let res = axiosInstance.post(`/testimonial`, data)
+        toast.promise(res, {
+            // pending: "Updating!",
+            success: (data) => {
+                return data?.data.message
+            },
+            error: "Failed to add!"
+        })
+        res = await res;
+        return res.data;
+    } catch (e) {
+        return toast.error(e?.response?.data?.message)
+    }
+})
+
+export const deleteTestimonialData = createAsyncThunk('delete/testimonial-settings', async (id) => {
+    try {
+        console.log(id)
+        let res = axiosInstance.delete(`/testimonial/${id}`)
+        toast.promise(res, {
+            // pending: "Getting data!",
+            success: (data) => {
+                return data?.data.message
+            },
+            error: "Failed to remove!"
+        })
+        res = await res;
+        return res.data;
+    } catch (e) {
+        return toast.error(e?.response?.data?.message)
+    }
+})
+
 const authSlice = createSlice({
     name: "auth",
     initialState,
@@ -284,6 +337,9 @@ const authSlice = createSlice({
             }).addCase(getContactSettingsData.fulfilled, (state, action) => {
                 localStorage.setItem('contactSettingsData', JSON.stringify(action?.payload?.contactDetails))
                 state.contactSettingsData = action?.payload?.contactDetails
+            }).addCase(getTestimonialData.fulfilled, (state, action) => {
+                localStorage.setItem('testimonialData', JSON.stringify(action?.payload?.testimonialData))
+                state.testimonialData = action?.payload?.testimonialData
             })
     }
 })
