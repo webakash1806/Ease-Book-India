@@ -32,6 +32,7 @@ import Profile from './Pages/Auth/Profile'
 import GlobalSettingsPage from './Pages/GlobalSettingsPage'
 import WebsiteContent from './Pages/WebsiteContent/WebsiteContent'
 import AboutContent from './Pages/WebsiteContent/AboutContent'
+import ContactContent from './Pages/WebsiteContent/ContactContent'
 
 const App = () => {
   return (
@@ -46,6 +47,7 @@ const App = () => {
           <Route path='/global-settings' element={<GlobalSettingsPage />} />
           <Route path='/website-content' element={<WebsiteContent />} />
           <Route path='/website-content/about' element={<AboutContent />} />
+          <Route path='/website-content/contact' element={<ContactContent />} />
           <Route path='/car-list' element={<CarsList />} />
           <Route path='/driver/:id' element={<CarDetail />} />
           <Route path='/boat/:id' element={<BoatDetail />} />
