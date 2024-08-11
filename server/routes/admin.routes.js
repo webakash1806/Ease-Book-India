@@ -41,6 +41,7 @@ import { allHotelsOrder, getHotelOrderDetail } from "../controllers/bookings/hot
 import { bookingStats, userStats } from "../controllers/misc.controller.js";
 import { createGlobalSettings, getGlobalSettingsData } from "../controllers/admin/global.controller.js";
 import { createOrUpdateAbout, getAboutData } from "../controllers/admin/aboutWebsite.controller.js";
+import { createContactSettings, getContactSettingsData } from "../controllers/admin/contact.controller.js";
 
 // Creating an instance of the Express Router
 const router = Router()
@@ -147,6 +148,8 @@ router.post(
     createOrUpdateAbout
 );
 
+router.get('/contact', getContactSettingsData);
+router.post('/contact', createContactSettings);
 
 
 
