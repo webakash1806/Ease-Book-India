@@ -42,6 +42,7 @@ import { bookingStats, userStats } from "../controllers/misc.controller.js";
 import { createGlobalSettings, getGlobalSettingsData } from "../controllers/admin/global.controller.js";
 import { createOrUpdateAbout, getAboutData } from "../controllers/admin/aboutWebsite.controller.js";
 import { createContactSettings, getContactSettingsData } from "../controllers/admin/contact.controller.js";
+import { createTestimonialData, deleteTestimonialData, getTestimonialData } from "../controllers/admin/testimonial.controller.js";
 
 // Creating an instance of the Express Router
 const router = Router()
@@ -151,6 +152,9 @@ router.post(
 router.get('/contact', getContactSettingsData);
 router.post('/contact', createContactSettings);
 
+router.delete('/testimonial/:id', deleteTestimonialData)
+router.get('/testimonial', getTestimonialData)
+router.post('/testimonial', upload.single('reviewerImage'), createTestimonialData)
 
 
 
