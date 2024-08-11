@@ -8,6 +8,7 @@ const initialState = {
     data: localStorage.getItem('data') !== "undefined" ? JSON.parse(localStorage.getItem('data')) : {},
     globalSettingsData: localStorage.getItem('globalSettingsData') !== "undefined" ? JSON.parse(localStorage.getItem('globalSettingsData')) : {},
     aboutSettingsData: localStorage.getItem('aboutSettingsData') !== "undefined" ? JSON.parse(localStorage.getItem('aboutSettingsData')) : {},
+    contactSettingsData: localStorage.getItem('contactSettingsData') !== "undefined" ? JSON.parse(localStorage.getItem('contactSettingsData')) : {},
 
 }
 
@@ -211,6 +212,40 @@ export const createAboutSettingsData = createAsyncThunk('create/about-settings',
     }
 })
 
+export const getContactSettingsData = createAsyncThunk('admin/contact-settings', async () => {
+    try {
+        let res = axiosInstance.get(`/contact`)
+        toast.promise(res, {
+            // pending: "Getting data!",
+            success: (data) => {
+                return data?.data.message
+            },
+            error: "Failed to submit!"
+        })
+        res = await res;
+        return res.data;
+    } catch (e) {
+        return toast.error(e?.response?.data?.message)
+    }
+})
+
+export const createContactSettingsData = createAsyncThunk('create/contact-settings', async (data) => {
+    try {
+        let res = axiosInstance.post(`/contact`, data)
+        toast.promise(res, {
+            // pending: "Updating!",
+            success: (data) => {
+                return data?.data.message
+            },
+            error: "Failed to update!"
+        })
+        res = await res;
+        return res.data;
+    } catch (e) {
+        return toast.error(e?.response?.data?.message)
+    }
+})
+
 const authSlice = createSlice({
     name: "auth",
     initialState,
@@ -246,6 +281,9 @@ const authSlice = createSlice({
             }).addCase(getAboutSettingsData.fulfilled, (state, action) => {
                 localStorage.setItem('aboutSettingsData', JSON.stringify(action?.payload?.aboutData))
                 state.aboutSettingsData = action?.payload?.aboutData
+            }).addCase(getContactSettingsData.fulfilled, (state, action) => {
+                localStorage.setItem('contactSettingsData', JSON.stringify(action?.payload?.contactDetails))
+                state.contactSettingsData = action?.payload?.contactDetails
             })
     }
 })

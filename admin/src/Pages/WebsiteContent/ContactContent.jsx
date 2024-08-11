@@ -1,23 +1,57 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { FaFacebook, FaTwitter, FaInstagram, FaLinkedin, FaPhoneAlt, FaEnvelope, FaMapMarkerAlt, FaWhatsapp, FaClock } from 'react-icons/fa';
 import HomeLayout from '../../Layouts/HomeLayouts';
 import { FaXTwitter } from 'react-icons/fa6';
+import { useDispatch, useSelector } from 'react-redux';
+import { createAboutSettingsData, createContactSettingsData, getContactSettingsData } from '../../Redux/Slices/AuthSlice';
+import { toast } from 'react-toastify';
+import { createContactSettings } from '../../../../server/controllers/admin/contact.controller';
 
 const ContactContent = () => {
     const [loaderActive, setLoaderActive] = useState(false)
+    const dispatch = useDispatch()
+
+    const contactData = useSelector((state) => state?.auth?.contactSettingsData)
+
+
+    const loadData = () => {
+        dispatch(getContactSettingsData())
+    }
+
+    useEffect(() => {
+        loadData()
+
+    }, [])
+
     const [formData, setFormData] = useState({
-        facebook: '',
-        twitter: '',
-        instagram: '',
-        linkedin: '',
-        phone1: '',
-        phone2: '',
-        whatsapp: '',
-        email1: '',
-        email2: '',
-        googleMapIframe: '',
-        serviceTime: ''
+        facebook: contactData?.facebook || '',
+        twitter: contactData?.twitter || '',
+        instagram: contactData?.instagram || '',
+        linkedin: contactData?.linkedin || '',
+        phone1: contactData?.phone1 || '',
+        phone2: contactData?.phone2 || '',
+        whatsapp: contactData?.whatsapp || '',
+        email1: contactData?.email1 || '',
+        email2: contactData?.email2 || '',
+        googleMapIframe: contactData?.googleMapIframe || '',
+        serviceTime: contactData?.serviceTime || ''
     });
+
+    useEffect(() => {
+        setFormData({
+            facebook: contactData?.facebook || '',
+            twitter: contactData?.twitter || '',
+            instagram: contactData?.instagram || '',
+            linkedin: contactData?.linkedin || '',
+            phone1: contactData?.phone1 || '',
+            phone2: contactData?.phone2 || '',
+            whatsapp: contactData?.whatsapp || '',
+            email1: contactData?.email1 || '',
+            email2: contactData?.email2 || '',
+            googleMapIframe: contactData?.googleMapIframe || '',
+            serviceTime: contactData?.serviceTime || ''
+        })
+    }, [contactData])
 
     const handleChange = (e) => {
         const { name, value } = e.target;
@@ -27,10 +61,23 @@ const ContactContent = () => {
         });
     };
 
-    const handleSubmit = (e) => {
+    const handleSubmit = async (e) => {
         e.preventDefault();
+        setLoaderActive(true)
         // Handle form submission
         console.log(formData);
+
+        const response = await dispatch(createContactSettingsData(formData))
+
+        if (response?.payload?.success) {
+            setLoaderActive(false)
+            loadData()
+            toast.success("Contact details updated")
+        } else {
+            setLoaderActive(false)
+
+        }
+
     };
 
     // Define class name variables

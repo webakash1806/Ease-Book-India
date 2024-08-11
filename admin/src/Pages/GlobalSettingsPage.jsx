@@ -337,6 +337,30 @@ const GlobalSettingsPage = () => {
         description: websiteData?.description || "",
     });
 
+    useEffect(() => {
+        setFormData({
+            name: websiteData?.name || "",
+            url: websiteData?.url || "",
+            address: websiteData?.address || "",
+            phone1: websiteData?.phone1 || "",
+            phone2: websiteData?.phone2 || "",
+            email1: websiteData?.email1 || "",
+            email2: websiteData?.email2 || "",
+            title: websiteData?.title || "",
+            logo: websiteData?.logo?.secure_url || null,
+            linkedin: websiteData?.linkedin || "",
+            facebook: websiteData?.facebook || "",
+            instagram: websiteData?.instagram || "",
+            whatsapp: websiteData?.whatsapp || "",
+            googleMap: websiteData?.googleMap || "",
+            icon: websiteData?.icon?.secure_url || null,
+            seoTitle: websiteData?.seoTitle || "",
+            author: websiteData?.author || "",
+            keywords: websiteData?.keywords || "",
+            description: websiteData?.description || "",
+        });
+    }, [websiteData])
+
     const steps = ["Basic Info", "Social Media", "SEO Settings"];
 
     const handleChange = (e) => {
@@ -365,7 +389,7 @@ const GlobalSettingsPage = () => {
             console.log(response)
             if (response?.payload?.success) {
                 toast.success("Settings saved successfully!");
-                await getGlobalSettingsData()
+                loadData()
                 // Only proceed if this is not the final step
                 if (!isFinalStep) {
                     setActiveStep((prevActiveStep) => prevActiveStep + 1);
