@@ -14,9 +14,9 @@ const WebsiteContentCard = ({ data }) => {
                     {name}
                 </h1>
             </div>
-            <h2 className='text-[0.9rem] font-semibold text-[#ffffff]'>{list}</h2>
+            <h2 className='text-[0.9rem] text-center font-semibold text-[#ffffff]'>{list}</h2>
             <button
-                className='px-16 mt-6 py-3 text-[1.1rem] font-normal text-white transition-transform transform bg-[#2F3349] rounded-md shadow-md hover:bg-[#3D4056] hover:-translate-y-1 flex items-center justify-center gap-3'
+                className='md:px-16 px-6 mt-6 py-3 text-[1.1rem] font-normal text-white transition-transform transform bg-[#2F3349] rounded-md shadow-md hover:bg-[#3D4056] hover:-translate-y-1 flex items-center justify-center gap-3'
                 onClick={() => navigate(link)}>
                 <LuView className='text-[1.5rem]' />
                 View Now

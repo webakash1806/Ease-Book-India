@@ -15,7 +15,6 @@ const TestimonialWebsite = () => {
     const navigate = useNavigate()
 
     const testimonialData = useSelector((state) => state?.auth?.testimonialData)
-    console.log(testimonialData)
 
     const loadData = () => {
         dispatch(getTestimonialData())
