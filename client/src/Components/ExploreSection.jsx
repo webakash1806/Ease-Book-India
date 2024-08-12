@@ -41,7 +41,7 @@ const ExploreSection = () => {
                     </div>
                     <p className='font-semibold text-[1.05rem] '>Kashi vishwanath, Varanasi</p>
                 </div>
-                <h2 className='text-center w-full text-[1.1rem] text-white mt-3 rounded-t-md py-2 bg-[#07a772] font-semibold tracking-wide'>Kashi Vishwanath Temple</h2>
+                <h2 className='text-center w-full text-[1.1rem] text-white mt-3 rounded-t-md py-2 from-[#1751fe] bg-gradient-to-bl via-[#0074f9]  to-[#0199ff]  font-semibold tracking-wide'>Kashi Vishwanath Temple</h2>
 
                 < img src={val.image} alt="" className='sm:w-[24rem] w-[85vw] sm:h-[22rem] h-[85vw]  object-cover' />
 

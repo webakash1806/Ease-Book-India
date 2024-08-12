@@ -32,6 +32,7 @@ import RequireAuth from './Components/Auth/RequireAuth'
 import AboutPage from './Pages/AboutPage'
 import ContactPage from './Pages/ContactPage'
 import Profile from './Pages/Profile'
+import TestimonialSection from './Pages/TestimonialSection'
 
 const App = () => {
   // In your component
@@ -51,6 +52,7 @@ const App = () => {
         <Route path='/about' element={<AboutPage />} />
         <Route path='/contact' element={<ContactPage />} />
 
+        <Route path='/testimonial' element={<TestimonialSection />} />
 
         <Route element={<RequireAuth allowedRoles={['USER']} />} >
 

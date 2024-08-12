@@ -38,3 +38,24 @@
         margin: 0;
     }
 }
+
+/* TailwindCSS configuration for responsive grid layout */
+@media (min-width: 640px) {
+
+    /* sm */
+    .swiper-slide {
+        /* Adjust as needed */
+        max-width: calc(100% / 2 - 1rem);
+        /* 2 columns */
+    }
+}
+
+@media (min-width: 1024px) {
+
+    /* lg */
+    .swiper-slide {
+        /* Adjust as needed */
+        max-width: calc(100% / 3 - 1rem);
+        /* 3 columns */
+    }
+}

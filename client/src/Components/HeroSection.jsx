@@ -10,7 +10,7 @@ const items = [
     <>
         <div
 
-            className='h-[75vh] relative bg-gradient-to-b  onDragStart={handleDragStart} role="presentation" flex items-center justify-between from-[#8FE7CA] to-[#C9F7E8]'>
+            className='h-[75vh] relative bg-gradient-to-b  onDragStart={handleDragStart} role="presentation" flex items-center justify-between from-[#8FE7CA] to-[#C9F7E8] '>
             <div className='flex p-4 h-full w-full lg:w-[50%] bg-gradient-to-r from-[#000000fa] from-[10%] via-[55%] to-[95%] via-[#11121298] to-[#00000000] flex-col relative z-[100] items-center text-center justify-center gap-5'>
                 <h2 className='flex items-center text-[1.5rem] font-bold justify-center gap-2 text-[#00f5a3]'>Discover new horizons!<FaEarthAmericas /></h2>
                 <h1 className='text-white text-[2.3rem] font-[650]'>Embark on an Epic Journey!</h1>

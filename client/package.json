@@ -15,7 +15,7 @@
     "axios": "^1.7.2",
     "dayjs": "^1.11.12",
     "decimal.js": "^10.4.3",
-    "framer-motion": "^11.3.23",
+    "framer-motion": "^11.3.24",
     "otp-generator": "^4.0.1",
     "react": "^18.3.1",
     "react-alice-carousel": "^2.9.1",
@@ -27,7 +27,8 @@
     "react-router-dom": "^6.25.1",
     "react-slick": "^0.30.2",
     "react-toastify": "^10.0.5",
-    "slick-carousel": "^1.8.1"
+    "slick-carousel": "^1.8.1",
+    "swiper": "^11.1.9"
   },
   "devDependencies": {
     "@types/react": "^18.3.3",

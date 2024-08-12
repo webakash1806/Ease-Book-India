@@ -78,6 +78,7 @@ const HomeLayout = ({ children }) => {
                                 </label>
                             </div>
                             <div className="absolute flex-1 right-6 xl:static ">
+
                                 <img className='w-[9rem]' src="" alt="LOGO" />
                             </div>
                             <div className="flex-none hidden xl:block">
