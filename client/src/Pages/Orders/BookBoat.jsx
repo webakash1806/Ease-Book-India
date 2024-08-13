@@ -2,12 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getBoatmanData } from '../../Redux/Slices/ServiceSlice';
-import { FaLocationDot } from 'react-icons/fa6';
+import { FaArrowLeft, FaLocationDot } from 'react-icons/fa6';
 import { FaCar, FaRegUserCircle } from 'react-icons/fa';
 import { MdOutlineAirlineSeatReclineExtra } from 'react-icons/md';
 import { bookBoat } from '../../Redux/Slices/OrderSlice';
 import { toast } from 'react-toastify';
 import { getRazorpayId, order, verifyPayment } from '../../Redux/Slices/RazorpaySlice';
+import SocialCard from '../../Components/SocialCard';
 
 const OrderBoat = () => {
     const [loaderActive, setLoaderActive] = useState(false);
@@ -239,122 +240,136 @@ const OrderBoat = () => {
     const labelStyle = "text-[0.83rem] tracking-wide text-[#000] font-[500] ml-[0.5px]"
     const inputStyle = 'min-w-[18rem] max-w-[20.5rem] w-[87vw] sm:w-[24rem] rounded-[3px] h-full px-2 p-[7px] outline-none text-[0.94rem] tracking-wide resize-none bg-white border-[#808080] border '
 
-    return (
-        <div className='from-[#ddfcee] bg-gradient-to-b via-[#f7fffb] to-white py-10 flex flex-col items-center justify-center'>
-            <div className='overflow-hidden rounded-xl shadow-[0px_0px_5px_#808080] via-[#ecfff6] from-[#d0f7e6] bg-gradient-to-b to-[#f7fffb]'>
-                <div className='flex flex-col w-full overflow-hidden text-black border-b md:items-end md:flex-row md:gap-6 border-[#8080803b]'>
-                    <div>
-                        {proofFileUrl ? (
-                            <img src={proofFileUrl} alt="Proof" className='h-[15rem] w-full md:w-[22rem] object-cover' />
-                        ) : (
-                            <div className='h-[15rem] w-full bg-gray-200 flex items-center md:w-[22rem] justify-center'>
-                                <span>No Image Available</span>
-                            </div>
-                        )}
-                    </div>
-                    <div className='p-3 w-full md:w-[20.5rem]'>
+    const breadcrumbItems = [
+        { label: 'Home', href: '/' },
+        { label: 'Boat list', href: '/boat' },
+        { label: 'Book', },
+    ];
 
-                        <div className='flex items-center justify-start my-1'>
-                            <h2 className='text-[1.1rem] font-semibold'>{boatData?.servicesData?.serviceArea.toLowerCase().includes('aarti') && "Arrival time: 6:00 PM"}</h2>
-                        </div>
-                        <div className='flex items-center justify-between my-2'>
-                            <h2 className='text-[1.1rem] font-semibold'>{boatData?.boatType}</h2>
-                            <h2 className='flex items-center gap-1'><MdOutlineAirlineSeatReclineExtra />{boatData?.servicesData?.seatingCap}/{boatData?.servicesData?.allotedSeat}</h2>
-                        </div>
-                        <div className='flex items-center justify-between my-2'>
-                            <h1 className='flex items-center justify-center gap-2'><FaRegUserCircle />{boatData?.fullName}</h1>
-                            <h2>{boatData?.age} years</h2>
-                        </div>
-                        <div className='flex items-center justify-between my-2'>
-                            <h1 className='flex items-center justify-center gap-2'><FaCar />Experience</h1>
-                            <h2>{boatData?.experience} years</h2>
-                        </div>
-                        <div className='flex items-center justify-between my-2'>
-                            <h1 className='flex items-center justify-center gap-2'><FaLocationDot />{boatData?.servicesData?.serviceArea}</h1>
-                        </div>
-                        <div className='flex items-center justify-between pt-3 mt-3 border-t'>
-                            {boatData?.servicesData?.allotedSeat === boatData?.servicesData?.seatingCap && <h3>
-                                <span className='text-[1.02rem] font-semibold text-[#19B56F]'>Rs.{boatData?.servicesData?.fullBoatFare}</span> / boat
-                            </h3>}
-                            <h3>
-                                <span className='text-[1.02rem] font-semibold text-[#19B56F]'>Rs.{boatData?.servicesData?.seatFare}</span> / seat
-                            </h3>
-                        </div>
-                    </div>
+    return (
+        <>
+            <div className='relative'>
+                <SocialCard item={breadcrumbItems} icon={"boat"} title={"Book Boat"} des={"Confirm your booking by submitting booking details."} />
+                <div onClick={() => navigate(-1)} className='absolute top-1 left-1 p-2 bg-[#4960f8] shadow-md rounded w-fit'>
+                    <FaArrowLeft onClick={() => navigate(-1)} className='text-white text-[1.1rem]' />
                 </div>
-                <form className='flex flex-col p-4 text-black sm:p-6 md:items-end md:flex-row w-fit md:gap-6' onSubmit={handleSubmit}>
-                    <div className='flex flex-col gap-[5px]'>
-                        <h3 className='text-[1.1rem] font-semibold mb-2 border-b w-fit border-[#9e9e9e]'>Booking Details</h3>
-                        <div className='mb-1'>
-                            <label className='block text-sm font-medium text-gray-700'>Arrival Time</label>
-                            <select
-                                name='arrivalTime'
-                                value={formData.arrivalTime}
-                                onChange={handleChange}
-                                className='border border-[#808080] w-full rounded-[3px] h-full px-2 p-[5.5px] outline-none text-[0.95rem] tracking-wide bg-[#ffffff] text-black'
-                                required
-                            >
-                                <option value=''>Select Arrival Time</option>
-                                {availableTimes.map((time, index) => (
-                                    <option key={index} value={time}>{time}</option>
-                                ))}
-                            </select>
+            </div>
+            <div className='from-[#e7eafd] bg-gradient-to-b via-[#f7f7fb] to-white p-4 py-8 flex flex-wrap items-center justify-center'>
+                <div className='overflow-hidden rounded-xl shadow-[0px_0px_5px_#808080] via-[#ecfff6] from-[#d0f7e6] bg-gradient-to-b to-[#f7fffb]'>
+                    <div className='flex flex-col w-full overflow-hidden text-black border-b md:items-end md:flex-row md:gap-6 border-[#8080803b]'>
+                        <div>
+                            {proofFileUrl ? (
+                                <img src={proofFileUrl} alt="Proof" className='h-[15rem] w-full md:w-[22rem] object-cover' />
+                            ) : (
+                                <div className='h-[15rem] w-full bg-gray-200 flex items-center md:w-[22rem] justify-center'>
+                                    <span>No Image Available</span>
+                                </div>
+                            )}
                         </div>
-                        <div className={mainDiv}>
-                            <label className={labelStyle}>Full Name</label>
-                            <input type='text' name='fullName' value={formData.fullName} onChange={handleChange} className={inputStyle} />
-                        </div>
-                        <div className='flex min-w-[18rem] max-w-[20.5rem] w-[87vw] sm:w-[24rem] justify-between'>
-                            <div className={`${mainDiv} w-[48%]`}>
-                                <label className={labelStyle} htmlFor="phoneNumber">Phone Number</label>
-                                <input className='border border-[#808080] w-full rounded-[3px] h-full px-2 p-[5.5px] outline-none text-[0.95rem] tracking-wide bg-[#ffffff] text-black' type="text" name='phoneNumber' value={formData.phoneNumber} onChange={handleChange} />
+                        <div className='p-3 w-full md:w-[20.5rem]'>
+
+                            <div className='flex items-center justify-start my-1'>
+                                <h2 className='text-[1.1rem] font-semibold'>{boatData?.servicesData?.serviceArea.toLowerCase().includes('aarti') && "Arrival time: 6:00 PM"}</h2>
                             </div>
-                            <div className={`${mainDiv} w-[48%]`}>
-                                <label className={labelStyle} htmlFor="alternateNumber">Alternate Number</label>
-                                <input className='border border-[#808080] w-full rounded-[3px] h-full px-2 p-[5.5px] outline-none text-[0.95rem] tracking-wide bg-[#ffffff] text-black' type="text" name='alternateNumber' value={formData.alternateNumber} onChange={handleChange} />
+                            <div className='flex items-center justify-between my-2'>
+                                <h2 className='text-[1.1rem] font-semibold'>{boatData?.boatType}</h2>
+                                <h2 className='flex items-center gap-1'><MdOutlineAirlineSeatReclineExtra />{boatData?.servicesData?.seatingCap}/{boatData?.servicesData?.allotedSeat}</h2>
+                            </div>
+                            <div className='flex items-center justify-between my-2'>
+                                <h1 className='flex items-center justify-center gap-2'><FaRegUserCircle />{boatData?.fullName}</h1>
+                                <h2>{boatData?.age} years</h2>
+                            </div>
+                            <div className='flex items-center justify-between my-2'>
+                                <h1 className='flex items-center justify-center gap-2'><FaCar />Experience</h1>
+                                <h2>{boatData?.experience} years</h2>
+                            </div>
+                            <div className='flex items-center justify-between my-2'>
+                                <h1 className='flex items-center justify-center gap-2'><FaLocationDot />{boatData?.servicesData?.serviceArea}</h1>
+                            </div>
+                            <div className='flex items-center justify-between pt-3 mt-3 border-t'>
+                                {boatData?.servicesData?.allotedSeat === boatData?.servicesData?.seatingCap && <h3>
+                                    <span className='text-[1.02rem] font-semibold text-[#19B56F]'>Rs.{boatData?.servicesData?.fullBoatFare}</span> / boat
+                                </h3>}
+                                <h3>
+                                    <span className='text-[1.02rem] font-semibold text-[#19B56F]'>Rs.{boatData?.servicesData?.seatFare}</span> / seat
+                                </h3>
                             </div>
                         </div>
                     </div>
-                    <div className='flex flex-col gap-[6px]'>
-                        <div className='flex min-w-[18rem] max-w-[20.5rem] w-[87vw] sm:w-[24rem] justify-between'>
-                            <div className={`${mainDiv} w-[48%]`}>
-                                <label className={labelStyle} htmlFor="fareType">Fare Type</label>
-                                <select name='fareType' value={formData.fareType} onChange={handleChange} className='border border-[#808080] w-full rounded-[3px] h-full px-2 p-[5.5px] outline-none text-[0.95rem] tracking-wide bg-[#ffffff] text-black'>
-                                    <option value='seat'>Seat</option>
-                                    {boatData?.servicesData?.allotedSeat === boatData?.servicesData?.seatingCap && <option value='boat'>Boat</option>}
+                    <form className='flex flex-col p-4 text-black sm:p-6 md:items-end md:flex-row w-fit md:gap-6' onSubmit={handleSubmit}>
+                        <div className='flex flex-col gap-[5px]'>
+                            <h3 className='text-[1.1rem] font-semibold mb-2 border-b w-fit border-[#9e9e9e]'>Booking Details</h3>
+                            <div className='mb-1'>
+                                <label className='block text-sm font-medium text-gray-700'>Arrival Time</label>
+                                <select
+                                    name='arrivalTime'
+                                    value={formData.arrivalTime}
+                                    onChange={handleChange}
+                                    className='border border-[#808080] w-full rounded-[3px] h-full px-2 p-[5.5px] outline-none text-[0.95rem] tracking-wide bg-[#ffffff] text-black'
+                                    required
+                                >
+                                    <option value=''>Select Arrival Time</option>
+                                    {availableTimes.map((time, index) => (
+                                        <option key={index} value={time}>{time}</option>
+                                    ))}
                                 </select>
                             </div>
-                            <div className={`${mainDiv} w-[48%]`}>
-                                <label className={labelStyle} htmlFor="numberOfChildren">No. of Children</label>
-                                <input className='border border-[#808080] w-full rounded-[3px] h-full px-2 p-[5.5px] outline-none text-[0.95rem] tracking-wide bg-[#ffffff] text-black' type="number" name='numberOfChildren' value={formData.numberOfChildren} onChange={handleChange} />
+                            <div className={mainDiv}>
+                                <label className={labelStyle}>Full Name</label>
+                                <input type='text' name='fullName' value={formData.fullName} onChange={handleChange} className={inputStyle} />
+                            </div>
+                            <div className='flex min-w-[18rem] max-w-[20.5rem] w-[87vw] sm:w-[24rem] justify-between'>
+                                <div className={`${mainDiv} w-[48%]`}>
+                                    <label className={labelStyle} htmlFor="phoneNumber">Phone Number</label>
+                                    <input className='border border-[#808080] w-full rounded-[3px] h-full px-2 p-[5.5px] outline-none text-[0.95rem] tracking-wide bg-[#ffffff] text-black' type="text" name='phoneNumber' value={formData.phoneNumber} onChange={handleChange} />
+                                </div>
+                                <div className={`${mainDiv} w-[48%]`}>
+                                    <label className={labelStyle} htmlFor="alternateNumber">Alternate Number</label>
+                                    <input className='border border-[#808080] w-full rounded-[3px] h-full px-2 p-[5.5px] outline-none text-[0.95rem] tracking-wide bg-[#ffffff] text-black' type="text" name='alternateNumber' value={formData.alternateNumber} onChange={handleChange} />
+                                </div>
+                            </div>
+                        </div>
+                        <div className='flex flex-col gap-[6px]'>
+                            <div className='flex min-w-[18rem] max-w-[20.5rem] w-[87vw] sm:w-[24rem] justify-between'>
+                                <div className={`${mainDiv} w-[48%]`}>
+                                    <label className={labelStyle} htmlFor="fareType">Fare Type</label>
+                                    <select name='fareType' value={formData.fareType} onChange={handleChange} className='border border-[#808080] w-full rounded-[3px] h-full px-2 p-[5.5px] outline-none text-[0.95rem] tracking-wide bg-[#ffffff] text-black'>
+                                        <option value='seat'>Seat</option>
+                                        {boatData?.servicesData?.allotedSeat === boatData?.servicesData?.seatingCap && <option value='boat'>Boat</option>}
+                                    </select>
+                                </div>
+                                <div className={`${mainDiv} w-[48%]`}>
+                                    <label className={labelStyle} htmlFor="numberOfChildren">No. of Children</label>
+                                    <input className='border border-[#808080] w-full rounded-[3px] h-full px-2 p-[5.5px] outline-none text-[0.95rem] tracking-wide bg-[#ffffff] text-black' type="number" name='numberOfChildren' value={formData.numberOfChildren} onChange={handleChange} />
+                                </div>
+
+                            </div>
+                            <div className='flex min-w-[18rem] max-w-[20.5rem] w-[87vw] sm:w-[24rem] justify-between'>
+                                <div className={`${mainDiv} w-[48%]`}>
+                                    <label className={labelStyle} htmlFor="numberOfMales">No. of Males</label>
+                                    <input className='border border-[#808080] w-full rounded-[3px] h-full px-2 p-[5.5px] outline-none text-[0.95rem] tracking-wide bg-[#ffffff] text-black' type="number" name='numberOfMales' value={formData.numberOfMales} onChange={handleChange} />
+                                </div>
+                                <div className={`${mainDiv} w-[48%]`}>
+                                    <label className={labelStyle} htmlFor="numberOfFemales">No. of Females</label>
+                                    <input className='border border-[#808080] w-full rounded-[3px] h-full px-2 p-[5.5px] outline-none text-[0.95rem] tracking-wide bg-[#ffffff] text-black' type="number" name='numberOfFemales' value={formData.numberOfFemales} onChange={handleChange} />
+                                </div>
                             </div>
 
-                        </div>
-                        <div className='flex min-w-[18rem] max-w-[20.5rem] w-[87vw] sm:w-[24rem] justify-between'>
-                            <div className={`${mainDiv} w-[48%]`}>
-                                <label className={labelStyle} htmlFor="numberOfMales">No. of Males</label>
-                                <input className='border border-[#808080] w-full rounded-[3px] h-full px-2 p-[5.5px] outline-none text-[0.95rem] tracking-wide bg-[#ffffff] text-black' type="number" name='numberOfMales' value={formData.numberOfMales} onChange={handleChange} />
+
+                            <div className='flex flex-col gap-2 mt-4'>
+
+                                <h3 className='text-[1.04rem] font-semibold'>
+                                    Total Price: <span className='line-through'>Rs.{formData.originalPrice.toFixed(2)}</span> Rs.{formData.totalPrice.toFixed(2)}
+                                </h3>
                             </div>
-                            <div className={`${mainDiv} w-[48%]`}>
-                                <label className={labelStyle} htmlFor="numberOfFemales">No. of Females</label>
-                                <input className='border border-[#808080] w-full rounded-[3px] h-full px-2 p-[5.5px] outline-none text-[0.95rem] tracking-wide bg-[#ffffff] text-black' type="number" name='numberOfFemales' value={formData.numberOfFemales} onChange={handleChange} />
-                            </div>
+                            <button onClick={() => setLoaderActive(true)} className='bg-[#685ED4] hover:bg-[#FF4C51] text-white flex items-center justify-center transition-all duration-700 w-full rounded-md p-[6px] font-semibold mt-[10px]'>
+                                Book {loaderActive && <div className='ml-4 ease-in-out mt-1 size-[1.25rem] border-[2.4px] border-t-[#46454546] animate-spin rounded-full bottom-0'></div>}
+                            </button>
                         </div>
-
-
-                        <div className='flex flex-col gap-2 mt-4'>
-
-                            <h3 className='text-[1.04rem] font-semibold'>
-                                Total Price: <span className='line-through'>Rs.{formData.originalPrice.toFixed(2)}</span> Rs.{formData.totalPrice.toFixed(2)}
-                            </h3>
-                        </div>
-                        <button onClick={() => setLoaderActive(true)} className='bg-[#685ED4] hover:bg-[#FF4C51] text-white flex items-center justify-center transition-all duration-700 w-full rounded-md p-[6px] font-semibold mt-[10px]'>
-                            Book {loaderActive && <div className='ml-4 ease-in-out mt-1 size-[1.25rem] border-[2.4px] border-t-[#46454546] animate-spin rounded-full bottom-0'></div>}
-                        </button>
-                    </div>
-                </form>
+                    </form>
+                </div>
             </div>
-        </div>
+        </>
     )
 }
 

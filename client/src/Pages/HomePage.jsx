@@ -17,7 +17,6 @@ const HomePage = () => {
             <CategorySection />
             <ExploreSection />
             <TestimonialSection />
-            <SocialCard />
         </div>
     )
 }

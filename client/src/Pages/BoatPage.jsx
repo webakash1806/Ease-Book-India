@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getBoatList, getCarsList } from '../Redux/Slices/ServiceSlice';
-import { FaCar, FaRegUserCircle } from 'react-icons/fa';
+import { FaArrowLeft, FaCar, FaRegUserCircle } from 'react-icons/fa';
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
 import { FaLocationDot } from "react-icons/fa6";
@@ -34,10 +34,20 @@ const BoatPage = () => {
         loadData();
     }, []);
 
+    const breadcrumbItems = [
+        { label: 'Home', href: '/' },
+        { label: 'Boat list' },
+    ];
+
+
     return (
         <>
-            <div>
-                <SocialCard />
+            <div className='relative'>
+                <SocialCard item={breadcrumbItems} icon={"boat"} title={"Book Boat"} des={"Set sail on your next adventure by booking a boat for a relaxing getaway. Whether you're interested in a private yacht or a scenic river cruise, find the perfect boat for your needs."} />
+
+                <div onClick={() => navigate(-1)} className='absolute top-1 left-1 p-2 bg-[#4960f8] shadow-md rounded w-fit'>
+                    <FaArrowLeft onClick={() => navigate(-1)} className='text-white text-[1.1rem]' />
+                </div>
             </div>
             <div className='from-[#e7eafd] bg-gradient-to-b via-[#f7f7fb] to-white p-4 py-10 flex flex-col items-center gap-8 justify-center'>
 

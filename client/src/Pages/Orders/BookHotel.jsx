@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getHotelData } from '../../Redux/Slices/ServiceSlice';
-import { FaLocationDot } from 'react-icons/fa6';
+import { FaArrowLeft, FaLocationDot } from 'react-icons/fa6';
 import { FaHotel, FaUser } from 'react-icons/fa';
 import { MdOutlineFreeBreakfast } from 'react-icons/md';
 import { bookHotel, bookPriest } from '../../Redux/Slices/OrderSlice';
@@ -10,6 +10,7 @@ import { toast } from 'react-toastify';
 import { getRazorpayId, order, verifyPayment } from '../../Redux/Slices/RazorpaySlice';
 import { TiCancel } from 'react-icons/ti';
 import { IoBed } from 'react-icons/io5';
+import SocialCard from '../../Components/SocialCard';
 
 const BookHotel = () => {
     const [loaderActive, setLoaderActive] = useState(false);
@@ -257,215 +258,202 @@ const BookHotel = () => {
 
 
     const inputStyle = "block w-full px-2 py-1 border border-gray-300 rounded shadow-sm text-black  focus:outline-none focus:ring-primary focus:border-primary sm:text-[0.95rem] bg-[white]"
+    const breadcrumbItems = [
+        { label: 'Home', href: '/' },
+        { label: 'Hotels', href: '/hotels' },
+        { label: 'Select Room', href: `/hotel/${hotelId}` },
+        { label: 'Book', },
+    ];
 
     return (
-        <div className='py-10 bg-[#f7f7f7] flex flex-col items-center justify-center'>
-            <div className='flex flex-col items-center justify-center gap-2'>
-                <div className='flex flex-wrap items-center justify-center gap-1'>
-                    <div
-                        className='bg-white lg:h-[28rem]  pb-2 h-[27rem] flex flex-col md:border-b-[6px] lg:hover:border-b-[0.5px] border-blue-500  min-w-[19.5rem] text-black max-w-[21rem] w-[90vw] hover:from-[#f3fbff] cursor-pointer transition-all duration-500 hover:bg-gradient-to-b hover:to-[#f8fafc] rounded-xl shadow-[0px_5px_10px_-6px_#808080] overflow-hidden'
-                    >
-                        <div className='w-full'>
-                            <img
-                                src={hotelMainImage}
-                                alt="Hotel Main"
-                                className='h-[12rem]  w-full object-cover transition-all duration-500 animate-fadeIn'
-                            />
-                            <div className='flex justify-between bg-[#eeeeef] p-2'>
-                                {hotelData?.proofFiles?.slice(0, 2).map((file, index) => (
-                                    <img
-                                        key={index}
-                                        src={file.fileUrl}
-                                        alt={`Hotel Proof ${index + 1}`}
-                                        className={`h-[3rem] w-[23%] rounded object-cover cursor-pointer transition-all duration-300 ${hotelMainImage === file.fileUrl ? 'border-2 border-blue-500 shadow-lg transform scale-105' : ''}`}
-                                        onClick={() => handleHotelImageClick(file.fileUrl, index)}
-                                    />
-                                ))}
-                                {roomData?.roomImage?.slice(0, 2).map((file, index) => (
-                                    <img
-                                        key={index}
-                                        src={file.fileUrl}
-                                        alt={`Hotel Proof ${index + 1}`}
-                                        className={`h-[3rem] w-[23%] rounded object-cover cursor-pointer transition-all duration-300 ${hotelMainImage === file.fileUrl ? 'border-2 border-blue-500 shadow-lg transform scale-105' : ''}`}
-                                        onClick={() => handleHotelImageClick(file.fileUrl, index)}
-                                    />
-                                ))}
-                            </div>
-                        </div>
-                        <div className='flex flex-col justify-between px-3 md:gap-4 md:flex-row'>
-                            <div className='lg:w-[25rem]'>
-
-                                <div className='flex items-end gap-1 mt-3'>
-
-                                    <h2 className='flex text-[1.2rem] items-center gap-2 font-semibold '><FaHotel />{hotelData?.hotelName}</h2>
-                                </div>
-                                <h2 className='text-[0.9rem] text-[#383838] font-semibold'>Room type - {roomData?.roomType}</h2>
-                                <div className='flex items-center justify-between mt-1'>
-                                    <h1 className='flex text-[0.85rem] lg:text-[0.95rem] font-semibold items-center text-[#555555] justify-center gap-1'><FaLocationDot className='text-black' />{hotelData?.address}</h1>
-                                </div>
-
-                                <div className='flex flex-wrap items-start gap-1 mt-2 ml-2 '>
-                                    <div className='flex items-center justify-center gap-1 mr-6  text-[#444444] text-[0.9rem] font-semibold'>
-                                        <IoBed className='text-black-500 text-[1.2rem]' />
-                                        {roomData.roomType === "PREMIUM_DELUXE" ? "Maharaja Bed" :
-                                            roomData?.roomType === "SINGLE" ? "Single Bed" : "Double Bed"}
-                                    </div>
-                                    <div className='flex items-center justify-center gap-1  mr-4 text-[#444444] text-[0.9rem] font-semibold'>
-                                        <FaUser className='mx-[2.5px] text-black-500' />
-                                        {roomData.roomType === "PREMIUM_DELUXE" ? `Max ${roomData?.capacity} guests` :
-                                            roomData?.roomType === "SINGLE" ? `Max ${roomData?.capacity} guests` : `Max ${roomData?.capacity} guests`}
-                                    </div>
-
-                                    {roomData.amenities.includes("Breakfast") && (
-                                        <div className='flex items-center justify-center gap-1 text-[#444444] text-[0.9rem] font-semibold'>
-                                            <MdOutlineFreeBreakfast className='text-black-500 text-[1.2rem]' />
-                                            {roomData.roomType === "PREMIUM_DELUXE" ? "Free Breakfast + 1 meal" :
-                                                roomData.roomType === "SINGLE" ? "Free Breakfast" : "Free Breakfast"}
-                                        </div>
-                                    )}
-                                    {roomData.courtyardView &&
-                                        <div className='flex items-center justify-center gap-1  mr-6 text-[#444444] text-[0.9rem] font-semibold'>
-                                            <img src="https://gos3.ibcdn.com/roomViewIcon-1678093525.png" className='w-[1rem] mx-[2px]' alt="" />
-                                            Courtyard View
-                                        </div>}
-                                    <div className='flex items-center justify-center gap-1  text-[#444444] text-[0.9rem] font-semibold'>
-                                        <TiCancel className=' text-[1.3rem] text-black-500' />
-                                        No cancellation
-                                    </div>
-                                </div>
-
-
-
-
-                            </div>
-
-                        </div>
-                    </div>
-                    <div
-                        className='h-[27rem] lg:h-[28rem]  flex flex-col md:border-b-[6px] lg:hover:border-b-[0.5px] bg-[#f5f5f5] border-blue-500  min-w-[19.5rem] text-black max-w-[21rem] w-[90vw]  cursor-pointer transition-all duration-500 hover:bg-gradient-to-b  rounded-xl shadow-[0px_5px_10px_-6px_#808080] overflow-hidden'
-                    >
-                        <form action="" className="flex flex-col gap-1 p-3">
-                            <h1 className="text-2xl font-bold ">Enter details</h1>
-                            <div className='flex items-center gap-1 mb-2'>
-                                <div>
-                                    <div className='w-[2.5rem] h-[5px] rounded-full bg-black'></div>
-                                </div>
-                                <div>
-                                    <div className='w-[1.2rem] h-[5px] rounded-full bg-black'></div>
-                                </div>
-                                <div>
-                                    <div className='size-[5px] rounded-full bg-black'></div>
-                                </div>
-                            </div>
-                            <div className=''>
-                                <label htmlFor="fullName" className="block text-sm font-medium text-gray-700">Full Name</label>
-                                <input type="text" id="fullName" className={inputStyle}
-                                    name='fullName'
-                                    value={formData.fullName}
-                                    onChange={handleChange}
+        <>
+            <div className='relative'>
+                <SocialCard item={breadcrumbItems} icon={"hotel"} title={"Book Room"} des={"Confirm your booking by submitting booking details."} />
+                <div onClick={() => navigate(-1)} className='absolute top-1 left-1 p-2 bg-[#4960f8] shadow-md rounded w-fit'>
+                    <FaArrowLeft onClick={() => navigate(-1)} className='text-white text-[1.1rem]' />
+                </div>
+            </div>
+            <div className='from-[#e7eafd] bg-gradient-to-b via-[#f7f7fb] to-white p-4 py-8 flex flex-wrap items-center justify-center'>
+                <div className='flex flex-col items-center justify-center gap-2'>
+                    <div className='flex flex-wrap items-center justify-center gap-1'>
+                        <div
+                            className='bg-white lg:h-[28rem]  pb-2 h-[27rem] flex flex-col md:border-b-[6px] lg:hover:border-b-[0.5px] border-blue-500  min-w-[19.5rem] text-black max-w-[21rem] w-[90vw] hover:from-[#f3fbff] cursor-pointer transition-all duration-500 hover:bg-gradient-to-b hover:to-[#f8fafc] rounded-xl shadow-[0px_5px_10px_-6px_#808080] overflow-hidden'
+                        >
+                            <div className='w-full'>
+                                <img
+                                    src={hotelMainImage}
+                                    alt="Hotel Main"
+                                    className='h-[12rem]  w-full object-cover transition-all duration-500 animate-fadeIn'
                                 />
-                            </div>
-                            <div className='flex justify-between gap-4 '>
-                                <div className='w-1/2'>
-                                    <label htmlFor="phoneNumber" className="block text-sm font-medium text-gray-700">Phone Number</label>
-                                    <input type="number" id="phoneNumber"
-                                        name='phoneNumber'
-                                        className={inputStyle}
-                                        value={formData.phoneNumber}
-                                        onChange={handleChange} />
-                                </div>
-                                <div className='w-1/2'>
-                                    <label htmlFor="alternateNumber" className="block text-sm font-medium text-gray-700">Alternate Number</label>
-                                    <input type="number" id="alternateNumber"
-                                        name='alternateNumber'
-                                        className={inputStyle}
-                                        value={formData.alternateNumber}
-                                        onChange={handleChange}
-                                    />
-                                </div>
-                            </div>
-                            <div className='flex justify-between gap-4 '>
-                                <div className='w-1/2'>
-                                    <label htmlFor="adults" className="block text-sm font-medium text-gray-700">No. of Adults</label>
-                                    <input type="number" id="adults" className={inputStyle}
-                                        name='adults'
-
-                                        value={formData.adults}
-                                        onChange={handleChange}
-                                    />
-                                </div>
-                                <div className='w-1/2'>
-                                    <label htmlFor="children" className="block text-sm font-medium text-gray-700">No. of Children</label>
-                                    <input type="number"
-                                        name='children'
-
-                                        id="children" className={inputStyle}
-                                        value={formData.children}
-                                        onChange={handleChange}
-                                    />
-                                </div>
-                            </div>
-                            <div className='flex justify-between gap-4 '>
-                                <div className='w-[47.5%]'>
-                                    <label htmlFor="checkIn" className="block text-sm font-medium text-gray-700">Check-in</label>
-                                    <input type="date" id="checkIn"
-                                        name='checkIn'
-                                        className={inputStyle}
-                                        value={formData.checkIn}
-                                        onChange={handleChange}
-                                    />
-                                </div>
-                                <div className='w-[47.5%]'>
-                                    <label htmlFor="checkOut" className="block text-sm font-medium text-gray-700">Check-out</label>
-                                    <input type="date" id="checkOut" className={inputStyle}
-                                        name='checkOut'
-
-                                        value={formData.checkOut}
-                                        onChange={handleChange}
-                                    />
-                                </div>
-                            </div>
-                            <div className=''>
-                                <label htmlFor="totalRoom" className="block text-sm font-medium text-gray-700">No of rooms</label>
-                                <select id="totalRoom"
-                                    value={formData.totalRoom}
-                                    onChange={handleChange}
-                                    name='totalRoom'
-                                    className={inputStyle}>
-                                    {Array.from({ length: roomData.totalRoom }, (_, i) => (
-                                        <option key={i} value={i + 1}>{i + 1}</option>
+                                <div className='flex justify-between bg-[#eeeeef] p-2'>
+                                    {hotelData?.proofFiles?.slice(0, 2).map((file, index) => (
+                                        <img
+                                            key={index}
+                                            src={file.fileUrl}
+                                            alt={`Hotel Proof ${index + 1}`}
+                                            className={`h-[3rem] w-[23%] rounded object-cover cursor-pointer transition-all duration-300 ${hotelMainImage === file.fileUrl ? 'border-2 border-blue-500 shadow-lg transform scale-105' : ''}`}
+                                            onClick={() => handleHotelImageClick(file.fileUrl, index)}
+                                        />
                                     ))}
-                                </select>
+                                    {roomData?.roomImage?.slice(0, 2).map((file, index) => (
+                                        <img
+                                            key={index}
+                                            src={file.fileUrl}
+                                            alt={`Hotel Proof ${index + 1}`}
+                                            className={`h-[3rem] w-[23%] rounded object-cover cursor-pointer transition-all duration-300 ${hotelMainImage === file.fileUrl ? 'border-2 border-blue-500 shadow-lg transform scale-105' : ''}`}
+                                            onClick={() => handleHotelImageClick(file.fileUrl, index)}
+                                        />
+                                    ))}
+                                </div>
                             </div>
-                            <div className='pt-1'>
-                                {roomData?.roomType !== "PREMIUM_DELUXE" && (
-                                    roomData.amenities.includes("Breakfast") ? (
-                                        <div className='flex items-center gap-2'>
-                                            <input
-                                                type="checkbox"
-                                                name="food"
-                                                value="Meal"
-                                                checked={formData.food === "Meal"}
-                                                onChange={handleChangeCheck}
-                                            />
-                                            <label htmlFor="food" className="text-sm font-medium text-gray-700">
-                                                Include Meal?
-                                            </label>
+                            <div className='flex flex-col justify-between px-3 md:gap-4 md:flex-row'>
+                                <div className='lg:w-[25rem]'>
+
+                                    <div className='flex items-end gap-1 mt-3'>
+
+                                        <h2 className='flex text-[1.2rem] items-center gap-2 font-semibold '><FaHotel />{hotelData?.hotelName}</h2>
+                                    </div>
+                                    <h2 className='text-[0.9rem] text-[#383838] font-semibold'>Room type - {roomData?.roomType}</h2>
+                                    <div className='flex items-center justify-between mt-1'>
+                                        <h1 className='flex text-[0.85rem] lg:text-[0.95rem] font-semibold items-center text-[#555555] justify-center gap-1'><FaLocationDot className='text-black' />{hotelData?.address}</h1>
+                                    </div>
+
+                                    <div className='flex flex-wrap items-start gap-1 mt-2 ml-2 '>
+                                        <div className='flex items-center justify-center gap-1 mr-6  text-[#444444] text-[0.9rem] font-semibold'>
+                                            <IoBed className='text-black-500 text-[1.2rem]' />
+                                            {roomData.roomType === "PREMIUM_DELUXE" ? "Maharaja Bed" :
+                                                roomData?.roomType === "SINGLE" ? "Single Bed" : "Double Bed"}
                                         </div>
-                                    ) : (
-                                        <>
-                                            <div className='flex items-center gap-2'>
-                                                <input
-                                                    type="checkbox"
-                                                    name="food"
-                                                    value="Breakfast"
-                                                    checked={formData.food === "Breakfast"}
-                                                    onChange={handleChangeCheck}
-                                                />
-                                                <label htmlFor="food" className="text-sm font-medium text-gray-700">
-                                                    Include Breakfast?
-                                                </label>
+                                        <div className='flex items-center justify-center gap-1  mr-4 text-[#444444] text-[0.9rem] font-semibold'>
+                                            <FaUser className='mx-[2.5px] text-black-500' />
+                                            {roomData.roomType === "PREMIUM_DELUXE" ? `Max ${roomData?.capacity} guests` :
+                                                roomData?.roomType === "SINGLE" ? `Max ${roomData?.capacity} guests` : `Max ${roomData?.capacity} guests`}
+                                        </div>
+
+                                        {roomData.amenities.includes("Breakfast") && (
+                                            <div className='flex items-center justify-center gap-1 text-[#444444] text-[0.9rem] font-semibold'>
+                                                <MdOutlineFreeBreakfast className='text-black-500 text-[1.2rem]' />
+                                                {roomData.roomType === "PREMIUM_DELUXE" ? "Free Breakfast + 1 meal" :
+                                                    roomData.roomType === "SINGLE" ? "Free Breakfast" : "Free Breakfast"}
                                             </div>
+                                        )}
+                                        {roomData.courtyardView &&
+                                            <div className='flex items-center justify-center gap-1  mr-6 text-[#444444] text-[0.9rem] font-semibold'>
+                                                <img src="https://gos3.ibcdn.com/roomViewIcon-1678093525.png" className='w-[1rem] mx-[2px]' alt="" />
+                                                Courtyard View
+                                            </div>}
+                                        <div className='flex items-center justify-center gap-1  text-[#444444] text-[0.9rem] font-semibold'>
+                                            <TiCancel className=' text-[1.3rem] text-black-500' />
+                                            No cancellation
+                                        </div>
+                                    </div>
+
+
+
+
+                                </div>
+
+                            </div>
+                        </div>
+                        <div
+                            className='h-[27rem] lg:h-[28rem]  flex flex-col md:border-b-[6px] lg:hover:border-b-[0.5px] bg-[#f5f5f5] border-blue-500  min-w-[19.5rem] text-black max-w-[21rem] w-[90vw]  cursor-pointer transition-all duration-500 hover:bg-gradient-to-b  rounded-xl shadow-[0px_5px_10px_-6px_#808080] overflow-hidden'
+                        >
+                            <form action="" className="flex flex-col gap-1 p-3">
+                                <h1 className="text-2xl font-bold ">Enter details</h1>
+                                <div className='flex items-center gap-1 mb-2'>
+                                    <div>
+                                        <div className='w-[2.5rem] h-[5px] rounded-full bg-black'></div>
+                                    </div>
+                                    <div>
+                                        <div className='w-[1.2rem] h-[5px] rounded-full bg-black'></div>
+                                    </div>
+                                    <div>
+                                        <div className='size-[5px] rounded-full bg-black'></div>
+                                    </div>
+                                </div>
+                                <div className=''>
+                                    <label htmlFor="fullName" className="block text-sm font-medium text-gray-700">Full Name</label>
+                                    <input type="text" id="fullName" className={inputStyle}
+                                        name='fullName'
+                                        value={formData.fullName}
+                                        onChange={handleChange}
+                                    />
+                                </div>
+                                <div className='flex justify-between gap-4 '>
+                                    <div className='w-1/2'>
+                                        <label htmlFor="phoneNumber" className="block text-sm font-medium text-gray-700">Phone Number</label>
+                                        <input type="number" id="phoneNumber"
+                                            name='phoneNumber'
+                                            className={inputStyle}
+                                            value={formData.phoneNumber}
+                                            onChange={handleChange} />
+                                    </div>
+                                    <div className='w-1/2'>
+                                        <label htmlFor="alternateNumber" className="block text-sm font-medium text-gray-700">Alternate Number</label>
+                                        <input type="number" id="alternateNumber"
+                                            name='alternateNumber'
+                                            className={inputStyle}
+                                            value={formData.alternateNumber}
+                                            onChange={handleChange}
+                                        />
+                                    </div>
+                                </div>
+                                <div className='flex justify-between gap-4 '>
+                                    <div className='w-1/2'>
+                                        <label htmlFor="adults" className="block text-sm font-medium text-gray-700">No. of Adults</label>
+                                        <input type="number" id="adults" className={inputStyle}
+                                            name='adults'
+
+                                            value={formData.adults}
+                                            onChange={handleChange}
+                                        />
+                                    </div>
+                                    <div className='w-1/2'>
+                                        <label htmlFor="children" className="block text-sm font-medium text-gray-700">No. of Children</label>
+                                        <input type="number"
+                                            name='children'
+
+                                            id="children" className={inputStyle}
+                                            value={formData.children}
+                                            onChange={handleChange}
+                                        />
+                                    </div>
+                                </div>
+                                <div className='flex justify-between gap-4 '>
+                                    <div className='w-[47.5%]'>
+                                        <label htmlFor="checkIn" className="block text-sm font-medium text-gray-700">Check-in</label>
+                                        <input type="date" id="checkIn"
+                                            name='checkIn'
+                                            className={inputStyle}
+                                            value={formData.checkIn}
+                                            onChange={handleChange}
+                                        />
+                                    </div>
+                                    <div className='w-[47.5%]'>
+                                        <label htmlFor="checkOut" className="block text-sm font-medium text-gray-700">Check-out</label>
+                                        <input type="date" id="checkOut" className={inputStyle}
+                                            name='checkOut'
+
+                                            value={formData.checkOut}
+                                            onChange={handleChange}
+                                        />
+                                    </div>
+                                </div>
+                                <div className=''>
+                                    <label htmlFor="totalRoom" className="block text-sm font-medium text-gray-700">No of rooms</label>
+                                    <select id="totalRoom"
+                                        value={formData.totalRoom}
+                                        onChange={handleChange}
+                                        name='totalRoom'
+                                        className={inputStyle}>
+                                        {Array.from({ length: roomData.totalRoom }, (_, i) => (
+                                            <option key={i} value={i + 1}>{i + 1}</option>
+                                        ))}
+                                    </select>
+                                </div>
+                                <div className='pt-1'>
+                                    {roomData?.roomType !== "PREMIUM_DELUXE" && (
+                                        roomData.amenities.includes("Breakfast") ? (
                                             <div className='flex items-center gap-2'>
                                                 <input
                                                     type="checkbox"
@@ -478,80 +466,107 @@ const BookHotel = () => {
                                                     Include Meal?
                                                 </label>
                                             </div>
-                                            <div className='flex items-center gap-2'>
-                                                <input
-                                                    type="checkbox"
-                                                    name="food"
-                                                    value="Breakfast + Meal"
-                                                    checked={formData.food === "Breakfast + Meal"}
-                                                    onChange={handleChangeCheck}
-                                                />
-                                                <label htmlFor="food" className="text-sm font-medium text-gray-700">
-                                                    Include Meal + Breakfast?
-                                                </label>
-                                            </div>
-                                        </>
-                                    )
-                                )}
+                                        ) : (
+                                            <>
+                                                <div className='flex items-center gap-2'>
+                                                    <input
+                                                        type="checkbox"
+                                                        name="food"
+                                                        value="Breakfast"
+                                                        checked={formData.food === "Breakfast"}
+                                                        onChange={handleChangeCheck}
+                                                    />
+                                                    <label htmlFor="food" className="text-sm font-medium text-gray-700">
+                                                        Include Breakfast?
+                                                    </label>
+                                                </div>
+                                                <div className='flex items-center gap-2'>
+                                                    <input
+                                                        type="checkbox"
+                                                        name="food"
+                                                        value="Meal"
+                                                        checked={formData.food === "Meal"}
+                                                        onChange={handleChangeCheck}
+                                                    />
+                                                    <label htmlFor="food" className="text-sm font-medium text-gray-700">
+                                                        Include Meal?
+                                                    </label>
+                                                </div>
+                                                <div className='flex items-center gap-2'>
+                                                    <input
+                                                        type="checkbox"
+                                                        name="food"
+                                                        value="Breakfast + Meal"
+                                                        checked={formData.food === "Breakfast + Meal"}
+                                                        onChange={handleChangeCheck}
+                                                    />
+                                                    <label htmlFor="food" className="text-sm font-medium text-gray-700">
+                                                        Include Meal + Breakfast?
+                                                    </label>
+                                                </div>
+                                            </>
+                                        )
+                                    )}
+                                </div>
+
+                            </form>
+
+                        </div>
+                    </div>
+
+                    <div
+                        className=' p-3 gap-2 flex flex-col md:border-b-[6px] lg:hover:border-b-[0.5px] bg-[white] border-blue-500  min-w-[19.5rem] text-black sm:max-w-[42rem] max-w-[21rem] w-[90vw] sm:w-[100vw] justify-start cursor-pointer transition-all duration-500 hover:bg-gradient-to-b  rounded-xl shadow-[0px_5px_10px_-6px_#808080] overflow-hidden'
+                    >
+                        <h1 className="text-2xl font-bold ">Price Breakup</h1>
+                        <div className='flex items-center gap-1 mb-2'>
+                            <div>
+                                <div className='w-[2.5rem] h-[5px] rounded-full bg-black'></div>
                             </div>
+                            <div>
+                                <div className='w-[1.2rem] h-[5px] rounded-full bg-black'></div>
+                            </div>
+                            <div>
+                                <div className='size-[5px] rounded-full bg-black'></div>
+                            </div>
+                        </div>
+                        <div className='flex flex-col justify-between gap-2 sm:items-end sm:flex-row'>
+                            <div className='flex flex-col sm:gap-[12.5px] gap-2 sm:w-[45%]'>
 
-                        </form>
+                                <div className='flex justify-between pb-1 border-b'>
+                                    <h3>{formData.totalRoom} Room * {totalNight} Nights</h3>
+                                    <p className='font-semibold '>Rs. {formData.priceBeforeDis}</p>
+                                </div>
+                                <div className='flex justify-between pb-1 border-b'>
 
+                                    <h3>Total Discount</h3>
+                                    <p className='font-semibold '>Rs. {formData.discount}</p>
+                                </div>
+
+                                <div className='flex justify-between pb-1'>
+
+                                    <h3>Price after Discount</h3>
+                                    <p className='font-semibold '>Rs.{formData.priceAfterDis}</p>
+                                </div>
+                            </div>
+                            <div className='flex flex-col gap-2 sm:w-[48%]'>
+
+                                <div className='flex justify-between pb-1 border-b'>
+                                    <h3>Taxes & Service Fess</h3>
+                                    <p className='font-semibold '>Rs. {formData.tax}</p>
+                                </div>
+
+                                <div className='flex justify-between pb-1 border-b'>
+
+                                    <h3>Amount to be paid</h3>
+                                    <p className='font-semibold '>Rs.{formData.totalAmt}</p>
+                                </div>
+                                <button onClick={handleSubmit} className='p-2 px-4 text-white bg-gradient-to-r w-full from-[#1751fe] via-[#0074f9] transition-all duration-300 to-[#0199ff] lg:px-6 hover:shadow-[1px_1px_6px_-2px#808080] rounded text-[0.9rem] font-semibold'>Book Now</button>
+                            </div>
+                        </div>
                     </div>
                 </div>
-
-                <div
-                    className=' p-3 gap-2 flex flex-col md:border-b-[6px] lg:hover:border-b-[0.5px] bg-[white] border-blue-500  min-w-[19.5rem] text-black sm:max-w-[42rem] max-w-[21rem] w-[90vw] sm:w-[100vw] justify-start cursor-pointer transition-all duration-500 hover:bg-gradient-to-b  rounded-xl shadow-[0px_5px_10px_-6px_#808080] overflow-hidden'
-                >
-                    <h1 className="text-2xl font-bold ">Price Breakup</h1>
-                    <div className='flex items-center gap-1 mb-2'>
-                        <div>
-                            <div className='w-[2.5rem] h-[5px] rounded-full bg-black'></div>
-                        </div>
-                        <div>
-                            <div className='w-[1.2rem] h-[5px] rounded-full bg-black'></div>
-                        </div>
-                        <div>
-                            <div className='size-[5px] rounded-full bg-black'></div>
-                        </div>
-                    </div>
-                    <div className='flex flex-col justify-between gap-2 sm:items-end sm:flex-row'>
-                        <div className='flex flex-col sm:gap-[12.5px] gap-2 sm:w-[45%]'>
-
-                            <div className='flex justify-between pb-1 border-b'>
-                                <h3>{formData.totalRoom} Room * {totalNight} Nights</h3>
-                                <p className='font-semibold '>Rs. {formData.priceBeforeDis}</p>
-                            </div>
-                            <div className='flex justify-between pb-1 border-b'>
-
-                                <h3>Total Discount</h3>
-                                <p className='font-semibold '>Rs. {formData.discount}</p>
-                            </div>
-
-                            <div className='flex justify-between pb-1'>
-
-                                <h3>Price after Discount</h3>
-                                <p className='font-semibold '>Rs.{formData.priceAfterDis}</p>
-                            </div>
-                        </div>
-                        <div className='flex flex-col gap-2 sm:w-[48%]'>
-
-                            <div className='flex justify-between pb-1 border-b'>
-                                <h3>Taxes & Service Fess</h3>
-                                <p className='font-semibold '>Rs. {formData.tax}</p>
-                            </div>
-
-                            <div className='flex justify-between pb-1 border-b'>
-
-                                <h3>Amount to be paid</h3>
-                                <p className='font-semibold '>Rs.{formData.totalAmt}</p>
-                            </div>
-                            <button onClick={handleSubmit} className='p-2 px-4 text-white bg-gradient-to-r w-full from-[#1751fe] via-[#0074f9] transition-all duration-300 to-[#0199ff] lg:px-6 hover:shadow-[1px_1px_6px_-2px#808080] rounded text-[0.9rem] font-semibold'>Book Now</button>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div >
+            </div >
+        </>
     )
 }
 

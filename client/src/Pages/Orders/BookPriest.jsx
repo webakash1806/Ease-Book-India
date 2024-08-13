@@ -3,12 +3,13 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { getDriverData, getPriestData } from '../../Redux/Slices/ServiceSlice';
 import { FaLocationDot } from 'react-icons/fa6';
-import { FaCar, FaRegUserCircle } from 'react-icons/fa';
+import { FaArrowLeft, FaCar, FaRegUserCircle } from 'react-icons/fa';
 import { MdOutlineAirlineSeatReclineExtra } from 'react-icons/md';
 import { bookCar, bookPriest } from '../../Redux/Slices/OrderSlice';
 import { toast } from 'react-toastify';
 import { getRazorpayId, order, verifyPayment } from '../../Redux/Slices/RazorpaySlice';
 import { GiSunPriest } from "react-icons/gi";
+import SocialCard from '../../Components/SocialCard';
 
 const BookPriest = () => {
     const [loaderActive, setLoaderActive] = useState(false);
@@ -196,58 +197,72 @@ const BookPriest = () => {
     const labelStyle = "text-[0.83rem] tracking-wide text-[#000] font-[500] ml-[0.5px]"
     const inputStyle = 'min-w-[18rem] max-w-[20.5rem] w-[87vw] sm:w-[24rem] rounded-[3px] h-full px-2 p-[7px] outline-none text-[0.94rem] tracking-wide resize-none bg-white border-[#808080] border '
 
+    const breadcrumbItems = [
+        { label: 'Home', href: '/' },
+        { label: 'Pooja list', href: '/pooja-list' },
+        { label: 'Book', },
+    ];
+
     return (
-        <div className='py-10 bg-[#efefef] flex flex-col items-center justify-center'>
-            <div className='overflow-hidden rounded-xl shadow-[3px_6px_15px_-8px#808080] '>
-                <div className='flex py-3 via-[#ecfff6] from-[#d0f7e6] bg-gradient-to-b to-[#f7fffb] w-full overflow-hidden text-black  items-center justify-center '>
-
-                    <GiSunPriest className='mr-4 text-[3.5rem] text-orange-600' />
-                    <div>
-                        <h2 className='text-xl font-semibold'>{priestData?.fullName || 'Priest Name'}</h2>
-                        <h3>{state.state.pooja.name}</h3>
-                        <div className='text-sm text-gray-600'>
-                            <div><strong>Pooja cost : </strong> {Number(state.state.pooja.price) + Number(priestData?.servicesData?.fare) || 'N/A'}</div>
-
-                        </div>
-                    </div>
+        <>
+            <div className='relative'>
+                <SocialCard item={breadcrumbItems} icon={"priest"} title={"Book Priest"} des={"Confirm your booking by submitting booking details."} />
+                <div onClick={() => navigate(-1)} className='absolute top-1 left-1 p-2 bg-[#4960f8] shadow-md rounded w-fit'>
+                    <FaArrowLeft onClick={() => navigate(-1)} className='text-white text-[1.1rem]' />
                 </div>
-                <form className='flex flex-col p-4 pt-2 text-black bg-white w-fit ' onSubmit={handleSubmit}>
-                    <h3 className='text-[1.1rem] font-semibold mb-2 border-b w-fit border-[#9e9e9e]'>Booking Details</h3>
-                    <div className={mainDiv}>
-                        <label className={labelStyle}>Location</label>
-                        <input type='text' name='location' value={formData.location} onChange={handleChange} className={inputStyle} />
-                    </div>
-                    <div className={mainDiv}>
-                        <label className={labelStyle}>Full Name</label>
-                        <input type='text' name='fullName' value={formData.fullName} onChange={handleChange} className={inputStyle} />
-                    </div>
-                    <div className='flex min-w-[18rem] max-w-[20.5rem] w-[87vw] sm:w-[24rem] justify-between'>
-                        <div className={`${mainDiv} w-[48%]`}>
-                            <label className={labelStyle} htmlFor="phoneNumber">Phone Number</label>
-                            <input className='border border-[#808080] w-full rounded-[3px] h-full px-2 p-[5.5px] outline-none text-[0.95rem] tracking-wide bg-[#ffffff] text-black' type="text" name='phoneNumber' value={formData?.phoneNumber} onChange={handleChange} />
-                        </div>
-                        <div className={`${mainDiv} w-[48%]`}>
-                            <label className={labelStyle} htmlFor="alternateNumber">Alternate Number</label>
-                            <input className='border border-[#808080] w-full rounded-[3px] h-full px-2 p-[5.5px] outline-none text-[0.95rem] tracking-wide bg-[#ffffff] text-black' type="text" name='alternateNumber' value={formData?.alternateNumber} onChange={handleChange} />
-                        </div>
-                    </div>
-
-                    <div className='flex items-center gap-3 mt-[10px]'>
-                        <input type='checkbox' name='samagri' className='accent-green-500' checked={formData?.samagri} onChange={handleChange} />
-                        <label className={labelStyle}>Want pooja samagri? (+ Rs.{Number(state.state.pooja.price) / 2})</label>
-                    </div>
-                    <div className='flex flex-col gap-2 mt-4'>
-
-                        <h3 className='text-[1.04rem] font-semibold'>
-                            Total Price: <span className='line-through'>Rs.{formData?.originalPrice}</span> Rs.{formData?.totalPrice.toFixed(2)}
-                        </h3>
-                    </div>
-                    <button onClick={() => setLoaderActive(true)} className='bg-[#685ED4] hover:bg-[#FF4C51] text-white flex items-center justify-center transition-all duration-700 w-full rounded-md p-[6px] font-semibold mt-[10px]'>
-                        Book {loaderActive && <div className='ml-4 ease-in-out mt-1 size-[1.25rem] border-[2.4px] border-t-[#46454546] animate-spin rounded-full bottom-0'></div>}
-                    </button>
-                </form>
             </div>
-        </div>
+            <div className='from-[#e7eafd] bg-gradient-to-b via-[#f7f7fb] to-white p-4 py-8 flex flex-wrap items-center justify-center'>
+                <div className='overflow-hidden rounded-xl shadow-[3px_6px_15px_-8px#808080] '>
+                    <div className='flex py-3 via-[#ecfff6] from-[#d0f7e6] bg-gradient-to-b to-[#f7fffb] w-full overflow-hidden text-black  items-center justify-center '>
+
+                        <GiSunPriest className='mr-4 text-[3.5rem] text-orange-600' />
+                        <div>
+                            <h2 className='text-xl font-semibold'>{priestData?.fullName || 'Priest Name'}</h2>
+                            <h3>{state.state.pooja.name}</h3>
+                            <div className='text-sm text-gray-600'>
+                                <div><strong>Pooja cost : </strong> {Number(state.state.pooja.price) + Number(priestData?.servicesData?.fare) || 'N/A'}</div>
+
+                            </div>
+                        </div>
+                    </div>
+                    <form className='flex flex-col p-4 pt-2 text-black bg-white w-fit ' onSubmit={handleSubmit}>
+                        <h3 className='text-[1.1rem] font-semibold mb-2 border-b w-fit border-[#9e9e9e]'>Booking Details</h3>
+                        <div className={mainDiv}>
+                            <label className={labelStyle}>Location</label>
+                            <input type='text' name='location' value={formData.location} onChange={handleChange} className={inputStyle} />
+                        </div>
+                        <div className={mainDiv}>
+                            <label className={labelStyle}>Full Name</label>
+                            <input type='text' name='fullName' value={formData.fullName} onChange={handleChange} className={inputStyle} />
+                        </div>
+                        <div className='flex min-w-[18rem] max-w-[20.5rem] w-[87vw] sm:w-[24rem] justify-between'>
+                            <div className={`${mainDiv} w-[48%]`}>
+                                <label className={labelStyle} htmlFor="phoneNumber">Phone Number</label>
+                                <input className='border border-[#808080] w-full rounded-[3px] h-full px-2 p-[5.5px] outline-none text-[0.95rem] tracking-wide bg-[#ffffff] text-black' type="text" name='phoneNumber' value={formData?.phoneNumber} onChange={handleChange} />
+                            </div>
+                            <div className={`${mainDiv} w-[48%]`}>
+                                <label className={labelStyle} htmlFor="alternateNumber">Alternate Number</label>
+                                <input className='border border-[#808080] w-full rounded-[3px] h-full px-2 p-[5.5px] outline-none text-[0.95rem] tracking-wide bg-[#ffffff] text-black' type="text" name='alternateNumber' value={formData?.alternateNumber} onChange={handleChange} />
+                            </div>
+                        </div>
+
+                        <div className='flex items-center gap-3 mt-[10px]'>
+                            <input type='checkbox' name='samagri' className='accent-green-500' checked={formData?.samagri} onChange={handleChange} />
+                            <label className={labelStyle}>Want pooja samagri? (+ Rs.{Number(state.state.pooja.price) / 2})</label>
+                        </div>
+                        <div className='flex flex-col gap-2 mt-4'>
+
+                            <h3 className='text-[1.04rem] font-semibold'>
+                                Total Price: <span className='line-through'>Rs.{formData?.originalPrice}</span> Rs.{formData?.totalPrice.toFixed(2)}
+                            </h3>
+                        </div>
+                        <button onClick={() => setLoaderActive(true)} className='bg-[#685ED4] hover:bg-[#FF4C51] text-white flex items-center justify-center transition-all duration-700 w-full rounded-md p-[6px] font-semibold mt-[10px]'>
+                            Book {loaderActive && <div className='ml-4 ease-in-out mt-1 size-[1.25rem] border-[2.4px] border-t-[#46454546] animate-spin rounded-full bottom-0'></div>}
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </>
     )
 }
 

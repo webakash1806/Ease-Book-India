@@ -10,9 +10,9 @@ const AnimatedText = ({ text1, text2, text3, text4 }) => {
         // Clear previous animations
         gsap.killTweensOf(texts);
 
-        // Define different animations for various cases
+        // Define animations for each text
         const animations = {
-            singleText: () => {
+            text1Animation: () => {
                 const chars = texts[0].querySelectorAll('.char');
                 gsap.fromTo(
                     chars,
@@ -22,69 +22,33 @@ const AnimatedText = ({ text1, text2, text3, text4 }) => {
                         y: 0,
                         rotate: 0,
                         stagger: 0.05,
-                        duration: 1.5,
+                        duration: 0.2,
                         ease: 'back.out(1.7)',
                     }
                 );
             },
-            twoTexts: () => {
-                const chars1 = texts[0].querySelectorAll('.char');
-                const chars2 = texts[1].querySelectorAll('.char');
+            text2Animation: () => {
+                const chars = texts[1].querySelectorAll('.char');
                 gsap.fromTo(
-                    chars1,
-                    { opacity: 0, x: -100 },
-                    {
-                        opacity: 1,
-                        x: 0,
-                        stagger: 0.1,
-                        duration: 1,
-                        ease: 'power2.out',
-                    }
-                );
-                gsap.fromTo(
-                    chars2,
+                    chars,
                     { opacity: 0, x: 100 },
                     {
                         opacity: 1,
                         x: 0,
-                        stagger: 0.1,
-                        duration: 1,
-                        ease: 'power2.out',
+                        stagger: 0.08,
+                        duration: 0.5,
+                        ease: 'power1.out',
                     }
                 );
             },
-            threeTexts: () => {
-                const chars1 = texts[0].querySelectorAll('.char');
-                const chars2 = texts[1].querySelectorAll('.char');
-                const chars3 = texts[2].querySelectorAll('.char');
-
+            text3Animation: () => {
+                const chars = texts[2].querySelectorAll('.char');
                 gsap.fromTo(
-                    chars1,
-                    { opacity: 0, y: -50 },
+                    chars,
+                    { opacity: 0, y: -100, scale: 0.5 },
                     {
                         opacity: 1,
                         y: 0,
-                        stagger: 0.1,
-                        duration: 1,
-                        ease: 'power2.out',
-                    }
-                );
-                gsap.fromTo(
-                    chars2,
-                    { opacity: 0, y: 50 },
-                    {
-                        opacity: 1,
-                        y: 0,
-                        stagger: 0.1,
-                        duration: 1,
-                        ease: 'power2.out',
-                    }
-                );
-                gsap.fromTo(
-                    chars3,
-                    { opacity: 0, scale: 0.5 },
-                    {
-                        opacity: 1,
                         scale: 1,
                         stagger: 0.1,
                         duration: 1,
@@ -92,78 +56,57 @@ const AnimatedText = ({ text1, text2, text3, text4 }) => {
                     }
                 );
             },
-            fourTexts: () => {
-                const chars1 = texts[0].querySelectorAll('.char');
-                const chars2 = texts[1].querySelectorAll('.char');
-                const chars3 = texts[2].querySelectorAll('.char');
-                const chars4 = texts[3].querySelectorAll('.char');
-
+            text4Animation: () => {
+                const chars = texts[3].querySelectorAll('.char');
                 gsap.fromTo(
-                    chars1,
-                    { opacity: 0, x: -100 },
+                    chars,
+                    { opacity: 0, x: -100, rotate: -45 },
                     {
                         opacity: 1,
                         x: 0,
+                        rotate: 0,
                         stagger: 0.1,
-                        duration: 1,
-                        ease: 'power2.out',
-                    }
-                );
-                gsap.fromTo(
-                    chars2,
-                    { opacity: 0, x: 100 },
-                    {
-                        opacity: 1,
-                        x: 0,
-                        stagger: 0.1,
-                        duration: 1,
-                        ease: 'power2.out',
-                    }
-                );
-                gsap.fromTo(
-                    chars3,
-                    { opacity: 0, y: -100 },
-                    {
-                        opacity: 1,
-                        y: 0,
-                        stagger: 0.1,
-                        duration: 1,
-                        ease: 'power2.out',
-                    }
-                );
-                gsap.fromTo(
-                    chars4,
-                    { opacity: 0, y: 100 },
-                    {
-                        opacity: 1,
-                        y: 0,
-                        stagger: 0.1,
-                        duration: 1,
+                        duration: 0.1,
                         ease: 'power2.out',
                     }
                 );
             },
         };
 
-        // Determine which animation to apply based on the number of texts
-        if (text1 && !text2 && !text3 && !text4) {
-            animations.singleText();
-        } else if (text1 && text2 && !text3 && !text4) {
-            animations.twoTexts();
-        } else if (text1 && text2 && text3 && !text4) {
-            animations.threeTexts();
-        } else if (text1 && text2 && text3 && text4) {
-            animations.fourTexts();
+        // Apply animations based on the presence of texts
+        if (text1) {
+            animations.text1Animation();
+        }
+        if (text2) {
+            animations.text2Animation();
+        }
+        if (text3) {
+            animations.text3Animation();
+        }
+        if (text4) {
+            animations.text4Animation();
         }
 
     }, [text1, text2, text3, text4]);
 
+    const textStyle = {
+        display: 'flex',
+        justifyContent: 'center',
+        alignItems: 'center',
+        flexWrap: 'wrap',
+        marginBottom: '20px',
+        textAlign: 'center',
+    };
+
     return (
         <div>
             {text1 && (
-                <h1 ref={(el) => (textRefs.current[0] = el)} style={{ display: 'flex', flexWrap: 'wrap' }}>
+                <h1
+                    ref={(el) => (textRefs.current[0] = el)}
+                    style={textStyle}
+                >
                     {text1.split(' ').map((word, i) => (
-                        <span key={i} style={{ display: 'flex', marginRight: '8px' }}>
+                        <span key={i} style={{ display: 'inline-flex', marginRight: '8px' }}>
                             {word.split('').map((char, j) => (
                                 <span key={j} className="char" style={{ display: 'inline-block' }}>
                                     {char}
@@ -174,9 +117,12 @@ const AnimatedText = ({ text1, text2, text3, text4 }) => {
                 </h1>
             )}
             {text2 && (
-                <h1 ref={(el) => (textRefs.current[1] = el)} style={{ display: 'flex', flexWrap: 'wrap' }}>
+                <h1
+                    ref={(el) => (textRefs.current[1] = el)}
+                    style={textStyle}
+                >
                     {text2.split(' ').map((word, i) => (
-                        <span key={i} style={{ display: 'flex', marginRight: '8px' }}>
+                        <span key={i} style={{ display: 'inline-flex', marginRight: '8px' }}>
                             {word.split('').map((char, j) => (
                                 <span key={j} className="char" style={{ display: 'inline-block' }}>
                                     {char}
@@ -187,9 +133,12 @@ const AnimatedText = ({ text1, text2, text3, text4 }) => {
                 </h1>
             )}
             {text3 && (
-                <h1 ref={(el) => (textRefs.current[2] = el)} style={{ display: 'flex', flexWrap: 'wrap' }}>
+                <h1
+                    ref={(el) => (textRefs.current[2] = el)}
+                    style={textStyle}
+                >
                     {text3.split(' ').map((word, i) => (
-                        <span key={i} style={{ display: 'flex', marginRight: '8px' }}>
+                        <span key={i} style={{ display: 'inline-flex', marginRight: '8px' }}>
                             {word.split('').map((char, j) => (
                                 <span key={j} className="char" style={{ display: 'inline-block' }}>
                                     {char}
@@ -200,9 +149,12 @@ const AnimatedText = ({ text1, text2, text3, text4 }) => {
                 </h1>
             )}
             {text4 && (
-                <h1 ref={(el) => (textRefs.current[3] = el)} style={{ display: 'flex', flexWrap: 'wrap' }}>
+                <h1
+                    ref={(el) => (textRefs.current[3] = el)}
+                    style={textStyle}
+                >
                     {text4.split(' ').map((word, i) => (
-                        <span key={i} style={{ display: 'flex', marginRight: '8px' }}>
+                        <span key={i} style={{ display: 'inline-flex', marginRight: '8px' }}>
                             {word.split('').map((char, j) => (
                                 <span key={j} className="char" style={{ display: 'inline-block' }}>
                                     {char}

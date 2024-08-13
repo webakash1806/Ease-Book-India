@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { getCarsList } from '../Redux/Slices/ServiceSlice';
-import { FaCar, FaRegUserCircle, FaAngleLeft, FaAngleRight } from 'react-icons/fa';
+import { FaCar, FaRegUserCircle, FaAngleLeft, FaAngleRight, FaArrowLeft } from 'react-icons/fa';
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
 import { FaLocationDot } from "react-icons/fa6";
@@ -16,6 +16,8 @@ const Cars = () => {
     const [loading, setLoading] = useState(true);
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 12;
+
+
 
     const availableList = serviceList.filter((data) => data?.servicesData?.availability === "AVAILABLE");
 
@@ -115,11 +117,20 @@ const Cars = () => {
         );
     };
 
+    const breadcrumbItems = [
+        { label: 'Home', href: '/' },
+        { label: 'Cars List' },
+    ];
+
     return (
         <>
-            <div>
-                <SocialCard />
+            <div className='relative'>
+                <SocialCard item={breadcrumbItems} icon={"car"} title={"Book Car"} des={"Rent a car to explore your destination with convenience and flexibility. Choose from a wide range of vehicles, from compact cars to luxury options, and enjoy a seamless rental experience."} />
+                <div onClick={() => navigate(-1)} className='absolute top-1 left-1 p-2 bg-[#4960f8] shadow-md rounded w-fit'>
+                    <FaArrowLeft onClick={() => navigate(-1)} className='text-white text-[1.1rem]' />
+                </div>
             </div>
+
             <div className='from-[#e7eafd] bg-gradient-to-b via-[#f7f7fb] to-white p-4 py-10 flex flex-col items-center gap-8 justify-center'>
                 {loading ? (
                     <div className='flex flex-wrap items-center justify-center gap-4'>
