@@ -51,16 +51,19 @@ const App = () => {
         <Route path='/' element={<HomePage />} />
         <Route path='/about' element={<AboutPage />} />
         <Route path='/contact' element={<ContactPage />} />
-
+        <Route path='/pooja-list' element={<PoojaList />} />
+        <Route path='/place-list' element={<PlacesPage />} />
+        <Route path='/priest-list' element={<PriestList />} />
+        <Route path='/guider-list' element={<GuiderList />} />
+        <Route path='/places' element={<Places />} />
+        <Route path='/hotels' element={<Hotel />} />
         <Route path='/testimonial' element={<TestimonialSection />} />
+        <Route path='/car' element={<Cars />} />
+        <Route path='/boat' element={<BoatPage />} />
 
         <Route element={<RequireAuth allowedRoles={['USER']} />} >
 
           <Route path='/profile/:fullName' element={<Profile />} />
-          <Route path='/places' element={<Places />} />
-          <Route path='/car' element={<Cars />} />
-          <Route path='/boat' element={<BoatPage />} />
-          <Route path='/hotels' element={<Hotel />} />
           <Route path='/car-book/:id' element={<OrderCar />} />
           <Route path='/hotel/:id' element={<HotelsWithRoom />} />
           <Route path='/hotel-book/hotel/:id/room/:roomId' element={<BookHotel />} />
@@ -77,10 +80,7 @@ const App = () => {
           <Route path='/priest-book-detail/:id' element={<PriestBookDetail />} />
           <Route path='/guider-book-detail/:id' element={<GuiderBookDetail />} />
           <Route path='/hotel-book-detail/:id' element={<HotelBookDetail />} />
-          <Route path='/pooja-list' element={<PoojaList />} />
-          <Route path='/place-list' element={<PlacesPage />} />
-          <Route path='/priest-list' element={<PriestList />} />
-          <Route path='/guider-list' element={<GuiderList />} />
+
         </Route>
       </Routes>
     </HomeLayout>

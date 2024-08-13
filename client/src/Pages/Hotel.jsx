@@ -44,7 +44,7 @@ const Hotel = () => {
         <div className='bg-[#f0f0f0] w-full py-10 p-4 flex flex-col items-center gap-8 justify-center'>
             {loading ? (
                 <div className='flex flex-wrap gap-4'>
-                    {Array.from({ length: 8 }).map((_, index) => (
+                    {Array.from({ length: 8 })?.map((_, index) => (
                         <div key={index} className='bg-white text-black max-w-[20rem] w-[90vw] rounded-xl shadow-[0px_0px_5px_-3px_#808080] overflow-hidden'>
                             <Skeleton height={200} />
                             <div className='p-3'>
@@ -72,7 +72,7 @@ const Hotel = () => {
             ) : (
                 <div className='flex flex-col w-full gap-20 p-0'>
                     <div className='flex flex-col items-center justify-center w-full gap-8'>
-                        {hotelListData.map((data, key) => (
+                        {hotelListData?.map((data, key) => (
                             <div
                                 key={key}
                                 className='bg-white flex flex-col md:border-r-[6px] lg:hover:border-r-[0.5px] border-blue-500 sm:flex-row min-w-[19.5rem] text-black max-w-[20rem] sm:max-w-[45rem] md:max-w-[50rem] lg:max-w-[58.5rem] w-[90vw] hover:from-[#f3fbff] cursor-pointer transition-all duration-500 hover:bg-gradient-to-b hover:to-[#f8fafc] rounded-xl shadow-[0px_5px_10px_-6px_#808080] overflow-hidden'
@@ -81,7 +81,7 @@ const Hotel = () => {
                                 <div className='w-full sm:w-[19rem]'>
                                     <Slider {...settings}>
                                         {data?.proofFiles?.slice(0, 5).map((file, index) => (
-                                            <img key={index} src={file.fileUrl} alt={`Proof ${index + 1}`} className='h-[11.5rem] sm:h-[13.8rem] lg:h-[14rem] w-full object-cover' />
+                                            <img key={index} src={file?.fileUrl} alt={`Proof ${index + 1}`} className='h-[11.5rem] sm:h-[13.8rem] lg:h-[14rem] w-full object-cover' />
                                         ))}
                                     </Slider>
                                 </div>

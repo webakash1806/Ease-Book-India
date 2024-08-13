@@ -1,15 +1,41 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import carImg from '../assets/Images/car.png'
 import cruiseImg from '../assets/Images/cruise.png'
 import priestImg from '../assets/Images/priest.png'
 import guiderImg from '../assets/Images/guider.png'
 import hotelImg from '../assets/Images/hotel.png'
 import hero2Img from '../assets/Images/hero2.jpeg'
+import Slider from 'react-slick';
+import 'slick-carousel/slick/slick.css';
+import 'slick-carousel/slick/slick-theme.css';
 import AliceCarousel, { Link } from 'react-alice-carousel'
 import 'react-alice-carousel/lib/alice-carousel.css';
+import { useDispatch, useSelector } from 'react-redux'
+import { getBoatList, getCarsList, getHotelData, getHotelList } from '../Redux/Slices/ServiceSlice'
+import { useNavigate } from 'react-router-dom'
+import { MdOutlineAirlineSeatReclineExtra, MdRestaurantMenu } from 'react-icons/md'
+import { FaHotel, FaMapMarkerAlt, FaParking, FaRegUserCircle, FaSwimmingPool, FaWifi } from 'react-icons/fa'
+import { FaCar, FaLocationDot } from 'react-icons/fa6'
+import { GiSunPriest } from 'react-icons/gi'
+import { CgGym } from 'react-icons/cg'
+import { GrLounge } from 'react-icons/gr'
 const CategorySection = () => {
     const [active, setActive] = useState(1)
+    const serviceList = useSelector((state) => state?.service?.carsData) || [];
+    const boatList = useSelector((state) => state?.service?.boatData) || [];
+    const hotelListData = useSelector((state) => state?.service?.hotelListData) || [];
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
 
+    const loadData = async () => {
+        await dispatch(getCarsList());
+        await dispatch(getBoatList());
+        await dispatch(getHotelList());
+    };
+
+    useEffect(() => {
+        loadData()
+    }, [])
 
     const responsive = {
         0: {
@@ -27,86 +53,340 @@ const CategorySection = () => {
 
     }
 
-    const trendingList = [{ 'image': hero2Img, 'name': "Cruise", 'price': '100', 'link': '/' },
-    { 'image': hero2Img, 'name': "Cruise", 'price': '100', 'link': '/' },
-    { 'image': hero2Img, 'name': "Cruise", 'price': '100', 'link': '/' },
-    { 'image': hero2Img, 'name': "Cruise", 'price': '100', 'link': '/' }
-    ]
+    const availableCarList = serviceList.filter((data) => data?.servicesData?.availability === "AVAILABLE");
+    const availableBoatList = boatList.filter((data) => data?.servicesData?.availability === "AVAILABLE");
 
-    const item = trendingList.map((val) => {
+    const poojaOptions = [
+        { name: 'Rudra Havan', price: "1500" },
+        { name: 'Maha mrityunjay jap', price: "2000" },
+        { name: 'Vishnu yagna', price: "1800" },
+        { name: 'Kaal Sarp yog', price: "3300" },
+        { name: 'Bhagwat katha', price: "3000" },
+        { name: 'Vastu shanti', price: "2000" },
+        { name: 'Naw grah shanti', price: "1500" },
+        { name: 'Nakshastra shanti', price: "3000" },
+        { name: 'Rudra abhishekh', price: "5000" },
+    ];
+
+    console.log(availableBoatList)
+
+    const poojaItem = poojaOptions?.map((pooja, index) => (
+        <div key={index} className='flex border-l-[6px] border-orange-500   flex-col mx-auto items-center justify-center px-4 py-8 my-4 h-[18rem] transition-transform transform bg-[#fefdf7] rounded-lg shadow-[1px_0px_10px_-3px_#808080] w-[16rem] hover:scale-105'>
+            <GiSunPriest className='text-orange-600 text-[4rem] mb-2' />
+            <h2 className='mb-2 text-2xl font-semibold text-center text-gray-800'>{pooja.name}</h2>
+            <div className='flex items-center mb-4'>
+                <FaMapMarkerAlt className='mr-2 text-red-500' />
+                <span className='text-lg text-gray-600'>Varanasi</span>
+            </div>
+            <button
+                onClick={() => navigate('/priest-list', { state: { pooja } })}
+                className='px-6 py-[6px] text-lg border-none font-medium text-white transition-all duration-300 bg-green-500 rounded-md hover:bg-orange-500'
+            >
+                Book Now
+            </button>
+        </div>
+    ))
+
+    const placeOptions = [
+        { name: 'All ghats', price: 2000 },
+        { name: 'All Ghats temple', price: 3000 },
+        { name: 'Kashi vishwanath temple', price: 1500 },
+        { name: 'Sarnath temple', price: 1000 },
+        { name: 'Assi ghat - Dasaswamedh ghat', price: 2000 },
+        { name: 'Dasaswamedh ghat - Mankikarnika ghat', price: 1500 },
+        { name: 'Assi ghat - Mankikarnika ghat', price: 3000 },
+
+    ];
+
+    const placeItem = placeOptions?.map((place, index) => (
+        <div key={index} className='flex border-l-[6px] h-[17.5rem] border-blue-500 flex-col items-center justify-between py-8 p-6 sm:m-4 my-4 transition-transform transform bg-[#fefdf7] rounded-lg shadow-[1px_0px_10px_-3px_#808080] w-[16rem] mx-auto hover:scale-105'>
+            <img src={guiderImg} className='w-[4.5rem]' alt="" />
+            <h2 className='w-full mb-2 text-[1.3rem] font-semibold text-center text-gray-800'>{place.name}</h2>
+            <div className='flex items-center mb-4'>
+                <FaMapMarkerAlt className='mr-2 text-red-500' />
+                <span className='text-lg text-gray-600'>Varanasi</span>
+            </div>
+            <button
+                onClick={() => navigate('/guider-list', { state: { place } })}
+                className='px-6 py-[6px] text-lg border-none font-medium text-white transition-all duration-300 bg-green-500 rounded-md hover:bg-orange-500'
+            >
+                Book Now
+            </button>
+        </div>
+    ))
+
+    const carItem = availableCarList?.slice(0, 4)?.map((data, key) => {
         return <>
-            <Link className='flex overflow-hidden mx-auto flex-col items-start bg-white text-black pb-3 w-[14rem] rounded-md  text-[15px] md:text-[16px] lg:text-[17px] '>
-                < img src={hero2Img} alt="" className='w-full h-[6.5rem]  mb-2 lg:mb-4 object-cover' />
-                <div className='p-2'>
-                    <div className='flex flex-col items-start justify-between w-full'>
-                        <h3 className='font-bold w-[8.8rem] truncate'>{val.name}</h3>
-                        <p className='w-[8.8rem] truncate'>location</p>
+            <div key={key + 1} className='bg-white mx-auto my-4 text-black w-[16rem] hover:from-[#d0f7e6] transition-all duration-300 hover:bg-gradient-to-b hover:to-[#f7fffb] rounded-xl shadow-[0px_0px_5px_#808080] overflow-hidden'>
+                <img src={data?.proofFiles[3]?.fileUrl} alt="" className='h-[10rem] w-full object-cover' />
+                <div className='p-3 pt-0 text-[0.85rem] text-[#292929]'>
+                    <div className='flex items-center justify-between my-2 text-black'>
+                        <h2 className='text-[1rem] font-semibold'>{data?.carName}</h2>
+                        <h2 className='flex items-center gap-1'><MdOutlineAirlineSeatReclineExtra />{data?.servicesData?.seatingCap}</h2>
                     </div>
-                    <div className='flex items-center justify-between'>
-                        <strike>2355</strike>
-                        <h4>1335</h4>
+                    <div className='flex items-center justify-between my-2'>
+                        <h1 className='flex items-center justify-center gap-2'><FaRegUserCircle />{data?.fullName}</h1>
+                        <h2>{data?.age} years</h2>
                     </div>
-                    <p>1 room per night</p>
+                    <div className='flex items-center justify-between my-2'>
+                        <h1 className='flex items-center justify-center gap-2'><FaCar />Experience</h1>
+                        <h2>{data?.experience} years</h2>
+                    </div>
+                    <div className='flex items-center justify-between my-2'>
+                        <h1 className='flex items-center justify-center gap-2'><FaLocationDot />{data?.servicesData?.serviceArea}</h1>
+                    </div>
+                    <div className='flex items-center justify-between pt-3 mt-3 border-t'>
+                        <div>
+                            <h3>
+                                <span className='text-[1.02rem] font-semibold text-[#19B56F]'>Rs.{data?.servicesData?.kmFare}</span> / Km
+                            </h3>
+                            <h3>
+                                <span className='text-[1.02rem] font-semibold text-[#19B56F]'>Rs.{data?.servicesData?.hrFare}</span> / hr
+                            </h3>
+                        </div>
+                        <button onClick={() => navigate(`/car-book/${data?._id}`)} className='border p-2 px-4 rounded-full border-[#19B56F] hover:bg-[#19B56F] transition-all duration-500 hover:text-white text-[#19B56F] font-semibold'>BOOK NOW</button>
+                    </div>
                 </div>
-
-            </ Link>
+            </div>
         </>
     })
+
+    const boatItem = availableBoatList?.slice(0, 3)?.map((data, key) => {
+        return <>
+            <div key={key + 1} className='bg-white mx-auto my-4 text-black w-[16rem] hover:from-[#d0f7e6] transition-all duration-300 hover:bg-gradient-to-b hover:to-[#f7fffb] rounded-xl shadow-[0px_0px_5px_#808080] overflow-hidden'>
+                <img src={data?.proofFiles[3]?.fileUrl} alt="" className='h-[10rem] w-full object-cover' />
+                <div className='p-3 pt-0 text-[0.85rem] text-[#292929]'>
+                    <div className='flex items-center justify-between my-2 text-black'>
+                        <h2 className='text-[1rem] font-semibold'>{data?.boatType}</h2>
+                        <h2 className='flex items-center gap-1'><MdOutlineAirlineSeatReclineExtra />{data?.servicesData?.seatingCap}</h2>
+                    </div>
+                    <div className='flex items-center justify-between my-2'>
+                        <h1 className='flex items-center justify-center gap-2'><FaRegUserCircle />{data?.fullName}</h1>
+                        <h2>{data?.age} years</h2>
+                    </div>
+                    <div className='flex items-center justify-between my-2'>
+                        <h1 className='flex items-center justify-center gap-2'><FaCar />Experience</h1>
+                        <h2>{data?.experience} years</h2>
+                    </div>
+                    <div className='flex items-center justify-between my-2'>
+                        <h1 className='flex items-center justify-center gap-2'><FaLocationDot />{data?.servicesData?.serviceArea}</h1>
+                    </div>
+                    <div className='flex items-center justify-between pt-3 mt-3 border-t'>
+                        <div>
+                            <h3>
+                                <span className='text-[1.02rem] font-semibold text-[#19B56F]'>Rs.{data?.servicesData?.fullBoatFare}</span> / boat
+                            </h3>
+                            <h3>
+                                <span className='text-[1.02rem] font-semibold text-[#19B56F]'>Rs.{data?.servicesData?.seatFare}</span> / seat
+                            </h3>
+                        </div>
+                        <button onClick={() => navigate(`/car-book/${data?._id}`)} className='border p-2 px-4 rounded-full border-[#19B56F] hover:bg-[#19B56F] transition-all duration-500 hover:text-white text-[#19B56F] font-semibold'>BOOK NOW</button>
+                    </div>
+                </div>
+            </div>
+        </>
+    })
+
+    const settings = {
+        dots: false,
+        infinite: true,
+        speed: 400,
+        slidesToShow: 1,
+        slidesToScroll: 1,
+        adaptiveHeight: true,
+        autoplay: true,
+        autoplaySpeed: 3000,
+        arrows: false,
+    };
+
+
+    const hotelItem = hotelListData?.map((data, key) => (
+        <div
+            key={key}
+            className='bg-white flex flex-col mx-auto border-b-[6px] my-4 hover:border-b-[0.5px] border-blue-500  w-[16.8rem] text-black  hover:from-[#f3fbff] cursor-pointer transition-all duration-500 hover:bg-gradient-to-b hover:to-[#f8fafc] rounded-xl shadow-[0px_5px_10px_-6px_#808080] overflow-hidden'
+            onClick={() => navigate(`/hotel/${data._id}`)}
+        >
+            <div className='w-full sm:w-[19rem]'>
+                <Slider {...settings}>
+                    {data?.proofFiles?.slice(0, 5).map((file, index) => (
+                        <img key={index} src={file?.fileUrl} alt={`Proof ${index + 1}`} className='h-[9.5rem] w-full object-cover' />
+                    ))}
+                </Slider>
+            </div>
+            <div className='flex flex-col justify-between px-3 pb-2'>
+                <div className=''>
+                    <div className='flex items-center justify-between mt-1'>
+                        <h2 className='text-[1.2rem] font-semibold'>{data?.hotelName}</h2>
+                        <h2 className='flex items-center gap-1 '><FaHotel />{data?.servicesData?.roomType}</h2>
+                    </div>
+                    <div className='flex items-center justify-between mt-1'>
+                        <h1 className='flex text-[0.85rem] font-semibold items-center text-[#555555] justify-center gap-1'><FaLocationDot className='text-black' />{data?.address}</h1>
+                    </div>
+                    <div className='flex items-center justify-between my-1 '>
+                        <p className='text-[0.8rem] line-clamp-2'>{data?.description}</p>
+                    </div>
+                </div>
+                <div className='flex items-center justify-between mt-1 border-t '>
+                    <div className='flex flex-wrap w-[70%]'>
+                        <div className='flex items-center mr-4 justify-center gap-1 text-[0.87rem] text-[#6e6d6d] font-semibold'>
+                            <FaWifi className='' />
+                            Free Wifi
+                        </div>
+                        <div className='flex items-center mr-4  justify-center gap-1 text-[0.87rem] text-[#6e6d6d] font-semibold'>
+                            <GrLounge className='' />
+                            <p>Lounge</p>
+                        </div>
+
+                        <div className='flex items-center mr-4  justify-center gap-1 text-[0.87rem] text-[#6e6d6d] font-semibold'>
+                            <FaSwimmingPool className='' />
+                            <p>Swimming Pool</p>
+                        </div>
+                        <div className='flex items-center mr-4  justify-center gap-1 text-[0.87rem] text-[#6e6d6d] font-semibold'>
+                            <FaParking className='' />
+                            <p>Free Parking</p>
+                        </div>
+                        <div className='flex items-center mr-4  justify-center gap-1 text-[0.87rem] text-[#6e6d6d] font-semibold'>
+                            <CgGym className='' />
+                            <p>Gym</p>
+                        </div>
+                        <div className='flex items-center mr-4  justify-center gap-1 text-[0.87rem] text-[#6e6d6d] font-semibold'>
+                            <MdRestaurantMenu className='' />
+                            <p>Restaurant</p>
+                        </div>
+
+                    </div>
+                    <div className='flex flex-col items-center justify-center  relative top-[-6px]'>
+                        <p className='text-[0.7rem] flex flex-col top-3 items-center font-semibold text-[#505050] relative'>&#8377;15000
+                            <p className='h-[1.15px] w-[2.4rem] rotate-[-8deg] absolute top-2 bg-red-600'></p>
+
+                        </p>
+                        <span className='text-[1.2rem] relative top-2 font-semibold text-[#19B56F]'>&#8377; 1500</span>
+                        <p> <span className='text-[1rem] text-[#515151] font-semibold'>Per night</span></p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    ))
 
 
     return (
         <div className='w-full h-fit py-24  bg-gradient-to-b from-[#86fad9] from-[-1%] via-[#befdeb] via-[20%] to-[50%] lg:to-[65%] to-white flex flex-col items-center justify-center overflow-hidden'>
             <div className='rounded-[1rem] overflow-hidden '>
-                <div className='grid items-center justify-center grid-cols-3 md:grid-cols-6 w-fit'>
-                    <div onClick={() => setActive(1)} className={`w-[6rem] sm:w-[13rem] md:w-[8rem] lg:w-[10rem] lg:p-2 flex flex-col p-1 items-center justify-center ${active === 1 ? 'bg-[#FF8900]' : 'bg-white'}`}>
+                <div className='grid items-center justify-center grid-cols-3 md:grid-cols-6 w-fit shadow-[1px_5px_16px_-5px_#CFD6FA] relative z-[10]'>
+                    <div onClick={() => setActive(1)} className={`w-[6.6rem] sm:w-[13rem] md:w-[8rem] lg:w-[10rem] lg:p-2 flex flex-col p-1 items-center justify-center ${active === 1 ? 'bg-[#FF8900]' : 'bg-white'}`}>
                         <img className='w-[3.5rem]' src={hotelImg} alt="" />
                         <h3 className={`${active === 1 ? 'text-white' : 'text-black'} font-semibold`}>Hotels</h3>
                     </div>
-                    <div onClick={() => setActive(2)} className={`w-[6rem] sm:w-[13rem] md:w-[8rem] lg:w-[10rem] lg:p-2 flex flex-col p-1 items-center justify-center ${active === 2 ? 'bg-[#FF8900]' : 'bg-white'}`}>
+                    <div onClick={() => setActive(2)} className={`w-[6.6rem] sm:w-[13rem] md:w-[8rem] lg:w-[10rem] lg:p-2 flex flex-col p-1 items-center justify-center ${active === 2 ? 'bg-[#FF8900]' : 'bg-white'}`}>
                         <img className='w-[3.5rem]' src={guiderImg} alt="" />
 
                         <h3 className={`${active === 2 ? 'text-white' : 'text-black'} font-semibold`}>Guider</h3>
 
                     </div>
-                    <div onClick={() => setActive(3)} className={`w-[6rem] sm:w-[13rem] md:w-[8rem] lg:w-[10rem] lg:p-2 flex flex-col p-1 items-center justify-center ${active === 3 ? 'bg-[#FF8900]' : 'bg-white'}`}>
+                    <div onClick={() => setActive(3)} className={`w-[6.6rem] sm:w-[13rem] md:w-[8rem] lg:w-[10rem] lg:p-2 flex flex-col p-1 items-center justify-center ${active === 3 ? 'bg-[#FF8900]' : 'bg-white'}`}>
                         <img className='w-[3.5rem]' src={carImg} alt="" />
                         <h3 className={`${active === 3 ? 'text-white' : 'text-black'} font-semibold`}>Car rentals</h3>
 
                     </div>
-                    <div onClick={() => setActive(4)} className={`w-[6rem] sm:w-[13rem] md:w-[8rem] lg:w-[10rem] lg:p-2 flex flex-col p-1 items-center justify-center ${active === 4 ? 'bg-[#FF8900]' : 'bg-white'}`}>
+                    <div onClick={() => setActive(4)} className={`w-[6.6rem] sm:w-[13rem] md:w-[8rem] lg:w-[10rem] lg:p-2 flex flex-col p-1 items-center justify-center ${active === 4 ? 'bg-[#FF8900]' : 'bg-white'}`}>
                         <img className='w-[3.5rem]' src={cruiseImg} alt="" />
 
                         <h3 className={`${active === 4 ? 'text-white' : 'text-black'} font-semibold`}>Boats</h3>
 
                     </div>
-                    <div onClick={() => setActive(5)} className={`w-[6rem] sm:w-[13rem] md:w-[8rem] lg:w-[10rem] lg:p-2  flex flex-col p-1 items-center justify-center ${active === 5 ? 'bg-[#FF8900]' : 'bg-white'}`}>
+                    <div onClick={() => setActive(5)} className={`w-[6.6rem] sm:w-[13rem] md:w-[8rem] lg:w-[10rem] lg:p-2  flex flex-col p-1 items-center justify-center ${active === 5 ? 'bg-[#FF8900]' : 'bg-white'}`}>
                         <img className='w-[3.5rem]' src={priestImg} alt="" />
 
                         <h3 className={`${active === 5 ? 'text-white' : 'text-black'} font-semibold`}>Priests</h3>
 
                     </div>
-                    <div onClick={() => setActive(6)} className={`w-[6rem] sm:w-[13rem] md:w-[8rem] lg:w-[10rem] lg:p-2 flex flex-col p-1 items-center justify-center ${active === 6 ? 'bg-[#FF8900]' : 'bg-white'}`}>
+                    <div onClick={() => setActive(6)} className={`w-[6.6rem] sm:w-[13rem] md:w-[8rem] lg:w-[10rem] lg:p-2 flex flex-col p-1 items-center justify-center ${active === 6 ? 'bg-[#FF8900]' : 'bg-white'}`}>
                         <img className='w-[3.5rem]' src={hotelImg} alt="" />
 
                         <h3 className={`${active === 6 ? 'text-white' : 'text-black'} font-semibold`}>---</h3>
 
                     </div>
                 </div>
-                <div className='flex flex-col items-center justify-center w-full  pt-5 bg-gradient-to-r from-[#1751fe] via-[#0074f9] transition-all duration-300 to-[#0199ff] shadow-md'>
-                    <div className='w-[14.5rem]  sm:w-[30rem] md:w-[39rem] lg:w-[55rem]  flex items-center justify-center '>
-                        <AliceCarousel
-                            mouseTracking
-                            autoPlayInterval={2500}
-                            animationDuration={1200}
-                            infinite
-                            responsive={responsive}
-                            disableDotsControls
-                            disableButtonsControls
-                            items={item}
-                            autoPlay
-                        />
+                <div className='flex flex-col items-center justify-center w-full  pt-5 bg-[#fbfbff] backdrop-blur-md via-[#3985ff25] to-[#0062ff52a] transition-all duration-300  shadow-[0px_0px_10px_-6px_#808080_inset] '>
+                    <div className='w-[19.5rem] sm:w-[35rem] md:w-[35rem] lg:w-[52rem]  flex items-center justify-center '>
+                        {active === 1 &&
+                            <AliceCarousel
+                                mouseTracking
+                                autoPlayInterval={2500}
+                                animationDuration={1200}
+                                infinite
+                                responsive={responsive}
+                                disableDotsControls
+                                controlsStrategy="alternate"
+                                disableButtonsControls
+                                autoPlayDirection="ltr"
+                                animationType="fadeout"
+                                items={hotelItem}
+                                autoPlay
+                            />}
+                        {active === 2 &&
+                            <AliceCarousel
+                                mouseTracking
+                                autoPlayInterval={2500}
+                                animationDuration={1200}
+                                infinite
+                                responsive={responsive}
+                                disableDotsControls
+                                controlsStrategy="alternate"
+                                disableButtonsControls
+                                autoPlayDirection="ltr"
+                                animationType="fadeout"
+                                items={placeItem}
+                                autoPlay
+                            />}
+                        {active === 3 &&
+                            <AliceCarousel
+                                mouseTracking
+                                autoPlayInterval={2500}
+                                animationDuration={1200}
+                                infinite
+                                responsive={responsive}
+                                disableDotsControls
+                                controlsStrategy="alternate"
+                                disableButtonsControls
+                                autoPlayDirection="ltr"
+                                animationType="fadeout"
+                                items={carItem}
+                                autoPlay
+                            />}
+                        {active === 4 &&
+                            <AliceCarousel
+                                mouseTracking
+                                autoPlayInterval={2500}
+                                animationDuration={1200}
+                                infinite
+                                controlsStrategy="alternate"
+                                responsive={responsive}
+                                autoPlayDirection="ltr"
+                                animationType="fadeout"
+                                disableDotsControls
+                                disableButtonsControls
+                                items={boatItem}
+                                autoPlay
+                            />}
+                        {active === 5 &&
+                            <AliceCarousel
+                                mouseTracking
+                                autoPlayInterval={2500}
+                                animationDuration={1200}
+                                infinite
+                                controlsStrategy="alternate"
+                                responsive={responsive}
+                                autoPlayDirection="ltr"
+                                animationType="fadeout"
+                                disableDotsControls
+                                disableButtonsControls
+                                items={poojaItem}
+                                autoPlay
+                            />}
                     </div>
-                    <button className='bg-[#1EC28B] my-6 p-2 px-8 rounded-full font-semibold'>See more...</button>
+                    <button className='from-[#1751fe] hover:bg-gradient-to-bl via-[#0074f9]  to-[#0199ff]  shadow-md transition-all duration-500 bg-gradient-to-tl rounded-full p-[10px] px-8 mb-6 mt-2 text-[1rem] font-semibold'>See more...</button>
+
                 </div>
             </div>
             <div className='text-black flex flex-col items-center justify-center gap-5 my-20 py-10 lg:w-[70vw]'>
