@@ -113,7 +113,8 @@ const HomeLayout = ({ children }) => {
                                         {!isLoggedIn ?
                                             <div className='flex items-center justify-center gap-2 '>
                                                 <Link to='/login'
-                                                    className='btn from-[#1751fe] via-[#0074f9] hover:bg-gradient-to-bl bg-gradient-to-tr to-[#0199ff] transition-all duration-300 border-none text-white btn-sm rounded-sm px-6 font-normal text-[1.02rem] tracking-wide'>
+                                                    className='btn from-[#1751fe] via-[#0074f9] hover:bg-gradient-to-bl bg-gradient-to-tr to-[#0199ff] transition-all duration-300 border-none text-white btn-sm rounded-sm px-6 font-normal text-[1.02rem] tracking-wide'
+                                                >
                                                     Login
                                                 </Link>
                                                 <Link to='/register'

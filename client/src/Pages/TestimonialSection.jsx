@@ -143,7 +143,11 @@ const TestimonialsSwiper = () => {
     ];
 
     return (
-        <div className="relative flex items-center justify-center w-full p-4 bg-white">
+        <div className="relative flex flex-col items-center justify-center w-full p-4 pt-10 pb-10  bg-[#fefefe]">
+            <div className='flex flex-col items-center justify-center pb-16 my-2 text-[#323232]'>
+                <h1 className=' text-[2.1rem] font-bold leading-10 mb-3 text-[#0270F9]'>Hear It From <br /> Our Happy Clients!</h1>
+                <p className='font-semibold text-[1.1rem]'>Discover the experiences of those who chose us and see why they’re all smiles!</p>
+            </div>
             <Swiper
                 direction="vertical"
                 slidesPerView={4}
@@ -157,7 +161,7 @@ const TestimonialsSwiper = () => {
 
                 speed={2000}
                 modules={[Autoplay, Grid]}
-                className="w-full max-w-screen-xl h-[110vh] !py-2 swiper-backface-hidden"
+                className="w-full max-w-screen-xl h-[120vh]  !py-2 swiper-backface-hidden"
                 grid={{
                     rows: 1,
                 }}
@@ -194,8 +198,8 @@ const TestimonialsSwiper = () => {
                             x: (clientX - left) / width * 100,
                             y: (clientY - top) / height * 100
                         });
-                        x.set(((clientX - left) / width - 0.5) * 70);
-                        y.set(((clientY - top) / height - 0.5) * -70);
+                        x.set(((clientX - left) / width - 0.5) * 90);
+                        y.set(((clientY - top) / height - 0.5) * -90);
                     };
 
                     const handleMouseLeave = () => {
@@ -229,18 +233,18 @@ const TestimonialsSwiper = () => {
                                         loading="lazy"
                                     />
                                     <div className="flex flex-col items-start">
-                                        <p className="text-base font-semibold text-neutral-800">{testimonial.name}</p>
+                                        <p className=" font-semibold text-[1.1rem] text-neutral-800">{testimonial.name}</p>
                                         <p className="text-sm font-medium text-gray-600">{testimonial.occupation}</p>
                                     </div>
                                 </div>
-                                <p className="text-base text-gray-700">{testimonial.testimonial}</p>
+                                <p className="font-normal text-gray-700 ">{testimonial.testimonial}</p>
                             </motion.div>
                         </SwiperSlide>
                     );
                 })}
             </Swiper>
 
-            <div className="absolute bottom-0 left-0 right-0 h-80 z-[100] pointer-events-none bg-gradient-to-t from-white via-[#ffffffa8] to-transparent"></div>
+            <div className="absolute bottom-0 left-0 right-0 h-[30rem] z-[100] pointer-events-none bg-gradient-to-t from-white via-[#ffffffa8] to-transparent"></div>
         </div>
     );
 };

@@ -1,6 +1,7 @@
 import React from 'react';
 import { FaMapMarkerAlt } from 'react-icons/fa';
 import { useNavigate } from 'react-router-dom';
+import SocialCard from '../Components/SocialCard';
 
 const PoojaList = () => {
     const poojaOptions = [
@@ -18,22 +19,29 @@ const PoojaList = () => {
     const navigate = useNavigate();
 
     return (
-        <div className='min-h-[90vh]  text-black bg-gradient-to-r from-gray-100 to-gray-300 py-10 flex flex-wrap justify-center items-start p-4'>
-            {poojaOptions.map((pooja, index) => (
-                <div key={index} className='flex border-l-[6px] border-orange-500 flex-col items-center justify-center p-6 m-4 transition-transform transform bg-[#fefdf7] rounded-lg shadow-md w-80 hover:scale-105'>
-                    <h2 className='mb-2 text-2xl font-semibold text-gray-800'>{pooja.name}</h2>
-                    <div className='flex items-center mb-4'>
-                        <FaMapMarkerAlt className='mr-2 text-red-500' />
-                        <span className='text-lg text-gray-600'>Varanasi</span>
+        <div>
+            <div>
+                <SocialCard />
+            </div>
+            <div className='from-[#e7eafd] bg-gradient-to-b via-[#f7f7fb] to-white p-4 py-8 flex flex-wrap items-center justify-center'>
+
+                {poojaOptions.map((pooja, index) => (
+                    <div key={index} className='flex border-l-[6px] border-orange-500 flex-col h-fit items-center justify-center p-6 m-4 transition-transform transform bg-[#ffffff] rounded-lg shadow-md w-80 hover:scale-105'>
+                        <h2 className='mb-2 text-2xl font-semibold text-gray-800'>{pooja.name}</h2>
+                        <div className='flex items-center mb-4'>
+                            <FaMapMarkerAlt className='mr-2 text-red-500' />
+                            <span className='text-lg text-gray-600'>Varanasi</span>
+                        </div>
+                        <button
+                            onClick={() => navigate('/priest-list', { state: { pooja } })}
+                            className='h-10 from-[#1751fe] via-[#0074f9] hover:bg-gradient-to-bl bg-gradient-to-tr to-[#0199ff] transition-all duration-300 border-none text-white btn-sm rounded-md px-8 font-normal text-[1.02rem] tracking-wide'
+
+                        >
+                            Book Now
+                        </button>
                     </div>
-                    <button
-                        onClick={() => navigate('/priest-list', { state: { pooja } })}
-                        className='px-6 py-[6px] text-lg border-none font-medium text-white transition-all duration-300 bg-green-500 rounded-md hover:bg-orange-500'
-                    >
-                        Book Now
-                    </button>
-                </div>
-            ))}
+                ))}
+            </div>
         </div>
     );
 }

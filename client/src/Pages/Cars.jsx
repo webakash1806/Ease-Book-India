@@ -7,6 +7,7 @@ import 'react-loading-skeleton/dist/skeleton.css';
 import { FaLocationDot } from "react-icons/fa6";
 import { MdOutlineAirlineSeatReclineExtra } from "react-icons/md";
 import { useNavigate } from 'react-router-dom';
+import SocialCard from '../Components/SocialCard';
 
 const Cars = () => {
     const dispatch = useDispatch();
@@ -115,81 +116,86 @@ const Cars = () => {
     };
 
     return (
-        <div className='from-[#ddfcee] bg-gradient-to-b via-[#f7fffb] to-white p-4 py-10 flex flex-col items-center gap-8 justify-center'>
-            {loading ? (
-                <div className='flex flex-wrap gap-4'>
-                    {Array.from({ length: 8 }).map((_, index) => (
-                        <div key={index} className='bg-white text-black max-w-[20rem] w-[90vw] rounded-xl shadow-[0px_0px_5px_#808080] overflow-hidden'>
-                            <Skeleton height={200} />
-                            <div className='p-3'>
-                                <Skeleton height={25} width={160} />
-                                <div className='flex items-center justify-between my-2'>
-                                    <Skeleton height={24} width={100} />
-                                    <Skeleton height={24} width={60} />
-                                </div>
-                                <div className='flex items-center justify-between my-2'>
-                                    <Skeleton height={24} width={100} />
-                                    <Skeleton height={24} width={60} />
-                                </div>
-                                <div className='flex items-center justify-between my-2'>
-                                    <Skeleton height={24} width={100} />
-                                    <Skeleton height={24} width={60} />
-                                </div>
-                                <div className='flex items-center justify-between my-2'>
-                                    <Skeleton height={24} width={100} />
-                                    <Skeleton height={100} />
-                                </div>
-                                <div className='flex items-center justify-between pt-3 mt-3 border-t'>
-                                    <Skeleton height={28} width={80} />
-                                    <Skeleton height={40} width={120} />
-                                </div>
-                            </div>
-                        </div>
-                    ))}
-                </div>
-            ) : (
-                <div className='flex flex-col w-full gap-20 p-4'>
-                    <div className='flex flex-wrap items-center justify-start w-full gap-8'>
-                        {currentItems.map((data, key) => (
-                            <div key={key + 1} className='bg-white text-black max-w-[20rem] w-[90vw] hover:from-[#d0f7e6] transition-all duration-300 hover:bg-gradient-to-b hover:to-[#f7fffb] rounded-xl shadow-[0px_0px_5px_#808080] overflow-hidden'>
-                                <img src={data?.proofFiles[3]?.fileUrl} alt="" className='h-[14rem] w-full object-cover' />
+        <>
+            <div>
+                <SocialCard />
+            </div>
+            <div className='from-[#e7eafd] bg-gradient-to-b via-[#f7f7fb] to-white p-4 py-10 flex flex-col items-center gap-8 justify-center'>
+                {loading ? (
+                    <div className='flex flex-wrap items-center justify-center gap-4'>
+                        {Array.from({ length: 8 }).map((_, index) => (
+                            <div key={index} className='bg-white text-black max-w-[20rem] w-[90vw] rounded-xl shadow-[0px_0px_5px_#808080] overflow-hidden'>
+                                <Skeleton height={200} />
                                 <div className='p-3'>
+                                    <Skeleton height={25} width={160} />
                                     <div className='flex items-center justify-between my-2'>
-                                        <h2 className='text-[1.1rem] font-semibold'>{data?.carName}</h2>
-                                        <h2 className='flex items-center gap-1'><MdOutlineAirlineSeatReclineExtra />{data?.servicesData?.seatingCap}</h2>
+                                        <Skeleton height={24} width={100} />
+                                        <Skeleton height={24} width={60} />
                                     </div>
                                     <div className='flex items-center justify-between my-2'>
-                                        <h1 className='flex items-center justify-center gap-2'><FaRegUserCircle />{data?.fullName}</h1>
-                                        <h2>{data?.age} years</h2>
+                                        <Skeleton height={24} width={100} />
+                                        <Skeleton height={24} width={60} />
                                     </div>
                                     <div className='flex items-center justify-between my-2'>
-                                        <h1 className='flex items-center justify-center gap-2'><FaCar />Experience</h1>
-                                        <h2>{data?.experience} years</h2>
+                                        <Skeleton height={24} width={100} />
+                                        <Skeleton height={24} width={60} />
                                     </div>
                                     <div className='flex items-center justify-between my-2'>
-                                        <h1 className='flex items-center justify-center gap-2'><FaLocationDot />{data?.servicesData?.serviceArea}</h1>
+                                        <Skeleton height={24} width={100} />
+                                        <Skeleton height={100} />
                                     </div>
                                     <div className='flex items-center justify-between pt-3 mt-3 border-t'>
-                                        <div>
-                                            <h3>
-                                                <span className='text-[1.02rem] font-semibold text-[#19B56F]'>Rs.{data?.servicesData?.kmFare}</span> / Km
-                                            </h3>
-                                            <h3>
-                                                <span className='text-[1.02rem] font-semibold text-[#19B56F]'>Rs.{data?.servicesData?.hrFare}</span> / hr
-                                            </h3>
-                                        </div>
-                                        <button onClick={() => navigate(`/car-book/${data?._id}`)} className='border p-2 px-4 rounded-full border-[#19B56F] hover:bg-[#19B56F] transition-all duration-500 hover:text-white text-[#19B56F] font-semibold'>BOOK NOW</button>
+                                        <Skeleton height={28} width={80} />
+                                        <Skeleton height={40} width={120} />
                                     </div>
                                 </div>
                             </div>
                         ))}
                     </div>
-                    <div className='flex justify-center mt-4'>
-                        {renderPageNumbers()}
+                ) : (
+                    <div className='flex flex-col w-full gap-20 p-4'>
+                        <div className='flex flex-wrap items-center justify-center w-full gap-8'>
+                            {currentItems.map((data, key) => (
+                                <div key={key + 1} className='bg-white text-black max-w-[20rem] w-[90vw] hover:from-[#d0f7e6] transition-all duration-300 hover:bg-gradient-to-b hover:to-[#f7fffb] rounded-xl shadow-[0px_0px_5px_#808080] overflow-hidden'>
+                                    <img src={data?.proofFiles[3]?.fileUrl} alt="" className='h-[14rem] w-full object-cover' />
+                                    <div className='p-3'>
+                                        <div className='flex items-center justify-between my-2'>
+                                            <h2 className='text-[1.1rem] font-semibold'>{data?.carName}</h2>
+                                            <h2 className='flex items-center gap-1'><MdOutlineAirlineSeatReclineExtra />{data?.servicesData?.seatingCap}</h2>
+                                        </div>
+                                        <div className='flex items-center justify-between my-2'>
+                                            <h1 className='flex items-center justify-center gap-2'><FaRegUserCircle />{data?.fullName}</h1>
+                                            <h2>{data?.age} years</h2>
+                                        </div>
+                                        <div className='flex items-center justify-between my-2'>
+                                            <h1 className='flex items-center justify-center gap-2'><FaCar />Experience</h1>
+                                            <h2>{data?.experience} years</h2>
+                                        </div>
+                                        <div className='flex items-center justify-between my-2'>
+                                            <h1 className='flex items-center justify-center gap-2'><FaLocationDot />{data?.servicesData?.serviceArea}</h1>
+                                        </div>
+                                        <div className='flex items-center justify-between pt-3 mt-3 border-t'>
+                                            <div>
+                                                <h3>
+                                                    <span className='text-[1.02rem] font-semibold text-[#19B56F]'>Rs.{data?.servicesData?.kmFare}</span> / Km
+                                                </h3>
+                                                <h3>
+                                                    <span className='text-[1.02rem] font-semibold text-[#19B56F]'>Rs.{data?.servicesData?.hrFare}</span> / hr
+                                                </h3>
+                                            </div>
+                                            <button onClick={() => navigate(`/car-book/${data?._id}`)} className='border p-2 px-4 rounded-full border-[#19B56F] hover:bg-[#19B56F] transition-all duration-500 hover:text-white text-[#19B56F] font-semibold'>BOOK NOW</button>
+                                        </div>
+                                    </div>
+                                </div>
+                            ))}
+                        </div>
+                        <div className='flex justify-center mt-4'>
+                            {renderPageNumbers()}
+                        </div>
                     </div>
-                </div>
-            )}
-        </div>
+                )}
+            </div>
+        </>
     );
 };
 

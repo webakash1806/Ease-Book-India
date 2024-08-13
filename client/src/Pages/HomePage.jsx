@@ -4,6 +4,7 @@ import CategorySection from '../Components/CategorySection'
 import ExploreSection from '../Components/ExploreSection'
 import HomeLayout from '../Layout/HomeLayout'
 import TestimonialSection from './TestimonialSection'
+import SocialCard from '../Components/SocialCard'
 
 const HomePage = () => {
     return (
@@ -16,6 +17,7 @@ const HomePage = () => {
             <CategorySection />
             <ExploreSection />
             <TestimonialSection />
+            <SocialCard />
         </div>
     )
 }
