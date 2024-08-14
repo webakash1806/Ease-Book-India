@@ -33,6 +33,7 @@ import AboutPage from './Pages/AboutPage'
 import ContactPage from './Pages/ContactPage'
 import Profile from './Pages/Profile'
 import TestimonialSection from './Pages/TestimonialSection'
+import ResetPassword from './Pages/ResetPassword'
 
 const App = () => {
   // In your component
@@ -60,6 +61,7 @@ const App = () => {
         <Route path='/testimonial' element={<TestimonialSection />} />
         <Route path='/car' element={<Cars />} />
         <Route path='/boat' element={<BoatPage />} />
+        <Route path='/reset-password/:resetToken' element={<ResetPassword />} />
 
         <Route element={<RequireAuth allowedRoles={['USER']} />} >
 

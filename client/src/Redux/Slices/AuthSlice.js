@@ -98,6 +98,7 @@ export const changePassword = createAsyncThunk('user/update-password', async (da
 
 export const forgotPassword = createAsyncThunk('user/forgot-password', async (data) => {
     try {
+        console.log(data)
         let res = axiosInstance.post('user/forgot-password', data);
         toast.promise(res, {
             loading: "Sending password reset link to registered mail!",
@@ -114,6 +115,7 @@ export const forgotPassword = createAsyncThunk('user/forgot-password', async (da
 
 export const resetPasswords = createAsyncThunk('user/reset-password', async (data) => {
     try {
+        console.log(data)
         let res = axiosInstance.post(`user/reset-password/${data[0]}`, data[1]);
         toast.promise(res, {
             loading: "Resetting Password!",
