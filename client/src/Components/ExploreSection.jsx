@@ -39,7 +39,7 @@ const ExploreSection = () => {
                     <div className='bg-[#FFF3E5] p-2 rounded-full'>
                         <FaLocationDot className='text-[#FF8900] animate-pulse text-[0.95rem]' />
                     </div>
-                    <p className='font-semibold text-[1.05rem] '>Kashi vishwanath, Varanasi</p>
+                    <p className=' lora-700 text-[1.05rem] '>Kashi vishwanath, Varanasi</p>
                 </div>
                 <h2 className='text-center w-full text-[1.1rem] text-white mt-3 rounded-t-md py-2 from-[#1751fe] bg-gradient-to-bl via-[#0074f9]  to-[#0199ff]  font-semibold tracking-wide'>Kashi Vishwanath Temple</h2>
 
@@ -52,8 +52,8 @@ const ExploreSection = () => {
 
     return (
         <div className='bg-[#2A4046] explore gap-1 flex flex-col text-center items-center justify-center p-10'>
-            <h3 className='text-[#FF8900] text-[1.7rem] font-semibold'>EXPLORE WONDERFUL EXPERIENCE</h3>
-            <h2 className='text-[1.3rem] font-semibold'>Visit Popular Destinations in the World</h2>
+            <h3 className='text-[#FF8900] text-[2rem] overlock-bold-italic '>EXPLORE WONDERFUL EXPERIENCE</h3>
+            <h2 className='text-[1.3rem] lora-700'>Visit Popular Destinations in the World</h2>
             <div className='flex flex-wrap gap-6 my-5 text-[1.05rem] font-semibold'>
                 <h5 className={`hover:text-[#23efab] ${active === 1 ? 'text-[#23efab]' : 'text-white'}`} onClick={() => setActive(1)}>Special Place</h5>
                 <h5 className={`hover:text-[#23efab] ${active === 2 ? 'text-[#23efab]' : 'text-white'}`} onClick={() => setActive(2)}>Popular</h5>

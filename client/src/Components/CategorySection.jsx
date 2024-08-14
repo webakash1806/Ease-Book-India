@@ -391,8 +391,8 @@ const CategorySection = () => {
             </div>
             <div className='text-black flex flex-col items-center justify-center gap-5 my-20 py-10 lg:w-[70vw]'>
                 <div className='text-center md:w-full md:text-start'>
-                    <h4 className='text-[#FF8900] font-bold lg:text-[1.6rem] text-[1.35rem]'>WHAT WE SERVE</h4>
-                    <h2 className='text-[1.75rem] md:text-[3rem] lg:text-[3.5rem] md:ml-24 font-bold md:text-end w-fit'>TOP VALUES <br className='hidden md:block ' /> FOR YOU!</h2>
+                    <h4 className='text-[#FF8900] overlock-black-italic lg:text-[1.6rem] text-[1.35rem] '>WHAT WE SERVE</h4>
+                    <h2 className='text-[1.75rem] md:text-[3rem] lg:text-[3.5rem] md:ml-24 lora-900 md:text-end w-fit'>TOP VALUES <br className='hidden md:block ' /> FOR YOU!</h2>
                 </div>
                 <div className='flex flex-wrap items-center justify-center gap-5 md:gap-8 lg:gap-10'>
                     <div className='w-[17rem]  border-t-4 border-blue-500 transition-all duration-700 flex flex-col items-center hover:from-[#5494fc3c] hover:to-white bg-gradient-to-b justify-center  text-center p-4 to-[#fff] from-[#e3faf4] gap-2 py-12 rounded-lg'>
