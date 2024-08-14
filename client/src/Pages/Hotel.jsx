@@ -29,10 +29,7 @@ const Hotel = () => {
         loadData();
     }, []);
 
-    const breadcrumbItems = [
-        { label: 'Home', href: '/' },
-        { label: 'Hotels' },
-    ];
+
 
     const settings = {
         dots: false,
@@ -46,6 +43,11 @@ const Hotel = () => {
         arrows: false,
     };
 
+
+    const breadcrumbItems = [
+        { label: 'Home', href: '/' },
+        { label: 'Hotels' },
+    ];
     return (
 
         <>

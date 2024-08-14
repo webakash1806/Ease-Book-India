@@ -130,3 +130,11 @@
     font-weight: 900;
     font-style: italic;
 }
+
+@layer utilities {
+    @media (min-width: 768px) {
+        .w-custom {
+            width: calc(100vw - 11rem);
+        }
+    }
+}
