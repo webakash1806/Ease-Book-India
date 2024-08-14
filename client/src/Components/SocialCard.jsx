@@ -37,13 +37,13 @@ const SocialCard = ({ title, des, icon, item }) => {
             <div className="relative z-10 flex flex-col items-center justify-center">
                 <div className='flex items-center justify-center gap-3'>
                     {renderIcon()}
-                    <h2 className="text-[2rem] font-bold mt-4 text-white ">
+                    <h2 className="text-[2.47rem] overlock-bold-italic  mt-4 text-white ">
                         <AnimatedText text3={title} />
                     </h2>
                     {renderIcon()}
 
                 </div>
-                <p className=" text-center leading-6 font-semibold text-[#fff]">
+                <p className=" text-center lora-400 leading-6 font-semibold text-[#fff]">
                     <AnimatedText text1={des} />
                 </p>
                 {icon !== "testimonial" && <nav className="flex items-center   backdrop-blur-[5px] bg-[#1b1b1b58] justify-center w-full p-1 mx-auto space-x-2 text-gray-300  border border-blue-900 rounded">
