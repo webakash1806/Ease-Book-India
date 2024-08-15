@@ -304,6 +304,7 @@ const profile = async (req, res, next) => {
  */
 const forgotPassword = async (req, res, next) => {
     const { email } = req.body
+    console.log(email)
     if (!email) {
         return next(new AppError("Email is Required", 400))
     }
@@ -322,8 +323,24 @@ const forgotPassword = async (req, res, next) => {
 
     // Constructing the reset password URL and sending an email with the reset link
     const resetPasswordURL = `${process.env.FRONTEND_URL}/reset-password/${resetToken}`
-    const subject = 'Reset Password'
-    const message = `Reset your Password by clicking on this link <a href=${resetPasswordURL}>Reset Password</a>`
+    const subject = '🔒 Password Reset Request'
+    const message = `Hello <span style="font-size: 1.5em; font-weight: bold;">${user.fullName}</span>,
+<br><br>
+
+It seems you’ve requested to reset your password. Let’s get you back on track! Click the button below to securely reset your password:
+
+<div style="text-align: center; margin-top: 20px;">
+    <a href="${resetPasswordURL}" style="background-color: #FF8900; color: #fff; padding: 15px 30px; text-decoration: none; border-radius: 25px; font-size: 16px; display: inline-block;">
+        Reset My Password
+    </a>
+</div>
+
+<br>If you did not request a password reset, no worries—just ignore this email, and your password will remain unchanged.
+
+<br><br>Stay safe,<br>
+[Your Company Name] Support Team
+
+`
 
 
     try {
@@ -392,7 +409,7 @@ const resetPassword = async (req, res, next) => {
         // Sending success response to the client
         res.status(200).json({
             success: true,
-            message: 'Password reset successfull'
+            message: 'Password reset successful'
         })
     } catch (e) {
         // Handling any unexpected errors
