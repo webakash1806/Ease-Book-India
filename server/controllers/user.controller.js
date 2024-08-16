@@ -324,21 +324,64 @@ const forgotPassword = async (req, res, next) => {
     // Constructing the reset password URL and sending an email with the reset link
     const resetPasswordURL = `${process.env.FRONTEND_URL}/reset-password/${resetToken}`
     const subject = '🔒 Password Reset Request'
-    const message = `Hello <span style="font-size: 1.5em; font-weight: bold;">${user.fullName}</span>,
-<br><br>
+    const message = `
+ <table role="presentation" cellspacing="0" cellpadding="0" border="0" align="center" style="width: 100%; max-width: 24rem; background-color: #f4f4f4; border-radius: 8px; padding: 20px; box-sizing: border-box; color-scheme: light dark; background-color: #ffffff; background-color: #1a1a1a;">
+  <tr>
+    <td style="text-align: center; padding: 20px 0;">
+      
+      <img src="https://img.icons8.com/ios-filled/50/0074f9/lock.png" alt="Lock Icon" style="width: 40px; margin-bottom: 15px; display: block; margin-left: auto; margin-right: auto;">
 
-It seems you’ve requested to reset your password. Let’s get you back on track! Click the button below to securely reset your password:
+      <p style="font-size: 1.2rem; font-weight: bold; margin: 0; color: #000000; color: #ffffff;">
+        Hello, <span style="color: #0074f9;">${user.fullName}</span>
+      </p>
 
-<div style="text-align: center; margin-top: 20px;">
-    <a href="${resetPasswordURL}" style="background-color: #FF8900; color: #fff; padding: 15px 30px; text-decoration: none; border-radius: 25px; font-size: 16px; display: inline-block;">
+      <p style="font-weight: 400; text-align: center; margin: 20px 0; color: #555555; color: #cccccc;">
+        It seems you’ve requested to reset your password. Let’s get you back on track! Click the button below to securely reset your password:
+      </p>
+
+      <a href="${resetPasswordURL}" style="display: inline-block; background-color: #0074f9; background-image: linear-gradient(to top right, #1751fe, #0074f9, #0199ff); border: none; color: white; border-radius: 0.375rem; padding: 12px 25px; font-weight: bold; font-size: 1.1rem; margin: 15px 0; letter-spacing: 0.05rem; text-decoration: none;">
         Reset My Password
-    </a>
-</div>
+      </a>
 
-<br>If you did not request a password reset, no worries—just ignore this email, and your password will remain unchanged.
+      <p style="font-weight: 400; text-align: center; margin: 20px 0; color: #555555; color: #cccccc;">
+        If you did not request a password reset, no worries—just ignore this email, and your password will remain unchanged.
+      </p>
 
-<br><br>Stay safe,<br>
-[Your Company Name] Support Team
+      <div style="text-align: center; margin-top: 20px;">
+        <p style="margin: 0; font-size: 1rem; color: #000000; color: #ffffff;">
+          Stay safe,
+        </p>
+
+        <img src="https://img.icons8.com/ios-filled/50/0074f9/shield.png" alt="Shield Icon" style="width: 30px; margin: 10px 0;">
+        <p style="margin: 0; color: #0074f9; font-weight: bold;">Ease Book India</p>
+        <p style="margin: 0; color: #555555; color: #cccccc;">Support Team</p>
+      </div>
+
+      <div style="text-align: center; margin-top: 20px;">
+        <a href="https://www.facebook.com/profile.php?id=100068605444659" style="text-decoration: none; margin: 0 10px;">
+          <img src="https://img.icons8.com/ios-filled/30/0074f9/facebook.png" alt="Facebook" style="width: 25px; display: inline-block;">
+        </a>
+        <a href="https://x.com/__its_akash18" style="text-decoration: none; margin: 0 10px;">
+          <img src="https://img.icons8.com/ios-filled/30/0074f9/x.png" alt="X (formerly Twitter)" style="width: 25px; display: inline-block;">
+        </a>
+        <a href="https://www.instagram.com/__its_akash.18" style="text-decoration: none; margin: 0 10px;">
+          <img src="https://img.icons8.com/ios-filled/30/0074f9/instagram.png" alt="Instagram" style="width: 25px; display: inline-block;">
+        </a>
+        <a href="https://www.linkedin.com/in/itsakash18/" style="text-decoration: none; margin: 0 10px;">
+          <img src="https://img.icons8.com/ios-filled/30/0074f9/linkedin.png" alt="LinkedIn" style="width: 25px; display: inline-block;">
+        </a>
+      </div>
+
+    </td>
+  </tr>
+</table>
+
+
+
+
+
+
+
 
 `
 

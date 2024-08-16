@@ -102,7 +102,7 @@ router.get('/priest/detail/:id', isLoggedIn, getPriestDetail)
 
 router.get('/guider/detail/:id', isLoggedIn, getGuiderDetail)
 
-router.get('/hotel/detail/:id', isLoggedIn, getHotelDetail)
+router.get('/hotel/detail/:id', getHotelDetail)
 
 router.get('/car-orders', allCarOrder)
 
