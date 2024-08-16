@@ -1,8 +1,8 @@
 import React, { Suspense, useEffect } from 'react';
 import HomeLayout from './Layout/HomeLayout';
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes, useLocation } from 'react-router-dom';
+import { startLoading, stopLoading } from './Components/nprogressSetup';
 
-// Lazy load the pages
 const HomePage = React.lazy(() => import('./Pages/HomePage'));
 const RegisterPage = React.lazy(() => import('./Pages/RegisterPage'));
 const LoginPage = React.lazy(() => import('./Pages/LoginPage'));
@@ -38,6 +38,18 @@ const TestimonialSection = React.lazy(() => import('./Pages/TestimonialSection')
 const ResetPassword = React.lazy(() => import('./Pages/ResetPassword'));
 
 const App = () => {
+  const location = useLocation();
+
+  useEffect(() => {
+    startLoading(); // Start the loading indicator when the route changes
+
+    return () => {
+      setTimeout(() => {
+        stopLoading(); // Stop the loading indicator when the route has finished loading
+      }, 500); // Optional: Add a small delay before stopping the loading bar
+    };
+  }, [location]);
+
   useEffect(() => {
     const script = document.createElement("script");
     script.src = "https://checkout.razorpay.com/v1/checkout.js";
@@ -47,7 +59,7 @@ const App = () => {
 
   return (
     <HomeLayout>
-      <Suspense fallback={<div>Loading...</div>}>
+      <Suspense fallback={<div className='min-h-[100vh] flex items-center justify-center  max-w-full overflow-hidden text-black bg-[#f8f7ff]'><p className='animate-ping'>Loading...</p></div>}>
         <Routes>
           <Route path='/register' element={<RegisterPage />} />
           <Route path='/login' element={<LoginPage />} />
@@ -64,11 +76,11 @@ const App = () => {
           <Route path='/car' element={<Cars />} />
           <Route path='/boat' element={<BoatPage />} />
           <Route path='/reset-password/:resetToken' element={<ResetPassword />} />
+          <Route path='/hotel/:id' element={<HotelsWithRoom />} />
 
           <Route element={<RequireAuth allowedRoles={['USER']} />} >
             <Route path='/profile/:fullName' element={<Profile />} />
             <Route path='/car-book/:id' element={<OrderCar />} />
-            <Route path='/hotel/:id' element={<HotelsWithRoom />} />
             <Route path='/hotel-book/hotel/:id/room/:roomId' element={<BookHotel />} />
             <Route path='/boat-book/:id' element={<BookBoat />} />
             <Route path='/priest-book/:id' element={<BookPriest />} />

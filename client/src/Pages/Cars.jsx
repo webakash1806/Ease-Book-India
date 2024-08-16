@@ -27,8 +27,13 @@ const Cars = () => {
     };
 
     useEffect(() => {
-        loadData();
-    }, []);
+        if (serviceList?.length === 0) {
+
+            loadData();
+        } else {
+            setLoading(false)
+        }
+    }, [dispatch, serviceList]);
 
     // Get current items for pagination
     const indexOfLastItem = currentPage * itemsPerPage;

@@ -138,3 +138,15 @@
         }
     }
 }
+
+#nprogress .bar {
+    background: #105CFC;
+    /* Change this to your preferred color */
+    height: 3px;
+    /* Adjust the height of the loading bar */
+}
+
+#nprogress .spinner {
+    display: none;
+    /* Hide the spinner */
+}

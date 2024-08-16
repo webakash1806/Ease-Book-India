@@ -29,10 +29,14 @@ const BoatPage = () => {
         await dispatch(getBoatList());
         setLoading(false);
     };
-
     useEffect(() => {
-        loadData();
-    }, []);
+        if (serviceList?.length === 0) {
+
+            loadData();
+        } else {
+            setLoading(false)
+        }
+    }, [dispatch, serviceList]);
 
     const breadcrumbItems = [
         { label: 'Home', href: '/' },

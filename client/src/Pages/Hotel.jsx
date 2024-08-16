@@ -26,9 +26,13 @@ const Hotel = () => {
     };
 
     useEffect(() => {
-        loadData();
-    }, []);
+        if (hotelListData?.length === 0) {
 
+            loadData();
+        } else {
+            setLoading(false)
+        }
+    }, [dispatch, hotelListData]);
 
 
     const settings = {
