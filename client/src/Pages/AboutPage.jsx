@@ -1,15 +1,19 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { FaHandsHelping, FaAward, FaHeartbeat, FaUsers } from 'react-icons/fa';
 import { motion, useAnimation } from 'framer-motion';
-import devImg from '../assets/Images/devImg.jpeg';
 import { useNavigate } from 'react-router-dom';
 import SocialCard from '../Components/SocialCard';
 import { FaArrowLeft } from 'react-icons/fa6';
+import { useDispatch, useSelector } from 'react-redux';
+import { getAboutSettingsData } from '../Redux/Slices/AuthSlice';
 
 // Custom hook for detecting if an element is in view
 const useOnScreen = (options) => {
     const [isIntersecting, setIntersecting] = useState(false);
     const ref = useRef(null);
+
+
+
 
     useEffect(() => {
         const observer = new IntersectionObserver(
@@ -38,6 +42,19 @@ const AboutPage = () => {
     const [storyRef, isStoryVisible] = useOnScreen({ threshold: 0.2 });
     const [whyChooseRef, isWhyChooseVisible] = useOnScreen({ threshold: 0.2 });
     const [teamRef, isTeamVisible] = useOnScreen({ threshold: 0.2 });
+    const dispatch = useDispatch()
+
+    const loadAboutData = () => {
+        dispatch(getAboutSettingsData())
+    }
+
+    const data = useSelector((state) => state?.auth?.aboutSettingsData)
+
+    console.log(data)
+
+    useEffect(() => {
+        loadAboutData()
+    }, [])
 
     const missionControls = useAnimation();
     const storyControls = useAnimation();
@@ -86,14 +103,14 @@ const AboutPage = () => {
                             transition={{ duration: 0.7 }}
                             className="relative flex flex-col items-center gap-8 p-3 text-black bg-white rounded-lg shadow-lg sm:p-8 md:flex-row md:items-start"
                         >
-                            <img src="https://via.placeholder.com/400" alt="Mission Visual" className="w-full hidden sm:block sm:w-[17rem] md:w-1/4 rounded-lg shadow-lg" />
+                            <img src={data?.missionImage?.secure_url} alt="Mission Visual" className="w-full hidden sm:block sm:w-[17rem] md:w-1/4 rounded-lg shadow-lg" />
 
                             <div>
                                 <p className="mb-4 text-lg leading-relaxed">
-                                    At <span className="font-bold">Booking Platform</span>, we are committed to revolutionizing the booking experience for both individuals and businesses. Our mission is to create a seamless connection between users and a wide array of services—from car rentals and hotel reservations to boat bookings and pooja ceremonies—all through an intuitive and user-friendly platform.
+                                    {data?.missionDescription1}
                                 </p>
                                 <p className="mb-4 text-lg leading-relaxed">
-                                    We are dedicated to enhancing convenience and accessibility, ensuring that every interaction with our platform is efficient and enjoyable. By leveraging cutting-edge technology and collaborating with trusted service providers, we aim to deliver exceptional value and reliability, transforming the way users explore and book their needs.
+                                    {data?.missionDescription2}
                                 </p>
                             </div>
                         </motion.div>
@@ -118,9 +135,9 @@ const AboutPage = () => {
                                     transition={{ duration: 0.7, delay: 0.5 }}
                                     className="relative z-10 w-full p-6 text-black bg-white rounded-lg shadow-lg md:w-1/3"
                                 >
-                                    <h3 className="mb-2 text-2xl tracking-wide lora-700">2022</h3>
+                                    <h3 className="mb-2 text-2xl tracking-wide lora-700">{data?.stories[0]?.year}</h3>
                                     <p className="text-lg leading-relaxed lora-400">
-                                        Our company was founded with a vision to simplify the booking process for a wide range of services. We started small but with a clear mission to provide a reliable platform for users.
+                                        {data?.stories[0]?.description}
                                     </p>
                                 </motion.div>
                                 <motion.div
@@ -129,9 +146,9 @@ const AboutPage = () => {
                                     transition={{ duration: 0.7, delay: 1 }}
                                     className="relative z-10 w-full p-6 text-black bg-white rounded-lg shadow-lg md:w-1/3"
                                 >
-                                    <h3 className="mb-2 text-2xl tracking-wide lora-700">2023</h3>
+                                    <h3 className="mb-2 text-2xl tracking-wide lora-700">{data?.stories[1]?.year}</h3>
                                     <p className="text-lg leading-relaxed lora-400">
-                                        We expanded our services to include boats and hotels, making our platform a one-stop solution for all booking needs. Our user base grew significantly as we continued to innovate and improve.
+                                        {data?.stories[1]?.description}
                                     </p>
                                 </motion.div>
                                 <motion.div
@@ -140,9 +157,9 @@ const AboutPage = () => {
                                     transition={{ duration: 0.7, delay: 1.5 }}
                                     className="relative z-10 w-full p-6 text-black bg-white rounded-lg shadow-lg md:w-1/3"
                                 >
-                                    <h3 className="mb-2 text-2xl tracking-wide lora-700">2024</h3>
+                                    <h3 className="mb-2 text-2xl tracking-wide lora-700">{data?.stories[2]?.year}</h3>
                                     <p className="text-lg leading-relaxed lora-400">
-                                        We are continuously working on enhancing our platform with new features and services, striving to deliver exceptional value to our users and making their booking experience seamless.
+                                        {data?.stories[2]?.description}
                                     </p>
                                 </motion.div>
                             </div>
@@ -195,21 +212,21 @@ const AboutPage = () => {
                             </div>
                             <div className="flex flex-col items-center justify-center gap-12 md:flex-row">
                                 <div className="relative z-10 w-full p-6 text-black bg-white rounded-lg shadow-lg md:w-1/3">
-                                    <img src={devImg} alt="Team Member" className="w-32 h-32 mx-auto rounded-full" />
-                                    <h3 className="mt-4 text-2xl font-semibold text-center lora-700">Akash Kumar Singh</h3>
+                                    <img src={data?.team1?.image?.secure_url} alt="Team Member" className="w-32 h-32 mx-auto rounded-full" />
+                                    <h3 className="mt-4 text-2xl font-semibold text-center lora-700">{data?.team1?.name}</h3>
 
-                                    <p className="text-lg text-center">CEO & Founder</p>
+                                    <p className="text-lg text-center">{data?.team1?.role}</p>
                                 </div>
                                 <div className="relative z-10 w-full p-6 text-black bg-white rounded-lg shadow-lg md:w-1/3">
-                                    <img src={devImg} alt="Team Member" className="w-32 h-32 mx-auto rounded-full" />
-                                    <h3 className="mt-4 text-2xl font-semibold text-center lora-700">Akash Kumar Singh</h3>
+                                    <img src={data?.team2?.image?.secure_url} alt="Team Member" className="w-32 h-32 mx-auto rounded-full" />
+                                    <h3 className="mt-4 text-2xl font-semibold text-center lora-700">{data?.team2?.name}</h3>
 
-                                    <p className="text-lg text-center">CTO</p>
+                                    <p className="text-lg text-center">{data?.team2?.role}</p>
                                 </div>
                                 <div className="relative z-10 w-full p-6 text-black bg-white rounded-lg shadow-lg md:w-1/3">
-                                    <img src={devImg} alt="Team Member" className="w-32 h-32 mx-auto rounded-full" />
-                                    <h3 className="mt-4 text-2xl font-semibold text-center lora-700">Akash Kumar Singh</h3>
-                                    <p className="text-lg text-center">Lead Designer</p>
+                                    <img src={data?.team3?.image?.secure_url} alt="Team Member" className="w-32 h-32 mx-auto rounded-full" />
+                                    <h3 className="mt-4 text-2xl font-semibold text-center lora-700">{data?.team3?.name}</h3>
+                                    <p className="text-lg text-center">{data?.team3?.role}</p>
                                 </div>
                             </div>
                         </motion.div>

@@ -1,42 +1,43 @@
-import React, { useEffect } from 'react'
-import HomeLayout from './Layout/HomeLayout'
-import { Route, Routes } from 'react-router-dom'
-import HomePage from './Pages/HomePage'
-import RegisterPage from './Pages/RegisterPage'
-import LoginPage from './Pages/LoginPage'
-import Places from './Pages/Places'
-import Cars from './Pages/Cars'
-import OrderCar from './Pages/Orders/OrderCar'
-import BookBoat from './Pages/Orders/BookBoat'
-import PastCarOrders from './Pages/Orders/PastCarOrders'
-import CarBookDetail from './Pages/Orders/CarBookDetail'
-import BoatPage from './Pages/BoatPage'
-import PastBoatOrders from './Pages/Orders/PastBoatOrders'
-import BoatBookDetail from './Pages/Orders/BoatBookDetail'
-import PoojaList from './Pages/PoojaList'
-import PriestList from './Pages/PriestList'
-import BookPriest from './Pages/Orders/BookPriest'
-import PastPriestOrders from './Pages/Orders/PastPriestOrders'
-import PriestBookDetail from './Pages/Orders/PriestBookDetail'
-import PlacesPage from './Pages/PlacesPage'
-import GuiderList from './Pages/GuiderList'
-import BookGuider from './Pages/Orders/BookGuider'
-import PastGuiderOrders from './Pages/Orders/PastGuiderOrders'
-import GuiderBookDetail from './Pages/Orders/GuiderBookDetail'
-import Hotel from './Pages/Hotel'
-import HotelsWithRoom from './Pages/HotelsWithRoom'
-import BookHotel from './Pages/Orders/BookHotel'
-import PastHotelOrders from './Pages/Orders/PastHotelOrders'
-import HotelBookDetail from './Pages/Orders/HotelBookDetail'
-import RequireAuth from './Components/Auth/RequireAuth'
-import AboutPage from './Pages/AboutPage'
-import ContactPage from './Pages/ContactPage'
-import Profile from './Pages/Profile'
-import TestimonialSection from './Pages/TestimonialSection'
-import ResetPassword from './Pages/ResetPassword'
+import React, { Suspense, useEffect } from 'react';
+import HomeLayout from './Layout/HomeLayout';
+import { Route, Routes } from 'react-router-dom';
+
+// Lazy load the pages
+const HomePage = React.lazy(() => import('./Pages/HomePage'));
+const RegisterPage = React.lazy(() => import('./Pages/RegisterPage'));
+const LoginPage = React.lazy(() => import('./Pages/LoginPage'));
+const Places = React.lazy(() => import('./Pages/Places'));
+const Cars = React.lazy(() => import('./Pages/Cars'));
+const OrderCar = React.lazy(() => import('./Pages/Orders/OrderCar'));
+const BookBoat = React.lazy(() => import('./Pages/Orders/BookBoat'));
+const PastCarOrders = React.lazy(() => import('./Pages/Orders/PastCarOrders'));
+const CarBookDetail = React.lazy(() => import('./Pages/Orders/CarBookDetail'));
+const BoatPage = React.lazy(() => import('./Pages/BoatPage'));
+const PastBoatOrders = React.lazy(() => import('./Pages/Orders/PastBoatOrders'));
+const BoatBookDetail = React.lazy(() => import('./Pages/Orders/BoatBookDetail'));
+const PoojaList = React.lazy(() => import('./Pages/PoojaList'));
+const PriestList = React.lazy(() => import('./Pages/PriestList'));
+const BookPriest = React.lazy(() => import('./Pages/Orders/BookPriest'));
+const PastPriestOrders = React.lazy(() => import('./Pages/Orders/PastPriestOrders'));
+const PriestBookDetail = React.lazy(() => import('./Pages/Orders/PriestBookDetail'));
+const PlacesPage = React.lazy(() => import('./Pages/PlacesPage'));
+const GuiderList = React.lazy(() => import('./Pages/GuiderList'));
+const BookGuider = React.lazy(() => import('./Pages/Orders/BookGuider'));
+const PastGuiderOrders = React.lazy(() => import('./Pages/Orders/PastGuiderOrders'));
+const GuiderBookDetail = React.lazy(() => import('./Pages/Orders/GuiderBookDetail'));
+const Hotel = React.lazy(() => import('./Pages/Hotel'));
+const HotelsWithRoom = React.lazy(() => import('./Pages/HotelsWithRoom'));
+const BookHotel = React.lazy(() => import('./Pages/Orders/BookHotel'));
+const PastHotelOrders = React.lazy(() => import('./Pages/Orders/PastHotelOrders'));
+const HotelBookDetail = React.lazy(() => import('./Pages/Orders/HotelBookDetail'));
+const RequireAuth = React.lazy(() => import('./Components/Auth/RequireAuth'));
+const AboutPage = React.lazy(() => import('./Pages/AboutPage'));
+const ContactPage = React.lazy(() => import('./Pages/ContactPage'));
+const Profile = React.lazy(() => import('./Pages/Profile'));
+const TestimonialSection = React.lazy(() => import('./Pages/TestimonialSection'));
+const ResetPassword = React.lazy(() => import('./Pages/ResetPassword'));
 
 const App = () => {
-  // In your component
   useEffect(() => {
     const script = document.createElement("script");
     script.src = "https://checkout.razorpay.com/v1/checkout.js";
@@ -46,47 +47,47 @@ const App = () => {
 
   return (
     <HomeLayout>
-      <Routes>
-        <Route path='/register' element={<RegisterPage />} />
-        <Route path='/login' element={<LoginPage />} />
-        <Route path='/' element={<HomePage />} />
-        <Route path='/about' element={<AboutPage />} />
-        <Route path='/contact' element={<ContactPage />} />
-        <Route path='/pooja-list' element={<PoojaList />} />
-        <Route path='/place-list' element={<PlacesPage />} />
-        <Route path='/priest-list' element={<PriestList />} />
-        <Route path='/guider-list' element={<GuiderList />} />
-        <Route path='/places' element={<Places />} />
-        <Route path='/hotels' element={<Hotel />} />
-        <Route path='/testimonial' element={<TestimonialSection />} />
-        <Route path='/car' element={<Cars />} />
-        <Route path='/boat' element={<BoatPage />} />
-        <Route path='/reset-password/:resetToken' element={<ResetPassword />} />
+      <Suspense fallback={<div>Loading...</div>}>
+        <Routes>
+          <Route path='/register' element={<RegisterPage />} />
+          <Route path='/login' element={<LoginPage />} />
+          <Route path='/' element={<HomePage />} />
+          <Route path='/about' element={<AboutPage />} />
+          <Route path='/contact' element={<ContactPage />} />
+          <Route path='/pooja-list' element={<PoojaList />} />
+          <Route path='/place-list' element={<PlacesPage />} />
+          <Route path='/priest-list' element={<PriestList />} />
+          <Route path='/guider-list' element={<GuiderList />} />
+          <Route path='/places' element={<Places />} />
+          <Route path='/hotels' element={<Hotel />} />
+          <Route path='/testimonial' element={<TestimonialSection />} />
+          <Route path='/car' element={<Cars />} />
+          <Route path='/boat' element={<BoatPage />} />
+          <Route path='/reset-password/:resetToken' element={<ResetPassword />} />
 
-        <Route element={<RequireAuth allowedRoles={['USER']} />} >
-
-          <Route path='/profile/:fullName' element={<Profile />} />
-          <Route path='/car-book/:id' element={<OrderCar />} />
-          <Route path='/hotel/:id' element={<HotelsWithRoom />} />
-          <Route path='/hotel-book/hotel/:id/room/:roomId' element={<BookHotel />} />
-          <Route path='/boat-book/:id' element={<BookBoat />} />
-          <Route path='/priest-book/:id' element={<BookPriest />} />
-          <Route path='/guider-book/:id' element={<BookGuider />} />
-          <Route path='/order/car-book/:id' element={<PastCarOrders />} />
-          <Route path='/order/boat-book/:id' element={<PastBoatOrders />} />
-          <Route path='/order/priest-book/:id' element={<PastPriestOrders />} />
-          <Route path='/order/guider-book/:id' element={<PastGuiderOrders />} />
-          <Route path='/order/hotel-book/:id' element={<PastHotelOrders />} />
-          <Route path='/car-book-detail/:id' element={<CarBookDetail />} />
-          <Route path='/boat-book-detail/:id' element={<BoatBookDetail />} />
-          <Route path='/priest-book-detail/:id' element={<PriestBookDetail />} />
-          <Route path='/guider-book-detail/:id' element={<GuiderBookDetail />} />
-          <Route path='/hotel-book-detail/:id' element={<HotelBookDetail />} />
-
-        </Route>
-      </Routes>
+          <Route element={<RequireAuth allowedRoles={['USER']} />} >
+            <Route path='/profile/:fullName' element={<Profile />} />
+            <Route path='/car-book/:id' element={<OrderCar />} />
+            <Route path='/hotel/:id' element={<HotelsWithRoom />} />
+            <Route path='/hotel-book/hotel/:id/room/:roomId' element={<BookHotel />} />
+            <Route path='/boat-book/:id' element={<BookBoat />} />
+            <Route path='/priest-book/:id' element={<BookPriest />} />
+            <Route path='/guider-book/:id' element={<BookGuider />} />
+            <Route path='/order/car-book/:id' element={<PastCarOrders />} />
+            <Route path='/order/boat-book/:id' element={<PastBoatOrders />} />
+            <Route path='/order/priest-book/:id' element={<PastPriestOrders />} />
+            <Route path='/order/guider-book/:id' element={<PastGuiderOrders />} />
+            <Route path='/order/hotel-book/:id' element={<PastHotelOrders />} />
+            <Route path='/car-book-detail/:id' element={<CarBookDetail />} />
+            <Route path='/boat-book-detail/:id' element={<BoatBookDetail />} />
+            <Route path='/priest-book-detail/:id' element={<PriestBookDetail />} />
+            <Route path='/guider-book-detail/:id' element={<GuiderBookDetail />} />
+            <Route path='/hotel-book-detail/:id' element={<HotelBookDetail />} />
+          </Route>
+        </Routes>
+      </Suspense>
     </HomeLayout>
-  )
-}
+  );
+};
 
-export default App
+export default App;

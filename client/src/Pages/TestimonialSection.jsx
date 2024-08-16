@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import { Autoplay, Grid } from 'swiper/modules';
 import 'swiper/css';
@@ -6,142 +6,24 @@ import 'swiper/css/autoplay';
 import 'swiper/css/grid';
 import { motion, useMotionValue, useTransform } from 'framer-motion';
 import SocialCard from '../Components/SocialCard';
+import { useDispatch, useSelector } from 'react-redux';
+import { getTestimonialData } from '../Redux/Slices/AuthSlice';
+
 const TestimonialsSwiper = () => {
-    const testimonials = [
-        // ... (testimonials data)
-        {
-            name: 'Chirag Arora',
-            occupation: 'Student',
-            imageUrl: 'https://dgyugonj9a9mu.cloudfront.net/IMG_1560_chirag_arora_bb181b9a5f.jpeg',
-            testimonial: 'Best DSA paid Course one could ever come across online. Affordable but got delivered more than that what it costed. Variety of questions top notch. Definitely better than those costing 20-25 K.',
-        }, {
-            name: 'Chirag Arora',
-            occupation: 'Student',
-            imageUrl: 'https://dgyugonj9a9mu.cloudfront.net/IMG_1560_chirag_arora_bb181b9a5f.jpeg',
-            testimonial: 'Best DSA paid Course one could ever come across online. Affordable but got delivered more than that what it costed. Variety of questions top notch. Definitely better than those costing 20-25 K.',
-        }, {
-            name: 'Chirag Arora',
-            occupation: 'Student',
-            imageUrl: 'https://dgyugonj9a9mu.cloudfront.net/IMG_1560_chirag_arora_bb181b9a5f.jpeg',
-            testimonial: 'Best DSA paid Course one could ever come across online. Affordable but got delivered more than that what it costed. Variety of questions top notch. Definitely better than those costing 20-25 K.',
-        }, {
-            name: 'Chirag Arora',
-            occupation: 'Student',
-            imageUrl: 'https://dgyugonj9a9mu.cloudfront.net/IMG_1560_chirag_arora_bb181b9a5f.jpeg',
-            testimonial: 'Best DSA paiest DSA paid Course one couldd Course one could ever come across online. Affordable but got delivered more than that what it costed. Variety of questions top notch. Definitely better than those costing 20-25 K.',
-        }, {
-            name: 'Chirag Arora',
-            occupation: 'Student',
-            imageUrl: 'https://dgyugonj9a9mu.cloudfront.net/IMG_1560_chirag_arora_bb181b9a5f.jpeg',
-            testimonial: 'Best DSA paid Course one could ever come across online. Affordable but got delivered more than that what it costed. Variety of questions top notch. Definitely better than those costing 20-25 K.',
-        }, {
-            name: 'Chirag Arora',
-            occupation: 'Student',
-            imageUrl: 'https://dgyugonj9a9mu.cloudfront.net/IMG_1560_chirag_arora_bb181b9a5f.jpeg',
-            testimonial: 'Best DSA paidest DSA paid Course one could est DSA paid Course one couldCourse one could ever come across online. Affordable but got delivered more than that what it costed. Variety of questions top notch. Definitely better than those costing 20-25 K DSA paidest DSA paid Course one could est DSA paid Course one couldCourse one could ever come across online. Affordable but got delivered more than that what it costed. Variety of questions top notch. Definitely better than those costing 20-25 K DSA paidest DSA paid Course one could est DSA paid Course one couldCourse one could ever come across online. Affordable but got delivered more than that what it costed. Variety of questions top notch. Definitely better than those costing 20-25 K.',
-        }, {
-            name: 'Chirag Arora',
-            occupation: 'Student',
-            imageUrl: 'https://dgyugonj9a9mu.cloudfront.net/IMG_1560_chirag_arora_bb181b9a5f.jpeg',
-            testimonial: 'Best DSA paid Course one could ever come across online. Affordable but got delivered more than that what it costed. Variety of questions top notch. Definitely better than those costing 20-25 K.',
-        },
-        {
-            name: 'Chirag Arora',
-            occupation: 'Student',
-            imageUrl: 'https://dgyugonj9a9mu.cloudfront.net/IMG_1560_chirag_arora_bb181b9a5f.jpeg',
-            testimonial: 'Best DSA paid Course one could ever come across online. Affordable but got delivered more than that what it costed. Variety of questions top notch. Definitely better than those costing 20-25 K.',
-        }, {
-            name: 'Chirag Arora',
-            occupation: 'Student',
-            imageUrl: 'https://dgyugonj9a9mu.cloudfront.net/IMG_1560_chirag_arora_bb181b9a5f.jpeg',
-            testimonial: 'Best DSA paiest DSA paid Course one couldd Course one could ever come across online. Affordable but got delivered more than that what it costed. Variety of questions top notch. Definitely better than those costing 20-25 K.',
-        }, {
-            name: 'Chirag Arora',
-            occupation: 'Student',
-            imageUrl: 'https://dgyugonj9a9mu.cloudfront.net/IMG_1560_chirag_arora_bb181b9a5f.jpeg',
-            testimonial: 'Best DSA paid Course one could ever come across online. Affordable but got delivered more than that what it costed. Variety of questions top notch. Definitely better than those costing 20-25 K.',
-        }, {
-            name: 'Chirag Arora',
-            occupation: 'Student',
-            imageUrl: 'https://dgyugonj9a9mu.cloudfront.net/IMG_1560_chirag_arora_bb181b9a5f.jpeg',
-            testimonial: 'Best DSA paidest DSA paid Course one could est DSA paid Course one couldCourse one could ever come across online. Affordable but got delivered more than that what it costed. Variety of questions top notch. Definitely better than those costing 20-25 K DSA paidest DSA paid Course one could est DSA paid Course one couldCourse one could ever come across online. Affordable but got delivered more than that what it costed. Variety of questions top notch. Definitely better than those costing 20-25 K DSA paidest DSA paid Course one could est DSA paid Course one couldCourse one could ever come across online. Affordable but got delivered more than that what it costed. Variety of questions top notch. Definitely better than those costing 20-25 K.',
-        }, {
-            name: 'Chirag Arora',
-            occupation: 'Student',
-            imageUrl: 'https://dgyugonj9a9mu.cloudfront.net/IMG_1560_chirag_arora_bb181b9a5f.jpeg',
-            testimonial: 'Best DSA paid Course one could ever come across online. Affordable but got delivered more than that what it costed. Variety of questions top notch. Definitely better than those costing 20-25 K.',
-        },
-        {
-            name: 'Chirag Arora',
-            occupation: 'Student',
-            imageUrl: 'https://dgyugonj9a9mu.cloudfront.net/IMG_1560_chirag_arora_bb181b9a5f.jpeg',
-            testimonial: 'Best DSA paid Course one could ever come across online. Affordable but got delivered more than that what it costed. Variety of questions top notch. Definitely better than those costing 20-25 K.',
-        }, {
-            name: 'Chirag Arora',
-            occupation: 'Student',
-            imageUrl: 'https://dgyugonj9a9mu.cloudfront.net/IMG_1560_chirag_arora_bb181b9a5f.jpeg',
-            testimonial: 'Best DSA paiest DSA paid Course one couldd Course one could ever come across online. Affordable but got delivered more than that what it costed. Variety of questions top notch. Definitely better than those costing 20-25 K.',
-        }, {
-            name: 'Chirag Arora',
-            occupation: 'Student',
-            imageUrl: 'https://dgyugonj9a9mu.cloudfront.net/IMG_1560_chirag_arora_bb181b9a5f.jpeg',
-            testimonial: 'Best DSA paid Course one could ever come across online. Affordable but got delivered more than that what it costed. Variety of questions top notch. Definitely better than those costing 20-25 K.',
-        }, {
-            name: 'Chirag Arora',
-            occupation: 'Student',
-            imageUrl: 'https://dgyugonj9a9mu.cloudfront.net/IMG_1560_chirag_arora_bb181b9a5f.jpeg',
-            testimonial: 'Best DSA paidest DSA paid Course one could est DSA paid Course one couldCourse one could ever come across online. Affordable but got delivered more than that what it costed. Variety of questions top notch. Definitely better than those costing 20-25 K DSA paidest DSA paid Course one could est DSA paid Course one couldCourse one could ever come across online. Affordable but got delivered more than that what it costed. Variety of questions top notch. Definitely better than those costing 20-25 K DSA paidest DSA paid Course one could est DSA paid Course one couldCourse one could ever come across online. Affordable but got delivered more than that what it costed. Variety of questions top notch. Definitely better than those costing 20-25 K.',
-        }, {
-            name: 'Chirag Arora',
-            occupation: 'Student',
-            imageUrl: 'https://dgyugonj9a9mu.cloudfront.net/IMG_1560_chirag_arora_bb181b9a5f.jpeg',
-            testimonial: 'Best DSA paid Course one could ever come across online. Affordable but got delivered more than that what it costed. Variety of questions top notch. Definitely better than those costing 20-25 K.',
-        },
-        {
-            name: 'Chirag Arora',
-            occupation: 'Student',
-            imageUrl: 'https://dgyugonj9a9mu.cloudfront.net/IMG_1560_chirag_arora_bb181b9a5f.jpeg',
-            testimonial: 'Best DSA paid Course one could ever come across online. Affordable but got delivered more than that what it costed. Variety of questions top notch. Definitely better than those costing 20-25 K.',
-        }, {
-            name: 'Chirag Arora',
-            occupation: 'Student',
-            imageUrl: 'https://dgyugonj9a9mu.cloudfront.net/IMG_1560_chirag_arora_bb181b9a5f.jpeg',
-            testimonial: 'Best DSA paiest DSA paid Course one couldd Course one could ever come across online. Affordable but got delivered more than that what it costed. Variety of questions top notch. Definitely better than those costing 20-25 K.',
-        }, {
-            name: 'Chirag Arora',
-            occupation: 'Student',
-            imageUrl: 'https://dgyugonj9a9mu.cloudfront.net/IMG_1560_chirag_arora_bb181b9a5f.jpeg',
-            testimonial: 'Best DSA paid Course one could ever come across online. Affordable but got delivered more than that what it costed. Variety of questions top notch. Definitely better than those costing 20-25 K.',
-        }, {
-            name: 'Chirag Arora',
-            occupation: 'Student',
-            imageUrl: 'https://dgyugonj9a9mu.cloudfront.net/IMG_1560_chirag_arora_bb181b9a5f.jpeg',
-            testimonial: 'Best DSA paidest DSA paid Course one could est DSA paid Course one couldCourse one could ever come across online. Affordable but got delivered more than that what it costed. Variety of questions top notch. Definitely better than those costing 20-25 K DSA paidest DSA paid Course one could est DSA paid Course one couldCourse one could ever come across online. Affordable but got delivered more than that what it costed. Variety of questions top notch. Definitely better than those costing 20-25 K DSA paidest DSA paid Course one could est DSA paid Course one couldCourse one could ever come across online. Affordable but got delivered more than that what it costed. Variety of questions top notch. Definitely better than those costing 20-25 K.',
-        }, {
-            name: 'Chirag Arora',
-            occupation: 'Student',
-            imageUrl: 'https://dgyugonj9a9mu.cloudfront.net/IMG_1560_chirag_arora_bb181b9a5f.jpeg',
-            testimonial: 'Best DSA paid Course one could ever come across online. Affordable but got delivered more than that what it costed. Variety of questions top notch. Definitely better than those costing 20-25 K.',
-        }, {
 
+    const dispatch = useDispatch()
 
-            name: 'Chirag Arora',
-            occupation: 'Student',
-            imageUrl: 'https://dgyugonj9a9mu.cloudfront.net/IMG_1560_chirag_arora_bb181b9a5f.jpeg',
-            testimonial: 'Best DSA paid Course one could ever come across online. Affordable but got delivered more than that what it costed. Variety of questions top notch. Definitely better than those costing 20-25 K.',
-        }, {
-            name: 'Chirag Arora',
-            occupation: 'Student',
-            imageUrl: 'https://dgyugonj9a9mu.cloudfront.net/IMG_1560_chirag_arora_bb181b9a5f.jpeg',
-            testimonial: 'Best DSA paid Course one could ever come across online. Affordable but got delivered more than that what it costed. Variety of questions top notch. Definitely better than those costing 20-25 K.',
-        }, {
-            name: 'Chirag Arora',
-            occupation: 'Student',
-            imageUrl: 'https://dgyugonj9a9mu.cloudfront.net/IMG_1560_chirag_arora_bb181b9a5f.jpeg',
-            testimonial: 'Best DSA paid Course one could ever come across online. Affordable but got delivered more than that what it costed. Variety of questions top notch. Definitely better than those costing 20-25 K.',
-        },
-        // ... (more testimonials)
-    ];
+    const loadTestimonialData = () => {
+        dispatch(getTestimonialData())
+    }
+
+    const testimonials = useSelector((state) => state?.auth?.testimonialData) || []
+
+    console.log(testimonials)
+
+    useEffect(() => {
+        loadTestimonialData()
+    }, [])
 
     return (
         <>
@@ -170,21 +52,21 @@ const TestimonialsSwiper = () => {
                     }}
                     breakpoints={{
                         640: {
-                            slidesPerView: 4,
+                            slidesPerView: 2,
                             grid: {
                                 rows: 2,
                             },
                         },
                         1024: {
-                            slidesPerView: 6,
+                            slidesPerView: 3,
                             grid: {
-                                rows: 3,
+                                rows: 4,
                             },
                         },
                     }}
                     pagination={false}
                 >
-                    {testimonials.map((testimonial, index) => {
+                    {testimonials?.map((testimonial, index) => {
                         // State to store cursor position
                         const [cursorPosition, setCursorPosition] = useState({ x: 0, y: 0 });
 
@@ -232,15 +114,15 @@ const TestimonialsSwiper = () => {
                                         <img
                                             alt="profile"
                                             className="object-cover w-[50px] h-[50px] rounded-full"
-                                            src={testimonial.imageUrl}
+                                            src={testimonial?.reviewerImage?.secure_url}
                                             loading="lazy"
                                         />
                                         <div className="flex flex-col items-start">
-                                            <p className=" font-semibold text-[1.1rem] text-neutral-800">{testimonial.name}</p>
-                                            <p className="text-sm font-medium text-gray-600">{testimonial.occupation}</p>
+                                            <p className=" font-semibold text-[1.1rem] text-neutral-800">{testimonial.servicesUsed}</p>
+                                            {/* <p className="text-sm font-medium text-gray-600">{testimonial.occupation}</p> */}
                                         </div>
                                     </div>
-                                    <p className="font-normal text-gray-700 ">{testimonial.testimonial}</p>
+                                    <p className="font-normal text-gray-700 ">{testimonial.reviewText}</p>
                                 </motion.div>
                             </SwiperSlide>
                         );

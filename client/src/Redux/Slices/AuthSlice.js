@@ -6,7 +6,12 @@ import axiosInstance from '../../Helper/axiosInstance';
 const initialState = {
     isLoggedIn: localStorage.getItem('isLoggedIn') === 'true' || false,
     role: localStorage.getItem('role') || "",
-    data: localStorage.getItem('data') !== "undefined" ? JSON.parse(localStorage.getItem('data')) : {}
+    data: localStorage.getItem('data') !== "undefined" ? JSON.parse(localStorage.getItem('data')) : {},
+    globalSettingsData: localStorage.getItem('globalSettingsData') !== "undefined" ? JSON.parse(localStorage.getItem('globalSettingsData')) : {},
+    aboutSettingsData: localStorage.getItem('aboutSettingsData') !== "undefined" ? JSON.parse(localStorage.getItem('aboutSettingsData')) : {},
+    contactSettingsData: localStorage.getItem('contactSettingsData') !== "undefined" ? JSON.parse(localStorage.getItem('contactSettingsData')) : {},
+    testimonialData: localStorage.getItem('testimonialData') !== "undefined" ? JSON.parse(localStorage.getItem('testimonialData')) : {},
+
 };
 
 // Thunks for different actions
@@ -130,26 +135,74 @@ export const resetPasswords = createAsyncThunk('user/reset-password', async (dat
     }
 });
 
-// Thunks for OAuth authentication
-export const googleSignIn = createAsyncThunk('user/google-signin', async (data) => {
+export const getGlobalSettingsData = createAsyncThunk('admin/global-settings', async () => {
     try {
-        const res = await axiosInstance.get(`/auth/google/callback?code=${data}`);
+        let res = axiosInstance.get(`/admin/global-settings`)
+        toast.promise(res, {
+            // pending: "Getting data!",
+            success: (data) => {
+                return data?.data.message
+            },
+            error: "Failed to reset password"
+        })
+        res = await res;
         return res.data;
     } catch (e) {
-        toast.error(e?.response?.data?.message);
-        throw e;
+        return toast.error(e?.response?.data?.message)
     }
-});
+})
 
-export const facebookSignIn = createAsyncThunk('user/facebook-signin', async (data) => {
+export const getAboutSettingsData = createAsyncThunk('admin/about-settings', async () => {
     try {
-        const res = await axiosInstance.get(`/auth/facebook/callback?code=${data}`);
+        let res = axiosInstance.get(`/admin/about`)
+        toast.promise(res, {
+            // pending: "Getting data!",
+            success: (data) => {
+                return data?.data.message
+            },
+            error: "Failed to reset password"
+        })
+        res = await res;
         return res.data;
     } catch (e) {
-        toast.error(e?.response?.data?.message);
-        throw e;
+        return toast.error(e?.response?.data?.message)
     }
-});
+})
+
+export const getContactSettingsData = createAsyncThunk('admin/contact-settings', async () => {
+    try {
+        let res = axiosInstance.get(`/contact`)
+        toast.promise(res, {
+            // pending: "Getting data!",
+            success: (data) => {
+                return data?.data.message
+            },
+            error: "Failed to submit!"
+        })
+        res = await res;
+        return res.data;
+    } catch (e) {
+        return toast.error(e?.response?.data?.message)
+    }
+})
+
+export const getTestimonialData = createAsyncThunk('admin/testimonial-settings', async () => {
+    try {
+        let res = axiosInstance.get(`/admin/testimonial`)
+        toast.promise(res, {
+            // pending: "Getting data!",
+            success: (data) => {
+                return data?.data.message
+            },
+            // error: "Failed to s!"
+        })
+        res = await res;
+        return res.data;
+    } catch (e) {
+        return toast.error(e?.response?.data?.message)
+    }
+})
+
 
 const authSlice = createSlice({
     name: 'auth',
@@ -186,24 +239,20 @@ const authSlice = createSlice({
                 state.isLoggedIn = true;
                 state.data = action.payload.user;
                 state.role = action.payload.user.role;
+            }).addCase(getGlobalSettingsData.fulfilled, (state, action) => {
+                localStorage.setItem('globalSettingsData', JSON.stringify(action?.payload?.globalSettingsData))
+                state.globalSettingsData = action?.payload?.globalSettingsData
+            }).addCase(getAboutSettingsData.fulfilled, (state, action) => {
+                localStorage.setItem('aboutSettingsData', JSON.stringify(action?.payload?.aboutData))
+                state.aboutSettingsData = action?.payload?.aboutData
+            }).addCase(getContactSettingsData.fulfilled, (state, action) => {
+                localStorage.setItem('contactSettingsData', JSON.stringify(action?.payload?.contactDetails))
+                state.contactSettingsData = action?.payload?.contactDetails
+            }).addCase(getTestimonialData.fulfilled, (state, action) => {
+                localStorage.setItem('testimonialData', JSON.stringify(action?.payload?.testimonialData))
+                state.testimonialData = action?.payload?.testimonialData
             })
-            // Add cases for OAuth sign-ins
-            .addCase(googleSignIn.fulfilled, (state, action) => {
-                localStorage.setItem('data', JSON.stringify(action.payload.user));
-                localStorage.setItem('isLoggedIn', true);
-                localStorage.setItem('role', action.payload.user.role);
-                state.isLoggedIn = true;
-                state.data = action.payload.user;
-                state.role = action.payload.user.role;
-            })
-            .addCase(facebookSignIn.fulfilled, (state, action) => {
-                localStorage.setItem('data', JSON.stringify(action.payload.user));
-                localStorage.setItem('isLoggedIn', true);
-                localStorage.setItem('role', action.payload.user.role);
-                state.isLoggedIn = true;
-                state.data = action.payload.user;
-                state.role = action.payload.user.role;
-            });
+
     }
 });
 
