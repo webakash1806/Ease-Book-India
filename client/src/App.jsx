@@ -46,7 +46,7 @@ const App = () => {
     return () => {
       setTimeout(() => {
         stopLoading(); // Stop the loading indicator when the route has finished loading
-      }, 500); // Optional: Add a small delay before stopping the loading bar
+      }, 100); // Optional: Add a small delay before stopping the loading bar
     };
   }, [location]);
 
@@ -59,7 +59,37 @@ const App = () => {
 
   return (
     <HomeLayout>
-      <Suspense fallback={<div className='min-h-[100vh] flex items-center justify-center  max-w-full overflow-hidden text-black bg-[#f8f7ff]'><p className='animate-ping'>Loading...</p></div>}>
+      <Suspense fallback={<div className='min-h-[100vh] flex items-center justify-center  max-w-full overflow-hidden text-black bg-[#f8f7ff]'>
+        <div className="loader">
+          <div className="box box0">
+            <div></div>
+          </div>
+          <div className="box box1">
+            <div></div>
+          </div>
+          <div className="box box2">
+            <div></div>
+          </div>
+          <div className="box box3">
+            <div></div>
+          </div>
+          <div className="box box4">
+            <div></div>
+          </div>
+          <div className="box box5">
+            <div></div>
+          </div>
+          <div className="box box6">
+            <div></div>
+          </div>
+          <div className="box box7">
+            <div></div>
+          </div>
+          <div className="ground">
+            <div></div>
+          </div>
+        </div>
+      </div>}>
         <Routes>
           <Route path='/register' element={<RegisterPage />} />
           <Route path='/login' element={<LoginPage />} />

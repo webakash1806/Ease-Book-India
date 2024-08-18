@@ -7,6 +7,7 @@ import TestimonialSection from './TestimonialSection'
 import SocialCard from '../Components/SocialCard'
 
 const HomePage = () => {
+    // api call k d
     return (
         <div className='w-full text-white bg-black'>
             <div className='shadow-[0px_8px_20px_-5px_#000]  relative z-[10]'>

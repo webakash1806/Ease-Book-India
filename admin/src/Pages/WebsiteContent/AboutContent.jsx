@@ -227,8 +227,8 @@ const AboutContent = () => {
                 <form onSubmit={handleSubmit}>
                     {/* Step Content */}
                     {currentStep === 1 && (
-                        <div className="space-y-4">
-                            <div className="flex flex-col items-center justify-center p-4 mb-2 bg-[#655CCE] shadow-[0px_0px_25px_-10px_#000_inset] rounded sm:flex-row">
+                        <div className="space-y-4 text-black">
+                            <div className="flex  flex-col items-center justify-center p-4 mb-2 bg-[#655CCE] shadow-[0px_0px_25px_-10px_#000_inset] rounded sm:flex-row">
                                 {missionImagePreview ? (
                                     <div onClick={() => triggerFileInput('missionImageInput')} className="relative cursor-pointer">
                                         <img
@@ -258,7 +258,7 @@ const AboutContent = () => {
                                     onChange={(e) => handleChange(e, 'missionImage')}
                                 />
                             </div>
-                            <div className="space-y-2">
+                            <div className="space-y-2 text-black">
                                 <textarea
                                     className="block w-full p-2 bg-gray-100 border border-[#8681c6] rounded outline-none h-[6rem] resize-none"
                                     placeholder="Mission Description 1"
@@ -275,7 +275,7 @@ const AboutContent = () => {
                         </div>
                     )}
                     {currentStep === 2 && (
-                        <div className="space-y-4">
+                        <div className="space-y-4 text-black">
                             {[1, 2, 3].map((num) => (
                                 <div key={num} className="flex flex-col gap-2 bg-white rounded-lg shadow">
                                     <div
@@ -307,7 +307,7 @@ const AboutContent = () => {
                         </div>
                     )}
                     {currentStep === 3 && (
-                        <div className="space-y-2">
+                        <div className="space-y-2 text-black">
                             {['team1', 'team2', 'team3'].map((teamKey, index) => {
                                 const teamNumber = index + 1;
                                 return (

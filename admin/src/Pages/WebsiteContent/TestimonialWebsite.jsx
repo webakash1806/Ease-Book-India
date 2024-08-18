@@ -190,10 +190,28 @@ const TestimonialWebsite = () => {
                                         onChange={handleChange}
                                         className={inputClass}
                                     >
-                                        <option value="">Select a Service</option>
-                                        <option value="Service 1">Service 1</option>
-                                        <option value="Service 2">Service 2</option>
-                                        <option value="Service 3">Service 3</option>
+                                        <option value="">Select a Name</option>
+                                        <option value="Aarav Sharma">Aarav Sharma</option>
+                                        <option value="Vivaan Mehta">Vivaan Mehta</option>
+                                        <option value="Aditya Verma">Aditya Verma</option>
+                                        <option value="Vihaan Singh">Vihaan Singh</option>
+                                        <option value="Arjun Nair">Arjun Nair</option>
+                                        <option value="Sai Patel">Sai Patel</option>
+                                        <option value="Krishna Iyer">Krishna Iyer</option>
+                                        <option value="Aryan Gupta">Aryan Gupta</option>
+                                        <option value="Reyansh Desai">Reyansh Desai</option>
+                                        <option value="Kabir Rao">Kabir Rao</option>
+                                        <option value="Aanya Kapoor">Aanya Kapoor</option>
+                                        <option value="Diya Reddy">Diya Reddy</option>
+                                        <option value="Myra Jain">Myra Jain</option>
+                                        <option value="Anaya Bhatt">Anaya Bhatt</option>
+                                        <option value="Ishaan Khanna">Ishaan Khanna</option>
+                                        <option value="Tanvi Bansal">Tanvi Bansal</option>
+                                        <option value="Ria Chatterjee">Ria Chatterjee</option>
+                                        <option value="Aditi Menon">Aditi Menon</option>
+                                        <option value="Naira Pandey">Naira Pandey</option>
+                                        <option value="Sara Malhotra">Sara Malhotra</option>
+
                                     </select>
                                 </div>
 
