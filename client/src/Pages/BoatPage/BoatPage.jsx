@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getBoatList, getCarsList } from '../Redux/Slices/ServiceSlice';
+import { getBoatList } from '../../Redux/Slices/ServiceSlice';
 import { FaArrowLeft, FaCar, FaRegUserCircle } from 'react-icons/fa';
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
 import { FaLocationDot } from "react-icons/fa6";
 import { MdOutlineAirlineSeatReclineExtra } from "react-icons/md";
 import { useNavigate } from 'react-router-dom';
-import SocialCard from '../Components/SocialCard';
+import SocialCard from '../../Components/SocialCard';
 
 const BoatPage = () => {
     const dispatch = useDispatch();
@@ -16,14 +16,6 @@ const BoatPage = () => {
     console.log(serviceList)
     const [loading, setLoading] = useState(true);
     const availableList = serviceList.filter((data) => data?.servicesData?.availability === "AVAILABLE")
-
-    const breakList = serviceList.filter((data) => data?.servicesData?.availability === "BREAK")
-
-    const maintenanceList = serviceList.filter((data) => data?.servicesData?.availability === "MAINTENANCE")
-
-    const onServiceList = serviceList.filter((data) => data?.servicesData?.availability === "ON SERVICE")
-
-
 
     const loadData = async () => {
         await dispatch(getBoatList());

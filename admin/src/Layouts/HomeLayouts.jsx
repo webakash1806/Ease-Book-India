@@ -194,7 +194,7 @@ const HomeLayout = ({ children }) => {
 
                         </div>
                     </ul>
-                    <Link to='/logout' onClick={handleLogout} className='bg-[#FF4C51] transition-all duration-700 hover:bg-[#685ED4] border-none text-white flex items-center gap-2 pl-4 p-2 m-[0.4rem] ml-0 mr-3 rounded-r md:mr-4 font-semibold text-[1.02rem] tracking-wide'>
+                    <Link onClick={handleLogout} className='bg-[#FF4C51] transition-all duration-700 hover:bg-[#685ED4] border-none text-white flex items-center gap-2 pl-4 p-2 m-[0.4rem] ml-0 mr-3 rounded-r md:mr-4 font-semibold text-[1.02rem] tracking-wide'>
                         <CgLogOut className='text-[1.3rem] font-semibold' /> Logout
                     </Link>
                 </NavLink>

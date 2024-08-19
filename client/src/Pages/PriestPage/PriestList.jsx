@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getCarsList, getPriestList } from '../Redux/Slices/ServiceSlice';
-import { FaArrowLeft, FaCar, FaRegUserCircle } from 'react-icons/fa';
+import { getPriestList } from '../../Redux/Slices/ServiceSlice';
+import { FaArrowLeft, FaRegUserCircle } from 'react-icons/fa';
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
 import { FaLocationDot } from "react-icons/fa6";
-import { MdOutlineAirlineSeatReclineExtra } from "react-icons/md";
 import { useLocation, useNavigate } from 'react-router-dom';
 import { GiSunPriest } from "react-icons/gi";
-import SocialCard from '../Components/SocialCard';
+import SocialCard from '../../Components/SocialCard';
 
 const PriestList = () => {
     const location = useLocation()

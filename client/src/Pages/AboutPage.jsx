@@ -12,9 +12,6 @@ const useOnScreen = (options) => {
     const [isIntersecting, setIntersecting] = useState(false);
     const ref = useRef(null);
 
-
-
-
     useEffect(() => {
         const observer = new IntersectionObserver(
             ([entry]) => {

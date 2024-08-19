@@ -7,7 +7,7 @@ import { FaCar, FaRegUserCircle } from 'react-icons/fa';
 import { MdOutlineAirlineSeatReclineExtra } from 'react-icons/md';
 import { bookBoat } from '../../Redux/Slices/OrderSlice';
 import { toast } from 'react-toastify';
-import { getRazorpayId, order, verifyPayment } from '../../Redux/Slices/RazorpaySlice';
+import { order, verifyPayment } from '../../Redux/Slices/RazorpaySlice';
 import SocialCard from '../../Components/SocialCard';
 
 const OrderBoat = () => {

@@ -1,18 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { getHotelList } from '../Redux/Slices/ServiceSlice';
+import { getHotelList } from '../../Redux/Slices/ServiceSlice';
 import { FaArrowLeft, FaHotel, FaParking, FaSwimmingPool, FaWifi } from 'react-icons/fa';
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
 import { FaLocationDot } from "react-icons/fa6";
 import { useNavigate } from 'react-router-dom';
-import { MdOutlineFreeBreakfast, MdRestaurantMenu } from 'react-icons/md';
+import { MdRestaurantMenu } from 'react-icons/md';
 import Slider from 'react-slick';
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
 import { GrLounge } from 'react-icons/gr';
 import { CgGym } from 'react-icons/cg';
-import SocialCard from '../Components/SocialCard';
+import SocialCard from '../../Components/SocialCard';
 
 const Hotel = () => {
     const dispatch = useDispatch();

@@ -1,16 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
-import { checkOutUpdate, getHotelOrders, getPriestOrders, poojaFinishUpdate, updateDrop } from '../../Redux/Slices/OrderSlice';
+import { checkOutUpdate, getHotelOrders } from '../../Redux/Slices/OrderSlice';
 import { FaArrowLeft, FaArrowRight, FaBowlFood, FaHotel, FaLocationDot, FaUser } from 'react-icons/fa6';
-import { MdCall, MdFilterList, MdOutlineFreeBreakfast } from 'react-icons/md';
+import { MdFilterList } from 'react-icons/md';
 import OtpInput from 'react-otp-input';
 import dayjs from 'dayjs';
 import Skeleton from 'react-loading-skeleton';
 import 'react-loading-skeleton/dist/skeleton.css';
-import { GiSunPriest } from "react-icons/gi";
 import { IoBed } from 'react-icons/io5';
-import { TiCancel } from 'react-icons/ti';
 import SocialCard from '../../Components/SocialCard';
 
 const PastHotelOrders = () => {

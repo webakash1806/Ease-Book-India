@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { useNavigate, useParams } from 'react-router-dom'
-import { cancelBoatBooking, cancelBooking, getBoatOrderDetail, getCarOrderDetail, updateBoatDrop, updateBoatPickup, updateDrop } from '../../Redux/Slices/OrderSlice'
+import { cancelBoatBooking, getBoatOrderDetail, updateBoatPickup } from '../../Redux/Slices/OrderSlice'
 import OtpInput from 'react-otp-input';
-import { FaArrowLeft, FaArrowRight, FaArrowRightArrowLeft } from 'react-icons/fa6';
+import { FaArrowLeft, FaArrowRight } from 'react-icons/fa6';
 import { MdOutlineAirlineSeatReclineExtra } from 'react-icons/md';
 import { toast } from 'react-toastify';
 import { RxCross2 } from "react-icons/rx";

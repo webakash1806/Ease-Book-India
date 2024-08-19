@@ -1,14 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { getDriverData, getGuiderData, getPriestData } from '../../Redux/Slices/ServiceSlice';
-import { FaArrowLeft, FaLocationDot } from 'react-icons/fa6';
-import { FaCar, FaRegUserCircle } from 'react-icons/fa';
-import { MdOutlineAirlineSeatReclineExtra } from 'react-icons/md';
-import { bookCar, bookGuider, bookPriest } from '../../Redux/Slices/OrderSlice';
+import { getGuiderData } from '../../Redux/Slices/ServiceSlice';
+import { FaArrowLeft } from 'react-icons/fa6';
+import { bookGuider } from '../../Redux/Slices/OrderSlice';
 import { toast } from 'react-toastify';
-import { getRazorpayId, order, verifyPayment } from '../../Redux/Slices/RazorpaySlice';
-import { GiSunPriest } from "react-icons/gi";
+import { order, verifyPayment } from '../../Redux/Slices/RazorpaySlice';
 import guiderIcon from "../../assets/Images/guiderIcon.png"
 import SocialCard from '../../Components/SocialCard';
 

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
-import { getPriestOrders, poojaFinishUpdate, updateDrop } from '../../Redux/Slices/OrderSlice';
+import { getPriestOrders, poojaFinishUpdate } from '../../Redux/Slices/OrderSlice';
 import { FaArrowLeft, FaArrowRight, FaLocationDot } from 'react-icons/fa6';
 import { MdCall, MdFilterList } from 'react-icons/md';
 import OtpInput from 'react-otp-input';

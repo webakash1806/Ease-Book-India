@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
-import { getHotelData } from '../Redux/Slices/ServiceSlice';
+import { getHotelData } from '../../Redux/Slices/ServiceSlice';
 import { MdOutlineFreeBreakfast, MdRestaurantMenu } from 'react-icons/md';
 import { FaHotel, FaParking, FaSwimmingPool, FaUser, FaWifi } from 'react-icons/fa';
 import { FaArrowLeft, FaLocationDot } from 'react-icons/fa6';
@@ -9,7 +9,7 @@ import { IoBed } from "react-icons/io5";
 import { GrLounge } from "react-icons/gr";
 import { CgGym } from "react-icons/cg";
 import { TiCancel } from "react-icons/ti";
-import SocialCard from '../Components/SocialCard';
+import SocialCard from '../../Components/SocialCard';
 
 const roomTypes = {
     SINGLE: 'Single',

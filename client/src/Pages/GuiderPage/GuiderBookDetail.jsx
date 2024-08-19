@@ -1,13 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
-import { cancelGuideBooking, cancelPoojaBooking, getGuiderOrderDetail, getPriestOrderDetail, guideFinishUpdate, poojaFinishUpdate } from '../../Redux/Slices/OrderSlice';
+import { cancelGuideBooking, getGuiderOrderDetail, guideFinishUpdate } from '../../Redux/Slices/OrderSlice';
 import OtpInput from 'react-otp-input';
 import { FaArrowRight } from 'react-icons/fa';
 import { toast } from 'react-toastify';
-import { GiSunPriest } from 'react-icons/gi';
-import { TiTick } from 'react-icons/ti';
-import { RxCross2 } from 'react-icons/rx';
 import guiderIcon from "../../assets/Images/guiderIcon.png"
 import { FaArrowLeft } from 'react-icons/fa6';
 import SocialCard from '../../Components/SocialCard';

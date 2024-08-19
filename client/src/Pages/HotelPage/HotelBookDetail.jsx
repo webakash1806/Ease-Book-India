@@ -1,14 +1,10 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate, useParams } from 'react-router-dom';
-import { cancelGuideBooking, cancelHotelBooking, cancelPoojaBooking, checkOutUpdate, getGuiderOrderDetail, getHotelOrderDetail, getPriestOrderDetail, guideFinishUpdate, poojaFinishUpdate } from '../../Redux/Slices/OrderSlice';
+import { cancelHotelBooking, checkOutUpdate, getHotelOrderDetail } from '../../Redux/Slices/OrderSlice';
 import OtpInput from 'react-otp-input';
 import { FaArrowRight } from 'react-icons/fa';
 import { toast } from 'react-toastify';
-import { GiSunPriest } from 'react-icons/gi';
-import { TiCancel, TiTick } from 'react-icons/ti';
-import { RxCross2 } from 'react-icons/rx';
-import guiderIcon from "../../assets/Images/guiderIcon.png"
 import { MdCall, MdOutlineFreeBreakfast } from 'react-icons/md';
 import { FaArrowLeft, FaHotel, FaLocationDot, FaUser } from 'react-icons/fa6';
 import { IoBed } from 'react-icons/io5';
