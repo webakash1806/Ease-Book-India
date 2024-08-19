@@ -40,12 +40,6 @@ const ResetPassword = React.lazy(() => import('./Pages/ResetPassword'));
 const App = () => {
   const location = useLocation();
 
-  // useEffect(() => {
-  //   window.scrollTo({
-  //     top: 0,
-  //     behavior: "smooth"
-  //   })
-  // }, [])
 
   useEffect(() => {
     startLoading(); // Start the loading indicator when the route changes
