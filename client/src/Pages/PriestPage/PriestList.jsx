@@ -33,7 +33,11 @@ const PriestList = () => {
     };
 
     useEffect(() => {
-        loadData();
+        if (availableList?.length === 0) {
+            loadData();
+        } else {
+            setLoading(false)
+        }
     }, []);
 
     const breadcrumbItems = [

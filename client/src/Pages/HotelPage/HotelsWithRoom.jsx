@@ -74,7 +74,7 @@ const HotelsWithRoom = () => {
         const roomSection = roomRefs.current[roomType];
         if (roomSection) {
             window.scrollTo({
-                top: roomSection.offsetTop - 90, // Adjust margin here
+                top: roomSection.offsetTop - 120,
                 behavior: 'smooth'
             });
         }
@@ -109,10 +109,6 @@ const HotelsWithRoom = () => {
             });
         };
     }, [hotelData]);
-
-    useEffect(() => {
-        window.scrollTo(0, 0); // Scroll to top on page load
-    }, []);
 
 
     const [selectedAmenities, setSelectedAmenities] = useState({});
@@ -222,7 +218,7 @@ const HotelsWithRoom = () => {
                     </div>
                 </div>
 
-                <div className='bg-[#ffffff80] backdrop-blur-lg mb-2 flex flex-col sm:flex-row min-w-[19.5rem] text-black max-w-[20rem] sm:max-w-[45rem] md:max-w-[50rem] lg:max-w-[58.5rem] w-[90vw]  sticky top-2 z-[10000] p-2 cursor-pointer transition-all duration-500 hover:bg-gradient-to-b  rounded shadow-[0px_5px_10px_-6px_#808080] overflow-hidden gap-2 sm:items-center justify-start sm:px-4 md:px-6 '>
+                <div className='bg-[#ffffff80] backdrop-blur-lg mb-2 flex flex-col sm:flex-row min-w-[19.5rem] text-black max-w-[20rem] sm:max-w-[45rem] md:max-w-[50rem] lg:max-w-[58.5rem] w-[90vw]  sticky top-[4.1rem] z-[10] p-2 cursor-pointer transition-all duration-500 hover:bg-gradient-to-b  rounded shadow-[0px_5px_10px_-6px_#808080] overflow-hidden gap-2 sm:items-center justify-start sm:px-4 md:px-6 '>
                     <p className='font-semibold md:text-[1.1rem]'>Room type : </p>
                     <div className='flex flex-wrap gap-1 '>
                         {Object.entries(roomTypes).map(([key, label]) => (

@@ -3,7 +3,7 @@ import 'nprogress/nprogress.css';
 
 NProgress.configure({
     showSpinner: false,
-    trickleSpeed: 200,
+    trickleSpeed: 100,
 });
 
 export const startLoading = () => {

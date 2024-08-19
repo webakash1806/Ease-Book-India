@@ -101,7 +101,7 @@ const PriestBookDetail = () => {
                             </div>
                             <div className="flex flex-col items-center w-full sm:w-fit md:items-end">
                                 {status === 'Booked' && (
-                                    <h3 className='text-[1.1rem]'>Start OTP - <strong> {startOTP}</strong></h3>
+                                    <h3 className='text-[1.1rem]'>Start OTP -  {startOTP}</h3>
                                 )}
                                 {status === "Started" && (
                                     <div className="flex items-center">

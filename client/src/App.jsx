@@ -1,4 +1,4 @@
-import React, { Suspense, useEffect } from 'react';
+import React, { Suspense, useEffect, useState } from 'react';
 import HomeLayout from './Layout/HomeLayout';
 import { Route, Routes, useLocation } from 'react-router-dom';
 import { startLoading, stopLoading } from './Components/nprogressSetup';
@@ -39,21 +39,28 @@ const ResetPassword = React.lazy(() => import('./Pages/Auth/ResetPassword'));
 
 const App = () => {
   const location = useLocation();
-
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     startLoading(); // Start the loading indicator when the route changes
+    setLoading(true);
+    setTimeout(() => {
+      stopLoading();
+    }, 500);
 
     return () => {
       window.scrollTo({
         top: 0,
         behavior: "smooth"
-      })
-      setTimeout(() => {
-        stopLoading(); // Stop the loading indicator when the route has finished loading
-      }, 100); // Optional: Add a small delay before stopping the loading bar
+      });
     };
+
   }, [location]);
+
+  const handleLoadFinish = () => {
+    setLoading(false);
+    stopLoading(); // Stop the loading indicator when the route has finished loading
+  };
 
   useEffect(() => {
     const script = document.createElement("script");
@@ -132,6 +139,7 @@ const App = () => {
             <Route path='/hotel-book-detail/:id' element={<HotelBookDetail />} />
           </Route>
         </Routes>
+        {!loading && handleLoadFinish()}
       </Suspense>
     </HomeLayout>
   );
