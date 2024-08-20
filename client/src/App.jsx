@@ -4,7 +4,7 @@ import { Route, Routes, useLocation } from 'react-router-dom';
 import { startLoading, stopLoading } from './Components/nprogressSetup';
 import { useDispatch, useSelector } from 'react-redux';
 import { getGlobalSettingsData } from './Redux/Slices/AuthSlice';
-import { Helmet } from 'react-helmet';
+import { Helmet, HelmetProvider } from 'react-helmet-async';
 
 const HomePage = React.lazy(() => import('./Pages/HomePage'));
 const RegisterPage = React.lazy(() => import('./Pages/Auth/RegisterPage'));
@@ -82,6 +82,8 @@ const App = () => {
     stopLoading(); // Stop the loading indicator when the route has finished loading
   };
 
+  console.log(websiteData?.icon?.secure_url
+  )
   useEffect(() => {
     const script = document.createElement("script");
     script.src = "https://checkout.razorpay.com/v1/checkout.js";
@@ -91,14 +93,15 @@ const App = () => {
 
   return (
     <>
-      <Helmet>
-        <title>{websiteData?.title}</title>
-        <meta name="author" content={websiteData?.author} />
-        <meta name="description" content={websiteData?.description} />
-        <meta name="keywords" content={websiteData?.keywords} />
-        <link rel="icon" href={websiteData?.icon?.secure_url} />
-
-      </Helmet>
+      <HelmetProvider>
+        <Helmet>
+          <title>{websiteData?.title}</title>
+          <meta name="author" content={websiteData?.author} />
+          <meta name="description" content={websiteData?.description} />
+          <meta name="keywords" content={websiteData?.keywords} />
+          <link rel="icon" href={websiteData?.icon?.secure_url} />
+        </Helmet>
+      </HelmetProvider>
       <HomeLayout>
         <Suspense fallback={<div className='min-h-[100vh] flex items-center justify-center  max-w-full overflow-hidden text-black bg-[#f8f7ff]'>
           <div className="loader">

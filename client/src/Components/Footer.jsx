@@ -13,12 +13,28 @@ import { IoMdMail } from "react-icons/io";
 
 import { Link } from 'react-router-dom'
 import { FaLocationDot } from 'react-icons/fa6';
+import { getGlobalSettingsData } from '../Redux/Slices/AuthSlice';
+import { useDispatch, useSelector } from 'react-redux';
 
 
 const Footer = () => {
-
+    const dispatch = useDispatch()
     const listStyle = "text-[0.98rem] overlock-bold-italic hover:pl-2 flex items-center gap-1 hover:bg-clip-text hover:text-transparent hover:bg-[linear-gradient(to_right,#1557FD,#0197FF)] font-semibold  text-black transition-all duration-300 ease-in-out"
-    const contactStyle = "text-[0.98rem] flex overlock-bold-italic items-start sm:items-center lg:items-start gap-1 hover:bg-clip-text hover:text-transparent hover:bg-[linear-gradient(to_right,#1557FD,#FF8900)] font-semibold  text-black "
+    const contactStyle = "text-[0.98rem] flex overlock-bold-italic items-center gap-1 hover:bg-clip-text hover:text-transparent hover:bg-[linear-gradient(to_right,#1557FD,#FF8900)] font-semibold  text-black "
+
+    const websiteData = useSelector((state) => state?.auth?.globalSettingsData)
+
+
+    const loadData = () => {
+        dispatch(getGlobalSettingsData())
+    }
+
+    useEffect(() => {
+        loadData()
+    }, [])
+
+    console.log(websiteData)
+
 
     const year = new Date().getFullYear()
 
@@ -33,14 +49,14 @@ const Footer = () => {
             {/* <img src={footerImg} alt="" className='absolute h-full w-[100vw]' /> */}
             <div className='flex  relative flex-col xl:flex-row p-[2.5rem_1rem] md:p-[2.5_5rem] gap-8 xl:justify-around'>
                 <div className='flex flex-col gap-2'>
-                    <Link to="/" className='mb-3'><img className='w-[5rem]' alt="" src={''} />LOGO</Link>
-                    <p className='leading-6 xl:w-[23rem] w-full overlock-bold-italic'>Lorem ipsum dolor sit amet consectetur adipisicing elit. Similique illo molestiae mollitia odio minus vel? Doloremque nam beatae nemo laborum quam iure nesciunt ducimus eius. Quia eius impedit quidem ducimus dicta, sunt veniam maiores corrupti dolor, optio facilis accusamus eos earum. Est perferendis aperiam nostrum voluptate dolores vel odit blanditiis.</p>
+                    <Link to="/" className='mb-3'><img className='h-[2.5rem]' alt="Logo" src={websiteData?.logo?.secure_url} /></Link>
+                    <p className='leading-6 xl:w-[23rem] w-full overlock-bold-italic'>{websiteData?.description}</p>
                     <div className='flex gap-4 mt-3'>
-                        <a href="" className='text-[20px]'><BsLinkedin /></a>
-                        <Link to="" target='_blank' className='text-[20px]'><BsFacebook /></Link>
-                        <Link to={'https://wa.me/6207234759?text=Hello'} target='_blank' className='text-[20px]'><BsWhatsapp /></Link>
-                        <a href="" className='text-[20px]'><BsInstagram /></a>
-                        <a href="" className='text-[20px]'><BsTwitter /></a>
+                        <a href={websiteData?.linkedin} className='text-[20px]'><BsLinkedin /></a>
+                        <Link to={websiteData?.facebook} target='_blank' className='text-[20px]'><BsFacebook /></Link>
+                        <Link to={`https://wa.me/${websiteData?.whatsapp}?text=Hello`} target='_blank' className='text-[20px]'><BsWhatsapp /></Link>
+                        <Link to={websiteData?.instagram} target='_blank' className='text-[20px]'><BsInstagram /></Link>
+                        {/* <a href="" className='text-[20px]'><BsTwitter /></a> */}
                     </div>
                 </div>
                 <div className='flex flex-col justify-between gap-8 md:gap-6 md:flex-row'>
@@ -82,17 +98,17 @@ const Footer = () => {
                             <p className='w-[80vw] md:w-[16rem] m-[9px_0] h-[3.4px] bg-[linear-gradient(to_right,#1557FD,#0197FF)] rounded-md'></p>
                         </div>
                         <div className='flex flex-col gap-4 mt-6 '>
-                            <Link to={'/'} className={`${contactStyle} lg:items-center`}><CiClock1 />time</Link>
-                            <Link to={'/'} className={`${contactStyle} lg:items-center`}><MdOutlineSmartphone />+91 6207234759</Link>
-                            <Link to={'/'} className={`${contactStyle} lg:items-center`}><IoMdMail />info@name.in</Link>
-                            <Link to={'/'} className={`${contactStyle} lg:items-center`}><FaLocationDot /> Varanasi, India</Link>
-                            <Link to={'/'} className={`${contactStyle} md:items-start`}><FaLocationDot className='md:text-[1.7rem] text-[1rem] items-center' />Lorem ipsum dolor sit amet.</Link>
+
+                            <Link to={'/'} className={`${contactStyle} items-center`}><MdOutlineSmartphone />+91 {websiteData?.phone1} <br />+91 {websiteData?.phone2}</Link>
+                            <Link to={'/'} className={`${contactStyle} items-center`}><IoMdMail />{websiteData?.email2}  <br /> {websiteData?.email1}</Link>
+                            <Link to={'/'} className={`${contactStyle} items-center`}><FaLocationDot /> {websiteData?.address}</Link>
+
                         </div>
                     </div>
                 </div>
 
             </div>
-            <div className='text-center text-white text-[1.05rem] font-[600] p-3 bg-gradient-to-r from-[#1557FD]  to-[#0197FF] '><span >&#169;</span> {year} | Copyright Name - All Rights Reserved</div>
+            <div className='text-center text-white text-[1.05rem] font-[600] p-3 bg-gradient-to-r from-[#1557FD]  to-[#0197FF] '><span >&#169;</span> {year} | {websiteData?.name} - All Rights Reserved</div>
         </footer >
 
     )

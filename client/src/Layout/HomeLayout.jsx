@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
-import { logout } from '../Redux/Slices/AuthSlice';
+import { getGlobalSettingsData, logout } from '../Redux/Slices/AuthSlice';
 import Footer from '../Components/Footer';
 import { FaArrowUp } from 'react-icons/fa'; // Import the scroll-to-top icon
 import { FaArrowUpRightDots } from 'react-icons/fa6';
@@ -62,6 +62,19 @@ const HomeLayout = ({ children }) => {
         };
     }, []);
 
+    const websiteData = useSelector((state) => state?.auth?.globalSettingsData)
+
+
+    const loadData = () => {
+        dispatch(getGlobalSettingsData())
+    }
+
+    useEffect(() => {
+        loadData()
+    }, [])
+
+    console.log(websiteData)
+
     return (
         <>
             <div className='font-semibold'>
@@ -79,7 +92,7 @@ const HomeLayout = ({ children }) => {
                             </div>
                             <div className="absolute flex-1 right-6 xl:static ">
 
-                                <img className='w-[9rem]' src="" alt="LOGO" />
+                                <img className='h-[2.5rem]' src={websiteData?.logo?.secure_url} alt="LOGO" />
                             </div>
                             <div className="flex-none hidden xl:block">
                                 <ul className="menu menu-horizontal">
@@ -146,7 +159,7 @@ const HomeLayout = ({ children }) => {
                             {/* Sidebar content here */}
                             <div>
                                 <Link to={'/'} className="m-[0_auto] border-b mb-6 pb-2 flex items-center justify-around border-slate-500">
-                                    <img className='w-full' src="" alt="LOGO" />
+                                    <img className='h-[2rem]' src={websiteData?.logo?.secure_url} alt="LOGO" />
                                 </Link>
                                 <li><Link to='/'>Home</Link></li>
                                 <li><Link to='/places'>Popular places</Link></li>
