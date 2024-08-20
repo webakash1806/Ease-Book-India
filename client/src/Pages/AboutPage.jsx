@@ -100,7 +100,7 @@ const AboutPage = () => {
                             transition={{ duration: 0.7 }}
                             className="relative flex flex-col items-center gap-8 p-3 text-black bg-white rounded-lg shadow-lg sm:p-8 md:flex-row md:items-start"
                         >
-                            <img src={data?.missionImage?.secure_url} alt="Mission Visual" className="w-full hidden sm:block sm:w-[17rem] md:w-1/4 rounded-lg shadow-lg" />
+                            <img src={data?.missionImage?.secure_url} alt="Mission Visual" className="w-full hidden sm:block sm:w-[17rem] md:w-1/4 rounded-lg shadow-lg" loading='lazy' />
 
                             <div>
                                 <p className="mb-4 text-lg leading-relaxed">

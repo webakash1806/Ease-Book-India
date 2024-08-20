@@ -151,6 +151,49 @@
     /* Hide the spinner */
 }
 
+/* -------------------------------------- */
+
+/* Container to handle the grid layout and min height */
+.slick-slide {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.slick-track {
+    display: flex;
+    flex-direction: column;
+    /* Ensures the track aligns items vertically */
+}
+
+.slick-list {
+    max-height: 100vh;
+    /* Adjust the height based on your design */
+    overflow: hidden;
+}
+
+.slick-vertical .slick-slide {
+    height: auto;
+    /* Adjust the height of slides as needed */
+}
+
+
+/* Faded white effect at the bottom */
+.faded-bottom {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    height: 10rem;
+    background: linear-gradient(to top, rgba(255, 255, 255, 1), rgba(255, 255, 255, 0));
+}
+
+
+/* -------------------------------------- */
+
+
+
+
 /* From Uiverse.io by InfinityLoopGames */
 .loader {
     --duration: 3s;

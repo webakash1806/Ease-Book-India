@@ -3,7 +3,7 @@ import { VscEye, VscEyeClosed } from 'react-icons/vsc'
 import { useDispatch } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
 import { toast } from 'react-toastify'
-import { forgotPassword, loginAccount } from '../Redux/Slices/AuthSlice'
+import { forgotPassword, loginAccount } from '../../Redux/Slices/AuthSlice'
 import { IoMdClose } from 'react-icons/io'
 
 const LoginPage = () => {

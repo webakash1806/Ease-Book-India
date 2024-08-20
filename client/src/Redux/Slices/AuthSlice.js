@@ -240,6 +240,7 @@ const authSlice = createSlice({
                 state.data = action.payload.user;
                 state.role = action.payload.user.role;
             }).addCase(getGlobalSettingsData.fulfilled, (state, action) => {
+                console.log(action)
                 localStorage.setItem('globalSettingsData', JSON.stringify(action?.payload?.globalSettingsData))
                 state.globalSettingsData = action?.payload?.globalSettingsData
             }).addCase(getAboutSettingsData.fulfilled, (state, action) => {
