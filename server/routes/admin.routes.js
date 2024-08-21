@@ -43,6 +43,7 @@ import { createGlobalSettings, getGlobalSettingsData } from "../controllers/admi
 import { createOrUpdateAbout, getAboutData } from "../controllers/admin/aboutWebsite.controller.js";
 import { createContactSettings, getContactSettingsData } from "../controllers/admin/contact.controller.js";
 import { createTestimonialData, deleteTestimonialData, getTestimonialData } from "../controllers/admin/testimonial.controller.js";
+import { addPlace, deletePlace, getAllPlaces, getPlaceById, updatePlace } from "../controllers/places.controller.js";
 
 // Creating an instance of the Express Router
 const router = Router()
@@ -156,6 +157,17 @@ router.delete('/testimonial/:id', deleteTestimonialData)
 router.get('/testimonial', getTestimonialData)
 router.post('/testimonial', upload.single('reviewerImage'), createTestimonialData)
 
+
+
+// ------------------------------Places Routes------------------------------------------
+
+router.get('/places', getAllPlaces)
+router.get('/places/:id', getPlaceById)
+router.post('/places', addPlace)
+router.put('/places/:id', updatePlace)
+router.delete('/places/:id', deletePlace)
+
+// ---------------------------------------------------------------------------------
 
 
 // Exporting the router instance to be used in the main application
