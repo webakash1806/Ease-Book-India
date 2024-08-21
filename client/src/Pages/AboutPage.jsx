@@ -78,15 +78,10 @@ const AboutPage = () => {
         { label: 'About', },
     ];
 
-    const navigate = useNavigate()
-
     return (
         <>
             <div className='relative'>
                 <SocialCard item={breadcrumbItems} icon={"about"} title={"About Us"} des={"Welcome to company ka nam av socha hi nahi hai!"} />
-                <div onClick={() => navigate(-1)} className='absolute top-1 left-1 p-2 bg-[#4960f8] shadow-md rounded w-fit'>
-                    <FaArrowLeft onClick={() => navigate(-1)} className='text-white text-[1.1rem]' />
-                </div>
             </div>
             <div className="min-h-screen p-2 text-white sm:p-8 bg-gradient-to-r from-green-400 to-blue-500">
                 <div className="py-4 mx-auto max-w-7xl">

@@ -76,9 +76,6 @@ const HotelBookDetail = () => {
         <>
             <div className='relative'>
                 <SocialCard item={breadcrumbItems} icon={"h"} title={"Booking Details"} des={`This is your Hotel booking detail which was booked on ${bookDetail?.orderDate} at ${bookDetail?.orderTime}.`} />
-                <div onClick={() => navigate(-1)} className='absolute top-1 left-1 p-2 bg-[#4960f8] shadow-md rounded w-fit'>
-                    <FaArrowLeft onClick={() => navigate(-1)} className='text-white text-[1.1rem]' />
-                </div>
             </div>
             <div className='from-[#e7eafd] bg-gradient-to-b via-[#f7f7fb] to-white p-4 py-8 flex flex-wrap items-center justify-center'>
                 <div className='flex flex-col items-center justify-center gap-2'>

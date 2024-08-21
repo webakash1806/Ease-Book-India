@@ -103,9 +103,7 @@ const App = () => {
     <>
       <HelmetProvider>
         <Helmet>
-          {
-            <title>{`${routeTitle} | ${websiteData?.title}`}</title>
-          }
+          <title>{`${routeTitle} | ${websiteData?.title}`}</title>
           <meta name="author" content={websiteData?.author} />
           <meta name="description" content={websiteData?.description} />
           <meta name="keywords" content={websiteData?.keywords} />
