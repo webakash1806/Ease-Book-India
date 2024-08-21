@@ -47,18 +47,6 @@ const App = () => {
 
 
 
-  const websiteData = useSelector((state) => state?.auth?.globalSettingsData)
-
-
-  const loadData = () => {
-    dispatch(getGlobalSettingsData())
-  }
-
-  useEffect(() => {
-    loadData()
-  }, [])
-
-  console.log(websiteData)
 
 
   useEffect(() => {
@@ -82,8 +70,7 @@ const App = () => {
     stopLoading(); // Stop the loading indicator when the route has finished loading
   };
 
-  console.log(websiteData?.icon?.secure_url
-  )
+
   useEffect(() => {
     const script = document.createElement("script");
     script.src = "https://checkout.razorpay.com/v1/checkout.js";
@@ -93,15 +80,7 @@ const App = () => {
 
   return (
     <>
-      <HelmetProvider>
-        <Helmet>
-          <title>{websiteData?.title}</title>
-          <meta name="author" content={websiteData?.author} />
-          <meta name="description" content={websiteData?.description} />
-          <meta name="keywords" content={websiteData?.keywords} />
-          <link rel="icon" href={websiteData?.icon?.secure_url} />
-        </Helmet>
-      </HelmetProvider>
+
       <HomeLayout>
         <Suspense fallback={<div className='min-h-[100vh] flex items-center justify-center  max-w-full overflow-hidden text-black bg-[#f8f7ff]'>
           <div className="loader">

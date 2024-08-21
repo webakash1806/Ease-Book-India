@@ -171,7 +171,7 @@ export const getAboutSettingsData = createAsyncThunk('admin/about-settings', asy
 
 export const getContactSettingsData = createAsyncThunk('admin/contact-settings', async () => {
     try {
-        let res = axiosInstance.get(`/contact`)
+        let res = axiosInstance.get(`/admin/contact`)
         toast.promise(res, {
             // pending: "Getting data!",
             success: (data) => {
