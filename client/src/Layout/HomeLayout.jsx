@@ -91,7 +91,7 @@ const HomeLayout = ({ children }) => {
                             </div>
                             <div onClick={() => navigate('/')} className="absolute pl-6 flex-1 cursor-pointer w-fit xl:left-[5rem] right-4 sm:right-6 xl:static ">
 
-                                <img className='h-[2.5rem]' src={websiteData?.logo?.secure_url} alt="LOGO" />
+                                <img className='h-[1.6rem]' src={websiteData?.logo?.secure_url} alt="LOGO" />
                             </div>
                             <div className="flex-none hidden xl:block">
                                 <ul className="menu menu-horizontal">
@@ -158,7 +158,7 @@ const HomeLayout = ({ children }) => {
                             {/* Sidebar content here */}
                             <div>
                                 <Link to={'/'} className="m-[0_auto] border-b mb-6 pb-2 flex items-center justify-around border-slate-500">
-                                    <img className='h-[2.5rem]' src={websiteData?.logo?.secure_url} alt="LOGO" />
+                                    <img className='h-[1.7rem]' src={websiteData?.logo?.secure_url} alt="LOGO" />
                                 </Link>
                                 <li><Link to='/'>Home</Link></li>
                                 <li><Link to='/places'>Popular places</Link></li>

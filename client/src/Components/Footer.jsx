@@ -49,7 +49,7 @@ const Footer = () => {
             {/* <img src={footerImg} alt="" className='absolute h-full w-[100vw]' /> */}
             <div className='flex  relative flex-col xl:flex-row p-[2.5rem_1rem] md:p-[2.5_5rem] gap-8 xl:justify-around'>
                 <div className='flex flex-col gap-2'>
-                    <Link to="/" className='mb-3'><img className='h-[2.5rem]' alt="Logo" src={websiteData?.logo?.secure_url} /></Link>
+                    <Link to="/" className='mb-3'><img className='h-[1.8rem]' alt="Logo" src={websiteData?.logo?.secure_url} /></Link>
                     <p className='leading-6 xl:w-[23rem] w-full overlock-bold-italic'>{websiteData?.description}</p>
                     <div className='flex gap-4 mt-3'>
                         <a href={websiteData?.linkedin} className='text-[20px]'><BsLinkedin /></a>

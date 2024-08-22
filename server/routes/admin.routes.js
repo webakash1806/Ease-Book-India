@@ -163,8 +163,8 @@ router.post('/testimonial', upload.single('reviewerImage'), createTestimonialDat
 
 router.get('/places', getAllPlaces)
 router.get('/places/:id', getPlaceById)
-router.post('/places', addPlace)
-router.put('/places/:id', updatePlace)
+router.post('/places', upload.array('images', 8), addPlace)
+router.put('/places/:id', upload.array('images', 8), updatePlace)
 router.delete('/places/:id', deletePlace)
 
 // ---------------------------------------------------------------------------------

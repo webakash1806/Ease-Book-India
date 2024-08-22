@@ -11,8 +11,11 @@ const CustomCarouselTestimonials = () => {
     const dispatch = useDispatch();
     const testimonials = useSelector((state) => state?.auth?.testimonialData) || [];
 
+    const [loading, setLoading] = useState(true)
+
     useEffect(() => {
         dispatch(getTestimonialData());
+        setLoading(false)
     }, [dispatch]);
 
     const settings = {
@@ -113,14 +116,15 @@ const CustomCarouselTestimonials = () => {
             </div>
             <div className="relative flex flex-col h-[110vh] items-center justify-start w-full p-4 pt-10 pb-10 bg-[#fefefe]">
                 <Slider {...settings} className="w-full max-w-screen-xl">
-                    {testimonials.map((testimonial, index) => (
-                        <div
-                            key={index}
-                            className="!h-fit flex items-center justify-center px-2 py-1" // Add space between cards
-                        >
-                            <TestimonialCard testimonial={testimonial} />
-                        </div>
-                    ))}
+                    {loading ? <div>Loading...</div> :
+                        testimonials?.map((testimonial, index) => (
+                            <div
+                                key={index}
+                                className="!h-fit flex items-center justify-center px-2 py-1" // Add space between cards
+                            >
+                                <TestimonialCard testimonial={testimonial} />
+                            </div>
+                        ))}
                 </Slider>
                 <div className="absolute bottom-0 left-0 right-0 h-[30rem] z-[100] pointer-events-none bg-gradient-to-t from-white via-[#ffffffa8] to-transparent"></div>
             </div>

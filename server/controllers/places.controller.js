@@ -6,17 +6,26 @@ import AppError from '../utils/error.utils.js';
 // Add a new place
 const addPlace = async (req, res, next) => {
     try {
-        const { title, shortDescription, keyHighlights, festivalsEvents, mapFrame } = req.body;
+        console.log(1)
+        const { title, shortDescription, keyHighlights, state, city, country, festivalsEvents, mapFrame } = req.body;
+        console.log(req.body)
+
+
+
+
         const files = req.files;
         const uploadedFiles = [];
 
-        if (!files || Object.keys(files).length === 0) {
-            return next(new AppError('No files uploaded', 400));
+        if (mapFrame) {
+
+            if (!files || Object.keys(files).length === 0) {
+                return next(new AppError('No files uploaded', 400));
+            }
         }
 
         for (const file of Object.values(files)) {
             const result = await cloudinary.uploader.upload(file.path, {
-                folder: 'places'
+                folder: 'lms'
             });
 
             const fileNameWithExtension = file.originalname;
@@ -31,9 +40,14 @@ const addPlace = async (req, res, next) => {
             title,
             shortDescription,
             images: uploadedFiles,
-            keyHighlights,
-            festivalsEvents,
-            mapFrame
+            keyHighlights: JSON.parse(keyHighlights),
+            festivalsEvents: JSON.parse(festivalsEvents),
+            mapFrame,
+            location: {
+                state,
+                country,
+                city
+            }
         });
 
         await newPlace.save();

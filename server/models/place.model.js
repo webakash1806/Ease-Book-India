@@ -8,6 +8,17 @@ const PlaceSchema = new Schema({
         fileName: String,
         fileUrl: String
     }],
+    location: {
+        state: {
+            type: String
+        },
+        city: {
+            type: String
+        },
+        country: {
+            type: String
+        }
+    },
     keyHighlights: [
         { type: String }
     ],
