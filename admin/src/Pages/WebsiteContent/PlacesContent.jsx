@@ -34,7 +34,10 @@ const PlaceContent = () => {
         keyHighlights: '',
         festivalsEvents: '',
         mapFrame: '',
-        images: ''
+        images: '',
+        state: '',
+        city: '',
+        country: ''
     });
 
     const handleChange = (e, field, index) => {
@@ -123,6 +126,9 @@ const PlaceContent = () => {
         formDataToSend.append('keyHighlights', JSON.stringify(keyHighlightsArray));
         formDataToSend.append('festivalsEvents', JSON.stringify(festivalsEvents));
         formDataToSend.append('mapFrame', formData.mapFrame);
+        formDataToSend.append('state', formData.state);
+        formDataToSend.append('city', formData.city);
+        formDataToSend.append('country', formData.country);
 
         // Images
         file.forEach((data, index) => {
@@ -134,12 +140,9 @@ const PlaceContent = () => {
 
         try {
             const response = await dispatch(addPlaces(formDataToSend));
-
             if (response?.payload?.success) {
                 loadData();
-                if (currentStep === 3) {
-                    toast.success('Form submitted successfully!');
-                }
+                toast.success('Form submitted successfully!');
             }
         } catch (error) {
             toast.error('Error submitting form, please try again.');
@@ -221,6 +224,28 @@ const PlaceContent = () => {
                                 value={formData.shortDescription}
                                 onChange={(e) => handleChange(e, 'shortDescription')}
                             />
+
+                            <input
+                                type="text"
+                                className="block w-full p-2 bg-gray-100 border border-[#8681c6] rounded outline-none"
+                                placeholder="City"
+                                value={formData.city}
+                                onChange={(e) => handleChange(e, 'city')}
+                            />
+                            <input
+                                type="text"
+                                className="block w-full p-2 bg-gray-100 border border-[#8681c6] rounded outline-none"
+                                placeholder="State"
+                                value={formData.state}
+                                onChange={(e) => handleChange(e, 'state')}
+                            />
+                            <input
+                                type="text"
+                                className="block w-full p-2 bg-gray-100 border border-[#8681c6] rounded outline-none"
+                                placeholder="Country"
+                                value={formData.country}
+                                onChange={(e) => handleChange(e, 'country')}
+                            />
                         </div>
                     )}
                     {currentStep === 2 && (
@@ -289,7 +314,7 @@ const PlaceContent = () => {
                     )}
                     {currentStep === 3 && (
                         <div className="space-y-4 text-black">
-                            <div className="grid grid-cols-2 gap-4">
+                            <div className="grid items-center justify-center grid-cols-3 gap-4 sm:grid-cols-6">
                                 {[...Array(6)].map((_, index) => (
                                     <div key={index} className="relative">
                                         <input

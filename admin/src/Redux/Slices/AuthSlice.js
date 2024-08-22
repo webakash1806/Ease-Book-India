@@ -302,7 +302,7 @@ export const deleteTestimonialData = createAsyncThunk('delete/testimonial-settin
 export const addPlaces = createAsyncThunk('add/places', async (data) => {
     try {
         console.log(data)
-        let res = await axiosInstance.post(`/places`, data)
+        let res = axiosInstance.post(`/places`, data)
         toast.promise(res, {
             // pending: "Updating!",
             success: (data) => {
