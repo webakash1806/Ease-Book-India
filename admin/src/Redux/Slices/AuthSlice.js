@@ -299,6 +299,24 @@ export const deleteTestimonialData = createAsyncThunk('delete/testimonial-settin
     }
 })
 
+export const addPlaces = createAsyncThunk('add/places', async (data) => {
+    try {
+        console.log(data)
+        let res = await axiosInstance.post(`/places`, data)
+        toast.promise(res, {
+            // pending: "Updating!",
+            success: (data) => {
+                return data?.data.message
+            },
+            error: "Failed to add!"
+        })
+        res = await res;
+        return res.data;
+    } catch (e) {
+        return toast.error(e?.response?.data?.message)
+    }
+})
+
 const authSlice = createSlice({
     name: "auth",
     initialState,
