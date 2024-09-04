@@ -383,8 +383,24 @@ const CategorySection = () => {
                                 autoPlay
                             />}
                     </div>
-                    <button className='from-[#1751fe] hover:bg-gradient-to-bl via-[#0074f9]  to-[#0199ff]  shadow-md transition-all duration-500 bg-gradient-to-tl rounded-full p-[10px] px-8 mb-6 mt-2 text-[1rem] font-semibold'>See more...</button>
-
+                    {active === 1 &&
+                        <button onClick={() => navigate('/hotels')} className='from-[#1751fe] cursor-pointer hover:bg-gradient-to-bl via-[#0074f9]  to-[#0199ff]  shadow-md transition-all duration-500 bg-gradient-to-tl rounded-full p-[10px] px-8 mb-6 mt-2 text-[1rem] font-semibold'>See more...</button>
+                    }
+                    {active === 2 &&
+                        <button onClick={() => navigate('/place-list')} className='from-[#1751fe] cursor-pointer hover:bg-gradient-to-bl via-[#0074f9]  to-[#0199ff]  shadow-md transition-all duration-500 bg-gradient-to-tl rounded-full p-[10px] px-8 mb-6 mt-2 text-[1rem] font-semibold'>See more...</button>
+                    }
+                    {active === 3 &&
+                        <button onClick={() => navigate('/car')} className='from-[#1751fe] cursor-pointer hover:bg-gradient-to-bl via-[#0074f9]  to-[#0199ff]  shadow-md transition-all duration-500 bg-gradient-to-tl rounded-full p-[10px] px-8 mb-6 mt-2 text-[1rem] font-semibold'>See more...</button>
+                    }
+                    {active === 4 &&
+                        <button onClick={() => navigate('/boat')} className='from-[#1751fe] cursor-pointer hover:bg-gradient-to-bl via-[#0074f9]  to-[#0199ff]  shadow-md transition-all duration-500 bg-gradient-to-tl rounded-full p-[10px] px-8 mb-6 mt-2 text-[1rem] font-semibold'>See more...</button>
+                    }
+                    {active === 5 &&
+                        <button onClick={() => navigate('/pooja-list')} className='from-[#1751fe] cursor-pointer hover:bg-gradient-to-bl via-[#0074f9]  to-[#0199ff]  shadow-md transition-all duration-500 bg-gradient-to-tl rounded-full p-[10px] px-8 mb-6 mt-2 text-[1rem] font-semibold'>See more...</button>
+                    }
+                    {active === 6 &&
+                        <Link to='/' className='from-[#1751fe] cursor-pointer hover:bg-gradient-to-bl via-[#0074f9]  to-[#0199ff]  shadow-md transition-all duration-500 bg-gradient-to-tl rounded-full p-[10px] px-8 mb-6 mt-2 text-[1rem] font-semibold'>See more...</Link>
+                    }
                 </div>
             </div>
             <div className='text-black flex flex-col items-center justify-center gap-5 my-20 py-10 lg:w-[70vw]'>
