@@ -131,9 +131,7 @@ const Cars = () => {
         <>
             <div className='relative'>
                 <SocialCard item={breadcrumbItems} icon={"car"} title={"Book Car"} des={"Rent a car to explore your destination with convenience and flexibility. Choose from a wide range of vehicles, from compact cars to luxury options, and enjoy a seamless rental experience."} />
-                <div onClick={() => navigate(-1)} className='absolute top-1 left-1 p-2 bg-[#4960f8] shadow-md rounded w-fit'>
-                    <FaArrowLeft onClick={() => navigate(-1)} className='text-white text-[1.1rem]' />
-                </div>
+
             </div>
 
             <div className='from-[#e7eafd] bg-gradient-to-b via-[#f7f7fb] to-white p-4 py-10 flex flex-col items-center gap-8 justify-center'>

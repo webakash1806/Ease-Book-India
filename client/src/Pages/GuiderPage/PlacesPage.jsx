@@ -27,9 +27,7 @@ const PlacesPage = () => {
             <div className='relative'>
                 <SocialCard item={breadcrumbItems} icon={"guider"} title={"Book Guider"} des={"Secure a knowledgeable guide for your next adventure. Explore new destinations with an expert who can provide valuable insights and enhance your experience with local knowledge and personalized tours."} />
 
-                <div onClick={() => navigate(-1)} className='absolute top-1 left-1 p-2 bg-[#4960f8] shadow-md rounded w-fit'>
-                    <FaArrowLeft onClick={() => navigate(-1)} className='text-white text-[1.1rem]' />
-                </div>
+
             </div>
             <div className='from-[#e7eafd] bg-gradient-to-b via-[#f7f7fb] to-white p-4 py-8 flex flex-wrap items-center justify-center'>      {placeOptions.map((place, index) => (
                 <div key={index} className='flex border-l-[6px] h-[14rem] border-blue-500 flex-col items-center justify-center p-6 sm:m-4 my-4 transition-transform transform bg-[#ffffff] rounded-lg shadow-md w-80 hover:scale-105'>

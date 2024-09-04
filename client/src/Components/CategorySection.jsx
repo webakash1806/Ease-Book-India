@@ -15,7 +15,7 @@ import { getBoatList, getCarsList, getHotelData, getHotelList } from '../Redux/S
 import { useNavigate } from 'react-router-dom'
 import { MdOutlineAirlineSeatReclineExtra, MdRestaurantMenu } from 'react-icons/md'
 import { FaHotel, FaMapMarkerAlt, FaParking, FaRegUserCircle, FaSwimmingPool, FaWifi } from 'react-icons/fa'
-import { FaCar, FaLocationDot } from 'react-icons/fa6'
+import { FaCar, FaLocationDot, FaUserCheck } from 'react-icons/fa6'
 import { GiSunPriest } from 'react-icons/gi'
 import { CgGym } from 'react-icons/cg'
 import { GrLounge } from 'react-icons/gr'
@@ -408,26 +408,25 @@ const CategorySection = () => {
                     <h1 className='text-[#FF8900] overlock-black-italic lg:text-[1.6rem] text-[1.35rem] '>WHAT WE SERVE</h1>
                     <h1 className='text-[1.75rem] md:text-[3rem] lg:text-[3.5rem] md:ml-24 lora-900 md:text-end w-fit'>TOP VALUES <br className='hidden md:block ' /> FOR YOU!</h1>
                 </div>
-                <div className='flex flex-wrap items-center justify-center gap-5 md:gap-8 lg:gap-10'>
-                    <div className='w-[17rem]  border-t-4 border-blue-500 transition-all duration-700 flex flex-col items-center hover:from-[#5494fc3c] hover:to-white bg-gradient-to-b justify-center  text-center p-4 to-[#fff] from-[#e3faf4] gap-2 py-12 rounded-lg'>
-                        <img className='w-[5rem]' src={hotelImg} alt="" />
-                        <h2 className='text-[1.4rem] font-semibold'>Lot of choices</h2>
-                        <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Fugiat animi ut minima odio, nesciunt voluptates consequatur eos !</p>
-                    </div>
-                    <div className='w-[17rem] transition-all 
-                    border-t-4 border-blue-500  duration-700 flex flex-col items-center hover:from-[#5494fc3c] hover:to-white bg-gradient-to-b justify-center  text-center p-4 to-[#fff] from-[#e3faf4] gap-2 py-12 rounded-lg lg:mt-16'>
-                        <img className='w-[5rem]' src={hotelImg} alt="" />
-                        <h2 className='text-[1.4rem] font-semibold'>Lot of choices</h2>
-                        <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Fugiat animi ut minima odio, nesciunt voluptates consequatur eos !</p>
-                    </div>
-                    <div className='w-[17rem] transition-all
-                    border-t-4 border-blue-500  duration-700 flex flex-col items-center hover:from-[#5494fc3c] hover:to-white bg-gradient-to-b justify-center  text-center p-4 to-[#fff] from-[#e3faf4] gap-2 py-12 rounded-lg lg:mt-32'>
-                        <img className='w-[5rem]' src={hotelImg} alt="" />
-                        <h2 className='text-[1.4rem] font-semibold'>Lot of choices</h2>
-                        <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Fugiat animi ut minima odio, nesciunt voluptates consequatur eos !</p>
-                    </div>
 
+                <div className='flex flex-wrap items-center justify-center gap-5 md:gap-8 lg:gap-10'>
+                    <div className='w-[17rem] border-t-4 border-blue-500 transition-all duration-700 flex flex-col items-center hover:from-[#5494fc3c] hover:to-white bg-gradient-to-b justify-center text-center p-4 to-[#fff] from-[#e3faf4] gap-2 py-12 rounded-lg'>
+                        <FaCar className='text-[4rem] text-blue-500' />  {/* Icon for Unmatched Convenience */}
+                        <h2 className='text-[1.4rem] font-semibold'>Unmatched Convenience</h2>
+                        <p>Experience a hassle-free booking process, allowing you to easily manage all your travel needs in one place.</p>
+                    </div>
+                    <div className='w-[17rem] transition-all border-t-4 border-blue-500 duration-700 flex flex-col items-center hover:from-[#5494fc3c] hover:to-white bg-gradient-to-b justify-center text-center p-4 to-[#fff] from-[#e3faf4] gap-2 py-12 rounded-lg lg:mt-16'>
+                        <FaHotel className='text-[4rem] text-blue-500' />  {/* Icon for Comprehensive Choices */}
+                        <h2 className='text-[1.4rem] font-semibold'>Comprehensive Choices</h2>
+                        <p>Enjoy a wide array of options tailored to your preferences, ensuring you find the perfect fit for your journey.</p>
+                    </div>
+                    <div className='w-[17rem] transition-all border-t-4 border-blue-500 duration-700 flex flex-col items-center hover:from-[#5494fc3c] hover:to-white bg-gradient-to-b justify-center text-center p-4 to-[#fff] from-[#e3faf4] gap-2 py-12 rounded-lg lg:mt-32'>
+                        <FaUserCheck className='text-[4rem] text-blue-500' />  {/* Icon for Personalized Experience */}
+                        <h2 className='text-[1.4rem] font-semibold'>Personalized Experience</h2>
+                        <p>Benefit from personalized recommendations and services, designed to make your travel experience truly unique.</p>
+                    </div>
                 </div>
+
             </div>
         </div>
     )

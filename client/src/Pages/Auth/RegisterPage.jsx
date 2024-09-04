@@ -3,7 +3,7 @@ import { VscEye, VscEyeClosed } from "react-icons/vsc";
 import { useDispatch } from 'react-redux';
 import { Link, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { createAccount } from '../Redux/Slices/AuthSlice';
+import { createAccount } from '../../Redux/Slices/AuthSlice';
 
 const RegisterPage = () => {
 

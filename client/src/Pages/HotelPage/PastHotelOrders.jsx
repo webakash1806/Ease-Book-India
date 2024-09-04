@@ -179,9 +179,7 @@ const PastHotelOrders = () => {
                 <div className='w-full md:w-custom lg:w-custom'>
                     <SocialCard item={breadcrumbItems} icon={""} title={"Hotel Bookings"} des={"Here is the full list of past bookings of hotels."} />
 
-                    <div onClick={() => navigate(-1)} className='absolute top-1 left-1 p-2 bg-[#4960f8] shadow-md rounded w-fit'>
-                        <FaArrowLeft onClick={() => navigate(-1)} className='text-white text-[1.1rem]' />
-                    </div>
+
                 </div>
             </div>
             <div className='from-[#e7eafd] bg-gradient-to-b via-[#f7f7fb] to-white p-4 py-10 flex flex-col items-center gap-8 justify-center text-black'>
