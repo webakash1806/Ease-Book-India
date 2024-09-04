@@ -32,7 +32,7 @@ const PlacesPage = () => {
                 </div>
             </div>
             <div className='from-[#e7eafd] bg-gradient-to-b via-[#f7f7fb] to-white p-4 py-8 flex flex-wrap items-center justify-center'>      {placeOptions.map((place, index) => (
-                <div key={index} className='flex border-l-[6px] h-[12rem] border-blue-500 flex-col items-center justify-center p-6 sm:m-4 my-4 transition-transform transform bg-[#ffffff] rounded-lg shadow-md w-80 hover:scale-105'>
+                <div key={index} className='flex border-l-[6px] h-[14rem] border-blue-500 flex-col items-center justify-center p-6 sm:m-4 my-4 transition-transform transform bg-[#ffffff] rounded-lg shadow-md w-80 hover:scale-105'>
                     <h2 className='w-full mb-2 text-2xl font-semibold text-center text-gray-800'>{place.name}</h2>
                     <div className='flex items-center mb-4'>
                         <FaMapMarkerAlt className='mr-2 text-red-500' />

@@ -134,7 +134,7 @@ const ContactPage = () => {
                     {/* Map Integration */}
                     <div className="my-8">
                         <h2 className="mb-4 text-2xl font-semibold">Find Us</h2>
-                        <div className="relative w-full h-64">
+                        <div className="relative h-64 min-w-full">
                             <HtmlRenderer htmlContent={contactData?.googleMapIframe} />
                         </div>
                     </div>
