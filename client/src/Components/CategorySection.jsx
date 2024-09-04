@@ -68,8 +68,6 @@ const CategorySection = () => {
         { name: 'Rudra abhishekh', price: "5000" },
     ];
 
-    console.log(availableBoatList)
-
     const poojaItem = poojaOptions?.map((pooja, index) => (
         <div key={index} className='flex border-l-[6px] border-orange-500   flex-col mx-auto items-center justify-center px-4 py-8 my-4 h-[18rem] transition-transform transform bg-[#fefdf7] rounded-lg shadow-[1px_0px_10px_-3px_#808080] w-[16rem] hover:scale-105'>
             <GiSunPriest className='text-orange-600 text-[4rem] mb-2' />
@@ -216,11 +214,11 @@ const CategorySection = () => {
             <div className='flex flex-col justify-between px-3 pb-2'>
                 <div className=''>
                     <div className='flex items-center justify-between mt-1'>
-                        <h2 className='text-[1.2rem] font-semibold'>{data?.hotelName}</h2>
+                        <h1 className='text-[1.2rem] font-semibold'>{data?.hotelName}</h1>
                         <h2 className='flex items-center gap-1 '><FaHotel />{data?.servicesData?.roomType}</h2>
                     </div>
                     <div className='flex items-center justify-between mt-1'>
-                        <h1 className='flex text-[0.85rem] font-semibold items-center text-[#555555] justify-center gap-1'><FaLocationDot className='text-black' />{data?.address}</h1>
+                        <h3 className='flex text-[0.85rem] font-semibold items-center text-[#555555] justify-center gap-1'><FaLocationDot className='text-black' />{data?.address}</h3>
                     </div>
                     <div className='flex items-center justify-between my-1 '>
                         <p className='text-[0.8rem] line-clamp-2'>{data?.description}</p>
@@ -275,35 +273,35 @@ const CategorySection = () => {
                 <div className='grid items-center justify-center grid-cols-3 md:grid-cols-6 w-fit shadow-[1px_5px_16px_-5px_#CFD6FA] relative z-[10]'>
                     <div onClick={() => setActive(1)} className={`w-[6.6rem] sm:w-[13rem] md:w-[8rem] lg:w-[10rem] lg:p-2 flex flex-col p-1 items-center justify-center ${active === 1 ? 'bg-[#FF8900]' : 'bg-white'}`}>
                         <img className='w-[3.5rem]' src={hotelImg} alt="" />
-                        <h3 className={`${active === 1 ? 'text-white' : 'text-black'} font-semibold`}>Hotels</h3>
+                        <h2 className={`${active === 1 ? 'text-white' : 'text-black'} font-semibold`}>Hotels</h2>
                     </div>
                     <div onClick={() => setActive(2)} className={`w-[6.6rem] sm:w-[13rem] md:w-[8rem] lg:w-[10rem] lg:p-2 flex flex-col p-1 items-center justify-center ${active === 2 ? 'bg-[#FF8900]' : 'bg-white'}`}>
                         <img className='w-[3.5rem]' src={guiderImg} alt="" />
 
-                        <h3 className={`${active === 2 ? 'text-white' : 'text-black'} font-semibold`}>Guider</h3>
+                        <h2 className={`${active === 2 ? 'text-white' : 'text-black'} font-semibold`}>Guider</h2>
 
                     </div>
                     <div onClick={() => setActive(3)} className={`w-[6.6rem] sm:w-[13rem] md:w-[8rem] lg:w-[10rem] lg:p-2 flex flex-col p-1 items-center justify-center ${active === 3 ? 'bg-[#FF8900]' : 'bg-white'}`}>
                         <img className='w-[3.5rem]' src={carImg} alt="" />
-                        <h3 className={`${active === 3 ? 'text-white' : 'text-black'} font-semibold`}>Car rentals</h3>
+                        <h2 className={`${active === 3 ? 'text-white' : 'text-black'} font-semibold`}>Car rentals</h2>
 
                     </div>
                     <div onClick={() => setActive(4)} className={`w-[6.6rem] sm:w-[13rem] md:w-[8rem] lg:w-[10rem] lg:p-2 flex flex-col p-1 items-center justify-center ${active === 4 ? 'bg-[#FF8900]' : 'bg-white'}`}>
                         <img className='w-[3.5rem]' src={cruiseImg} alt="" />
 
-                        <h3 className={`${active === 4 ? 'text-white' : 'text-black'} font-semibold`}>Boats</h3>
+                        <h2 className={`${active === 4 ? 'text-white' : 'text-black'} font-semibold`}>Boats</h2>
 
                     </div>
                     <div onClick={() => setActive(5)} className={`w-[6.6rem] sm:w-[13rem] md:w-[8rem] lg:w-[10rem] lg:p-2  flex flex-col p-1 items-center justify-center ${active === 5 ? 'bg-[#FF8900]' : 'bg-white'}`}>
                         <img className='w-[3.5rem]' src={priestImg} alt="" />
 
-                        <h3 className={`${active === 5 ? 'text-white' : 'text-black'} font-semibold`}>Priests</h3>
+                        <h2 className={`${active === 5 ? 'text-white' : 'text-black'} font-semibold`}>Priests</h2>
 
                     </div>
                     <div onClick={() => setActive(6)} className={`w-[6.6rem] sm:w-[13rem] md:w-[8rem] lg:w-[10rem] lg:p-2 flex flex-col p-1 items-center justify-center ${active === 6 ? 'bg-[#FF8900]' : 'bg-white'}`}>
                         <img className='w-[3.5rem]' src={hotelImg} alt="" />
 
-                        <h3 className={`${active === 6 ? 'text-white' : 'text-black'} font-semibold`}>---</h3>
+                        <h2 className={`${active === 6 ? 'text-white' : 'text-black'} font-semibold`}>---</h2>
 
                     </div>
                 </div>
@@ -391,25 +389,25 @@ const CategorySection = () => {
             </div>
             <div className='text-black flex flex-col items-center justify-center gap-5 my-20 py-10 lg:w-[70vw]'>
                 <div className='text-center md:w-full md:text-start'>
-                    <h4 className='text-[#FF8900] overlock-black-italic lg:text-[1.6rem] text-[1.35rem] '>WHAT WE SERVE</h4>
-                    <h2 className='text-[1.75rem] md:text-[3rem] lg:text-[3.5rem] md:ml-24 lora-900 md:text-end w-fit'>TOP VALUES <br className='hidden md:block ' /> FOR YOU!</h2>
+                    <h1 className='text-[#FF8900] overlock-black-italic lg:text-[1.6rem] text-[1.35rem] '>WHAT WE SERVE</h1>
+                    <h1 className='text-[1.75rem] md:text-[3rem] lg:text-[3.5rem] md:ml-24 lora-900 md:text-end w-fit'>TOP VALUES <br className='hidden md:block ' /> FOR YOU!</h1>
                 </div>
                 <div className='flex flex-wrap items-center justify-center gap-5 md:gap-8 lg:gap-10'>
                     <div className='w-[17rem]  border-t-4 border-blue-500 transition-all duration-700 flex flex-col items-center hover:from-[#5494fc3c] hover:to-white bg-gradient-to-b justify-center  text-center p-4 to-[#fff] from-[#e3faf4] gap-2 py-12 rounded-lg'>
                         <img className='w-[5rem]' src={hotelImg} alt="" />
-                        <h3 className='text-[1.4rem] font-semibold'>Lot of choices</h3>
+                        <h2 className='text-[1.4rem] font-semibold'>Lot of choices</h2>
                         <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Fugiat animi ut minima odio, nesciunt voluptates consequatur eos !</p>
                     </div>
                     <div className='w-[17rem] transition-all 
                     border-t-4 border-blue-500  duration-700 flex flex-col items-center hover:from-[#5494fc3c] hover:to-white bg-gradient-to-b justify-center  text-center p-4 to-[#fff] from-[#e3faf4] gap-2 py-12 rounded-lg lg:mt-16'>
                         <img className='w-[5rem]' src={hotelImg} alt="" />
-                        <h3 className='text-[1.4rem] font-semibold'>Lot of choices</h3>
+                        <h2 className='text-[1.4rem] font-semibold'>Lot of choices</h2>
                         <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Fugiat animi ut minima odio, nesciunt voluptates consequatur eos !</p>
                     </div>
                     <div className='w-[17rem] transition-all
                     border-t-4 border-blue-500  duration-700 flex flex-col items-center hover:from-[#5494fc3c] hover:to-white bg-gradient-to-b justify-center  text-center p-4 to-[#fff] from-[#e3faf4] gap-2 py-12 rounded-lg lg:mt-32'>
                         <img className='w-[5rem]' src={hotelImg} alt="" />
-                        <h3 className='text-[1.4rem] font-semibold'>Lot of choices</h3>
+                        <h2 className='text-[1.4rem] font-semibold'>Lot of choices</h2>
                         <p>Lorem ipsum, dolor sit amet consectetur adipisicing elit. Fugiat animi ut minima odio, nesciunt voluptates consequatur eos !</p>
                     </div>
 

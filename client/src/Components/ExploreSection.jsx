@@ -51,14 +51,13 @@ const ExploreSection = () => {
     })
 
     return (
-        <div className='bg-[#2A4046] explore gap-1 flex flex-col text-center items-center justify-center p-10'>
-            <h3 className='text-[#FF8900] text-[2rem] overlock-bold-italic '>EXPLORE WONDERFUL EXPERIENCE</h3>
-            <h2 className='text-[1.3rem] lora-700'>Visit Popular Destinations in the World</h2>
-            <div className='flex flex-wrap gap-6 my-5 text-[1.05rem] font-semibold'>
-                <h5 className={`hover:text-[#23efab] ${active === 1 ? 'text-[#23efab]' : 'text-white'}`} onClick={() => setActive(1)}>Special Place</h5>
-                <h5 className={`hover:text-[#23efab] ${active === 2 ? 'text-[#23efab]' : 'text-white'}`} onClick={() => setActive(2)}>Popular</h5>
-                <h5 className={`hover:text-[#23efab] ${active === 3 ? 'text-[#23efab]' : 'text-white'}`} onClick={() => setActive(3)}>Recommendation</h5>
-                <h5 className={`hover:text-[#23efab] ${active === 4 ? 'text-[#23efab]' : 'text-white'}`} onClick={() => setActive(4)}>Best Place</h5>
+        <div className='bg-[#2A4046] explore gap-1 flex flex-col text-center items-center justify-center py-10 px-[3vw]'>
+            <h1 className='text-[#FF8900] sm:text-[2rem] text-[1.5rem] overlock-bold-italic '>EXPLORE WONDERFUL EXPERIENCE</h1>
+            <h2 className='text-[1.3rem]  lora-700'>Visit Popular Destinations in the World</h2>
+            <div className='flex border border-white bg-white rounded-full my-5 text-[0.8rem] overflow-hidden font-semibold'>
+                <h3 className={` p-2 px-3 rounded-full transition-all duration-300 ${active === 1 ? 'bg-[#005AFF] text-white' : 'text-black'}`} onClick={() => setActive(1)}>Special Place</h3>
+                <h3 className={` p-2 px-4 rounded duration-300 transition-all ${active === 2 ? 'bg-[#005AFF] text-white' : 'text-black'}`} onClick={() => setActive(2)}>Popular</h3>
+                <h3 className={` p-2 px-2 rounded-full transition-all duration-300 ${active === 3 ? 'bg-[#005AFF] text-white' : 'text-black'}`} onClick={() => setActive(3)}>Recommendation</h3>
             </div>
             <div >
                 <div className='w-[85vw] sm:w-[24rem] lg:w-[48rem] flex items-center justify-center   '>

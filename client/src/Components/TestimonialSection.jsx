@@ -117,7 +117,7 @@ const CustomCarouselTestimonials = () => {
             <div className="relative flex flex-col h-[110vh] items-center justify-start w-full p-4 pt-10 pb-10 bg-[#fefefe]">
                 <Slider {...settings} className="w-full max-w-screen-xl">
                     {loading ? <div>Loading...</div> :
-                        testimonials?.map((testimonial, index) => (
+                        testimonials && testimonials?.map((testimonial, index) => (
                             <div
                                 key={index}
                                 className="!h-fit flex items-center justify-center px-2 py-1" // Add space between cards

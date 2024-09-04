@@ -101,7 +101,7 @@ const AnimatedText = ({ text1, text2, text3, text4 }) => {
     return (
         <div>
             {text1 && (
-                <h1
+                <p
                     ref={(el) => (textRefs.current[0] = el)}
                     style={textStyle}
                 >
@@ -114,10 +114,10 @@ const AnimatedText = ({ text1, text2, text3, text4 }) => {
                             ))}
                         </span>
                     ))}
-                </h1>
+                </p>
             )}
             {text2 && (
-                <h1
+                <p
                     ref={(el) => (textRefs.current[1] = el)}
                     style={textStyle}
                 >
@@ -130,10 +130,10 @@ const AnimatedText = ({ text1, text2, text3, text4 }) => {
                             ))}
                         </span>
                     ))}
-                </h1>
+                </p>
             )}
             {text3 && (
-                <h1
+                <p
                     ref={(el) => (textRefs.current[2] = el)}
                     style={textStyle}
                 >
@@ -146,10 +146,10 @@ const AnimatedText = ({ text1, text2, text3, text4 }) => {
                             ))}
                         </span>
                     ))}
-                </h1>
+                </p>
             )}
             {text4 && (
-                <h1
+                <p
                     ref={(el) => (textRefs.current[3] = el)}
                     style={textStyle}
                 >
@@ -162,7 +162,7 @@ const AnimatedText = ({ text1, text2, text3, text4 }) => {
                             ))}
                         </span>
                     ))}
-                </h1>
+                </p>
             )}
         </div>
     );

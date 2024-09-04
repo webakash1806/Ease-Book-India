@@ -37,9 +37,9 @@ const SocialCard = ({ title, des, icon, item }) => {
             <div className="relative z-10 flex flex-col items-center justify-center">
                 <div className='flex items-center justify-center gap-3'>
                     {renderIcon()}
-                    <h2 className="text-[2.47rem] overlock-bold-italic  mt-4 text-white ">
+                    <h1 className="text-[2.47rem] overlock-bold-italic  mt-4 text-white ">
                         <AnimatedText text3={title} />
-                    </h2>
+                    </h1>
                     {renderIcon()}
 
                 </div>

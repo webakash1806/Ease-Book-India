@@ -3,12 +3,10 @@ import {
     BsFacebook,
     BsInstagram,
     BsLinkedin,
-    BsTwitter,
     BsWhatsapp
 } from 'react-icons/bs'
 
 import { MdKeyboardDoubleArrowRight, MdOutlineSmartphone } from "react-icons/md";
-import { CiClock1 } from "react-icons/ci";
 import { IoMdMail } from "react-icons/io";
 
 import { Link } from 'react-router-dom'
@@ -24,20 +22,15 @@ const Footer = () => {
 
     const websiteData = useSelector((state) => state?.auth?.globalSettingsData)
 
-
-    const loadData = () => {
-        dispatch(getGlobalSettingsData())
+    const loadData = async () => {
+        await dispatch(getGlobalSettingsData())
     }
 
     useEffect(() => {
         loadData()
-    }, [])
-
-    console.log(websiteData)
-
+    }, [dispatch])
 
     const year = new Date().getFullYear()
-
 
     useEffect(() => {
         window.scrollTo(0, 0);

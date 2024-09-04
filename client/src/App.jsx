@@ -58,8 +58,6 @@ const App = () => {
     loadData()
   }, [])
 
-  console.log(websiteData)
-
 
   useEffect(() => {
     startLoading(); // Start the loading indicator when the route changes
@@ -82,8 +80,7 @@ const App = () => {
     stopLoading(); // Stop the loading indicator when the route has finished loading
   };
 
-  console.log(websiteData?.icon?.secure_url
-  )
+
   useEffect(() => {
     const script = document.createElement("script");
     script.src = "https://checkout.razorpay.com/v1/checkout.js";
