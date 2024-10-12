@@ -59,7 +59,7 @@ const WebsiteContent = () => {
         <HomeLayout>
             <div className='grid items-center justify-center grid-cols-1 gap-6 p-2 pt-6 pb-10 sm:p-4 md:p-4 sm:grid-cols-2 md:grid-cols-1 lg:grid-cols-2'>
 
-                {list.map((data, index) => <WebsiteContentCard data={data} key={index + 1} />)}
+                {list?.map((data, index) => <WebsiteContentCard data={data} key={index + 1} />)}
             </div>
         </HomeLayout>
     )

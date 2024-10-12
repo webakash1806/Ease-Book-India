@@ -90,7 +90,7 @@ const PriestList = () => {
                         <div className='flex flex-wrap items-center justify-start w-full gap-8'>
 
                             {
-                                availableList.map((data, key) => (
+                                availableList?.map((data, key) => (
                                     <div key={key + 1} className='bg-white border-l-4 border-blue-500 text-black max-w-[20rem] sm:max-w-[22rem] w-[90vw] hover:from-[#d0f7e6] transition-all duration-300 hover:bg-gradient-to-b hover:to-[#f7fffbf0] rounded-xl shadow-[0px_4px_12px_-6px_#808080] overflow-hidden'>
                                         <div className='p-3'>
                                             <h2 className='text-[1.3rem] text-orange-500 mb-4 text-center  font-semibold'>{state.pooja.name}</h2>

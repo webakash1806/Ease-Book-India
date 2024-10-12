@@ -32,7 +32,7 @@ const ExploreSection = () => {
     { 'image': hero2Img, 'name': "Cruise", 'price': '100', 'link': '/' }
     ]
 
-    const item = trendingList.map((val) => {
+    const item = trendingList?.map((val) => {
         return <>
             <Link className='flex flex-col p-2 items-start bg-white text-black pb-3  rounded-md m-3 w-fit  text-[15px] md:text-[16px] lg:text-[17px] '>
                 <div className='flex items-center justify-center gap-3'>

@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { VscEye, VscEyeClosed } from 'react-icons/vsc'
 import { toast } from 'react-toastify';
-import { resetPasswords } from '../Redux/Slices/AuthSlice';
+import { resetPasswords } from '../../Redux/Slices/AuthSlice';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 

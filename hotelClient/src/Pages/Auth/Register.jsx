@@ -198,7 +198,7 @@ const Register = () => {
                     <div className={mainDiv}>
                         <label className={labelStyle} htmlFor="services">Services</label>
                         <div className='grid grid-cols-2'>
-                            {serviceList.map((service, index) => (
+                            {serviceList?.map((service, index) => (
                                 <div key={index} className='flex items-center'>
                                     <input type="checkbox" name="services" value={service} onChange={handleServiceInput} id={`service_${index}`} className='mr-2' />
                                     <label htmlFor={`service_${index}`}>{service}</label>

@@ -266,7 +266,7 @@ const UpdateServices = () => {
                 <div className={mainDiv}>
                     <label className={labelStyle}>Amenities</label>
                     <div className='grid grid-cols-2'>
-                        {amenitiesList.map((amenity, ind) => (
+                        {amenitiesList?.map((amenity, ind) => (
                             <label key={ind}>
                                 <input
                                     className='mr-2'

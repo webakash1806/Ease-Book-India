@@ -81,7 +81,7 @@ const BoatPage = () => {
                         <div className='flex flex-wrap items-center justify-center w-full gap-8'>
 
                             {
-                                availableList.map((data, key) => (
+                                availableList?.map((data, key) => (
                                     <div key={key + 1} className='bg-white text-black max-w-[20rem] w-[90vw] hover:from-[#d0f7e6] transition-all duration-300 hover:bg-gradient-to-b hover:to-[#f7fffb] rounded-xl shadow-[0px_0px_5px_#808080] overflow-hidden'>
                                         <img src={data?.proofFiles[3]?.fileUrl} alt="" className='h-[12rem] w-full object-cover' />
                                         <div className='p-3'>

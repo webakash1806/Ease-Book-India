@@ -9,8 +9,8 @@ import 'slick-carousel/slick/slick-theme.css';
 
 const CustomCarouselTestimonials = () => {
     const dispatch = useDispatch();
-    const testimonials = useSelector((state) => state?.auth?.testimonialData) || [];
-
+    const testimonials = useSelector((state) => state?.auth?.testimonialData) || {};
+    console.log(testimonials)
     const [loading, setLoading] = useState(true)
 
     useEffect(() => {
